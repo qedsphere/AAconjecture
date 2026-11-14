@@ -1,0 +1,137 @@
+\subsection{A bounded-degree pairwise Ising separation with every spin queryable}
+\label{res:pairwise}
+
+The auxiliary variables used to reduce three-body interactions must
+not reveal the hidden answer for free. A fourfold symmetrization makes
+the thermal gadget exact for the same Hamiltonian at every temperature.
+The symmetrization was developed by the main theory workstream; the
+conditional-query argument below explicitly handles all auxiliary spins.
+
+For $t\ge0$ define
+\[
+ b(t)=\frac18\log\cosh(4t),\qquad
+ k(t)=\frac18\bigl(4\log\cosh(2t)-\log\cosh(4t)\bigr),
+ \qquad K(t)=4k(t).
+\]
+Let $\mathcal U=\{u\in\{-1,1\}^3:u_1u_2u_3=1\}$, of size four.
+For visible spins $x,y,z$ and four auxiliary spins $(s_u)_{u\in\mathcal U}$,
+define the pairwise energy
+\[
+ E_j(x,y,z,s)=-j\sum_{u\in\mathcal U}s_u(u_1x+u_2y+u_3z-1),
+ \qquad j>0.
+ \tag{IG}
+\]
+There are only visible--auxiliary pair interactions and auxiliary fields.
+
+\begin{lemma}[Exact thermal gadget at every temperature]
+\label{res:gadget}
+For every $\beta\ge0$,
+\[
+ \sum_{s\in\{-1,1\}^{\mathcal U}}e^{-\beta E_j(x,y,z,s)}
+ =e^{4c(\beta j)+K(\beta j)xyz},
+ \tag{IG-marginal}
+\]
+where $c(t)$ is independent of $x,y,z$. The same identity holds when
+some of the visible variables coincide. Also $K(0)=0$, $K$ is strictly
+increasing on $(0,\infty)$ and unbounded, and
+\[
+ K(t)=8t^4+O(t^6)\quad(t\to0),\qquad
+ K(t)\ge2t-2\log2\quad(t\ge0).
+\]
+The auxiliary spins are independent conditional on the visible input,
+and each depends on at most three distinct visible spins.
+\end{lemma}
+
+\begin{proof}
+The symmetric Fourier expansion obtained by evaluating at sums
+$3,1,-1,-3$ is
+\[
+ \log\bigl(2\cosh(t(x+y+z-1))\bigr)
+ =c(t)-b(t)(x+y+z)+b(t)(xy+xz+yz)+k(t)xyz.
+\]
+Summing this identity after the four substitutions
+$(x,y,z)\mapsto(u_1x,u_2y,u_3z)$ cancels every linear and quadratic
+term and preserves the cubic term. Summing independent auxiliary
+spins gives precisely this sum of logarithms, proving (IG-marginal).
+It is an identity on all eight triples, so substituting repeated
+variables remains valid.
+
+Writing $q=\tanh(2t)$ gives
+$k'(t)=q^3/(1+q^2)>0$ for $t>0$, and
+$k(t)=t/2-3\log2/8+o(1)$ at infinity. Expansion of $\log\cosh$
+at zero gives $k(t)=2t^4+O(t^6)$. Finally
+$\log\cosh s\ge s-\log2$ and $\log\cosh s\le s$ for $s\ge0$
+give $K(t)\ge2t-2\log2$.
+\end{proof}
+
+\begin{theorem}[All-spin pairwise Ising counterexample]
+\label{res:pairwise-theorem}
+There is a computable, temperature-independent family of classical
+pairwise Ising Hamiltonians with fields, on $N_n=\Theta(n)$ spins,
+whose graph degree, individual coefficients, and absolute incident
+strengths are bounded independently of $n$, but whose Gibbs inputs
+violate full AA for every fixed $\beta$ with
+\[
+ K(\beta j)>\log2/32.
+ \tag{IG-lowT}
+\]
+In particular $\beta j\ge1$ suffices. One quantum query requires
+$\Omega(\log N_n)$ classical queries at constant mean error, with
+oracle access to \emph{every} spin, including all auxiliary spins.
+The graph is bipartite between visible and auxiliary spins.
+\end{theorem}
+
+\begin{proof}
+Take the sparse test family of Lemma~\ref{res:sparse-lemma}. For
+every retained raw ordered pair $(z,w)$ use a fresh copy of (IG),
+substituting $(x_z,x_w,x_{z+w})$ for $(x,y,z)$. This rule includes
+tests with repeated indices; there is no separate temperature-dependent
+field. The total Hamiltonian is the sum of these gadgets, with a
+fixed $j>0$. There are at most $4Cn$ auxiliary spins, so
+$n\le N_n\le(1+4C)n$. At every inverse temperature $\beta$, summing
+them out gives exactly
+\[
+ \mu_X(x)\propto\exp\left(K(\beta j)
+              \sum_{(z,w)\in\mathcal E_n}x_zx_wx_{z+w}\right).
+\]
+The sparse soundness estimate therefore yields
+\[
+ \delta_n:=\mu_X\{\operatorname{dist}(X,\mathcal C)\ge n/32\}
+ \le\frac1n e^{(\log2-32K(\beta j))n}.
+\]
+Under (IG-lowT), this tends to zero exponentially. The quantum
+algorithm queries the visible subset and has acceptance function $P$.
+Conditional on the visible input the auxiliaries are independent,
+with each conditional kernel using at most three visible values.
+Lemma~\ref{res:orbit-lemma} consequently gives, for every all-spin
+depth-$t$ classical tree,
+\[
+ \mathbb E|D-P|\ge
+ (1-\delta_n)\left[\frac{1-2^{3t-m/2}}2-\frac18\right].
+\]
+For $3t\le m/2-2$, the right side is at least $(1-\delta_n)/4$.
+Hence error $1/16$ requires $\Omega(m)=\Omega(\log N_n)$ queries.
+This lower bound grants every independent auxiliary random seed to
+the classical simulator; it does not hide any physical input variable.
+
+For locality, each visible spin occurs in at most $D$ retained
+\emph{raw} tests. Each such test introduces at most four incident
+auxiliaries, so visible degree is at most $4D$; auxiliary degree is
+at most three. A repeated index may combine up to three signed
+couplings into one, of magnitude at most $3j$. Thus visible incident
+strength is at most $12Dj$, and each auxiliary has total incident
+coupling strength at most $3j$ plus field magnitude $j$. There are
+no visible fields in this representation. These bounds are uniform
+in $n$.
+
+For a normalization with incident strength at most one, take $j=1$
+and divide the entire Hamiltonian by $B=12D$. The separation holds
+whenever $K(\beta/B)>\log2/32$, and in particular for every fixed
+$\beta\ge B$. This is a finite normalized temperature bound.
+\end{proof}
+
+The same pairwise family has an exactly known visible Gibbs marginal
+at \emph{all} temperatures. Its low-temperature obstruction uses
+frustrated signed couplings and fields. It proves no failure inside
+a Dobrushin contraction region and makes no claim of a
+fixed-dimensional geometric embedding.

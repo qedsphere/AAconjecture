@@ -1,0 +1,86 @@
+\subsection{A temperature set with two disjoint positive regions}
+\label{sec:resolution-nonmonotone}
+
+All statements here concern a fixed inverse temperature as the input
+dimension grows. A ``threshold temperature'' is not a universal form
+of the answer, even for extensive, temperature-independent classical
+Hamiltonians.
+
+\begin{theorem}[Exact nonmonotone full-AA temperature set]
+Let $n=2^m$ with even $m$, and let $\mathcal C$ be the character code
+of Section~\ref{res:orbit}, with $c_0$ the all-plus character. Define
+\[
+ H_n(x)=
+ \begin{cases}
+ 0,&x=c_0,\\
+ \tfrac12\log n,&x\in\mathcal C\setminus\{c_0\},\\
+ n\log2,&x\notin\mathcal C.
+ \end{cases}
+\]
+Assuming uniform-input AA, the Gibbs family satisfies full AA exactly
+at fixed inverse temperatures
+\[
+ \boxed{\quad\beta\in[0,1)\ \cup\ (2,\infty].\quad}
+\]
+It fails at every fixed $1\le\beta\le2$. The endpoint $\infty$
+denotes the canonical ground-state limit.
+\end{theorem}
+
+\begin{proof}
+The unnormalized partition function is exactly
+\[
+ Z_n=1+(n-1)n^{-\beta/2}+(2^n-n)2^{-\beta n}.
+ \tag{NT}
+\]
+For $0\le\beta<1$, the mass on $\mathcal C$ is at most
+$C_\beta n\,2^{-(1-\beta)n}$, and the conditional law off the code
+is uniform. Hence
+\[
+ \|\mu_{\beta,n}-U_n\|_{\rm TV}
+ \le C_\beta n\,2^{-(1-\beta)n}+n2^{-n}.
+\]
+This is bounded by $C'_\beta/n$. At target mean error $e$, if this
+bound is at most $e/2$, use the uniform-AA simulator with error $e/2$;
+otherwise $n\le2C'_\beta/e$, and querying the whole input suffices.
+This proves full AA with constants allowed to depend on fixed $\beta$.
+
+For $1\le\beta\le2$, the measure dominates a uniform-code
+submeasure:
+\[
+ \mu_{\beta,n}\ge w_n U_{\mathcal C},\qquad
+ w_n=\frac{n^{1-\beta/2}}{Z_n}.
+\]
+Indeed, every codeword has unnormalized mass at least $n^{-\beta/2}$.
+Equation (NT) gives $w_n\to1$ for $1\le\beta<2$ and $w_n\to1/2$
+at $\beta=2$. For the one-query acceptance $P$ of
+Section~\ref{res:orbit}, every depth-$t$ tree therefore has loss at
+least
+\[
+ w_n\frac{1-2^{t-m/2}}2.
+\]
+For $t\le m/2-2$ this is at least $3w_n/8$, so constant accuracy
+requires $\Omega(\log n)$ classical queries. Full AA fails, including
+at both endpoints.
+
+For $\beta>2$, put $\gamma=\beta/2-1>0$. The mass outside $c_0$
+satisfies
+\[
+ 1-\mu_{\beta,n}(c_0)
+ \le n^{-\gamma}+2^{-(\beta-1)n}
+ \le C_\beta n^{-\gamma}.
+\]
+If this bound is at most $e$, the constant answer $P'(c_0)$
+approximates any acceptance function $P'\in[0,1]$ with mean error
+at most $e$, without querying the input. Otherwise
+$n\le(C_\beta/e)^{1/\gamma}$ and full input inspection again has
+polynomial query cost. At $\beta=\infty$ the law is exactly
+$\delta_{c_0}$.
+\end{proof}
+
+The mechanism is explicit: an exponentially numerous bulk dominates
+at high temperature, a hidden character label dominates at intermediate
+temperature, and one known ground state dominates at low temperature.
+The Hamiltonian has energy range $n\log2$, but has global interactions;
+this example does not establish reentrance within a bounded-locality
+class. It does establish that no monotonicity in temperature may be
+assumed in a general classification.

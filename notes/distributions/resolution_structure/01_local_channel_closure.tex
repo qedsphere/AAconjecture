@@ -1,0 +1,182 @@
+\subsection{An exact local posterior sampler for observation channels}
+\label{sec:resolution-channel-closure}
+
+The high-temperature theorem in
+Section~\ref{resolution-dynamics:theorem} survives arbitrary independent
+observation noise. The relevant posterior has a special property:
+conditioning on the observations changes only single-site fields.
+The proof below establishes the required input-query bound, including
+adaptive requests; an efficient unconditional sampler would not suffice.
+
+\begin{theorem}[Local observation channels preserve high-temperature full AA]
+\label{thm:resolution-channel-closure}
+Let \(S\in\{-1,+1\}^n\) have a classical Gibbs law
+\[
+ \pi(s)\propto\exp\left(
+       \beta\sum_{A:\,|A|\ge2}J_A\prod_{i\in A}s_i
+       +\beta\sum_i h_i s_i\right).
+\]
+Let the graph joining sites that occur together in an interaction have
+maximum degree at most a fixed \(D\), and put
+\[
+ \Lambda=\max_i\sum_{A\ni i,\,|A|\ge2}|J_A|,
+ \qquad \theta=D(1-e^{-4\beta\Lambda}).
+\]
+Assume either \(\theta\le\theta_*<1\), with fixed margin, or that
+all interactions have size at most a fixed \(k\ge2\) and
+\(\beta\Lambda\le1/[8(k-1)]\).
+Given \(S\), let \(X_1,\ldots,X_n\) be independent, with arbitrary
+known binary channels \(K_i(x_i\mid S_i)\). The channels may depend on
+\(n\) and may contain zero probabilities. Then the law of \(X\)
+satisfies full AA with query bound
+\(\operatorname{poly}_{D,k,\theta_*}(T,1/e)\), with irrelevant
+parameters omitted in the respective case, uniformly over all
+channels, fields, signs, and numbers of sites.
+\end{theorem}
+
+\begin{proof}
+For each site introduce independent table bits
+\(B_i(+1),B_i(-1)\), with
+\(\Pr[B_i(t)=x]=K_i(x\mid t)\). All table bits are mutually
+independent and independent of \(S\). Set
+\[
+ Z=(S,B),\qquad F(Z)_i=B_i(S_i).
+\]
+The source law of \(Z\) is a Gibbs law with the original interactions
+on \(S\), plus isolated independent spins. A deterministic table bit
+can be removed and hardwired. Every other table bias is represented by
+a finite single-spin field. For clarity, represent this source at
+inverse temperature one, with dimensionless interaction couplings
+\(\beta J_A\) and arbitrary dimensionless table fields; this also
+covers \(\beta=0\). Thus
+Theorem~\ref{thm:resolution-dynamics-ising}, including its stated
+higher-order extension, or
+Theorem~\ref{thm:resolution-dynamics-weighted} in the second regime,
+gives a deterministic source simulator of cost
+\(s=s_{\rm dyn}(6T,e/2)\). The factor six suffices to read the three
+source bits needed for one output and uncompute the workspace.
+This is a coherent oracle implementation on the entire source cube.
+There is no forward approximation: \(X=F(Z)\) exactly.
+
+Fix an observed configuration \(x\) of positive probability. Its
+latent posterior is
+\[
+ \pi_x(s):=\Pr[S=s\mid X=x]
+ \propto \pi(s)\prod_i K_i(x_i\mid s_i).
+ \tag{LP}
+\]
+When both likelihoods are positive, the additional dimensionless
+field at site \(i\) is
+\(\frac12\log[K_i(x_i\mid+1)/K_i(x_i\mid-1)]\).
+If exactly one likelihood is zero, that site is pinned. A positive
+probability \(x\) cannot give two zero likelihoods at the same site.
+Consequently \(\pi_x\) has the same interaction graph and no larger
+incident interaction strength, even if its fields become arbitrarily
+large. Crucially, the new local field at \(i\) is determined by
+one query to \(x_i\).
+
+\textbf{The posterior random-map construction.}
+Fix the proper-color schedule used in
+Section~\ref{resolution-dynamics:theorem}, repeated at all negative
+times. Assign independent uniform variables to every site-update event.
+Use the heat-bath threshold map for \(\pi_x\) at that event.
+The probability that such a map is nonconstant is at most
+\[
+ p:=\tanh(\beta\Lambda).
+ \tag{ACT}
+\]
+Indeed, the possible dimensionless local fields lie in an interval
+\([a-\beta\Lambda,a+\beta\Lambda]\); the difference between the
+largest and smallest probabilities of spin \(+1\) is maximized at
+\(a=0\), where it equals \(\tanh(\beta\Lambda)\).
+Pinned sites have constant update maps. Put \(\alpha=Dp\).
+For \(u\ge0\), \(\tanh u\le1-e^{-4u}\), so
+\(\alpha\le\theta_*<1\).
+
+To produce a requested terminal spin \(S_i\), inspect its last update
+event and read \(x_i\) if not already known. If its map is constant,
+that spin is determined. Otherwise recursively request all its at most
+\(D\) neighbor spins immediately before the event. This explores
+strictly decreasing update times. Cache inspected random maps,
+computed spin values, and input values across all requests. Every
+fresh event adds at most \(D\) predecessor requests, and its conditional
+expected number of new requests is at most \(\alpha\).
+
+Here this expectation remains valid during arbitrary adaptive source
+queries: a requested source value is returned only after its complete
+dependency exploration has been resolved. The values already returned,
+the next requested coordinate, and the work queue are functions of
+previously inspected uniform variables and the fixed input \(x\).
+The uniform variable at a previously uninspected event is therefore
+still independent of that history. Already inspected events create no
+new work. This uses independence in a freshly constructed posterior
+sampler; it does not assume that a forward source map retains its
+unconditional law after observing the final input.
+
+In the second temperature regime use the signed-parity random maps of
+Lemma~\ref{lem:resolution-dynamics-parity-law} in place of threshold
+maps. Read \(x_i\) to determine the posterior field and hence the
+local map distribution, then use the fresh uniform variable to select
+its finite categorical map. Only the chosen support is requested.
+The unconditioned expected support size is at most the same uniform
+bound as its conditional expectation in that lemma, namely
+\(\alpha=160/169<1\). Its distribution is unaffected by past
+exploration for the same fresh-event reason. All remaining statements
+below use this \(\alpha\). Thus they cover both regimes.
+
+If at most \(s\) terminal latent requests are made, and \(N\) is
+the total number of distinct inspected update events, the queue bound
+gives
+\[
+ \mathbb E[N\mid x]\le \frac{s}{1-\alpha}.
+ \tag{WORK}
+\]
+For completeness, stop after at most \(M\) inspected events. At most
+\(s\) roots have been added. The number of inspected events is at
+most this root count plus the number of children created. Taking
+expectations and using the fresh-event bound yields
+\((1-\alpha)\mathbb E[\min(N,M)\mid x]\le s\).
+Letting \(M\) increase proves (WORK) and almost-sure termination.
+
+The resulting terminal spins have joint law \(\pi_x\). To see this,
+start a stationary \(\pi_x\) chain at a finite time in the past and
+use the same maps up to time zero. On the event that the explored
+ancestors of the finitely many requested sites stay later than the
+initial time, the returned spins do not depend on the initial state.
+Almost-sure finite exploration lets that initial time tend to minus
+infinity. Equivalently, this is a local coupling-from-the-past
+construction. It defines a single global posterior sample whose
+coordinates can be revealed adaptively.
+
+\textbf{Completing the source posterior.}
+After sampling \(S_i\), a request for \(B_i(t)\) is answered as
+follows. If \(t=S_i\), its value is the observed \(x_i\). Otherwise
+sample it with its original channel law, independently of everything
+else. Cache this answer. Conditional on \(S\) and \(X=x\), precisely
+the selected entry of each channel table is constrained, so this gives
+the exact law of \(Z\mid X=x\). Each source-bit request requires
+at most one terminal latent-spin request and at most one extra query
+to \(x\), besides the update-event exploration.
+
+Run the source simulator with this posterior oracle, but abort its
+exploration after
+\[
+ M=\left\lceil\frac{2s}{e(1-\alpha)}\right\rceil
+\]
+update events, returning zero if the cap is exceeded. By (WORK) and
+Markov's inequality the conditional abort probability is at most
+\(e/2\), for every positive-probability \(x\), even under the
+simulator's adaptive source requests. There are at most \(M+s\)
+physical input queries. The exact, uncapped procedure has average
+error at most \(e/2\), because it supplies the exact source posterior
+and \(X=F(Z)\). Capping therefore gives average error at most \(e\).
+All uniform variables and table coins can be fixed in advance
+independently of \(x\). Averaging fixes them to obtain a deterministic
+simulator with the claimed error and query bound.
+\end{proof}
+
+The coupling-from-the-past principle originates with
+\href{https://www.stat.berkeley.edu/~aldous/206-RWG/RWGpapers/propp_wilson.pdf}
+{Propp and Wilson (1996)}. The extra assertion needed here is the
+uniform physical-input query bound for the posterior and adaptive
+coordinate requests; the proof above supplies it explicitly.

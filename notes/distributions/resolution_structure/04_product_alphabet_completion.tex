@@ -1,0 +1,246 @@
+\subsection{Completion and full AA for arbitrary product alphabets}
+\label{sec:resolution-product-alphabets}
+
+This section removes a source-encoding obstruction. A source coordinate
+may take values in an arbitrary finite alphabet, and one source query
+returns its entire symbol. Both the quantum and classical algorithms
+use this same convention. Alphabet sizes, atom probabilities, and the
+number of source coordinates do not enter the bounds.
+
+Let \(\Omega=\prod_{i=1}^n\Omega_i\), let
+\(\mu=\bigotimes_i\mu_i\), and delete zero-mass symbols if necessary.
+For Boolean \(G\) define its resampling influences by
+\[
+ I_i^\mu(G)=\Pr[G(X)\ne G(X_{-i},X_i')],
+ \qquad I^\mu(G)=\sum_i I_i^\mu(G),
+\]
+where \(X\sim\mu\) and \(X_i'\sim\mu_i\) independently.
+For \(x,y\in\Omega\) write
+\(\Delta(x,y)=\{i:x_i\ne y_i\}\).
+A fractional certificate for \(G\) at \(x\) is a vector
+\(c^x\ge0\) with
+\(\sum_{i\in\Delta(x,y)}c_i^x\ge1\) whenever \(G(y)\ne G(x)\).
+
+\begin{lemma}[Product-alphabet certificate inequality]
+\label{lem:resolution-alphabet-certificates}
+Let \(U_b\subseteq G^{-1}(b)\) have mass \(\delta_b>0\), for
+\(b=0,1\). Suppose every \(x\in U_b\) has a fractional certificate
+of cost at most \(\gamma_b\). Then
+\[
+ \max_i I_i^\mu(G)\ge\frac{\delta_0\delta_1}{2\gamma_0\gamma_1}.
+ \tag{AC}
+\]
+The same assertion holds after fixing any set of coordinates.
+\end{lemma}
+
+\begin{proof}
+The only imported combinatorial ingredient is the finite Boolean-box
+counting inequality proved as equation (4) in the proof of Lemma 4 of
+\href{https://arxiv.org/abs/2611.12795}
+{Huffstutler--Miloschewsky--Podder}.
+We state exactly the form used. On a two-point product box \(C\), let
+\(J\) be its free coordinates and let \(b_i(C)\) count its
+unordered bichromatic \(i\)-edges. Consider some ordered antipodal
+pairs \((x,y)\), with \(G(x)=1,G(y)=0\), and sets \(H_y\).
+Suppose that replacing any subset of coordinates in \(H_y\cap J\)
+of the paired \(x\) by their other box values leaves \(G=1\).
+Suppose also that every \(z\in C\) with \(G(z)=1\) agreeing with
+\(y\) on \(H_y\) satisfies \(w(\Delta(y,z))\ge1\).
+Then the number \(N_C\) of these pairs obeys
+\[
+ N_C\le\sum_{i\in J}w_i b_i(C).                 \tag{BC}
+\]
+This is a statement about a finite Boolean cube, with no measure in it.
+Relabeling each two-symbol coordinate by a bit preserves every
+hypothesis. We now supply the measure-dependent extension.
+
+Fix the stated certificates and define
+\[
+ w_i=2\gamma_0\,\mathbb E[c_i^X\mid X\in U_1],
+ \qquad H_y=\{i:c_i^y>w_i\}\quad(y\in U_0).
+\]
+Then \(\sum_iw_i\le2\gamma_0\gamma_1\) and
+\(w(H_y)\le\gamma_0\). Consequently at least half the conditional
+\(\mu\)-mass of \(x\in U_1\) satisfies \(c^x(H_y)<1\).
+Mark precisely these pairs \((x,y)\). Their product mass is at least
+\(\delta_0\delta_1/2\). A marked pair cannot change the value of
+\(G(x)\) by changing coordinates in \(H_y\), by its certificate.
+If \(G(z)=1\) and \(z\) agrees with \(y\) on \(H_y\), the
+certificate of \(y\) gives
+\[
+ 1\le c^y(\Delta(y,z))\le w(\Delta(y,z)).
+\]
+Thus (BC) applies to the marked antipodal pairs in every box.
+
+Take all boxes \(C=\prod_i C_i\) with \(|C_i|\in\{1,2\}\),
+and assign the weight
+\[
+ a(C)=\prod_i a_i(C_i),\qquad
+ a_i(\{u\})=\mu_i(u)^2,
+ \quad a_i(\{u,v\})=\mu_i(u)\mu_i(v)\quad(u\ne v).
+\]
+Every ordered pair \((x,y)\) is antipodal in exactly one such box:
+use \(C_i=\{x_i\}\) if the two symbols agree, and
+\(C_i=\{x_i,y_i\}\) otherwise. Its box weight equals
+\(\mu(x)\mu(y)\). Hence
+\[
+ \sum_C a(C)N_C\ge\delta_0\delta_1/2.             \tag{PAIR}
+\]
+For a fixed unordered \(i\)-edge with outside coordinates \(z\)
+and endpoint symbols \(u,v\), summing the weights of its containing
+boxes gives
+\[
+ \mu_i(u)\mu_i(v)
+ \prod_{j\ne i}\left(\mu_j(z_j)^2+
+               \sum_{a\ne z_j}\mu_j(z_j)\mu_j(a)\right)
+ =\mu_i(u)\mu_i(v)\mu_{-i}(z).
+\]
+It follows that
+\[
+ \sum_C a(C)b_i(C)=\tfrac12 I_i^\mu(G).            \tag{EDGE}
+\]
+Multiply (BC) by \(a(C)\), sum, and use (PAIR), (EDGE), and the
+bound on \(\sum_iw_i\). The result is
+\(\delta_0\delta_1/2\le\gamma_0\gamma_1\max_i I_i^\mu(G)\),
+which is (AC). Coordinate conditioning leaves a product measure, so
+the final assertion follows from the same proof.
+\end{proof}
+
+\begin{theorem}[Completion on arbitrary product alphabets]
+\label{thm:resolution-alphabet-completion}
+Let \(f:D\to\{0,1\}\), where \(D\subseteq\Omega\), and suppose
+there are nonnegative weights \(\lambda^x\), for \(x\in D\), with
+\[
+ \sum_i\lambda_i^x\le A,
+ \qquad
+ \sum_{i\in\Delta(x,y)}\min(\lambda_i^x,\lambda_i^y)\ge1
+ \quad\text{if }f(x)\ne f(y).
+ \tag{ADV}
+\]
+For every \(\eta>0\) there is a deterministic symbol-query tree of
+depth at most \(\lceil128A^3/\eta^2\rceil\) whose unconditional
+\(\mu\)-mass of errors on \(D\) is at most \(\eta\).
+Constant partial functions need no queries.
+\end{theorem}
+
+\begin{proof}
+Here are the product-measure details of the completion construction.
+For \(a\in f^{-1}(1)\), let
+\(d_a(z)=\sum_{i:z_i\ne a_i}\lambda_i^a\), and set
+\(g(z)=\min\{1,\min_{a\in f^{-1}(1)}d_a(z)\}\).
+Then \(g=0\) on the one-inputs and \(g=1\) on the zero-inputs:
+for opposite inputs \(a,b\), (ADV) implies
+\(d_a(z)+d_b(z)\ge1\) for every \(z\).
+At any \(z\) with \(g(z)<1\), choose a minimizing \(a\).
+Changing coordinate \(i\) to any other symbol can increase \(g\)
+by at most \(\lambda_i^a\). Resampling symmetry therefore gives
+\[
+ \sum_i\mathbb E|g(X)-g(X_{-i},X_i')|\le2A.
+\]
+Integrating thresholds over \([1/4,3/4]\) provides a completion
+\(G(z)=\mathbf1[g(z)<t]\) with \(I^\mu(G)\le4A\).
+For every original domain point \(x\), the vector \(4\lambda^x\)
+is a certificate for \(G\): if \(f(x)=1\), an opposite completion
+value forces \(d_x(z)\ge t\); if \(f(x)=0\), a minimizing
+one-input at \(z\) and the preceding two-distance inequality force
+\(d_x(z)>1-t\). Both lower bounds are at least \(1/4\).
+
+At a decision-tree transcript \(C\), let
+\(\delta_b(C)=\mu(f^{-1}(b)\mid C)\) and
+\(m(C)=\min_b\delta_b(C)\). The remaining measure is product,
+and the restricted certificates have cost at most \(4A\).
+Lemma~\ref{lem:resolution-alphabet-certificates} gives a free
+coordinate with
+\[
+ I_i^{\mu\mid C}(G)\ge m(C)^2/(32A^2)
+\]
+unless \(m(C)=0\). Query that coordinate. The exact potential
+identity is
+\[
+ I^{\mu\mid C}(G)
+ -\mathbb E_{X_i\mid C} I^{\mu\mid C,X_i}(G)
+ = I_i^{\mu\mid C}(G).
+\]
+Indeed, the other-coordinate resampling influences average unchanged.
+After \(s\) queries output the majority domain value in the current
+transcript. Its unconditional domain error is
+\(e_s=\mathbb E[m(C_s)]\), and \(e_s\) is nonincreasing.
+Telescoping the potential identity and using Jensen's inequality yields
+\[
+ s e_s^2\le\sum_{t<s}\mathbb E[m(C_t)^2]
+ \le32A^2 I^\mu(G)\le128A^3.
+\]
+The stated depth suffices.
+\end{proof}
+
+\begin{lemma}[Quantum adversary weights do not depend on alphabet size]
+\label{lem:resolution-symbol-adversary}
+A \(t\)-query quantum algorithm deciding a partial Boolean function
+with error at most \(1/3\) supplies weights (ADV) with \(A=O(t^2)\),
+for arbitrary finite symbol alphabets.
+\end{lemma}
+
+\begin{proof}
+Purify the algorithm. Let \(p_{r,i}(x)\) be its query probability
+at index \(i\) immediately before query \(r\), and set
+\(a_i(x)=\sum_{r=1}^t p_{r,i}(x)\); thus \(\sum_i a_i(x)=t\).
+For opposite outputs, final states have overlap at most
+\(2\sqrt2/3\). A single oracle call changes their overlap in
+absolute value by at most
+\(2\sum_{i:x_i\ne y_i}\sqrt{p_{r,i}(x)p_{r,i}(y)}\): identical
+symbols act identically, and the difference of two unitary symbol
+oracles has norm at most two. Telescoping and applying Cauchy--Schwarz
+over \(r\) therefore gives
+\[
+ \sum_{i:x_i\ne y_i}\sqrt{a_i(x)a_i(y)}\ge
+ c:=\tfrac12(1-2\sqrt2/3)>0.
+\]
+A second Cauchy--Schwarz inequality gives
+\[
+ c^2\le
+ \left(\sum_{i:x_i\ne y_i}\min(a_i(x),a_i(y))\right)
+ \left(\sum_{i:x_i\ne y_i}\max(a_i(x),a_i(y))\right)
+ \le2t\sum_{i:x_i\ne y_i}\min(a_i(x),a_i(y)).
+\]
+Take \(\lambda_i^x=(2t/c^2)a_i(x)\).
+\end{proof}
+
+\begin{corollary}[Product-alphabet full AA with symbol queries]
+\label{cor:resolution-product-alphabet-aa}
+For every finite product measure on arbitrary finite alphabets,
+every \(T\)-query quantum acceptance function \(Q\) has a
+deterministic classical symbol-query simulator with mean error at
+most \(e\) and \(O(T^6e^{-15})\) queries, for
+\(T\ge1\) and \(0<e<1\). The absolute implied constant has no
+dependence on alphabet sizes, biases, or number of coordinates.
+\end{corollary}
+
+\begin{proof}
+Put \(m=\lceil16/e\rceil\), \(a=e/16\), and \(\eta=e/4\).
+For each \(j=1,\ldots,m\), define a partial function by thresholding
+\(Q\) at \(j/m\), with promise \(|Q-j/m|\ge a\).
+Repeating the original quantum algorithm \(O(a^{-2})\) times and
+thresholding the empirical acceptance frequency decides this partial
+function with error at most \(1/3\). The preceding lemma and theorem
+give a deterministic classifier \(D_j\) making
+\(O(T^6a^{-12}\eta^{-2})\) symbol queries, whose unconditional
+error mass on its promise is at most \(\eta\).
+
+Output \(m^{-1}\sum_jD_j\). For each input, at most \(2am+2\)
+thresholds lie within distance \(a\) of its acceptance value.
+Rounding the integral of threshold indicators to this grid introduces
+error at most \(1/m\). Therefore the mean approximation error is
+at most
+\[
+ 2a+3/m+\eta\le9e/16<e.
+\]
+Running the \(m\) classifiers costs \(O(T^6e^{-15})\) queries.
+\end{proof}
+
+The new ingredient relative to the Boolean completion theorem is the
+weighted two-point-box summation. The symbol-oracle convention is
+essential: this corollary does not claim that a whole large symbol can
+be recovered from its bit encoding with one Boolean query. Its role
+is as an internal source theorem in a transfer argument where both
+forward coherent access and conditional source access are supplied
+explicitly.

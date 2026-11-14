@@ -1,0 +1,38 @@
+\subsection{Verification and provenance}
+\label{res:verification}
+
+The orbit, dense-energy, sparsification, and auxiliary-access arguments
+were derived in the obstruction workstream.  The main workstream
+supplied the fourfold parity symmetrization; the shared-reference
+extension removes fields while preserving its symmetry.  Independent
+main-workstream review checked the orbit, pruning, and fourfold
+arguments.  The dense moment proof was checked directly against
+Lata\l a's Theorem 1, including its tensor norms, the random-color
+factor 27, Gaussian-magnitude Jensen comparison, and the separate
+$p\le n$ and $p>n$ estimates.
+
+Finite exhaustive checks at $n=4,16$ verified the Fourier identity,
+the Fourier-maximum energy bound, all three flattening norms, and
+the sparse soundness inequalities for two sampled test lists.  The
+fourfold gadget was enumerated on all eight visible assignments and
+all sixteen auxiliary assignments at six temperatures from zero to
+two; maximum floating-point discrepancy was below $2\cdot10^{-15}$.
+These checks support the algebra and do not replace the all-size
+proofs.  The shared-reference gadget was additionally enumerated for
+both reference signs: its ground costs are exactly $-8j$ and $-4j$,
+and its marginal coefficient is $K(\beta j)rxyz$ as stated.
+Reproduction scripts and numerical outputs are kept outside
+the shared LaTeX tree, in the workspace's
+\texttt{analysis\_work/resolution\_obstructions/} directory.
+
+A separate check of the main workstream's three-level nonmonotone
+model found the endpoint classifications consistent: with energies
+$0$ on $c_0$, $(\log n)/2$ on the other characters, and $n\log2$
+off the code, its normalizer is
+$1+(n-1)n^{-\beta/2}+(2^n-n)2^{-\beta n}$.  On $1\le\beta\le2$
+it dominates the uniform character law with a weight tending to one
+for $\beta<2$ and to $1/2$ at $\beta=2$.  For $\beta>2$ its mass
+outside $c_0$ decays as a fixed inverse power of $n$, allowing the
+constant-output and small-size-readout simulation argument; below
+one, comparison with uniform input has exponential error.  This
+check is not a monotonicity claim for any local family above.

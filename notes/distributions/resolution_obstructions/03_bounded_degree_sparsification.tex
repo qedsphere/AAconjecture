@@ -1,0 +1,97 @@
+\subsection{Bounded-degree three-local Hamiltonians with a full-AA separation}
+\label{res:sparse}
+
+We sparsify the character tests while preserving the energy penalty
+needed for the query obstruction.  Only soundness at a fixed relative
+distance is required; no claim of soundness down to a single error is
+used.
+
+\begin{lemma}[A sparse family of character tests]
+\label{res:sparse-lemma}
+For every $n=2^m$ with even $m\ge2$, there is a multiset $\mathcal E_n$
+of at most $Cn$ tests $x_zx_wx_{z+w}$, where
+\[
+ \epsilon=1/32,\qquad C=2048,\qquad D=12C=24576,
+\]
+such that:
+\begin{enumerate}
+\item each spin occurs in the raw index set $\{z,w,z+w\}$ of at most
+      $D$ tests, and hence in at most $D$ reduced tests;
+\item every character satisfies every test;
+\item every $x$ with $\operatorname{dist}(x,\mathcal C)\ge n/32$
+      violates at least $Cn/128=16n$ tests.
+\end{enumerate}
+Each reduced test is either a three-spin interaction on distinct
+nonzero indices or the one-spin test $x_0$.
+\end{lemma}
+
+\begin{proof}
+Sample $M=Cn$ ordered pairs $(z,w)$ independently and uniformly.
+For fixed $x$, its test-violation probability is
+\[
+ q_x=\frac{1-\sum_a\widehat x(a)^3}{2}.
+\]
+If $x$ is at least $\epsilon n$ from every character, the bound in the
+preceding proof gives $q_x\ge\epsilon$.  Chernoff and a union bound
+over all $2^n$ spin configurations show that, except with probability
+at most
+\[
+ 2^ne^{-\epsilon M/8}=e^{-(8-\log2)n}<1/4,
+\]
+every such input violates at least $\epsilon M/2=M/64$ sampled tests.
+
+Let $d_u$ count sampled tests whose \emph{raw unique index set}
+$\{z,w,z+w\}$ contains $u$.  For $u=0$ the occurrence probability is
+$(3n-2)/n^2$; for $u\ne0$ it is $(3n-3)/n^2$.  Both are at most
+$3/n$, so $d_u$ is a
+binomial variable of mean at most $3C$.  The identity for a binomial
+size-biased first moment and the elementary binomial tail bound give
+\[
+ \mathbb E[d_u\mathbf1_{d_u>D}]
+ \le3C\left(\frac e4\right)^D.
+\]
+Delete every test incident to an index with $d_u>D$.  The number $R$
+of deleted tests is at most $\sum_ud_u\mathbf1_{d_u>D}$, whence
+\[
+ \mathbb ER\le3M(e/4)^D<M/512.
+\]
+Markov gives $\Pr(R>M/128)<1/4$.  With positive probability both this
+deletion bound and the simultaneous soundness event hold.  The
+retained degree is at most $D$, and every far input still violates at
+least $M/64-M/128=M/128$ retained tests.  Character satisfaction is
+preserved by deletion.  Choosing one successful test list for each
+$n$ proves the lemma.  This can be made a computable, nonuniform
+family by exhaustive finite search; no efficient construction is
+needed for the query theorem.
+\end{proof}
+
+\begin{theorem}[Bounded-degree three-local failure]
+\label{res:sparse-theorem}
+Let $\mathcal E_n$ be as above and
+\[
+ H_n^{(3)}(x)=-\kappa\sum_{e\in\mathcal E_n}\prod_{u\in e}x_u,
+ \qquad\kappa>0.
+\]
+For every fixed $\beta\kappa>\log2/32$, its Gibbs inputs violate
+full AA.  The maximum number of incident terms is $D$, every term
+has strength $\kappa$, and the incident absolute strength is at most
+$\kappa D$.  Equivalently, after normalizing incident strength to
+one, failure holds at every fixed inverse temperature
+$\beta>D\log2/32=768\log2$.
+\end{theorem}
+
+\begin{proof}
+Every character has energy $-\kappa|\mathcal E_n|$.  A far input
+violates at least $16n$ tests and hence has energy at least $32\kappa n$
+above this value.  Thus
+\[
+ \mu_{\beta,n}\{\operatorname{dist}(X,\mathcal C)\ge n/32\}
+ \le\frac1n e^{(\log2-32\beta\kappa)n}.
+\]
+Character multiplication preserves each retained interaction.  Apply
+Lemma~\ref{res:orbit-lemma} exactly as for the dense family.
+\end{proof}
+
+This establishes a local-interaction obstruction with uniformly
+bounded graph degree and incident strength.  It is a graph-local
+construction; no fixed-dimensional geometric embedding is asserted.

@@ -1,0 +1,70 @@
+\subsection{A query lower bound from character-symmetric thermal order}
+\label{res:orbit}
+
+Let $m\ge2$ be even, $n=2^m$, and index spins by $z\in\mathbb F_2^m$.
+Write $c_a(z)=(-1)^{a\cdot z}$ and $\mathcal C=\{c_a:a\in\mathbb F_2^m\}$.
+Distinct codewords have Hamming distance $n/2$.  Put
+\[
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2,\qquad
+ P(x)=\sum_{a:h(a)=1}\widehat x(a)^2,\qquad
+ \widehat x(a)=\frac1n\sum_zx_zc_a(z).
+\]
+Parseval gives $0\le P\le1$ everywhere.  One phase query, a Walsh
+transform, and the decision $h(a)=1$ have acceptance probability $P$.
+
+\begin{lemma}[Character-orbit separation]
+\label{res:orbit-lemma}
+Suppose $\mu$ is invariant under $x\mapsto x c_b$ for every $b$, and
+\[
+ \mu(G)\ge1-\delta,\qquad
+ G=\{x:\operatorname{dist}(x,\mathcal C)<\epsilon n\},\qquad
+ 0<\epsilon<1/4.
+\]
+Then every classical tree of depth $t$ satisfies
+\[
+ \mathbb E_\mu|D-P|
+ \ge(1-\delta)
+ \left[\frac{1-2^{t-m/2}}2-4\epsilon\right].
+ \tag{OR}
+\]
+If the input additionally contains auxiliary spins that, conditional on
+$X$, are independently sampled from kernels each depending on at most
+$k$ visible spins, then (OR) holds with $t$ replaced by
+$\max\{1,k\}t$, even when every auxiliary spin is queryable.
+\end{lemma}
+
+\begin{proof}
+Every $x\in G$ has a unique nearest character $c_{A(x)}$, since two
+balls of radius $\epsilon n<n/4$ are disjoint.  Set
+$\eta=x c_{A(x)}$.  Multiplication by $c_b$ sends $A$ to $A+b$ and
+leaves $\eta$ unchanged.  Conditional on $G$, invariance therefore
+makes $A$ uniform and independent of $\eta$.  Moreover,
+\[
+ \widehat\eta(0)>1-2\epsilon,\qquad
+ \widehat x(A)=\widehat\eta(0),\qquad
+ |P(x)-h(A)|\le1-\widehat\eta(0)^2\le4\epsilon.
+\]
+After $\eta$ is fixed, each visible-spin query gives one linear
+equation in $A$.  Any depth-$t$ transcript conditions uniform $A$ on
+an affine subspace of codimension at most $t$.  Every Walsh coefficient
+of $(-1)^{h(A)}$ has magnitude $2^{-m/2}$, so its bias on such a
+subspace is at most $2^{t-m/2}$.  The best real prediction of the binary
+target $h(A)$ thus has average absolute error at least
+$(1-2^{t-m/2})/2$.  Subtract $4\epsilon$, integrate over $\eta$, and
+discard the nonnegative loss outside $G$ to obtain (OR).
+
+For the auxiliary version, realize every conditional kernel using an
+independent uniform random seed, independent of $X$.  Fix all seeds
+and $\eta$, and give them to the simulator.  Each auxiliary answer is
+then computable using at most $k$ visible-spin answers, hence at most
+$k$ linear queries to $A$.  An all-spin depth-$t$ tree is simulated by
+a clean-character tree of depth at most $\max\{1,k\}t$.  Applying the
+same affine-subspace bound and averaging over the fixed seeds proves
+the assertion.  Randomized trees are covered by fixing their private
+seeds too.
+\end{proof}
+
+This lemma requires no independence of the visible noise $\eta$ and
+no single-coordinate influence inequality.  Its only thermal input is
+concentration in disjoint character neighbourhoods and exact character
+symmetry.

@@ -1,0 +1,126 @@
+\subsection{Removing every field while retaining bounded degree}
+\label{res:zero-field}
+
+The field terms can also be removed without hiding a high-degree
+reference spin.  A single shared reference per gadget preserves the
+character symmetry; bounded-degree expansion synchronizes these
+references energetically.
+
+Let $M=|\mathcal E_n|$ and choose a 16-regular bipartite Ramanujan
+graph $R_n$ on $N_R$ vertices with $M\le N_R<2M$.  Such sizes can
+be obtained by successive 2-lifts starting from $K_{16,16}$, using
+\href{https://arxiv.org/abs/1304.4132}{Marcus--Spielman--Srivastava}.
+Its second adjacency eigenvalue is at most $2\sqrt{15}$, so its edge
+expansion satisfies
+\[
+ |\partial B|\ge(8-\sqrt{15})|B|\ge4|B|
+ \quad\text{whenever }|B|\le N_R/2.
+\]
+Assign a distinct reference vertex $r_e$ to each test $e=(z,w)$; any
+extra reference vertices carry no gadget.  With $\mathcal U$ as above,
+define the temperature-independent, zero-field pairwise Hamiltonian
+\[
+ \begin{split}
+ H^{(0)}_n(X,S,R)={}&
+ -j\sum_{e=(z,w)}\sum_{u\in\mathcal U}s_{e,u}
+       (u_1X_z+u_2X_w+u_3X_{z+w}-r_e)\\
+ &-j\sum_{\{v,v'\}\in E(R_n)}r_vr_{v'}.
+ \end{split}
+ \tag{ZF}
+\]
+All the terms are pair couplings, and every visible, auxiliary, and
+reference spin is part of the input oracle.
+
+\begin{theorem}[Zero-field bounded-degree full-AA failure]
+\label{res:zero-field-theorem}
+For every fixed
+\[
+ \beta j>\frac{(1+6C)\log2}{64},\qquad C=2048,
+\]
+the Gibbs family of (ZF) violates full acceptance simulation.  One
+quantum query requires $\Omega(\log N_n)$ classical queries at
+constant mean error, where $N_n=n+4M+N_R\le(1+6C)n$.  The maximum
+graph degree is at most $\max\{4D,20\}$ and incident absolute
+strength is at most $12Dj$.  Thus both remain bounded independently
+of system size, and the fields vanish identically.
+\end{theorem}
+
+\begin{proof}
+First establish an energy gap.  For a reference configuration $R$,
+choose its majority sign $r\in\{-1,1\}$ and let $B$ contain its
+minority vertices.  Replacing all references by $r$ changes each
+occupied minority vertex's four gadget couplings by at most $8j$ in
+the favorable direction.  The reference ferromagnet charges
+$2j|\partial B|\ge8j|B|$.  Consequently, for every fixed $X,S$,
+\[
+ H^{(0)}_n(X,S,R)\ge H^{(0)}_n(X,S,r\mathbf1).
+ \tag{ZF-compare}
+\]
+
+For uniform references, minimizing the four auxiliary spins of a
+gadget gives energy $-8j$ if $X_zX_wX_{z+w}=r$, and $-4j$ otherwise.
+This follows from
+\[
+ \sum_{u\in\mathcal U}|u_1x+u_2y+u_3z-r|
+ =\begin{cases}8,&xyz=r,\\4,&xyz=-r.\end{cases}
+\]
+The identity remains valid for repeated visible indices.  Thus the
+global ground energy is
+$E_0=-8jM-j|E(R_n)|$, attained at least at the $2n$ choices of
+uniform reference sign $r$, visible input $X=r c_a$, and minimizing
+auxiliary configuration.
+
+If $X$ has distance at least $n/32$ from every signed character
+$\pm c_a$, then $rX$ is at that distance from every character.
+Sparse soundness supplies at least $16n$ tests with product different
+from $r$.  Combining their $4j$ cost with (ZF-compare) gives
+$H^{(0)}_n\ge E_0+64jn$ for every auxiliary/reference completion.
+Therefore
+\[
+ \Pr\{\operatorname{dist}(X,\{\pm c_a\})\ge n/32\}
+ \le\frac1{2n}
+ \exp\bigl(((1+6C)\log2-64\beta j)n\bigr)=:\delta_n.
+ \tag{ZF-mass}
+\]
+
+It remains to justify the query lower bound despite access to the
+reference spins.  Summing auxiliaries using the fourfold identity
+gives the exact joint marginal
+\[
+ \mu(X,R)\propto
+ \exp\left(K(\beta j)\sum_e r_eX_zX_wX_{z+w}
+       +\beta j\sum_{\{v,v'\}\in E(R_n)}r_vr_{v'}\right).
+ \tag{ZF-marginal}
+\]
+It is invariant under $X\mapsto Xc_b$ while $R$ is left fixed.
+On the good event in (ZF-mass), write uniquely
+$X=(-1)^B c_A\eta$, with $\eta$ within distance $n/32$ of the
+all-plus string.  Invariance of (ZF-marginal) makes $A$ uniform and
+independent of $(B,\eta,R)$, conditional on this event.  The acceptance
+function $P$ is unchanged by the global sign, and
+$|P(X)-h(A)|\le1/8$.
+
+Grant the entire reference vector, $B$, and $\eta$ to the classical
+simulator, and represent the conditionally independent auxiliary
+spins by independent seeds.  Fixing these seeds preserves uniformity
+of $A$.  A visible query uses one linear query to $A$; a reference
+query uses none; an auxiliary query uses at most three.  The proof of
+Lemma~\ref{res:orbit-lemma} consequently gives
+\[
+ \mathbb E|D-P|\ge
+ (1-\delta_n)\left[\frac{1-2^{3t-m/2}}2-\frac18\right]
+\]
+for every all-spin depth-$t$ tree.  This proves the separation.
+
+Visible degrees and strengths have the bounds from the fourfold
+gadget.  Auxiliaries now have at most three visible neighbors and one
+reference neighbor, with incident strength at most $4j$.  Reference
+vertices have sixteen expander neighbors and at most four auxiliary
+neighbors, giving degree and incident strength at most $20$ and
+$20j$.  These are bounded by the theorem's stated maxima.
+\end{proof}
+
+The shared reference is essential.  Giving different auxiliary spins
+unrelated reference vertices would let the reference graph break the
+character-permutation symmetry used in (ZF-marginal).  No such
+symmetry-breaking replacement is used here.

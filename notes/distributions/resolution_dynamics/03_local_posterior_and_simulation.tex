@@ -1,0 +1,111 @@
+\subsection{Local reverse access and completion of the simulation proof}
+\label{resolution-dynamics:simulation}
+
+Let \(m=qL\), \(B=D+1\), and take the convenient deterministic
+causal-cone bound
+\[
+ N_L=B^{m+1}.
+\]
+This intentionally loose bound is independent of \(n\).
+
+\textbf{Forward coherent access.}
+To evaluate one final spin of \(F_L\), recursively evaluate the
+neighbor spins needed by its most recent update, moving backwards
+through at most \(m\) layers. An update has at most \(D\) parents;
+an inactive layer merely passes the spin backwards unchanged.
+There are at most \(N_L\) update nodes in the full recursion tree.
+Reading each map's \(b_0\)-bit code and computing the fixed lookup
+tables costs at most \(b_0N_L\) source queries. This can be done on
+the entire deterministic cone, without relying on random early
+termination. Reversible computation and uncomputation implement a
+coherent output query with at most
+\[
+ a_L=2b_0N_L
+\]
+source queries, including on unused source codewords.
+
+\textbf{An exact posterior oracle.}
+Given oracle access to the actual final input \(x\), sample a
+stationary history backwards from \(W^m=x\), using the reverse color
+order and independent heat-bath coins. Equation (DB) proves that this
+is the exact law of the forward stationary history conditional on its
+final state, despite the ordered sweep itself not being reversible.
+
+The reverse history can be evaluated lazily and consistently.
+Pre-sample independent reverse coins for every update event. To obtain
+\(W_i^t\), recurse towards the final layer. If site \(i\) was not
+updated at layer \(t+1\), then \(W_i^t=W_i^{t+1}\). If it was,
+the reverse heat-bath coin and the neighbor values at layer \(t+1\)
+determine \(W_i^t\). Those neighbors were unchanged by the forward
+color update. At the final layer the value is the queried spin
+\(x_i\). The recursion is acyclic, has depth at most \(m\), and
+uses at most \(N_L\) input queries. Cache its random coins and
+computed values across all requests.
+
+After generating this history, independently sample each forward map
+conditional on its recorded neighbor assignment and new spin. This
+is exactly the disintegration used in
+Lemma~\ref{lem:resolution-dynamics-posterior-activity}. To answer a
+request for a source bit at event \((t,i)\), only
+\(W_i^t\) and \(W_{N(i)}^t\) are needed; the neighbor values equal
+their pre-update values. These at most \(D+1=B\) history variables
+cost at most \(BN_L\) physical-spin queries. Sample the whole
+conditional map block using a fresh preassigned coin and cache it.
+
+This procedure samples \(Z\mid X=x\) exactly. It answers \(s\)
+arbitrarily adaptive source-bit requests with at most
+\[
+ b_L(s)=BN_Ls
+\]
+queries to \(x\). All reverse-history coins and posterior-map coins
+can be fixed in advance independently of the input. Consistency follows
+from this single global randomized construction. In particular, there
+is no assumption that a freshly explored random cone retains its
+unconditioned tail after previous adaptive requests: the bound uses
+the entire deterministic cone for every request.
+
+\textbf{Proof of Theorem~\ref{thm:resolution-dynamics-ising}.}
+Assume \(T\ge1\) and \(0<e<1\); trivial cases need no queries.
+If \(\theta_*=0\), take \(L=1\). Otherwise choose
+\[
+ L=\max\left\{1,
+ \left\lceil\frac{2\log(8T/e)}{\log(1/\theta_*)}\right\rceil
+ \right\}.
+\]
+The product-block source law has simulator cost
+\(S_B(\tau,\varepsilon;b_0)\) from
+Theorem~\ref{thm:threshold-block-products}. Apply the local posterior
+transfer proposition to the coupling above, the map \(F_L\), and
+the conditional error bound (CE). The resulting physical simulator
+has error at most
+\[
+ e/2+4T\theta^{L/2}\le e
+\]
+and uses at most
+\[
+ B N_L\,S_B(a_LT,e/2;b_0)
+ \tag{QC}
+\]
+queries. Since \(q\le D+1\), \(L=O_{\theta_*}(\log(T/e))\),
+and \(N_L=(D+1)^{qL+1}\), (QC) is a polynomial in \(T,1/e\)
+for fixed \(D,\theta_*\). Randomness is removed by averaging exactly
+as in the local posterior transfer proposition.
+
+Pinning spins deletes them from the remaining interaction graph,
+reduces its incident interaction sums, and adds external fields.
+The same proof therefore applies with the same \(D,\theta_*\),
+which proves the hereditary assertion. \qed
+
+\textbf{Bounded-degree higher-order classical interactions.}
+The proof also applies to
+\(H(x)=-\sum_A J_A\prod_{i\in A}x_i\). Form the graph joining two
+spins when they occur in a common nonzero interaction of size at least
+two. Suppose this graph has maximum degree at most \(D\), and set
+\(\Lambda=\max_i\sum_{A\ni i,\,|A|\ge2}|J_A|\).
+A proper coloring ensures that every interaction contains at most one
+spin of each color, so each color update is still independent
+conditional resampling. The local field varies by at most
+\(2\beta\Lambda\), and all map, posterior, and cone bounds are
+unchanged. Arbitrary one-spin fields remain allowed. Thus (HTQ)
+proves full AA for this class as well. This extension concerns
+classical Gibbs laws, not measured noncommuting quantum Gibbs states.

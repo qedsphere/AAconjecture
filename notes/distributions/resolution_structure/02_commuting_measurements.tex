@@ -1,0 +1,56 @@
+\subsection{A quantum Gibbs consequence with explicit basis dependence}
+\label{sec:resolution-commuting-measurements}
+
+\begin{corollary}[Product-basis measurements of locally diagonalizable Gibbs states]
+\label{cor:resolution-commuting-measurements}
+For each qubit let \(N_i\) be a Hermitian operator with eigenvalues
+\(\{-1,+1\}\), and consider
+\[
+ H=-\sum_{A:\,|A|\ge2}J_A\prod_{i\in A}N_i-\sum_i h_iN_i.
+\]
+Suppose the interaction graph has maximum degree at most a fixed
+\(D\), and define
+\(\Lambda=\max_i\sum_{A\ni i,\,|A|\ge2}|J_A|\).
+If
+\[
+ D(1-e^{-4\beta\Lambda})\le\theta_*<1,
+\]
+or, for interactions of size at most fixed \(k\), if
+\(\beta\Lambda\le1/[8(k-1)]\),
+then measuring \(e^{-\beta H}/\operatorname{tr}(e^{-\beta H})\)
+in any product basis gives a classical input law satisfying full AA
+with \(\operatorname{poly}_{D,k,\theta_*}(T,1/e)\) queries,
+omitting irrelevant parameters in either case.
+The same holds for arbitrary independent binary single-qubit POVMs.
+The bound is uniform over the local axes, measurement bases, fields,
+and measurement probabilities.
+\end{corollary}
+
+\begin{proof}
+Choose local eigenvectors \(\{|s_i\rangle_i:s_i=\pm1\}\) of
+\(N_i\). These product vectors simultaneously diagonalize every
+term of \(H\), so
+\[
+ \frac{e^{-\beta H}}{\operatorname{tr}(e^{-\beta H})}
+ =\sum_s\pi(s)\bigotimes_i |s_i\rangle_i\langle s_i|,
+\]
+where \(\pi\) is exactly the classical Gibbs law in
+Theorem~\ref{thm:resolution-channel-closure}. For a product measurement
+with local effects \(E_i(x_i)\), the conditional output law factors:
+\[
+ \Pr[X=x\mid S=s]
+ =\prod_i K_i(x_i\mid s_i),\qquad
+ K_i(x_i\mid s_i)={}_i\langle s_i|E_i(x_i)|s_i\rangle_i.
+\]
+Apply that theorem.
+\end{proof}
+
+This includes Ising interactions along site-dependent axes observed
+in the computational basis. It proves a statement about a measured
+quantum Gibbs law even when the Hamiltonian is not diagonal in the
+measurement basis. The hypothesis is stronger than commutativity:
+all interactions admit a common \emph{product} eigenbasis. General
+commuting stabilizer Hamiltonians and transverse-field Ising models
+with a genuinely transverse field need not have this structure.
+For those models, the local-channel posterior formula (LP) is not
+available from this argument.

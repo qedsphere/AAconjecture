@@ -1,0 +1,135 @@
+\subsection{One fixed three-local family: positive and negative temperature regions}
+\label{res:dense}
+
+Fix $J>0$ and define
+\[
+ Q_n(x)=\frac1n\sum_{z,w\in\mathbb F_2^m}x_zx_wx_{z+w},
+ \qquad H_n(x)=-JQ_n(x),\qquad a=\beta J.
+ \tag{BLR}
+\]
+The sum is over ordered pairs.  Reducing repeated variables gives
+\[
+ Q_n=(3-2/n)x_0+
+ \frac6n\sum_{\substack{\{u,v,w\}\text{distinct}\\u+v+w=0}}x_ux_vx_w.
+ \tag{BLR-local}
+\]
+Each nonzero spin belongs to $(n-2)/2$ unordered triples.  Thus the
+sum of absolute interaction strengths incident to any spin, including
+its field, is at most $3J$.  The Hamiltonian is three-local and
+extensive; its interaction degree grows with $n$.
+
+\begin{theorem}[A genuine finite-temperature change in full-AA behavior]
+\label{res:dense-theorem}
+There is an absolute $a_0>0$ such that the Gibbs family of (BLR) has
+full acceptance simulation for every fixed $0\le a\le a_0$, assuming
+uniform-input AA.  For every fixed $a>16\log2$, full acceptance
+simulation fails: one quantum query requires $\Omega(\log n)$
+classical queries at constant mean error.  No exact location or
+uniqueness of the transition between these regions is asserted.
+\end{theorem}
+
+\begin{proof}[Low-temperature failure]
+Fourier inversion gives the exact identity
+\[
+ Q_n(x)=n\sum_b\widehat x(b)^3.
+\]
+If $M=\max_b\widehat x(b)$, then
+$\sum_b\widehat x(b)^3\le M\sum_b\widehat x(b)^2=M$.
+On each codeword $Q_n=n$.  If
+$\operatorname{dist}(x,\mathcal C)\ge\epsilon n$, then
+$M\le1-2\epsilon$ and the energy exceeds the ground energy by at
+least $2J\epsilon n$.  The partition function includes the $n$
+character ground states, hence
+\[
+ \mu_{\beta,n}(G^c)
+ \le \frac{2^n}{n}e^{-2a\epsilon n}.
+ \tag{BLR-mass}
+\]
+Every interaction in (BLR) is invariant under multiplying by a
+character.  Set $\epsilon=1/32$.  If $a>16\log2$, (BLR-mass) tends
+to zero exponentially.  For $t\le m/2-2$, the bracket in (OR) is at
+least $3/8-1/8=1/4$.  Thus a fixed error, for example $1/16$, needs
+$\Omega(m)=\Omega(\log n)$ classical queries.
+\end{proof}
+
+\begin{proof}[High-temperature full acceptance simulation]
+We prove an absolute exponential-moment bound
+\[
+ \sup_n\mathbb E_U e^{c|Q_n|}\le2
+ \quad\text{for some absolute }c>0.
+ \tag{BLR-exp}
+\]
+The only imported analytic ingredient is the order-three case of
+\href{https://arxiv.org/pdf/math/0505313}{Lata\l a's Gaussian-chaos
+moment theorem, Theorem 1 (2006)}.  For a three-index tensor $A$ and
+independent standard Gaussian vectors $g^{(1)},g^{(2)},g^{(3)}$, it
+bounds the $L^p$ norm of $\sum A_{uvw}g^{(1)}_ug^{(2)}_vg^{(3)}_w$ by
+an absolute constant times
+\[
+ \sqrt p\,\|A\|_{\rm HS}
+ +p\bigl(\|A\|_{1|23}+\|A\|_{2|13}+\|A\|_{3|12}\bigr)
+ +p^{3/2}\|A\|_{1|2|3},\qquad p\ge2.
+ \tag{GC}
+\]
+The middle norms are matrix flattening operator norms; the final norm
+is the supremum of the trilinear form over three Euclidean unit balls.
+
+Write $Q_n=(3-2/n)X_0+B_n$ and
+\[
+ B_n=\sum_{u,v,w}A_{uvw}X_uX_vX_w,
+ \qquad A_{uvw}=n^{-1}\mathbf1[u+v+w=0,\ u,v,w\text{ distinct}].
+\]
+Then $\|A\|_{\rm HS}\le1$.  Every flattening has disjoint rows with
+at most $n-2$ entries of size $1/n$, so all three operator norms are
+at most $n^{-1/2}$.  Also
+\[
+ \left|\sum_{u,v,w}A_{uvw}s_ut_vr_w\right|
+ \le\frac1n\sum_{u,v}|s_u||t_v||r_{u+v}|
+ \le n^{-1/2}\|s\|_2\|t\|_2\|r\|_2,
+\]
+by Cauchy--Schwarz and the finite-group Young inequality
+$\|t*r\|_2\le\|t\|_1\|r\|_2\le\sqrt n\|t\|_2\|r\|_2$.
+Thus the injective norm is at most $n^{-1/2}$ as well.
+
+Here is a direct reduction from the Rademacher chaos to (GC).  Color
+each index independently with one of three colors, and retain only
+ordered triples with colors $(1,2,3)$, obtaining $B_{\rm col}$.
+Because all its indices are distinct,
+$B_n=27\mathbb E_{\rm col}B_{\rm col}$ pointwise.  Jensen reduces its
+$L^p$ norm to 27 times the average norm of $B_{\rm col}$.  For a fixed
+coloring the three sets of signs are independent.  Write a standard
+Gaussian as its independent sign and magnitude, with
+$b=\mathbb E|g|=\sqrt{2/\pi}$.  Conditional expectation over magnitudes
+and Jensen show that the Rademacher norm is at most $b^{-3}$ times
+the corresponding Gaussian norm.  Color restriction is an orthogonal
+projection on each tensor index and does not increase any norm in
+(GC).  Therefore
+\[
+ \|B_n\|_p\le C\left(\sqrt p+\frac{3p}{\sqrt n}
+                               +\frac{p^{3/2}}{\sqrt n}\right).
+ \tag{BLR-moment}
+\]
+For $2\le p\le n$ this is at most $C'p$.  For $p>n$ use the
+deterministic bound $|B_n|\le n$.  Including the bounded linear term
+and using monotonicity for $1\le p<2$, we obtain
+$\|Q_n\|_p\le Kp$ for an absolute $K$ and every $p\ge1$.
+Since $k!\ge(k/e)^k$, the exponential series is bounded by
+$1+\sum_{k\ge1}(eKc)^k\le2$ when $c\le1/(2eK)$.  This proves
+(BLR-exp).
+
+Finally $\mathbb E_UQ_n=0$, so $Z_n(a)=\mathbb E_Ue^{aQ_n}\ge1$.
+If $0\le a\le c/2$, the Gibbs density $r=e^{aQ_n}/Z_n(a)$ satisfies
+$\mathbb E_Ur^2\le2$.  For any clipped simulator loss
+$A=|D-P'|\le1$, where $P'$ is an arbitrary quantum acceptance
+function,
+\[
+ \mathbb E_\mu A\le\sqrt2(\mathbb E_UA)^{1/2}.
+\]
+A uniform-AA simulator with mean error $\epsilon^2/2$ consequently
+works under $\mu$ with mean error $\epsilon$, at polynomial query
+cost.  Take $a_0=c/2$.
+\end{proof}
+
+The high-temperature argument controls the whole Gibbs likelihood in
+$L^2$, including its tails.  It does not infer such control from the
+variance of the energy alone or from a divergent cumulant majorant.

@@ -1,0 +1,85 @@
+\subsection{A proved high-temperature regime on bounded-degree graphs}
+\label{resolution-dynamics:theorem}
+
+We use the full-AA and uniform-input simulation conventions of
+Section~\ref{tht:target}. The following is a deduction from uniform-input
+AA and the atom-independent block-product simulation theorem, with all
+additional probabilistic and query-access steps proved below.
+
+\begin{theorem}[High-temperature full AA for bounded-degree Ising]
+\label{thm:resolution-dynamics-ising}
+Fix an integer \(D\ge1\) and a constant \(0\le\theta_*<1\). Consider
+arbitrary finite Ising graphs of maximum degree at most \(D\), with
+\[
+ \mu(x)\propto\exp\left(
+     \beta\sum_{ij\in E}J_{ij}x_ix_j+\beta\sum_i h_ix_i\right),
+ \qquad
+ \Lambda=\max_i\sum_{j:ij\in E}|J_{ij}|.
+\]
+Assume
+\[
+ \theta:=D\bigl(1-e^{-4\beta\Lambda}\bigr)\le\theta_*<1.
+ \tag{HTQ}
+\]
+Then every \(T\)-query quantum acceptance function has a deterministic
+classical simulator of mean absolute error \(e\), using
+\(\operatorname{poly}_{D,\theta_*}(T,1/e)\) queries. The polynomial
+is uniform in the number of spins, the graph, coupling signs, and all
+finite external fields. The same uniform bound holds after arbitrary
+positive-probability pinnings.
+\end{theorem}
+
+For \(D>1\), a sufficient temperature condition is
+\(\beta\Lambda<\frac14\log(D/(D-1))\), with a fixed strict margin.
+The theorem provides an actual open high-temperature interval on every
+fixed bounded-degree class. It does not establish the full Dobrushin
+range, nor a polynomial whose exponent is independent of \(D\) or the
+margin in (HTQ). The case of edgeless graphs follows directly from the
+product theorem.
+
+\textbf{Colored heat-bath schedule.}
+Fix a proper coloring with \(q\le D+1\) colors. One sweep updates the
+colors in order. Within a color, every site independently samples its
+spin conditional on the other colors. Because no two sites of that
+color interact, this is precisely conditional resampling of that color
+class. Its transition kernel \(K_c\) is reversible with respect to
+\(\mu\):
+\[
+ \mu(x)K_c(x,y)=\mu(y)K_c(y,x).
+ \tag{DB}
+\]
+For states agreeing off the color class, both sides are the marginal
+weight of the outside spins multiplied by the two conditional weights
+of the color-class spins; otherwise both vanish. A full ordered sweep
+need not be reversible. Its time reversal is the reverse color order,
+which is all that will be used.
+
+\textbf{Finite random maps, with no small-atom assumption.}
+For a site \(i\), write
+\[
+ p_i(\eta)=\mu(X_i=+1\mid X_{N(i)}=\eta)
+ =\frac{1+\tanh(\beta h_i+\beta\sum_jJ_{ij}\eta_j)}2.
+\]
+A heat-bath update can be implemented by the random map
+\(M_i(\eta)=+1\) when \(U\le p_i(\eta)\), and \(-1\) otherwise,
+for a fresh uniform \(U\in[0,1]\). There are at most
+\(2^{|N(i)|}+1\le2^D+1\) different maps: the map changes only as
+\(U\) crosses one of the finitely many values \(p_i(\eta)\).
+Thus its exact distribution can be encoded by a block of
+\(b_0=D+1\) Boolean source bits with an arbitrary block law. Unused
+codewords are assigned a constant map so that evaluation is defined on
+the entire source cube.
+
+Use independent source blocks for all site-update events in \(L\)
+sweeps. Their joint law \(\nu\) is a product of blocks of size at most
+\(b_0\); it is covered by Theorem~\ref{thm:threshold-block-products}
+uniformly over its atom probabilities. In particular, no discretization
+of rare heat-bath probabilities, no bounded-field hypothesis, and no
+source precision depending on \(n\) are needed.
+
+Let \(W^0\sim\mu\) independently of these maps, and run the schedule
+to obtain the stationary trajectory \(W^0,\ldots,W^{qL}\). Write
+\(X=W^{qL}\). Run the same maps from the fixed all-plus initial
+configuration, producing \(Y=F_L(Z)\). Then \(X\sim\mu\), while
+\(Z\sim\nu\) is exactly the product source law. This coupling,
+not a claim of global total-variation mixing, will transfer simulation.

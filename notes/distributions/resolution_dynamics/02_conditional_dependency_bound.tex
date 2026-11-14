@@ -1,0 +1,95 @@
+\subsection{A dependency bound conditional on the complete final input}
+\label{resolution-dynamics:conditional-bound}
+
+A random threshold map is \emph{oblivious} when it is constant on
+all neighbor assignments. Put
+\[
+ p_i^-:=\min_\eta p_i(\eta),\qquad
+ p_i^+:=\max_\eta p_i(\eta),\qquad
+ \rho:=1-e^{-4\beta\Lambda}.
+\]
+We first need a posterior bound, stronger than the usual unconditional
+probability that an update is not oblivious.
+
+\begin{lemma}[Posterior activity bound]
+\label{lem:resolution-dynamics-posterior-activity}
+Conditional on any complete stationary spin trajectory, the forward
+random maps are independent across update events. Each map is
+nonoblivious with conditional probability at most \(\rho\).
+Consequently, for any fixed set \(A\) of distinct update events and
+every final configuration \(x\),
+\[
+ \Pr[\text{every event in }A\text{ is nonoblivious}\mid X=x]
+ \le\rho^{|A|}.
+ \tag{PA}
+\]
+\end{lemma}
+
+\begin{proof}
+Given the trajectory, the prior product map law is conditioned on one
+separate constraint per event: its map sends the recorded neighbor
+configuration to the recorded new spin. These constraints involve
+disjoint source blocks, proving conditional independence. The initial
+weight \(\mu(W^0)\) is constant under this conditioning.
+
+At an event with recorded neighbors \(\eta\) and new spin \(+1\),
+the posterior uniform variable lies in \([0,p_i(\eta)]\). Thus the
+nonoblivious probability is
+\[
+ \frac{p_i(\eta)-p_i^-}{p_i(\eta)}
+ \le1-\frac{p_i^-}{p_i^+}.
+\]
+For new spin \(-1\), it is at most
+\(1-(1-p_i^+)/(1-p_i^-)\). These formulas are equally valid for
+the finite random-map distribution, by summing its threshold intervals.
+
+The function \(a\mapsto\log[(1+\tanh a)/2]\) has derivative in
+\([0,2]\). The local fields in \(p_i\) span an interval of length
+at most \(2\beta\Lambda\). The same derivative bound applies to
+the logarithm of the probability of \(-1\), with the sign reversed.
+Therefore
+\[
+ \frac{p_i^-}{p_i^+}\ge e^{-4\beta\Lambda},\qquad
+ \frac{1-p_i^+}{1-p_i^-}\ge e^{-4\beta\Lambda}.
+\]
+This proves the uniform posterior activity bound, regardless of the
+external field. Multiply it over \(A\) conditional on the trajectory,
+then average over trajectories conditional on \(X=x\), obtaining
+(PA). No independence conditional on \(X=x\) alone is asserted.
+\end{proof}
+
+\begin{lemma}[Conditional coupling error after whole sweeps]
+\label{lem:resolution-dynamics-coupling}
+For every site \(i\) and every final configuration \(x\),
+\[
+ \Pr[F_L(Z)_i\ne x_i\mid X=x]\le\theta^L,
+ \qquad \theta=D\rho.
+ \tag{CE}
+\]
+\end{lemma}
+
+\begin{proof}
+If the coupled final spins disagree at \(i\), their last update map
+is nonoblivious, and at least one neighbor disagreed immediately before
+that update. Follow such a neighbor to its most recent prior update,
+and continue backwards until the initial configuration is reached.
+Every visited update is nonoblivious. Update times strictly decrease,
+so the events in this path are distinct.
+
+Label each event by its sweep number and site color. Moving backwards
+to a neighbor's last update decreases the sweep number by zero or one:
+an earlier color was updated in the same sweep, and a later color in
+the preceding sweep. A path from a final event in sweep \(L\) to
+the initial boundary therefore contains at least \(L\) update events.
+This observation is why whole sweeps, rather than an unspecified
+global mixing time, are used.
+
+There are at most \(D^{L-1}\) possible length-\(L\) prefixes from
+the fixed final event. Their vertices and times are determined by the
+schedule and the chosen neighbor sequence, independently of the maps.
+By (PA) each such prefix is wholly nonoblivious with probability at
+most \(\rho^L\), even conditional on all of \(X=x\). A union bound
+gives \(D^{L-1}\rho^L\le\theta^L\). A prefix cannot reach the
+initial boundary in fewer than \(L\) events. For an isolated site
+the update map is oblivious, so the claimed bound also holds.
+\end{proof}

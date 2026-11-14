@@ -1,0 +1,236 @@
+\subsection{A uniform weighted interaction bound}
+\label{quantum-clusters:effective}
+
+Let \(V=[n]\) index finite-dimensional sites.  Consider a Hermitian
+Hamiltonian
+\[
+ H=\sum_{A\in\mathcal A}h_A,\qquad
+ 1\le |A|\le k,\qquad
+ \Lambda=\max_{i\in V}\sum_{A\ni i}\|h_A\|,
+ \tag{QH}
+\]
+where \(h_A\) is supported on \(A\), \(\mathcal A\) is finite, and the
+norm is the operator norm.  Multiple labelled terms with the same
+support are allowed.  Scalar terms may be discarded.  No commutativity,
+geometric locality, or degree bound is assumed.  In particular,
+\(\Lambda\) includes one-site terms.
+
+Fix \(\beta\ge0\).  For each site and each \(x_i\in\{-1,1\}\), let \(\varphi_{i,x_i}\)
+be a positive normalized linear functional on the local operator
+algebra, and put
+\[
+ \varphi_x=\bigotimes_{i\in V}\varphi_{i,x_i},\qquad
+ F_\beta(x)=\varphi_x(e^{-\beta H}),\qquad
+ V_\beta(x)=\log F_\beta(x).
+\]
+Positivity and normalization imply \(|\varphi_x(B)|\le\|B\|\),
+and \(F_\beta(x)>0\) for real \(\beta\).  Define Walsh coefficients
+using the uniform measure on \(\{-1,1\}^V\).
+
+\begin{theorem}[Noncommuting interactions give a small classical potential]
+\label{thm:quantum-clusters-potential}
+Assume $\beta\ge0$, and set
+\[
+ c_* = 2+\tfrac12\log 2,
+ \qquad L=\beta\Lambda e^{c_* k}.
+\]
+If \(e k L<1\) and
+\(R:=eL/(1-ekL)\le1\), then
+\[
+ \max_i\sum_{S\ni i}(|S|-1)
+       |\widehat V_\beta(S)|\le R.
+ \tag{QW}
+\]
+In particular,
+\[
+ \boxed{\quad
+ \beta\Lambda\le
+ \frac{e^{-k(2+\frac12\log2)}}{32ek}
+ \quad\Longrightarrow\quad
+ \max_i\sum_{S\ni i}(|S|-1)
+       |\widehat V_\beta(S)|\le\frac1{31k}<\frac18.
+ \quad}
+ \tag{QT}
+\]
+All bounds are independent of \(n\), the dimensions of the local
+Hilbert spaces, the number of terms incident to a site, and the chosen
+product functionals.  The constants are sufficient bounds, without a
+claim of optimality.
+\end{theorem}
+
+\subsubsection{The exact polymer representation}
+
+A polymer \(\gamma\) is a nonempty multiset of term labels whose
+occurrence-overlap graph is connected.  Its multiplicities are
+\(m_A\), its total multiplicity is \(m=\sum_A m_A\), and its support
+is \(B_\gamma=\bigcup_{m_A>0}A\).  The occurrence-overlap graph has
+one vertex per occurrence; two vertices are joined when their term
+supports intersect.  Two polymers are incompatible exactly when their
+supports intersect, including self-incompatibility.
+
+Let \(\mathcal O(\gamma)\) be the set of distinct orderings of its
+multiset of term labels.  Define the function
+\[
+ w_\gamma(x)=\frac{(-\beta)^m}{m!}
+    \sum_{(A_1,\ldots,A_m)\in\mathcal O(\gamma)}
+        \varphi_x(h_{A_1}\cdots h_{A_m}).
+ \tag{QA}
+\]
+It depends only on \(x_{B_\gamma}\).  Because
+\(|\mathcal O(\gamma)|=m!/\prod_A m_A!\),
+\[
+ a_\gamma:=\|w_\gamma\|_\infty
+ \le\prod_A\frac{(\beta\|h_A\|)^{m_A}}{m_A!}.
+ \tag{QM}
+\]
+The function is real: reversal pairs each word with its adjoint, while
+the sum includes both words.  The arguments below also allow complex
+activities, so reality is not required for convergence.
+
+Expanding \(e^{-\beta H}\) in ordered words and separating each word
+multiset into its connected overlap components gives the exact identity
+\[
+ F_\beta(x)=
+ \sum_{\substack{\Gamma\text{ a finite family of polymers}\\
+                  B_\gamma\cap B_{\gamma'}=\varnothing
+                  \text{ for }\gamma\ne\gamma'}}
+                  \prod_{\gamma\in\Gamma}w_\gamma(x).
+ \tag{QP}
+\]
+Here the empty family contributes one.  To verify the coefficient,
+fix internal ordered words of lengths \(m_1,\ldots,m_r\) in disjoint
+components.  There are \(m!/(m_1!\cdots m_r!)\) interleavings.
+Operators on the distinct supports commute, and \(\varphi_x\) factors
+over them.  Thus the Taylor denominator \(m!\) becomes exactly the
+product of denominators in (QA).  Every multiset has a unique component
+decomposition, so there is no additional multiplicity.  Absolute
+convergence follows already from the Taylor majorant
+\(\exp(\beta\sum_A\|h_A\|)\) for fixed finite \(V\).
+
+\subsubsection{A connected-polymer count without a degree bound}
+
+For \(c\ge0\), put
+\[
+ R_i(c)=\sum_{\gamma:\,i\in B_\gamma}a_\gamma e^{c|B_\gamma|},
+ \qquad L_c=\beta\Lambda e^{ck}.
+\]
+Then
+\[
+ R_i(c)\le
+ L_c\sum_{m\ge1}\frac{m^{m-1}}{m!}(kL_c)^{m-1}
+ \le\frac{eL_c}{1-ekL_c}
+ \quad\text{if }ekL_c<1.
+ \tag{QR}
+\]
+We give the count to make explicit why no unweighted degree enters.
+Write \(t_A=\beta\|h_A\|e^{c|A|}\).  Since
+\(|B_\gamma|\le\sum_A m_A|A|\), (QM) is majorized after weighting
+by \(\prod_A t_A^{m_A}/m_A!\).  Multisets of size \(m\) can be
+summed as \(1/m!\) times a sum over ordered \(m\)-tuples of labels,
+including repetitions.  A support containing \(i\) has at least one
+occurrence containing \(i\), so root the occurrence tree at one of at
+most \(m\) choices.  For \(m\ge2\), a connected occurrence graph
+has a spanning tree, and there are \(m^{m-2}\) labelled trees.
+For a fixed tree, sum label assignments from the leaves towards its
+root.  The root-label sum is at most \(L_c\); for each fixed parent
+label \(A\),
+\[
+ \sum_{A':\,A'\cap A\ne\varnothing}t_{A'}
+ \le\sum_{j\in A}\sum_{A'\ni j}t_{A'}\le kL_c.
+\]
+This proves the first bound in (QR); its \(m=1\) term is interpreted
+as \(L_c\).  Finally,
+\(m^{m-1}/m!\le e^m\) gives the geometric-series bound.
+
+\subsubsection{The cluster expansion and its sitewise bound}
+
+We use the following standard abstract-polymer fact.  If nonnegative
+majorants \(z_\gamma\) and weights \(b_\gamma\) obey
+\[
+ \sum_{\gamma':\,B_{\gamma'}\cap B_\gamma\ne\varnothing}
+     z_{\gamma'}e^{b_{\gamma'}}\le b_\gamma,
+ \tag{QKP}
+\]
+the logarithmic polymer expansion converges absolutely and its pinned
+derivative satisfies
+\[
+ \Pi_\gamma(z):=
+ \sum_{r\ge1}\frac1{(r-1)!}
+    \sum_{\gamma_2,\ldots,\gamma_r}
+    |\phi^T(\gamma,\gamma_2,\ldots,\gamma_r)|
+       \prod_{j=2}^r z_{\gamma_j}
+ \le e^{b_\gamma}.
+ \tag{QPIN}
+\]
+Here \(\phi^T\) is one for \(r=1\), and otherwise is the alternating
+sum over connected spanning subgraphs of the incompatibility graph.
+This is the Koteck\'y--Preiss bound in the pinned-derivative formulation;
+see Fern\'andez--Procacci,
+\href{https://arxiv.org/pdf/math-ph/0605041}{equations (2.7) and
+(2.12)--(2.15)}.  Their result permits countably many polymers,
+self-incompatibility, and complex activities dominated by \(z\).
+
+Let \(t_*=1+\frac12\log2\), so \(c_*=t_*+1\).  Apply this
+criterion with
+\[
+ z_\gamma=a_\gamma e^{t_*|B_\gamma|},
+ \qquad b_\gamma=|B_\gamma|.
+\]
+By (QR) and the theorem's assumptions,
+\[
+ \sum_{\gamma'\not\sim\gamma}z_{\gamma'}e^{b_{\gamma'}}
+ \le\sum_{i\in B_\gamma}R_i(c_*)
+ \le |B_\gamma|R\le b_\gamma.
+\]
+Thus (QKP) holds.  For an ordered cluster
+\(C=(\gamma_1,\ldots,\gamma_r)\), write
+\(B_C=\bigcup_{j=1}^r B_{\gamma_j}\).  Its contribution to
+\(\log F_\beta\) is
+\[
+ f_C(x)=\frac{\phi^T(\gamma_1,\ldots,\gamma_r)}{r!}
+             \prod_{j=1}^r w_{\gamma_j}(x).
+ \tag{QC}
+\]
+Summing over all ordered clusters, including repeated polymers, is the
+usual convention.  Because \(|B_C|\le\sum_j|B_{\gamma_j}|\),
+rooting at any member whose support contains \(i\) and using (QPIN)
+gives
+\begin{align*}
+ \sum_{C:\,i\in B_C}e^{t_*|B_C|}\|f_C\|_\infty
+ &\le \sum_{\gamma:\,i\in B_\gamma}z_\gamma\Pi_\gamma(z)\\
+ &\le \sum_{\gamma:\,i\in B_\gamma}
+               a_\gamma e^{c_*|B_\gamma|}
+ \le R.
+ \tag{QS}
+\end{align*}
+For clarity, the first inequality may count a cluster more than once.
+Summing the possible root positions changes \(1/r!\) into
+\(1/(r-1)!\), which is exactly the pinned series, so the direction
+of the bound is correct.
+
+These estimates justify the identity
+\(V_\beta=\sum_C f_C\) with uniform absolute convergence on the
+finite cube.  Indeed, (QS) summed over sites bounds the total absolute
+series by \(nR\).  The logarithm is the branch equal to zero at
+\(\beta=0\); since \(F_\beta>0\) on the real interval from zero
+to the stated \(\beta\), it is the ordinary real logarithm there.
+
+\subsubsection{From local cluster functions to Fourier interactions}
+
+For any real or complex function \(f\) supported on a set \(B\),
+Parseval and Cauchy--Schwarz give
+\[
+ \sum_{S\subseteq B}|\widehat f(S)|
+ \le 2^{|B|/2}\|f\|_{L^2(U_B)}
+ \le 2^{|B|/2}\|f\|_\infty.
+\]
+Therefore, for \(i\in B\),
+\[
+ \sum_{S\ni i}(|S|-1)|\widehat f(S)|
+ \le (|B|-1)2^{|B|/2}\|f\|_\infty
+ \le e^{t_*|B|}\|f\|_\infty.
+\]
+The last bound is harmless when \(|B|=1\), where the left side is
+zero.  Apply this to each \(f_C\), sum absolute values, and invoke
+(QS).  This proves (QW).  Under (QT), \(ekL\le1/32\) and
+\(R\le1/(31k)\), proving the final assertion. \qed

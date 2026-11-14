@@ -1,0 +1,79 @@
+\subsection{What is established, and what remains a research question}
+\label{sec:resolution-status}
+
+The target throughout is acceptance simulation by a deterministic
+classical tree of depth polynomial in quantum query count and inverse
+mean error, uniformly in input dimension. Positive assertions import
+uniform-input AA as stated in Section~\ref{tht:target}. They do not
+assert efficient classical computation. For a fixed finite Hamiltonian
+the query question is vacuous after reading all spins; the substantive
+statements concern families as dimension grows.
+
+The proved structural picture is as follows.
+\begin{enumerate}
+\item Independent bounded-size components and a fixed number of
+permutation-symmetric spin species satisfy full AA at every
+temperature, by the product and simultaneous-slice simulation
+theorems. The latter includes the previously stated symmetric quantum
+families measured in the specified common product basis. Classical
+Ising forests satisfy it at every fixed finite temperature with
+uniformly bounded edge strength, even with arbitrary degree and fields.
+\item Classical interactions have a uniform positive region
+$\beta\max_i\sum_{A\ni i,\,|A|\ge2}(|A|-1)|J_A|\le1/8$,
+by Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, without
+a degree or arity restriction and with arbitrary fields. Its source is
+subcritical propagation of query dependencies, including after
+conditioning on the entire observed input.
+\item For general, possibly noncommuting $k$-local quantum Hamiltonians,
+binary product measurements satisfy full AA whenever
+$\beta\Lambda\le e^{-k(2+\frac12\log2)}/(32ek)$, where
+$\Lambda=\max_i\sum_{A\ni i}\|h_A\|$ includes physical one-site
+terms (Corollary~\ref{cor:quantum-clusters-full-aa}). The proof controls
+every effective classical interaction via a convergent expansion.
+\item Bounded-degree pairwise Ising Hamiltonians can violate full AA
+at low temperature, even with every auxiliary spin queryable
+(Theorem~\ref{res:pairwise-theorem}). Thus bounded interaction order,
+degree, or incident strength alone is not an all-temperature criterion.
+\item Without locality, a fixed soft-code Hamiltonian fails at every
+fixed $\beta>0$ (Section~\ref{threshold:obstructions}), while
+the preceding three-level example has a disconnected positive
+temperature set. At $\beta=0$ every finite Hamiltonian gives uniform
+measurement outcomes and therefore satisfies the imported uniform AA
+theorem. Consequently no finite Hamiltonian family can fail at every
+$\beta\ge0$ in this convention.
+\end{enumerate}
+
+The obstruction is not order or a thermodynamic singularity by itself:
+the positive symmetric examples may order. The explicit negative
+families retain a growing hidden code label that a coherent query can
+test while a few classical coordinate answers cannot identify enough
+of it. The positive constructions instead expose a source whose
+queries can be simulated locally, including its posterior given the
+physical input.
+
+This also answers the generalized-influence question constructively.
+The high-temperature proof uses influences of random update maps and
+their selected parent sets, and bounds their expected size even under
+posterior conditioning. It is therefore a successful source-based
+replacement for physical single-spin influence. For more general
+laws, the reveal-progress criterion of
+Section~\ref{tht:reveal} gives the exact hereditary simulation
+criterion; bounded-size physical flip or resampling influence is too
+restrictive, as shown by the ordered mean-field and parity examples.
+
+These results do not give exact critical temperatures for the sparse
+code Hamiltonians, an all-temperature classification of ferromagnetic
+graphs, or the maximal high-temperature regime of measured quantum
+Gibbs states. Those questions remain distinct from the proved positive
+regions and counterexamples. The notes therefore do not claim a
+complete classification of arbitrary Hamiltonians.
+
+The normalization matters for the phrase ``no positive temperature
+works.'' Rescaling the bounded-degree pairwise counterexample by
+$\log N$ makes it fail at every fixed $\beta>0$, but lets its coupling
+strengths grow with dimension. In contrast, the theorems above rule
+out such all-positive-$\beta$ failure for fixed-order families with
+uniformly bounded incident strength, including noncommuting ones
+under product measurement. The previously constructed global soft-code
+example instead has bounded spin-flip energy changes and unbounded
+interaction order.

@@ -1,4 +1,4 @@
-\subsection{What Hamiltonian structure to look for next}
+\subsection{Structural criteria and remaining sharpness questions}
 \label{tht:program}
 
 The positive and negative results suggest examining four distinct
@@ -49,28 +49,35 @@ for fixed $\kappa$. A stronger quantitative version asks for a bound
 polynomial also in $1/\kappa$. These are conjectures here, not imported
 consequences of uniqueness or mixing.
 
-The general bounded-order version should use the sum of influences of
-one boundary spin on another conditional spin, or a suitable normalized
-interaction bound. For measured quantum Gibbs laws, a plausible
-high-temperature conjecture assumes bounded locality $k$ and bounded
-per-site sum of term norms $s$, with $\beta s<c(k)$, in a fixed product
-measurement basis. Known thermal preparation, correlation-decay, and
-separability results motivate this conjecture but do not prove it.
-The literature audit below records what these theorems actually state.
+The later resolution proves an absolute subregion of this conjecture:
+$\beta\max_i\sum_j|J_{ij}|\le1/8$ suffices, with no degree bound
+and arbitrary fields. More generally,
+Theorem~\ref{thm:resolution-dynamics-arbitrary-degree} uses the
+weighted incident sum $\beta\max_i\sum_{A\ni i}(|A|-1)|J_A|$.
+It does not establish the whole stated Dobrushin regime.
+
+For measured quantum Gibbs laws, the bounded-locality and bounded
+per-site term-norm hypothesis is now sufficient at an explicit small
+constant: Corollary~\ref{cor:quantum-clusters-full-aa} proves the
+result for noncommuting interactions and binary product POVMs. The
+proof controls the effective classical potential, then supplies both
+forward query access and local posterior access. The earlier thermal
+preparation and correlation results alone were insufficient to supply
+those steps.
 
 The clearest proof target is therefore not ``mixing implies AA,'' but
 one of two concrete bridges: derive polynomial reveal progress under
 every pinning, or construct forward oracle access together with local
 posterior access and a dimension-free quantum hybrid error bound.
 Forests demonstrate the latter bridge even beyond a uniqueness regime.
-Finite-range loopy Ising models, including a sharp full-AA threshold
-for any such family, remain open in this investigation.
+Bounded-degree loopy Ising models now have a proved high-temperature
+regime, and explicit signed pairwise families fail at low temperature.
+A sharp boundary for those local counterexamples remains unproved.
 
-Finally, no monotonicity of the full-AA property in $\beta$ has been
-proved for arbitrary Hamiltonians. The allowed set of temperatures need
-not be declared an interval without a model-specific argument. There
-are already three rigorously distinct patterns in this dossier:
-all-temperature simulation, a finite positive threshold, and simulation
-only at $\beta=0$ among fixed nonnegative inverse temperatures. The
-obstruction is computational structure becoming accessible to coherent
-queries, not a universal thermodynamic critical point.
+Finally, Section~\ref{sec:resolution-nonmonotone} disproves general
+monotonicity: one extensive Hamiltonian has full AA exactly on
+$[0,1)\cup(2,\infty]$. Thus the dossier establishes all-temperature
+simulation, a finite positive threshold, simulation only at $\beta=0$
+among fixed nonnegative inverse temperatures, and a disconnected
+positive temperature set. No universal thermodynamic critical point
+describes these possibilities.

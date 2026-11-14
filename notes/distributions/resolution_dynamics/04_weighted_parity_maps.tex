@@ -1,0 +1,163 @@
+\subsection{Removing the degree factor from the temperature condition}
+\label{resolution-dynamics:weighted-maps}
+
+Threshold maps give a simple proof, but they may inspect every neighbor
+whenever they are nonconstant. A different exact update representation
+controls the expected number of inspected neighbors by the incident
+interaction strength itself.
+
+\begin{theorem}[A degree-independent sufficient temperature]
+\label{thm:resolution-dynamics-weighted}
+Fix \(D<\infty\) and \(k\ge2\). Let
+\[
+ H(x)=-\sum_A J_A\prod_{i\in A}x_i
+\]
+have interactions of size at most \(k\), arbitrary one-spin fields,
+and an interaction graph of maximum degree at most \(D\), where two
+spins are adjacent when they share a nonzero interaction. Set
+\[
+ K=\beta\max_i\sum_{A\ni i,\,|A|\ge2}|J_A|.
+\]
+If \(K\le1/[8(k-1)]\), the Gibbs laws have hereditary full AA with
+query bound \(\operatorname{poly}_{D,k}(T,1/e)\), uniformly over all
+finite fields and all model parameters satisfying this inequality.
+For pair interactions, the sufficient condition is simply
+\(\beta\Lambda\le1/8\).
+\end{theorem}
+
+The temperature bound does not depend on graph degree, but the query
+polynomial still may: this theorem does not cover a degree bound growing
+with input dimension.
+
+\textbf{Two elementary norms.}
+For a function on a finite Boolean cube, write
+\(f=\sum_S\widehat f(S)\chi_S\), and set
+\[
+ \|f\|_A=\sum_S|\widehat f(S)|,\qquad
+ W(f)=\sum_S|S|\,|\widehat f(S)|.
+\]
+Since \(\chi_S\chi_T=\chi_{S\triangle T}\),
+\[
+ \|fg\|_A\le\|f\|_A\|g\|_A,\qquad
+ W(fg)\le W(f)\|g\|_A+\|f\|_AW(g).
+ \tag{WA}
+\]
+All Fourier coefficients and norms here concern only the at most
+\(D\) neighbors of one site.
+
+\begin{lemma}[An exact sparse-support update law]
+\label{lem:resolution-dynamics-parity-law}
+Let the conditional mean of one spin be
+\(m(x)=\tanh(h+u(x))\), where
+\(u\) has no constant term,
+\(\|u\|_A\le K\le1/8\), and
+\(W(u)\le(k-1)K\). There is an exact random map with conditional
+mean \(m(x)\) that is either constant or a signed parity of a subset
+of the neighbors. If \(S\) is that subset (empty for a constant map),
+then, conditional on any neighbor assignment and either resulting spin,
+\[
+ \mathbb E[|S|\mid\text{neighbors, resulting spin}]
+ \le (k-1)\chi(K),\qquad
+ \chi(K)=\frac{4e^{2K}K\sec^2K}{(1-\tan K)^2}.
+ \tag{PS}
+\]
+\end{lemma}
+
+\begin{proof}
+Write \(r=\tanh h\) and \(v=\tanh u\). The absolute values of
+the Taylor coefficients of \(\tanh z\) are the positive Taylor
+coefficients of \(\tan z\). This follows from
+\(\tanh z=-i\tan(iz)\); positivity of the latter coefficients also
+follows recursively from \((\tan z)'=1+(\tan z)^2\). The series
+converge absolutely in the norm \(\|\cdot\|_A\) for \(K<\pi/2\).
+Using (WA) termwise gives
+\[
+ \|v\|_A\le t:=\tan K,
+ \qquad W(v)\le(k-1)K\sec^2 K.
+\]
+The addition formula and a convergent geometric series yield
+\[
+ m=r+(1-r^2)\frac{v}{1+rv},\qquad
+ \|m-r\|_A\le\frac{(1-r^2)t}{1-|r|t},\qquad
+ W(m)\le\frac{(1-r^2)(k-1)K\sec^2K}{(1-|r|t)^2}.
+ \tag{PM}
+\]
+
+Write \(m=\sum_S c_S\chi_S\) and
+\(A=\sum_{S\ne\varnothing}|c_S|\). Since \(t\le1/3\),
+\[
+ |c_\varnothing|+A
+ \le |r|+\frac{(1-r^2)t}{1-|r|t}\le1.
+\]
+Thus the following probabilities define an actual random map:
+choose \(\operatorname{sign}(c_S)\chi_S\) with probability
+\(|c_S|\) for each nonempty \(S\), and choose the constant maps
+\(+1\) and \(-1\) with respective probabilities
+\((1+c_\varnothing-A)/2\) and
+\((1-c_\varnothing-A)/2\). Its pointwise mean is exactly \(m\),
+so it is the heat-bath update law.
+
+Every possible output spin, on every neighbor assignment, has
+probability at least
+\[
+ \frac{1-\tanh(|h|+K)}2
+ \ge\frac{(1-|r|)e^{-2K}}2.
+\]
+The unconditioned expected support size is \(W(m)\). Conditioning
+on any particular output can increase its expectation by at most the
+inverse of that output probability. Divide the last bound in (PM) by
+this probability and use \(1+|r|\le2\) and
+\(1-|r|t\ge1-t\) to obtain (PS).
+\end{proof}
+
+\textbf{Uniform contraction constant.}
+For \(0\le K\le1/8\), the elementary inequalities
+\[
+ e^{2K}\le4/3,\qquad \sec^2K\le16/15,
+ \qquad\tan K\le2/15
+\]
+give \(\chi(K)\le(1280/169)K\). For example,
+\(\cos K\ge1-K^2/2\ge127/128\) and \(\sin K\le K\)
+prove the tangent bound; \(\cos^2K\ge1-K^2\) proves the secant
+bound. Consequently the theorem's assumption gives
+\[
+ \vartheta:=(k-1)\chi(K)\le160/169<1.
+ \tag{PC}
+\]
+
+\textbf{Proof of Theorem~\ref{thm:resolution-dynamics-weighted}.}
+At every site apply the lemma to its interaction field
+\(u_i=\beta\sum_{A\ni i,\,|A|\ge2}J_A\chi_{A\setminus\{i\}}\).
+It satisfies the stated norm bounds. Use independent parity-map
+choices in the same proper-color schedule as before. There are at
+most \(2^D-1\) nonconstant maps and two constant maps, again encoded
+by \(D+1\) bits of an arbitrary source-block law. Conditional on the
+complete spin trajectory these map blocks are independent, just as
+for the threshold maps.
+
+To trace a disagreement backwards through an event, only neighbors in
+its selected subset \(S\) need be considered. Conditional on the
+trajectory, the expected number of such parents is at most
+\(\vartheta\), uniformly at every event. Expanding all possible
+dependency paths, the expected number of surviving paths of length
+\(L\) is at most \(\vartheta^L\): along each path event times
+strictly decrease, so its map blocks are distinct and independent
+under this conditioning; summing over each next parent uses (PS).
+Repeated vertices reached by different paths do not affect this
+first-moment argument. Any dependence on the initial configuration
+after \(L\) whole sweeps requires such a path. Averaging over
+trajectories conditional on the full final input therefore gives
+\[
+ \Pr[F_L(Z)_i\ne X_i\mid X=x]\le\vartheta^L.
+\]
+
+All deterministic forward cones and the exact reverse-history
+posterior oracle from the previous proof are unchanged. In particular,
+sampling a forward parity map conditional on its local neighbors and
+new spin uses only those local values, regardless of how small its
+prior weight is. Choose \(L\) using the fixed bound \(160/169\),
+and apply the same query bound (QC). It is a polynomial for fixed
+\(D,k\). Pinning can only reduce interaction sizes, primal degree,
+and the sum of incident nonconstant coupling magnitudes; terms that
+become fields are allowed freely. Thus the assertion is uniform over
+pinnings as well. \qed

@@ -1,0 +1,187 @@
+\subsection{Removing the degree and arity restrictions}
+\label{resolution-dynamics:arbitrary-degree}
+
+The product-alphabet theorem permits an entire random update map to be
+one source symbol. Truncating the number of explored events then removes
+the graph-degree dependence from the preceding proof.
+
+\begin{theorem}[Full AA at bounded weighted interaction strength]
+\label{thm:resolution-dynamics-arbitrary-degree}
+Let
+\[
+ H(x)=-\sum_{|A|\ge2}J_A\prod_{i\in A}x_i-\sum_i h_ix_i,
+ \qquad
+ \omega=\beta\max_i\sum_{\substack{A\ni i\\|A|\ge2}}
+                       (|A|-1)|J_A|\le1/8.
+\]
+For finite parameters and \(\beta\ge0\), every \(T\)-query quantum
+acceptance function under \(\mu(x)\propto e^{-\beta H(x)}\) has a
+deterministic classical simulator of mean error \(e\), using
+\(O(T^{18}e^{-28})\) individual-spin queries. Here \(T\ge1\),
+\(0<e<1\), and the implied constant is absolute, independent of
+dimension, degree, arity, signs, and fields. The bound is uniform after
+arbitrary positive-probability pinnings.
+\end{theorem}
+
+This is a sufficient high-temperature theorem, not a sharp threshold
+or the entire Dobrushin region. For pair interactions its hypothesis is
+\(\beta\max_i\sum_j|J_{ij}|\le1/8\). Computation is free; large
+symbols appear only in the internal source reduction.
+
+\begin{proof}
+\textbf{Uniform map estimate.}
+Write the conditional mean at site \(i\) as
+\(m_i(\eta)=\tanh(\beta h_i+u_i(\eta))\). Its unweighted and
+weighted Fourier norms satisfy
+\[
+ \|u_i\|_A\le K_i:=\beta\sum_{A\ni i}|J_A|\le\omega,
+ \qquad W(u_i)\le w_i:=\beta\sum_{A\ni i}(|A|-1)|J_A|\le\omega,
+\]
+where these sums omit one-spin terms. The proof of
+Lemma~\ref{lem:resolution-dynamics-parity-law}, replacing
+\((k-1)K\) by \(w_i\), gives a random signed-parity-or-constant
+heat-bath map \(M_i\). If \(S(M_i)\) is its support and
+\(p_i(y\mid\eta)=\Pr[M_i(\eta)=y]\), that proof gives
+\[
+ \frac{\mathbb E|S(M_i)|}{p_i(y\mid\eta)}
+ \le\frac{4e^{2K_i}w_i\sec^2K_i}{(1-\tan K_i)^2}
+ \le\frac{1280}{169}w_i
+ \le\vartheta:=\frac{160}{169}<1.                 \tag{WR}
+\]
+The numerator is the \emph{unconditional} expected support size.
+Thus both the unconditional and output-conditioned expected support
+are at most \(\vartheta\), uniformly over all neighbor assignments.
+
+\textbf{Forward truncation.}
+Choose any proper coloring of the interaction graph, possibly with
+\(n\) colors. Run \(L\) whole heat-bath sweeps from a stationary
+initial state using independent map symbols \(Z\), and call the
+final input \(X\). Using the same symbols from all-plus defines
+\(F_L(Z)\). Conditional on the complete stationary trajectory, map
+symbols remain independent, each constrained only to produce its
+recorded output on its recorded neighbors. Their conditional expected
+support is bounded by (WR).
+
+A disagreement follows a chain of selected parents backwards through
+strictly decreasing event times. Reaching the initial boundary takes
+at least \(L\) expansions, since a parent step decreases the sweep
+number by at most one. Expanding all paths, conditional independence
+along each path and (WR) bound the expected number of paths of length
+\(r\) by \(\vartheta^r\). Distinct paths may share events; linearity
+of expectation suffices. Thus, conditional on every full final input,
+\[
+ \Pr[F_L(Z)_i\ne x_i\mid X=x]\le\vartheta^L,
+ \qquad
+ \mathbb E[N_i\mid X=x]\le(1-\vartheta)^{-1},     \tag{FW}
+\]
+where \(N_i\) counts all nodes in the unrolled evaluation tree,
+including initial-boundary nodes. These inequalities follow first
+conditional on the entire trajectory, and then by averaging.
+
+Stop evaluation after \(B\) visited nodes, returning a fixed spin on
+overflow. The resulting map \(F_{L,B}\) is defined on the entire
+product alphabet. One coherent output query costs at most \(2B\)
+symbol queries by computing and uncomputing. Reading a map returns its
+whole support; manipulating that support or a long time index is free
+computation. Markov's inequality gives
+\[
+ \Pr[F_{L,B}(Z)_i\ne x_i\mid X=x]
+ \le\vartheta^L+[B(1-\vartheta)]^{-1}.             \tag{TF}
+\]
+
+\textbf{Posterior access without inspecting all neighbors.}
+Given \(x\), construct the stationary history backwards, with
+independent reverse parity maps in reverse color order. Each color
+kernel is conditional resampling and hence self-adjoint; this is the
+exact conditional history law even though a complete ordered sweep
+need not be reversible. A history spin is evaluated recursively through
+the selected supports of reverse maps, ending at queried spins of
+\(x\). Cache maps and computed values.
+
+For a new forward-symbol request at event \((t,i)\), first obtain
+its resulting history spin \(y\). Independently propose a map from
+its prior law. A constant proposal can be tested without any neighbor;
+otherwise obtain only the history spins in its support. Reject if the
+output differs from \(y\), and repeat until success. Cache the
+accepted forward symbol. Use separate independent proposal tapes for
+different forward events, and keep them independent of all reverse
+maps.
+
+Conditional on the complete history, this is exact rejection sampling
+of the forward-map posterior. If \(\tau\) is the first successful
+proposal, then
+\[
+ \mathbb E\left[\sum_{r=1}^{\tau}|S(M_i^{(r)})|
+       \mathrel{\Big|}\text{complete history}\right]
+ =\frac{\mathbb E|S(M_i)|}{p_i(y\mid\eta)}
+ \le\vartheta.                                   \tag{REJ}
+\]
+The identity sums the geometric probabilities of previous failures;
+it does not assume support size is independent of acceptance. Very
+rare outputs may require many constant proposals, which cost no
+queries. Finite parameters give positive success probability.
+
+For a source tree with at most \(s\) symbol requests, let \(R\)
+count its requested history-spin roots: one resulting spin for each
+new source event and all neighbor roots from its proposals. Conditional
+on the complete history, a newly requested event's proposal tape is
+independent of the earlier source transcript. Therefore (REJ) also
+applies to adaptively chosen events, giving
+\[
+ \mathbb E[R\mid X=x]\le s(1+\vartheta).          \tag{ROOT}
+\]
+
+Now use the filtration of the \emph{actual lazy computation}, not
+conditioning on its unexposed history. A fresh reverse map is still
+independent of exposed information: every returned source symbol was
+determined from exposed history values and independent proposal coins.
+It creates at most \(\vartheta\) children in conditional expectation.
+Let \(N\) count processed history-request nodes, including cache hits
+and final-boundary queries. Queue accounting, stopped after \(M\)
+nodes, yields
+\[
+ (1-\vartheta)\mathbb E[\min(N,M)\mid x]
+ \le\mathbb E[R\mid x].
+\]
+Indeed roots contribute \(R\) nodes, and each inspected fresh reverse
+map contributes its selected children; there are at most
+\(\min(N,M)\) fresh inspections. Monotone convergence gives
+\[
+ \mathbb E[N\mid X=x]
+ \le\frac{s(1+\vartheta)}{1-\vartheta}.           \tag{POST}
+\]
+Every physical query is a boundary-node request. The complete-history
+conditioning in (REJ) bounds the number of requested roots; the exposed
+information filtration bounds reverse exploration. Independence under
+one conditioning has not been transferred to the other.
+
+\textbf{Error and query bounds.}
+Set \(\delta=e^2/(288T^2)\) and choose
+\[
+ L=\left\lceil\frac{\log(1/\delta)}{\log(1/\vartheta)}\right\rceil,
+ \qquad B=\left\lceil[\delta(1-\vartheta)]^{-1}\right\rceil.
+\]
+Then (TF) is at most \(2\delta\), and the quantum hybrid error is
+\(4T\sqrt{2\delta}=e/3\). Apply
+Corollary~\ref{cor:resolution-product-alphabet-aa} to
+\(Q\circ F_{L,B}\) at error \(e/3\). Its source depth is
+\[
+ s=O((BT)^6e^{-15})=O(T^{18}e^{-27}).
+\]
+Run it with the posterior oracle, but abort and return zero if history
+work exceeds
+\(M=\lceil3s(1+\vartheta)/(e(1-\vartheta))\rceil\).
+By (POST) the abort probability is at most \(e/3\), conditional on
+every input. The uncapped procedure supplies the exact source
+posterior, so source simulation, hybrid error, and abort error sum to
+at most \(e\). Physical queries are bounded by
+\(M=O(T^{18}e^{-28})\).
+
+All coins can be fixed in advance independently of \(x\). Averaging
+gives a deterministic simulator; for each finite input space,
+almost-sure termination can simultaneously be required at every input.
+Finally, pinning reduces interaction support sizes; merging residual
+terms obeys the triangle inequality. It therefore cannot increase
+\(\sum_{A\ni i}(|A|-1)|J_A|\). The same absolute bound applies
+under every pinning.
+\end{proof}

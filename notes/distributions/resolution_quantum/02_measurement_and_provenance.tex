@@ -1,0 +1,102 @@
+\subsection{Product measurements and the full-AA reduction}
+\label{quantum-clusters:measurement}
+
+\begin{corollary}[Full AA for measured local quantum Gibbs states]
+\label{cor:quantum-clusters-full-aa}
+Let $H=\sum_A h_A$ have $|A|\le k$ and
+$\Lambda=\max_i\sum_{A\ni i}\|h_A\|$, including one-site terms.
+If
+\[
+ \beta\Lambda\le\frac{e^{-k(2+\frac12\log2)}}{32ek},
+\]
+then the outcomes of any binary product POVM on
+$e^{-\beta H}/\operatorname{Tr}(e^{-\beta H})$ satisfy full AA.
+Every $T$-query acceptance function has a deterministic classical
+simulator with mean error $\epsilon$ using
+$O(T^{18}\epsilon^{-28})$ individual-outcome queries, with an
+absolute implied constant. The same bound holds after arbitrary
+positive-probability outcome pinnings. There is no degree,
+commutativity, or local Hilbert-space dimension restriction.
+\end{corollary}
+
+\begin{proof}
+At each site let \(E_i(+1),E_i(-1)\) be a binary POVM, so
+\(E_i(+1)+E_i(-1)=I\).  The distribution obtained by applying these
+local measurements to the Gibbs state is
+\[
+ \mu_\beta(x)=
+ \frac{\operatorname{Tr}[(\bigotimes_i E_i(x_i))e^{-\beta H}]}
+      {\operatorname{Tr}(e^{-\beta H})}.
+\]
+If all outcome effects have positive trace, set
+\[
+ \tau_i(x_i)=\operatorname{Tr}E_i(x_i),\qquad
+ \varphi_{i,x_i}(B)=
+     \frac{\operatorname{Tr}[E_i(x_i)B]}{\tau_i(x_i)}.
+\]
+These are positive normalized functionals, and the outcome law becomes
+\[
+ \mu_\beta(x)\ \propto\
+ \prod_i\tau_i(x_i)\,
+ \exp\!\left(\sum_{S\subseteq[n]}
+                  \widehat V_\beta(S)\chi_S(x)\right).
+ \tag{QMEAS}
+\]
+The product prefactor adds only one-spin fields and a constant to the
+logarithmic potential.  Consequently it leaves the weighted quantity
+in (QW) unchanged, even if the measurement biases are very large.
+An effect with zero trace is zero, so its outcome is impossible; omit
+that outcome coordinate or regard it as deterministically pinned.
+The same proof applies to the remaining cube, with the fixed local
+functional at the removed coordinate.  Projective measurements in any
+product basis are a special case.
+
+Thus Theorem~\ref{thm:quantum-clusters-potential} reduces these measured
+noncommuting Gibbs laws to classical laws with arbitrary fields and
+\[
+ W=\max_i\sum_{S\ni i}(|S|-1)|J_S|\le\frac1{31k}<\frac18,
+ \qquad J_S=\widehat V_\beta(S)\quad (|S|\ge2).
+\]
+Apply Theorem~\ref{thm:resolution-dynamics-arbitrary-degree} to this
+classical potential, represented at inverse temperature one. This gives
+the stated query bound. No appeal to correlation decay or to classical
+simulability of the underlying quantum Gibbs state is needed.
+It also preserves hereditary versions: fixing measured coordinates
+turns a monomial \(\chi_S\) into a signed monomial on a subset of
+\(S\), and the triangle inequality shows that the remaining weighted
+incident norm cannot increase.
+\end{proof}
+
+For example, the transverse-field Ising Hamiltonian
+$H=-\sum_{ij}J_{ij}Z_iZ_j-\sum_i h_iZ_i-\sum_i g_iX_i$ is covered
+with $k=2$ and
+$\Lambda=\max_i(\sum_j|J_{ij}|+|h_i|+|g_i|)$.
+This includes arbitrary graphs and signs, for a fixed product
+measurement. It establishes a sufficient high-temperature interval,
+not an exact transition temperature.
+
+\subsection{Scope and verification record}
+\label{quantum-clusters:provenance}
+
+The connected-multiset representation, the degree-independent rooted
+tree estimate (QR), and the Fourier-weight conversion (QW) are derived
+in this section.  The imported input is the abstract-polymer convergence
+and pinned bound of Koteck\'y and Preiss, in the explicitly checked
+formulation of Fern\'andez and Procacci,
+\emph{Cluster expansion for abstract polymer models: New bounds from an
+old approach},
+\href{https://arxiv.org/abs/math-ph/0605041}{arXiv:math-ph/0605041},
+Section 2, equations (2.7), (2.12)--(2.15).  That source provides the
+countable-polymer and self-incompatibility conventions used here.
+The original result is Koteck\'y--Preiss,
+\emph{Communications in Mathematical Physics} 103 (1986), 491--498,
+\href{https://doi.org/10.1007/BF01211762}{doi:10.1007/BF01211762}.
+
+This argument concerns a fixed product measurement whose entire outcome
+string is the classical query input.  The bound includes physical
+one-site Hamiltonian terms in \(\Lambda\); it does not assert that
+unbounded noncommuting physical fields can be ignored.  It places no
+computational-time bound on finding the effective coefficients or on
+preparing the Gibbs state.  The temperature constant is deliberately
+conservative.  No claim of novelty relative to the cluster-expansion
+literature is made.
