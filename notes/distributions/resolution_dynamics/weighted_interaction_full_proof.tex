@@ -1,0 +1,1138 @@
+% Assembled from commit 5fb8f18 of github.com/qedsphere/AAconjecture.
+% The text of each part is copied unchanged from notes/distributions/<file>.tex, in this order:
+%   threshold_positive/01_oracle_transfer.tex
+%   threshold_positive/02_arbitrary_blocks.tex
+%   resolution_dynamics/01_theorem_and_setup.tex
+%   resolution_dynamics/02_conditional_dependency_bound.tex
+%   resolution_dynamics/03_local_posterior_and_simulation.tex
+%   resolution_dynamics/04_weighted_parity_maps.tex
+%   resolution_structure/04_product_alphabet_completion.tex
+%   resolution_dynamics/05_arbitrary_degree.tex
+% One edit: the reference to the conventions section in resolution_dynamics/01 points to Section 1.1 of this file.
+\documentclass[11pt]{article}
+% Compile with LuaLaTeX.
+\usepackage[letterpaper,margin=1in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}[Scale=MatchLowercase]
+\setmonofont{TeX Gyre Cursor}[Scale=MatchLowercase]
+\setmathfont{TeX Gyre Pagella Math}
+\usepackage{microtype}
+\usepackage{xcolor}
+\definecolor{ReportBlue}{HTML}{17384B}
+\definecolor{LinkBlue}{HTML}{176078}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{enumitem,fancyvrb,fvextra,upquote,caption}
+\usepackage{titlesec,fancyhdr,needspace}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=LinkBlue,urlcolor=LinkBlue,citecolor=LinkBlue,
+  bookmarksnumbered=true,pdfencoding=auto]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{5pt}
+\setlength{\LTpre}{8pt}
+\setlength{\LTpost}{8pt}
+\renewcommand{\arraystretch}{1.15}
+\setlist{topsep=4pt,itemsep=3pt,parsep=1pt,leftmargin=*}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\allowdisplaybreaks[2]
+\titleformat{\section}{\Large\bfseries\color{ReportBlue}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{ReportBlue}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{13pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{10pt}{4pt}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Weighted-interaction full-AA proof}
+\fancyhead[R]{\small\sffamily November 2026}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\urlstyle{same}
+\providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\providecommand{\E}{\mathbb E}
+\providecommand{\R}{\mathbb R}
+\providecommand{\N}{\mathbb N}
+\providecommand{\AA}{\mathrm{AA}}
+\providecommand{\cAA}{c_{\mathrm{AA}}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\diag}{diag}
+\pdfstringdefDisableCommands{%
+  \def\AA{AA}\def\E{E}\def\Var{Var}\def\Cov{Cov}%
+  \def\beta{beta}\def\gamma{gamma}\def\lambda{lambda}%
+  \def\mu{mu}\def\rho{rho}\def\le{<=}\def\ge{>=}%
+}
+% Needed by converted tables.
+\usepackage{calc}
+\newcounter{none}
+\title{Full AA at bounded weighted interaction strength:\\ the assembled proof of Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}}
+\author{}
+\date{November 2026}
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\tableofcontents
+\clearpage
+\section{Conventions, source transfer and block products}
+
+% ---- threshold_positive/01_oracle_transfer.tex ----
+\subsection{The two directions a sampling representation must support}
+\label{sec:threshold-positive-transfer}
+
+Throughout this section, \emph{full AA} means classical approximation of
+the acceptance probability of an arbitrary quantum query algorithm under
+the specified input law. We use mean absolute error: a simulator for a
+\(T\)-query acceptance function \(Q\) has
+\(\mathbb E_\mu|A-Q|\le e\). Substituting \(e=\epsilon\delta\) gives
+error at most \(\epsilon\) except on a \(\delta\)-fraction of inputs.
+We import the uniform-input simulation consequence of AA, with query
+bound \(s_U(T,e)=\operatorname{poly}(T,1/e)\), as in the existing
+exchangeable-simulation section. All statements below are deductions
+conditional on that imported result, not additional claims about its
+provenance. Computation, preprocessing, and the storage of nonuniform
+decision trees are free; only queries to the input are counted.
+
+\begin{proposition}[A local posterior transfer criterion]
+\label{prop:threshold-local-posterior}
+Let \((X,Z)\) be a coupling with \(X\sim\mu\), \(Z\sim\nu\), where
+\(\nu\) has a full-AA simulator costing \(s_\nu(T,e)\). Suppose a
+deterministic map \(F\) has the following properties.
+\begin{enumerate}
+\item A coherent query to \(F(Z)_i\) can be implemented with at most
+\(a\) queries to \(Z\), uniformly in \(i\).
+\item For every \(x\) of positive \(\mu\)-probability and every \(i\),
+\(\Pr[F(Z)_i\ne x_i\mid X=x]\le\gamma\).
+\item Given oracle access to \(x\), the conditional law \(Z\mid X=x\)
+can be supplied consistently on demand: answering any adaptive sequence
+of \(s\) source-bit requests uses at most \(b(s)\) queries to \(x\).
+\end{enumerate}
+Then a \(T\)-query acceptance function has a deterministic simulator
+using at most \(b(s_\nu(aT,e/2))\) queries and mean error at most
+\[
+ e/2+4T\sqrt\gamma.
+\]
+\end{proposition}
+
+\begin{proof}
+Apply simulation under \(\nu\) to the genuine quantum algorithm
+\(Q\circ F\), obtaining a source decision tree \(D(Z)\) with average
+error \(e/2\). On input \(X=x\), run this tree using the conditional
+source oracle from the third hypothesis. Averaging over the coupling
+preserves the \(e/2\) bound. The quantum hybrid argument, conditioned
+on \(X=x\), gives
+\(\mathbb E|Q(X)-Q(F(Z))|\le4T\sqrt\gamma\): at each query the
+expected weight on disagreements is at most \(\gamma\), even though
+the query weights depend on \(x\). The triangle inequality proves the
+claim. The conditional oracle is an ordinary randomized query procedure
+using input-independent random coins; fixing those coins by averaging
+gives one deterministic simulator of no greater average error.
+\end{proof}
+
+The conditional probability in the second hypothesis is essential.
+A marginal estimate \(\Pr[F(Z)_i\ne X_i]\le\gamma\) does not by
+itself control quantum query weights that adapt to \(X\). Likewise,
+an efficient forward sampler alone does not provide the third
+hypothesis. The theorem requires sampling the hidden randomness
+\emph{conditional on the actual input}, with a query bound. An
+arbitrary global posterior computation might require reading all of
+\(x\).
+
+This criterion has no source-fanout requirement. One source bit may
+affect many output spins, provided that its value can be sampled from
+the posterior using few observed spins. That is a substantive
+difference from local flip-influence transfer.
+
+% ---- threshold_positive/02_arbitrary_blocks.tex ----
+\subsection{Arbitrary independent blocks, including hard constraints}
+\label{sec:threshold-positive-blocks}
+
+\begin{theorem}[Block-product full AA without nondegeneracy]
+\label{thm:threshold-block-products}
+Let the input coordinates be partitioned into blocks of size at most
+\(k\), and let \(\mu\) be an arbitrary product of laws on these
+blocks. The block laws may depend on dimension and may assign
+probability zero to some atoms. For \(T\ge1\) and \(0<e<1\), set
+\[
+ \eta=\frac{e^2}{64T^2},\qquad
+ b=k+\left\lceil\log_2(1/\eta)\right\rceil.
+\]
+Every \(T\)-query acceptance function admits a deterministic simulator
+of mean error at most \(e\), using at most
+\[
+ S_B(T,e;k):=k\,s_U(2bT,e/2)
+\]
+queries. In particular, a uniform bound on block size implies full AA,
+uniformly over all choices of block laws and temperatures.
+\end{theorem}
+
+\begin{proof}
+For a block law \(p\) on at most \(2^k\) atoms, put \(N=2^b\).
+Give each atom \(u\) the integer count
+\(c_u=\lceil(1-\eta)Np(u)\rceil\). Since
+\(\sum_uc_u\le(1-\eta)N+2^k\le N\), distribute any remaining
+counts arbitrarily. The resulting dyadic law \(p'\) satisfies
+\(p'(u)\ge(1-\eta)p(u)\), so it has the form
+\[
+ p'=(1-\eta)p+\eta r
+\]
+for another probability law \(r\). A deterministic map of \(b\)
+fair bits generates \(p'\) exactly.
+
+Perform this construction independently in each block. Couple
+\(X\sim\mu\) to the product law \(Y\) by keeping each entire block
+with probability \(1-\eta\), otherwise replacing it by an independent
+sample from its \(r\). Thus, conditional on \emph{all} of \(X=x\),
+each coordinate changes with probability at most \(\eta\).
+
+Compose the block gadgets with \(Q\). Each virtual input query costs
+at most \(2b\) fair-source queries by reading the source block,
+computing the requested output bit, and uncomputing. Uniform AA gives
+a source tree with error \(e/2\). To supply its source bits on input
+\(X\), query the entire physical block when that source block is first
+visited, generate its coupled \(Y\)-block, and sample the uniform
+source block conditional on that \(Y\)-block. Cache the result.
+Different blocks are independent, so this is the correct conditional
+source oracle, with at most \(k\) physical queries per first visit.
+The transfer proposition gives error
+\(e/2+4T\sqrt\eta=e\), followed by derandomization.
+\end{proof}
+
+The case \(k=1\) covers products with arbitrarily varying coordinate
+biases, including deterministic bits, with no minimum bias assumption.
+The case \(k=3\) includes products of laws supported on
+\(\{+++ ,---\}\), for which the flip-influence property can fail even
+at degree three. Thus the absence of a nondegeneracy assumption is
+specific to the full query-simulation target. For a Hamiltonian that
+is a sum of disjoint bounded-size components, no finite-temperature
+full-AA transition is possible under this theorem; even hard-constraint
+limits of the block laws are covered.
+
+\section{Heat-bath histories and the bounded-degree theorems}
+
+% ---- resolution_dynamics/01_theorem_and_setup.tex ----
+\subsection{A proved high-temperature regime on bounded-degree graphs}
+\label{resolution-dynamics:theorem}
+
+We use the full-AA and uniform-input simulation conventions of
+Section~\ref{sec:threshold-positive-transfer}. The following is a deduction from uniform-input
+AA and the atom-independent block-product simulation theorem, with all
+additional probabilistic and query-access steps proved below.
+
+\begin{theorem}[High-temperature full AA for bounded-degree Ising]
+\label{thm:resolution-dynamics-ising}
+Fix an integer \(D\ge1\) and a constant \(0\le\theta_*<1\). Consider
+arbitrary finite Ising graphs of maximum degree at most \(D\), with
+\[
+ \mu(x)\propto\exp\left(
+     \beta\sum_{ij\in E}J_{ij}x_ix_j+\beta\sum_i h_ix_i\right),
+ \qquad
+ \Lambda=\max_i\sum_{j:ij\in E}|J_{ij}|.
+\]
+Assume
+\[
+ \theta:=D\bigl(1-e^{-4\beta\Lambda}\bigr)\le\theta_*<1.
+ \tag{HTQ}
+\]
+Then every \(T\)-query quantum acceptance function has a deterministic
+classical simulator of mean absolute error \(e\), using
+\(\operatorname{poly}_{D,\theta_*}(T,1/e)\) queries. The polynomial
+is uniform in the number of spins, the graph, coupling signs, and all
+finite external fields. The same uniform bound holds after arbitrary
+positive-probability pinnings.
+\end{theorem}
+
+For \(D>1\), a sufficient temperature condition is
+\(\beta\Lambda<\frac14\log(D/(D-1))\), with a fixed strict margin.
+The theorem provides an actual open high-temperature interval on every
+fixed bounded-degree class. It does not establish the full Dobrushin
+range, nor a polynomial whose exponent is independent of \(D\) or the
+margin in (HTQ). The case of edgeless graphs follows directly from the
+product theorem.
+
+\textbf{Colored heat-bath schedule.}
+Fix a proper coloring with \(q\le D+1\) colors. One sweep updates the
+colors in order. Within a color, every site independently samples its
+spin conditional on the other colors. Because no two sites of that
+color interact, this is precisely conditional resampling of that color
+class. Its transition kernel \(K_c\) is reversible with respect to
+\(\mu\):
+\[
+ \mu(x)K_c(x,y)=\mu(y)K_c(y,x).
+ \tag{DB}
+\]
+For states agreeing off the color class, both sides are the marginal
+weight of the outside spins multiplied by the two conditional weights
+of the color-class spins; otherwise both vanish. A full ordered sweep
+need not be reversible. Its time reversal is the reverse color order,
+which is all that will be used.
+
+\textbf{Finite random maps, with no small-atom assumption.}
+For a site \(i\), write
+\[
+ p_i(\eta)=\mu(X_i=+1\mid X_{N(i)}=\eta)
+ =\frac{1+\tanh(\beta h_i+\beta\sum_jJ_{ij}\eta_j)}2.
+\]
+A heat-bath update can be implemented by the random map
+\(M_i(\eta)=+1\) when \(U\le p_i(\eta)\), and \(-1\) otherwise,
+for a fresh uniform \(U\in[0,1]\). There are at most
+\(2^{|N(i)|}+1\le2^D+1\) different maps: the map changes only as
+\(U\) crosses one of the finitely many values \(p_i(\eta)\).
+Thus its exact distribution can be encoded by a block of
+\(b_0=D+1\) Boolean source bits with an arbitrary block law. Unused
+codewords are assigned a constant map so that evaluation is defined on
+the entire source cube.
+
+Use independent source blocks for all site-update events in \(L\)
+sweeps. Their joint law \(\nu\) is a product of blocks of size at most
+\(b_0\); it is covered by Theorem~\ref{thm:threshold-block-products}
+uniformly over its atom probabilities. In particular, no discretization
+of rare heat-bath probabilities, no bounded-field hypothesis, and no
+source precision depending on \(n\) are needed.
+
+Let \(W^0\sim\mu\) independently of these maps, and run the schedule
+to obtain the stationary trajectory \(W^0,\ldots,W^{qL}\). Write
+\(X=W^{qL}\). Run the same maps from the fixed all-plus initial
+configuration, producing \(Y=F_L(Z)\). Then \(X\sim\mu\), while
+\(Z\sim\nu\) is exactly the product source law. This coupling,
+not a claim of global total-variation mixing, will transfer simulation.
+
+% ---- resolution_dynamics/02_conditional_dependency_bound.tex ----
+\subsection{A dependency bound conditional on the complete final input}
+\label{resolution-dynamics:conditional-bound}
+
+A random threshold map is \emph{oblivious} when it is constant on
+all neighbor assignments. Put
+\[
+ p_i^-:=\min_\eta p_i(\eta),\qquad
+ p_i^+:=\max_\eta p_i(\eta),\qquad
+ \rho:=1-e^{-4\beta\Lambda}.
+\]
+We first need a posterior bound, stronger than the usual unconditional
+probability that an update is not oblivious.
+
+\begin{lemma}[Posterior activity bound]
+\label{lem:resolution-dynamics-posterior-activity}
+Conditional on any complete stationary spin trajectory, the forward
+random maps are independent across update events. Each map is
+nonoblivious with conditional probability at most \(\rho\).
+Consequently, for any fixed set \(A\) of distinct update events and
+every final configuration \(x\),
+\[
+ \Pr[\text{every event in }A\text{ is nonoblivious}\mid X=x]
+ \le\rho^{|A|}.
+ \tag{PA}
+\]
+\end{lemma}
+
+\begin{proof}
+Given the trajectory, the prior product map law is conditioned on one
+separate constraint per event: its map sends the recorded neighbor
+configuration to the recorded new spin. These constraints involve
+disjoint source blocks, proving conditional independence. The initial
+weight \(\mu(W^0)\) is constant under this conditioning.
+
+At an event with recorded neighbors \(\eta\) and new spin \(+1\),
+the posterior uniform variable lies in \([0,p_i(\eta)]\). Thus the
+nonoblivious probability is
+\[
+ \frac{p_i(\eta)-p_i^-}{p_i(\eta)}
+ \le1-\frac{p_i^-}{p_i^+}.
+\]
+For new spin \(-1\), it is at most
+\(1-(1-p_i^+)/(1-p_i^-)\). These formulas are equally valid for
+the finite random-map distribution, by summing its threshold intervals.
+
+The function \(a\mapsto\log[(1+\tanh a)/2]\) has derivative in
+\([0,2]\). The local fields in \(p_i\) span an interval of length
+at most \(2\beta\Lambda\). The same derivative bound applies to
+the logarithm of the probability of \(-1\), with the sign reversed.
+Therefore
+\[
+ \frac{p_i^-}{p_i^+}\ge e^{-4\beta\Lambda},\qquad
+ \frac{1-p_i^+}{1-p_i^-}\ge e^{-4\beta\Lambda}.
+\]
+This proves the uniform posterior activity bound, regardless of the
+external field. Multiply it over \(A\) conditional on the trajectory,
+then average over trajectories conditional on \(X=x\), obtaining
+(PA). No independence conditional on \(X=x\) alone is asserted.
+\end{proof}
+
+\begin{lemma}[Conditional coupling error after whole sweeps]
+\label{lem:resolution-dynamics-coupling}
+For every site \(i\) and every final configuration \(x\),
+\[
+ \Pr[F_L(Z)_i\ne x_i\mid X=x]\le\theta^L,
+ \qquad \theta=D\rho.
+ \tag{CE}
+\]
+\end{lemma}
+
+\begin{proof}
+If the coupled final spins disagree at \(i\), their last update map
+is nonoblivious, and at least one neighbor disagreed immediately before
+that update. Follow such a neighbor to its most recent prior update,
+and continue backwards until the initial configuration is reached.
+Every visited update is nonoblivious. Update times strictly decrease,
+so the events in this path are distinct.
+
+Label each event by its sweep number and site color. Moving backwards
+to a neighbor's last update decreases the sweep number by zero or one:
+an earlier color was updated in the same sweep, and a later color in
+the preceding sweep. A path from a final event in sweep \(L\) to
+the initial boundary therefore contains at least \(L\) update events.
+This observation is why whole sweeps, rather than an unspecified
+global mixing time, are used.
+
+There are at most \(D^{L-1}\) possible length-\(L\) prefixes from
+the fixed final event. Their vertices and times are determined by the
+schedule and the chosen neighbor sequence, independently of the maps.
+By (PA) each such prefix is wholly nonoblivious with probability at
+most \(\rho^L\), even conditional on all of \(X=x\). A union bound
+gives \(D^{L-1}\rho^L\le\theta^L\). A prefix cannot reach the
+initial boundary in fewer than \(L\) events. For an isolated site
+the update map is oblivious, so the claimed bound also holds.
+\end{proof}
+
+% ---- resolution_dynamics/03_local_posterior_and_simulation.tex ----
+\subsection{Local reverse access and completion of the simulation proof}
+\label{resolution-dynamics:simulation}
+
+Let \(m=qL\), \(B=D+1\), and take the convenient deterministic
+causal-cone bound
+\[
+ N_L=B^{m+1}.
+\]
+This intentionally loose bound is independent of \(n\).
+
+\textbf{Forward coherent access.}
+To evaluate one final spin of \(F_L\), recursively evaluate the
+neighbor spins needed by its most recent update, moving backwards
+through at most \(m\) layers. An update has at most \(D\) parents;
+an inactive layer merely passes the spin backwards unchanged.
+There are at most \(N_L\) update nodes in the full recursion tree.
+Reading each map's \(b_0\)-bit code and computing the fixed lookup
+tables costs at most \(b_0N_L\) source queries. This can be done on
+the entire deterministic cone, without relying on random early
+termination. Reversible computation and uncomputation implement a
+coherent output query with at most
+\[
+ a_L=2b_0N_L
+\]
+source queries, including on unused source codewords.
+
+\textbf{An exact posterior oracle.}
+Given oracle access to the actual final input \(x\), sample a
+stationary history backwards from \(W^m=x\), using the reverse color
+order and independent heat-bath coins. Equation (DB) proves that this
+is the exact law of the forward stationary history conditional on its
+final state, despite the ordered sweep itself not being reversible.
+
+The reverse history can be evaluated lazily and consistently.
+Pre-sample independent reverse coins for every update event. To obtain
+\(W_i^t\), recurse towards the final layer. If site \(i\) was not
+updated at layer \(t+1\), then \(W_i^t=W_i^{t+1}\). If it was,
+the reverse heat-bath coin and the neighbor values at layer \(t+1\)
+determine \(W_i^t\). Those neighbors were unchanged by the forward
+color update. At the final layer the value is the queried spin
+\(x_i\). The recursion is acyclic, has depth at most \(m\), and
+uses at most \(N_L\) input queries. Cache its random coins and
+computed values across all requests.
+
+After generating this history, independently sample each forward map
+conditional on its recorded neighbor assignment and new spin. This
+is exactly the disintegration used in
+Lemma~\ref{lem:resolution-dynamics-posterior-activity}. To answer a
+request for a source bit at event \((t,i)\), only
+\(W_i^t\) and \(W_{N(i)}^t\) are needed; the neighbor values equal
+their pre-update values. These at most \(D+1=B\) history variables
+cost at most \(BN_L\) physical-spin queries. Sample the whole
+conditional map block using a fresh preassigned coin and cache it.
+
+This procedure samples \(Z\mid X=x\) exactly. It answers \(s\)
+arbitrarily adaptive source-bit requests with at most
+\[
+ b_L(s)=BN_Ls
+\]
+queries to \(x\). All reverse-history coins and posterior-map coins
+can be fixed in advance independently of the input. Consistency follows
+from this single global randomized construction. In particular, there
+is no assumption that a freshly explored random cone retains its
+unconditioned tail after previous adaptive requests: the bound uses
+the entire deterministic cone for every request.
+
+\textbf{Proof of Theorem~\ref{thm:resolution-dynamics-ising}.}
+Assume \(T\ge1\) and \(0<e<1\); trivial cases need no queries.
+If \(\theta_*=0\), take \(L=1\). Otherwise choose
+\[
+ L=\max\left\{1,
+ \left\lceil\frac{2\log(8T/e)}{\log(1/\theta_*)}\right\rceil
+ \right\}.
+\]
+The product-block source law has simulator cost
+\(S_B(\tau,\varepsilon;b_0)\) from
+Theorem~\ref{thm:threshold-block-products}. Apply the local posterior
+transfer proposition to the coupling above, the map \(F_L\), and
+the conditional error bound (CE). The resulting physical simulator
+has error at most
+\[
+ e/2+4T\theta^{L/2}\le e
+\]
+and uses at most
+\[
+ B N_L\,S_B(a_LT,e/2;b_0)
+ \tag{QC}
+\]
+queries. Since \(q\le D+1\), \(L=O_{\theta_*}(\log(T/e))\),
+and \(N_L=(D+1)^{qL+1}\), (QC) is a polynomial in \(T,1/e\)
+for fixed \(D,\theta_*\). Randomness is removed by averaging exactly
+as in the local posterior transfer proposition.
+
+Pinning spins deletes them from the remaining interaction graph,
+reduces its incident interaction sums, and adds external fields.
+The same proof therefore applies with the same \(D,\theta_*\),
+which proves the hereditary assertion. \qed
+
+\textbf{Bounded-degree higher-order classical interactions.}
+The proof also applies to
+\(H(x)=-\sum_A J_A\prod_{i\in A}x_i\). Form the graph joining two
+spins when they occur in a common nonzero interaction of size at least
+two. Suppose this graph has maximum degree at most \(D\), and set
+\(\Lambda=\max_i\sum_{A\ni i,\,|A|\ge2}|J_A|\).
+A proper coloring ensures that every interaction contains at most one
+spin of each color, so each color update is still independent
+conditional resampling. The local field varies by at most
+\(2\beta\Lambda\), and all map, posterior, and cone bounds are
+unchanged. Arbitrary one-spin fields remain allowed. Thus (HTQ)
+proves full AA for this class as well. This extension concerns
+classical Gibbs laws, not measured noncommuting quantum Gibbs states.
+
+% ---- resolution_dynamics/04_weighted_parity_maps.tex ----
+\subsection{Removing the degree factor from the temperature condition}
+\label{resolution-dynamics:weighted-maps}
+
+Threshold maps give a simple proof, but they may inspect every neighbor
+whenever they are nonconstant. A different exact update representation
+controls the expected number of inspected neighbors by the incident
+interaction strength itself.
+
+\begin{theorem}[A degree-independent sufficient temperature]
+\label{thm:resolution-dynamics-weighted}
+Fix \(D<\infty\) and \(k\ge2\). Let
+\[
+ H(x)=-\sum_A J_A\prod_{i\in A}x_i
+\]
+have interactions of size at most \(k\), arbitrary one-spin fields,
+and an interaction graph of maximum degree at most \(D\), where two
+spins are adjacent when they share a nonzero interaction. Set
+\[
+ K=\beta\max_i\sum_{A\ni i,\,|A|\ge2}|J_A|.
+\]
+If \(K\le1/[8(k-1)]\), the Gibbs laws have hereditary full AA with
+query bound \(\operatorname{poly}_{D,k}(T,1/e)\), uniformly over all
+finite fields and all model parameters satisfying this inequality.
+For pair interactions, the sufficient condition is simply
+\(\beta\Lambda\le1/8\).
+\end{theorem}
+
+The temperature bound does not depend on graph degree, but the query
+polynomial still may: this theorem does not cover a degree bound growing
+with input dimension.
+
+\textbf{Two elementary norms.}
+For a function on a finite Boolean cube, write
+\(f=\sum_S\widehat f(S)\chi_S\), and set
+\[
+ \|f\|_A=\sum_S|\widehat f(S)|,\qquad
+ W(f)=\sum_S|S|\,|\widehat f(S)|.
+\]
+Since \(\chi_S\chi_T=\chi_{S\triangle T}\),
+\[
+ \|fg\|_A\le\|f\|_A\|g\|_A,\qquad
+ W(fg)\le W(f)\|g\|_A+\|f\|_AW(g).
+ \tag{WA}
+\]
+All Fourier coefficients and norms here concern only the at most
+\(D\) neighbors of one site.
+
+\begin{lemma}[An exact sparse-support update law]
+\label{lem:resolution-dynamics-parity-law}
+Let the conditional mean of one spin be
+\(m(x)=\tanh(h+u(x))\), where
+\(u\) has no constant term,
+\(\|u\|_A\le K\le1/8\), and
+\(W(u)\le(k-1)K\). There is an exact random map with conditional
+mean \(m(x)\) that is either constant or a signed parity of a subset
+of the neighbors. If \(S\) is that subset (empty for a constant map),
+then, conditional on any neighbor assignment and either resulting spin,
+\[
+ \mathbb E[|S|\mid\text{neighbors, resulting spin}]
+ \le (k-1)\chi(K),\qquad
+ \chi(K)=\frac{4e^{2K}K\sec^2K}{(1-\tan K)^2}.
+ \tag{PS}
+\]
+\end{lemma}
+
+\begin{proof}
+Write \(r=\tanh h\) and \(v=\tanh u\). The absolute values of
+the Taylor coefficients of \(\tanh z\) are the positive Taylor
+coefficients of \(\tan z\). This follows from
+\(\tanh z=-i\tan(iz)\); positivity of the latter coefficients also
+follows recursively from \((\tan z)'=1+(\tan z)^2\). The series
+converge absolutely in the norm \(\|\cdot\|_A\) for \(K<\pi/2\).
+Using (WA) termwise gives
+\[
+ \|v\|_A\le t:=\tan K,
+ \qquad W(v)\le(k-1)K\sec^2 K.
+\]
+The addition formula and a convergent geometric series yield
+\[
+ m=r+(1-r^2)\frac{v}{1+rv},\qquad
+ \|m-r\|_A\le\frac{(1-r^2)t}{1-|r|t},\qquad
+ W(m)\le\frac{(1-r^2)(k-1)K\sec^2K}{(1-|r|t)^2}.
+ \tag{PM}
+\]
+
+Write \(m=\sum_S c_S\chi_S\) and
+\(A=\sum_{S\ne\varnothing}|c_S|\). Since \(t\le1/3\),
+\[
+ |c_\varnothing|+A
+ \le |r|+\frac{(1-r^2)t}{1-|r|t}\le1.
+\]
+Thus the following probabilities define an actual random map:
+choose \(\operatorname{sign}(c_S)\chi_S\) with probability
+\(|c_S|\) for each nonempty \(S\), and choose the constant maps
+\(+1\) and \(-1\) with respective probabilities
+\((1+c_\varnothing-A)/2\) and
+\((1-c_\varnothing-A)/2\). Its pointwise mean is exactly \(m\),
+so it is the heat-bath update law.
+
+Every possible output spin, on every neighbor assignment, has
+probability at least
+\[
+ \frac{1-\tanh(|h|+K)}2
+ \ge\frac{(1-|r|)e^{-2K}}2.
+\]
+The unconditioned expected support size is \(W(m)\). Conditioning
+on any particular output can increase its expectation by at most the
+inverse of that output probability. Divide the last bound in (PM) by
+this probability and use \(1+|r|\le2\) and
+\(1-|r|t\ge1-t\) to obtain (PS).
+\end{proof}
+
+\textbf{Uniform contraction constant.}
+For \(0\le K\le1/8\), the elementary inequalities
+\[
+ e^{2K}\le4/3,\qquad \sec^2K\le16/15,
+ \qquad\tan K\le2/15
+\]
+give \(\chi(K)\le(1280/169)K\). For example,
+\(\cos K\ge1-K^2/2\ge127/128\) and \(\sin K\le K\)
+prove the tangent bound; \(\cos^2K\ge1-K^2\) proves the secant
+bound. Consequently the theorem's assumption gives
+\[
+ \vartheta:=(k-1)\chi(K)\le160/169<1.
+ \tag{PC}
+\]
+
+\textbf{Proof of Theorem~\ref{thm:resolution-dynamics-weighted}.}
+At every site apply the lemma to its interaction field
+\(u_i=\beta\sum_{A\ni i,\,|A|\ge2}J_A\chi_{A\setminus\{i\}}\).
+It satisfies the stated norm bounds. Use independent parity-map
+choices in the same proper-color schedule as before. There are at
+most \(2^D-1\) nonconstant maps and two constant maps, again encoded
+by \(D+1\) bits of an arbitrary source-block law. Conditional on the
+complete spin trajectory these map blocks are independent, just as
+for the threshold maps.
+
+To trace a disagreement backwards through an event, only neighbors in
+its selected subset \(S\) need be considered. Conditional on the
+trajectory, the expected number of such parents is at most
+\(\vartheta\), uniformly at every event. Expanding all possible
+dependency paths, the expected number of surviving paths of length
+\(L\) is at most \(\vartheta^L\): along each path event times
+strictly decrease, so its map blocks are distinct and independent
+under this conditioning; summing over each next parent uses (PS).
+Repeated vertices reached by different paths do not affect this
+first-moment argument. Any dependence on the initial configuration
+after \(L\) whole sweeps requires such a path. Averaging over
+trajectories conditional on the full final input therefore gives
+\[
+ \Pr[F_L(Z)_i\ne X_i\mid X=x]\le\vartheta^L.
+\]
+
+All deterministic forward cones and the exact reverse-history
+posterior oracle from the previous proof are unchanged. In particular,
+sampling a forward parity map conditional on its local neighbors and
+new spin uses only those local values, regardless of how small its
+prior weight is. Choose \(L\) using the fixed bound \(160/169\),
+and apply the same query bound (QC). It is a polynomial for fixed
+\(D,k\). Pinning can only reduce interaction sizes, primal degree,
+and the sum of incident nonconstant coupling magnitudes; terms that
+become fields are allowed freely. Thus the assertion is uniform over
+pinnings as well. \qed
+
+\section{Product alphabets with symbol queries}
+
+% ---- resolution_structure/04_product_alphabet_completion.tex ----
+\subsection{Completion and full AA for arbitrary product alphabets}
+\label{sec:resolution-product-alphabets}
+
+This section removes a source-encoding obstruction. A source coordinate
+may take values in an arbitrary finite alphabet, and one source query
+returns its entire symbol. Both the quantum and classical algorithms
+use this same convention. Alphabet sizes, atom probabilities, and the
+number of source coordinates do not enter the bounds.
+
+Let \(\Omega=\prod_{i=1}^n\Omega_i\), let
+\(\mu=\bigotimes_i\mu_i\), and delete zero-mass symbols if necessary.
+For Boolean \(G\) define its resampling influences by
+\[
+ I_i^\mu(G)=\Pr[G(X)\ne G(X_{-i},X_i')],
+ \qquad I^\mu(G)=\sum_i I_i^\mu(G),
+\]
+where \(X\sim\mu\) and \(X_i'\sim\mu_i\) independently.
+For \(x,y\in\Omega\) write
+\(\Delta(x,y)=\{i:x_i\ne y_i\}\).
+A fractional certificate for \(G\) at \(x\) is a vector
+\(c^x\ge0\) with
+\(\sum_{i\in\Delta(x,y)}c_i^x\ge1\) whenever \(G(y)\ne G(x)\).
+
+\begin{lemma}[Product-alphabet certificate inequality]
+\label{lem:resolution-alphabet-certificates}
+Let \(U_b\subseteq G^{-1}(b)\) have mass \(\delta_b>0\), for
+\(b=0,1\). Suppose every \(x\in U_b\) has a fractional certificate
+of cost at most \(\gamma_b\). Then
+\[
+ \max_i I_i^\mu(G)\ge\frac{\delta_0\delta_1}{2\gamma_0\gamma_1}.
+ \tag{AC}
+\]
+The same assertion holds after fixing any set of coordinates.
+\end{lemma}
+
+\begin{proof}
+The only imported combinatorial ingredient is the finite Boolean-box
+counting inequality proved as equation (4) in the proof of Lemma 4 of
+\href{https://arxiv.org/abs/2611.12795}
+{Huffstutler--Miloschewsky--Podder}.
+We state exactly the form used. On a two-point product box \(C\), let
+\(J\) be its free coordinates and let \(b_i(C)\) count its
+unordered bichromatic \(i\)-edges. Consider some ordered antipodal
+pairs \((x,y)\), with \(G(x)=1,G(y)=0\), and sets \(H_y\).
+Suppose that replacing any subset of coordinates in \(H_y\cap J\)
+of the paired \(x\) by their other box values leaves \(G=1\).
+Suppose also that every \(z\in C\) with \(G(z)=1\) agreeing with
+\(y\) on \(H_y\) satisfies \(w(\Delta(y,z))\ge1\).
+Then the number \(N_C\) of these pairs obeys
+\[
+ N_C\le\sum_{i\in J}w_i b_i(C).                 \tag{BC}
+\]
+This is a statement about a finite Boolean cube, with no measure in it.
+Relabeling each two-symbol coordinate by a bit preserves every
+hypothesis. We now supply the measure-dependent extension.
+
+Fix the stated certificates and define
+\[
+ w_i=2\gamma_0\,\mathbb E[c_i^X\mid X\in U_1],
+ \qquad H_y=\{i:c_i^y>w_i\}\quad(y\in U_0).
+\]
+Then \(\sum_iw_i\le2\gamma_0\gamma_1\) and
+\(w(H_y)\le\gamma_0\). Consequently at least half the conditional
+\(\mu\)-mass of \(x\in U_1\) satisfies \(c^x(H_y)<1\).
+Mark precisely these pairs \((x,y)\). Their product mass is at least
+\(\delta_0\delta_1/2\). A marked pair cannot change the value of
+\(G(x)\) by changing coordinates in \(H_y\), by its certificate.
+If \(G(z)=1\) and \(z\) agrees with \(y\) on \(H_y\), the
+certificate of \(y\) gives
+\[
+ 1\le c^y(\Delta(y,z))\le w(\Delta(y,z)).
+\]
+Thus (BC) applies to the marked antipodal pairs in every box.
+
+Take all boxes \(C=\prod_i C_i\) with \(|C_i|\in\{1,2\}\),
+and assign the weight
+\[
+ a(C)=\prod_i a_i(C_i),\qquad
+ a_i(\{u\})=\mu_i(u)^2,
+ \quad a_i(\{u,v\})=\mu_i(u)\mu_i(v)\quad(u\ne v).
+\]
+Every ordered pair \((x,y)\) is antipodal in exactly one such box:
+use \(C_i=\{x_i\}\) if the two symbols agree, and
+\(C_i=\{x_i,y_i\}\) otherwise. Its box weight equals
+\(\mu(x)\mu(y)\). Hence
+\[
+ \sum_C a(C)N_C\ge\delta_0\delta_1/2.             \tag{PAIR}
+\]
+For a fixed unordered \(i\)-edge with outside coordinates \(z\)
+and endpoint symbols \(u,v\), summing the weights of its containing
+boxes gives
+\[
+ \mu_i(u)\mu_i(v)
+ \prod_{j\ne i}\left(\mu_j(z_j)^2+
+               \sum_{a\ne z_j}\mu_j(z_j)\mu_j(a)\right)
+ =\mu_i(u)\mu_i(v)\mu_{-i}(z).
+\]
+It follows that
+\[
+ \sum_C a(C)b_i(C)=\tfrac12 I_i^\mu(G).            \tag{EDGE}
+\]
+Multiply (BC) by \(a(C)\), sum, and use (PAIR), (EDGE), and the
+bound on \(\sum_iw_i\). The result is
+\(\delta_0\delta_1/2\le\gamma_0\gamma_1\max_i I_i^\mu(G)\),
+which is (AC). Coordinate conditioning leaves a product measure, so
+the final assertion follows from the same proof.
+\end{proof}
+
+\begin{theorem}[Completion on arbitrary product alphabets]
+\label{thm:resolution-alphabet-completion}
+Let \(f:D\to\{0,1\}\), where \(D\subseteq\Omega\), and suppose
+there are nonnegative weights \(\lambda^x\), for \(x\in D\), with
+\[
+ \sum_i\lambda_i^x\le A,
+ \qquad
+ \sum_{i\in\Delta(x,y)}\min(\lambda_i^x,\lambda_i^y)\ge1
+ \quad\text{if }f(x)\ne f(y).
+ \tag{ADV}
+\]
+For every \(\eta>0\) there is a deterministic symbol-query tree of
+depth at most \(\lceil128A^3/\eta^2\rceil\) whose unconditional
+\(\mu\)-mass of errors on \(D\) is at most \(\eta\).
+Constant partial functions need no queries.
+\end{theorem}
+
+\begin{proof}
+Here are the product-measure details of the completion construction.
+For \(a\in f^{-1}(1)\), let
+\(d_a(z)=\sum_{i:z_i\ne a_i}\lambda_i^a\), and set
+\(g(z)=\min\{1,\min_{a\in f^{-1}(1)}d_a(z)\}\).
+Then \(g=0\) on the one-inputs and \(g=1\) on the zero-inputs:
+for opposite inputs \(a,b\), (ADV) implies
+\(d_a(z)+d_b(z)\ge1\) for every \(z\).
+At any \(z\) with \(g(z)<1\), choose a minimizing \(a\).
+Changing coordinate \(i\) to any other symbol can increase \(g\)
+by at most \(\lambda_i^a\). Resampling symmetry therefore gives
+\[
+ \sum_i\mathbb E|g(X)-g(X_{-i},X_i')|\le2A.
+\]
+Integrating thresholds over \([1/4,3/4]\) provides a completion
+\(G(z)=\mathbf1[g(z)<t]\) with \(I^\mu(G)\le4A\).
+For every original domain point \(x\), the vector \(4\lambda^x\)
+is a certificate for \(G\): if \(f(x)=1\), an opposite completion
+value forces \(d_x(z)\ge t\); if \(f(x)=0\), a minimizing
+one-input at \(z\) and the preceding two-distance inequality force
+\(d_x(z)>1-t\). Both lower bounds are at least \(1/4\).
+
+At a decision-tree transcript \(C\), let
+\(\delta_b(C)=\mu(f^{-1}(b)\mid C)\) and
+\(m(C)=\min_b\delta_b(C)\). The remaining measure is product,
+and the restricted certificates have cost at most \(4A\).
+Lemma~\ref{lem:resolution-alphabet-certificates} gives a free
+coordinate with
+\[
+ I_i^{\mu\mid C}(G)\ge m(C)^2/(32A^2)
+\]
+unless \(m(C)=0\). Query that coordinate. The exact potential
+identity is
+\[
+ I^{\mu\mid C}(G)
+ -\mathbb E_{X_i\mid C} I^{\mu\mid C,X_i}(G)
+ = I_i^{\mu\mid C}(G).
+\]
+Indeed, the other-coordinate resampling influences average unchanged.
+After \(s\) queries output the majority domain value in the current
+transcript. Its unconditional domain error is
+\(e_s=\mathbb E[m(C_s)]\), and \(e_s\) is nonincreasing.
+Telescoping the potential identity and using Jensen's inequality yields
+\[
+ s e_s^2\le\sum_{t<s}\mathbb E[m(C_t)^2]
+ \le32A^2 I^\mu(G)\le128A^3.
+\]
+The stated depth suffices.
+\end{proof}
+
+\begin{lemma}[Quantum adversary weights do not depend on alphabet size]
+\label{lem:resolution-symbol-adversary}
+A \(t\)-query quantum algorithm deciding a partial Boolean function
+with error at most \(1/3\) supplies weights (ADV) with \(A=O(t^2)\),
+for arbitrary finite symbol alphabets.
+\end{lemma}
+
+\begin{proof}
+Purify the algorithm. Let \(p_{r,i}(x)\) be its query probability
+at index \(i\) immediately before query \(r\), and set
+\(a_i(x)=\sum_{r=1}^t p_{r,i}(x)\); thus \(\sum_i a_i(x)=t\).
+For opposite outputs, final states have overlap at most
+\(2\sqrt2/3\). A single oracle call changes their overlap in
+absolute value by at most
+\(2\sum_{i:x_i\ne y_i}\sqrt{p_{r,i}(x)p_{r,i}(y)}\): identical
+symbols act identically, and the difference of two unitary symbol
+oracles has norm at most two. Telescoping and applying Cauchy--Schwarz
+over \(r\) therefore gives
+\[
+ \sum_{i:x_i\ne y_i}\sqrt{a_i(x)a_i(y)}\ge
+ c:=\tfrac12(1-2\sqrt2/3)>0.
+\]
+A second Cauchy--Schwarz inequality gives
+\[
+ c^2\le
+ \left(\sum_{i:x_i\ne y_i}\min(a_i(x),a_i(y))\right)
+ \left(\sum_{i:x_i\ne y_i}\max(a_i(x),a_i(y))\right)
+ \le2t\sum_{i:x_i\ne y_i}\min(a_i(x),a_i(y)).
+\]
+Take \(\lambda_i^x=(2t/c^2)a_i(x)\).
+\end{proof}
+
+\begin{corollary}[Product-alphabet full AA with symbol queries]
+\label{cor:resolution-product-alphabet-aa}
+For every finite product measure on arbitrary finite alphabets,
+every \(T\)-query quantum acceptance function \(Q\) has a
+deterministic classical symbol-query simulator with mean error at
+most \(e\) and \(O(T^6e^{-15})\) queries, for
+\(T\ge1\) and \(0<e<1\). The absolute implied constant has no
+dependence on alphabet sizes, biases, or number of coordinates.
+\end{corollary}
+
+\begin{proof}
+Put \(m=\lceil16/e\rceil\), \(a=e/16\), and \(\eta=e/4\).
+For each \(j=1,\ldots,m\), define a partial function by thresholding
+\(Q\) at \(j/m\), with promise \(|Q-j/m|\ge a\).
+Repeating the original quantum algorithm \(O(a^{-2})\) times and
+thresholding the empirical acceptance frequency decides this partial
+function with error at most \(1/3\). The preceding lemma and theorem
+give a deterministic classifier \(D_j\) making
+\(O(T^6a^{-12}\eta^{-2})\) symbol queries, whose unconditional
+error mass on its promise is at most \(\eta\).
+
+Output \(m^{-1}\sum_jD_j\). For each input, at most \(2am+2\)
+thresholds lie within distance \(a\) of its acceptance value.
+Rounding the integral of threshold indicators to this grid introduces
+error at most \(1/m\). Therefore the mean approximation error is
+at most
+\[
+ 2a+3/m+\eta\le9e/16<e.
+\]
+Running the \(m\) classifiers costs \(O(T^6e^{-15})\) queries.
+\end{proof}
+
+The new ingredient relative to the Boolean completion theorem is the
+weighted two-point-box summation. The symbol-oracle convention is
+essential: this corollary does not claim that a whole large symbol can
+be recovered from its bit encoding with one Boolean query. Its role
+is as an internal source theorem in a transfer argument where both
+forward coherent access and conditional source access are supplied
+explicitly.
+
+\section{The weighted-interaction theorem without a degree bound}
+
+% ---- resolution_dynamics/05_arbitrary_degree.tex ----
+\subsection{Removing the degree and arity restrictions}
+\label{resolution-dynamics:arbitrary-degree}
+
+The product-alphabet theorem permits an entire random update map to be
+one source symbol. Truncating the number of explored events then removes
+the graph-degree dependence from the preceding proof.
+
+\begin{theorem}[Full AA at bounded weighted interaction strength]
+\label{thm:resolution-dynamics-arbitrary-degree}
+Let
+\[
+ H(x)=-\sum_{|A|\ge2}J_A\prod_{i\in A}x_i-\sum_i h_ix_i,
+ \qquad
+ \omega=\beta\max_i\sum_{\substack{A\ni i\\|A|\ge2}}
+                       (|A|-1)|J_A|\le1/8.
+\]
+For finite parameters and \(\beta\ge0\), every \(T\)-query quantum
+acceptance function under \(\mu(x)\propto e^{-\beta H(x)}\) has a
+deterministic classical simulator of mean error \(e\), using
+\(O(T^{18}e^{-28})\) individual-spin queries. Here \(T\ge1\),
+\(0<e<1\), and the implied constant is absolute, independent of
+dimension, degree, arity, signs, and fields. The bound is uniform after
+arbitrary positive-probability pinnings.
+\end{theorem}
+
+This is a sufficient high-temperature theorem, not a sharp threshold
+or the entire Dobrushin region. For pair interactions its hypothesis is
+\(\beta\max_i\sum_j|J_{ij}|\le1/8\). Computation is free; large
+symbols appear only in the internal source reduction.
+
+\begin{proof}
+\textbf{Uniform map estimate.}
+Write the conditional mean at site \(i\) as
+\(m_i(\eta)=\tanh(\beta h_i+u_i(\eta))\). Its unweighted and
+weighted Fourier norms satisfy
+\[
+ \|u_i\|_A\le K_i:=\beta\sum_{A\ni i}|J_A|\le\omega,
+ \qquad W(u_i)\le w_i:=\beta\sum_{A\ni i}(|A|-1)|J_A|\le\omega,
+\]
+where these sums omit one-spin terms. The proof of
+Lemma~\ref{lem:resolution-dynamics-parity-law}, replacing
+\((k-1)K\) by \(w_i\), gives a random signed-parity-or-constant
+heat-bath map \(M_i\). If \(S(M_i)\) is its support and
+\(p_i(y\mid\eta)=\Pr[M_i(\eta)=y]\), that proof gives
+\[
+ \frac{\mathbb E|S(M_i)|}{p_i(y\mid\eta)}
+ \le\frac{4e^{2K_i}w_i\sec^2K_i}{(1-\tan K_i)^2}
+ \le\frac{1280}{169}w_i
+ \le\vartheta:=\frac{160}{169}<1.                 \tag{WR}
+\]
+The numerator is the \emph{unconditional} expected support size.
+Thus both the unconditional and output-conditioned expected support
+are at most \(\vartheta\), uniformly over all neighbor assignments.
+
+\textbf{Forward truncation.}
+Choose any proper coloring of the interaction graph, possibly with
+\(n\) colors. Run \(L\) whole heat-bath sweeps from a stationary
+initial state using independent map symbols \(Z\), and call the
+final input \(X\). Using the same symbols from all-plus defines
+\(F_L(Z)\). Conditional on the complete stationary trajectory, map
+symbols remain independent, each constrained only to produce its
+recorded output on its recorded neighbors. Their conditional expected
+support is bounded by (WR).
+
+A disagreement follows a chain of selected parents backwards through
+strictly decreasing event times. Reaching the initial boundary takes
+at least \(L\) expansions, since a parent step decreases the sweep
+number by at most one. Expanding all paths, conditional independence
+along each path and (WR) bound the expected number of paths of length
+\(r\) by \(\vartheta^r\). Distinct paths may share events; linearity
+of expectation suffices. Thus, conditional on every full final input,
+\[
+ \Pr[F_L(Z)_i\ne x_i\mid X=x]\le\vartheta^L,
+ \qquad
+ \mathbb E[N_i\mid X=x]\le(1-\vartheta)^{-1},     \tag{FW}
+\]
+where \(N_i\) counts all nodes in the unrolled evaluation tree,
+including initial-boundary nodes. These inequalities follow first
+conditional on the entire trajectory, and then by averaging.
+
+Stop evaluation after \(B\) visited nodes, returning a fixed spin on
+overflow. The resulting map \(F_{L,B}\) is defined on the entire
+product alphabet. One coherent output query costs at most \(2B\)
+symbol queries by computing and uncomputing. Reading a map returns its
+whole support; manipulating that support or a long time index is free
+computation. Markov's inequality gives
+\[
+ \Pr[F_{L,B}(Z)_i\ne x_i\mid X=x]
+ \le\vartheta^L+[B(1-\vartheta)]^{-1}.             \tag{TF}
+\]
+
+\textbf{Posterior access without inspecting all neighbors.}
+Given \(x\), construct the stationary history backwards, with
+independent reverse parity maps in reverse color order. Each color
+kernel is conditional resampling and hence self-adjoint; this is the
+exact conditional history law even though a complete ordered sweep
+need not be reversible. A history spin is evaluated recursively through
+the selected supports of reverse maps, ending at queried spins of
+\(x\). Cache maps and computed values.
+
+For a new forward-symbol request at event \((t,i)\), first obtain
+its resulting history spin \(y\). Independently propose a map from
+its prior law. A constant proposal can be tested without any neighbor;
+otherwise obtain only the history spins in its support. Reject if the
+output differs from \(y\), and repeat until success. Cache the
+accepted forward symbol. Use separate independent proposal tapes for
+different forward events, and keep them independent of all reverse
+maps.
+
+Conditional on the complete history, this is exact rejection sampling
+of the forward-map posterior. If \(\tau\) is the first successful
+proposal, then
+\[
+ \mathbb E\left[\sum_{r=1}^{\tau}|S(M_i^{(r)})|
+       \mathrel{\Big|}\text{complete history}\right]
+ =\frac{\mathbb E|S(M_i)|}{p_i(y\mid\eta)}
+ \le\vartheta.                                   \tag{REJ}
+\]
+The identity sums the geometric probabilities of previous failures;
+it does not assume support size is independent of acceptance. Very
+rare outputs may require many constant proposals, which cost no
+queries. Finite parameters give positive success probability.
+
+For a source tree with at most \(s\) symbol requests, let \(R\)
+count its requested history-spin roots: one resulting spin for each
+new source event and all neighbor roots from its proposals. Conditional
+on the complete history, a newly requested event's proposal tape is
+independent of the earlier source transcript. Therefore (REJ) also
+applies to adaptively chosen events, giving
+\[
+ \mathbb E[R\mid X=x]\le s(1+\vartheta).          \tag{ROOT}
+\]
+
+Now use the filtration of the \emph{actual lazy computation}, not
+conditioning on its unexposed history. A fresh reverse map is still
+independent of exposed information: every returned source symbol was
+determined from exposed history values and independent proposal coins.
+It creates at most \(\vartheta\) children in conditional expectation.
+Let \(N\) count processed history-request nodes, including cache hits
+and final-boundary queries. Queue accounting, stopped after \(M\)
+nodes, yields
+\[
+ (1-\vartheta)\mathbb E[\min(N,M)\mid x]
+ \le\mathbb E[R\mid x].
+\]
+Indeed roots contribute \(R\) nodes, and each inspected fresh reverse
+map contributes its selected children; there are at most
+\(\min(N,M)\) fresh inspections. Monotone convergence gives
+\[
+ \mathbb E[N\mid X=x]
+ \le\frac{s(1+\vartheta)}{1-\vartheta}.           \tag{POST}
+\]
+Every physical query is a boundary-node request. The complete-history
+conditioning in (REJ) bounds the number of requested roots; the exposed
+information filtration bounds reverse exploration. Independence under
+one conditioning has not been transferred to the other.
+
+\textbf{Error and query bounds.}
+Set \(\delta=e^2/(288T^2)\) and choose
+\[
+ L=\left\lceil\frac{\log(1/\delta)}{\log(1/\vartheta)}\right\rceil,
+ \qquad B=\left\lceil[\delta(1-\vartheta)]^{-1}\right\rceil.
+\]
+Then (TF) is at most \(2\delta\), and the quantum hybrid error is
+\(4T\sqrt{2\delta}=e/3\). Apply
+Corollary~\ref{cor:resolution-product-alphabet-aa} to
+\(Q\circ F_{L,B}\) at error \(e/3\). Its source depth is
+\[
+ s=O((BT)^6e^{-15})=O(T^{18}e^{-27}).
+\]
+Run it with the posterior oracle, but abort and return zero if history
+work exceeds
+\(M=\lceil3s(1+\vartheta)/(e(1-\vartheta))\rceil\).
+By (POST) the abort probability is at most \(e/3\), conditional on
+every input. The uncapped procedure supplies the exact source
+posterior, so source simulation, hybrid error, and abort error sum to
+at most \(e\). Physical queries are bounded by
+\(M=O(T^{18}e^{-28})\).
+
+All coins can be fixed in advance independently of \(x\). Averaging
+gives a deterministic simulator; for each finite input space,
+almost-sure termination can simultaneously be required at every input.
+Finally, pinning reduces interaction support sizes; merging residual
+terms obeys the triangle inequality. It therefore cannot increase
+\(\sum_{A\ni i}(|A|-1)|J_A|\). The same absolute bound applies
+under every pinning.
+\end{proof}
+
+\end{document}
