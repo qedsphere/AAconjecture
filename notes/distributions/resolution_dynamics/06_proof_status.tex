@@ -21,8 +21,45 @@ checks support the earlier finite-history identities; they are not
 proofs of the dimension-uniform statements. Reproduction scripts and
 outputs are outside the repository's notes tree.
 
-This source version is recorded before the separately requested
-post-push verification. That verification must examine the actual
-pushed proof and record any correction, rather than replace the proof
-with a research plan. The sufficient constants and query exponents
-are not claimed sharp.
+\textbf{Post-push verification, 14 November 2026.}
+The full proof was first pushed as
+\href{https://github.com/qedsphere/AAconjecture/commit/5fb8f1880dba0bb8798a0a015a82759f5bd5fb1f}
+{commit \texttt{5fb8f18}}. Three theory workstreams then audited that
+exact revision. The dynamics proof was checked by the obstruction and
+structural workstreams; the quantum proof by the dynamics and structural
+workstreams. The coordinating workstream also checked both chains.
+No substantive mathematical gap or correction was identified.
+
+The checks covered conditional dependency paths and truncation,
+whole-symbol versus physical-spin query accounting, the two distinct
+filtrations in the adaptive posterior proof, and the final error and
+query exponents. On the quantum side they covered repeated term labels,
+noncommuting word interleavings, the connected-tree count, countable
+self-incompatible polymers, the real logarithm, Fourier weights, POVM
+zero effects, and pinnings. The pinned convergence bound was checked
+again directly against Fern\'andez--Procacci, Section 2, equations
+(2.7) and (2.12)--(2.15). The product-alphabet step was checked against
+the supplied completion paper's finite Boolean-box inequality.
+
+Finite checks supplemented this audit. Across 160 biased ternary-product
+cases, 4,320 linear-programming certificates and 34,560 two-point boxes
+passed; the pair and edge identities differed by at most
+$2.3\cdot10^{-16}$ in floating point. Seventy-five local parity-map
+cases, with fields ranging from $-40$ to $40$ and arithmetic precision
+85 decimal digits, passed the support-over-output-probability bound;
+the largest observed ratio was $0.678<160/169$, including constant-map
+probabilities below $1.5\cdot10^{-35}$.
+
+Independent noncommuting polymer enumerations through orders four and
+five agreed with matrix Taylor coefficients within
+$2.3\cdot10^{-16}$. Exact matrix-exponential calculations for 24
+four-qubit models satisfied the effective interaction bound and its
+pinning monotonicity. Random seeds were 46183 and 46184 for the
+structural workstream and 515818 for the coordinating checks.
+An isolated export of the pushed source compiled successfully; build
+and numerical artifacts stayed outside the repository.
+
+These are mathematical reviews and finite checks, not proof-assistant
+certification. The sufficient constants and query exponents are not
+claimed sharp. No computational-time bound, state-preparation bound,
+or theorem for collective measurements is asserted.
