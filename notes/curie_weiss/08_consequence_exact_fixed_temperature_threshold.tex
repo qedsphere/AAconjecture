@@ -1,0 +1,12 @@
+\subsection{Consequence: exact fixed-temperature threshold}\label{cw:consequence-exact-fixed-ux3b2-threshold}
+
+Combining these lemmas with uniform AA gives absolute constants \(c>0\) such that, simultaneously for all \(\beta\in[0,1]\),
+
+\[
+\boxed{\max_i I_i^{\mu_{n,\beta}}(f)
+\ge c\,\frac{\operatorname{Var}_{\mu_{n,\beta}}(f)^4}{d^{12}}.}
+\]
+
+The proof uses the uniform AA lower bound \(c\operatorname{Var}_U(f)^{5/2}/d^6\). If \(n\ge Kd^8/v^2\), where \(v=\operatorname{Var}_\mu f\), Section~\ref{cw:uniform-low-degree-moment-comparison} gives \(\operatorname{Var}_U f\ge v/2\) and multiplicative influence comparison gives \(I_i^\mu\ge cv^{5/2}/d^8\ge cv^4/d^{12}\). If \(n<Kd^8/v^2\), Section~\ref{cw:finite-n-spin-poincaruxe9-bound-uniform-in-betale1} gives \(\max_i I_i^\mu\ge v/(Cn^{3/2})\ge cv^4/d^{12}\). Constants absorb \(v\le1\) and \(d\ge1\). No optimality of the degree exponent is claimed. The variance exponent 4 is necessary for inequalities with degree-one witnesses at the critical point; see below.
+
+For every fixed \(\beta>1\), Section~\ref{cw:low-temperature-failure-for-every-fixed-beta1} disproves any such bound. Thus the \textbf{fixed-temperature influence threshold is \(\beta_c=1\), with the critical endpoint satisfying AA}. The result concerns influences; it does not by itself provide a quantum/classical query separation.

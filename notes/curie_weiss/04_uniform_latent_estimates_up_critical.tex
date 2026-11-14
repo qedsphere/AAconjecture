@@ -1,0 +1,49 @@
+\subsection{Uniform latent estimates up to the critical point}\label{cw:uniform-latent-estimates-throughout-0betale1}
+
+Set
+
+\[
+a=\beta^{-1}-1\ge0,\qquad
+b=(na+\sqrt n)^{-1/2}\le n^{-1/4}\le1,
+\qquad V(z)=z^2/2-\log\cosh z.
+\]
+
+Then \(W_\beta(z)=az^2/2+V(z)\). All constants in the following statements are independent of \(\beta\in(0,1]\), \(n\ge1\):
+
+\[
+A\asymp b,\qquad
+\mathbb E|Z|^r\le C_r b^r\quad(r\ge0).
+\]
+
+The transformed random variable \(P=\tanh Z\) has a density $r(p)$ satisfying
+
+\[
+\boxed{r(p)\ge c/b\quad\text{for } |p|\le b/2.}
+\]
+
+\subsubsection{Proof}\label{cw:proof}
+
+We have \(V(0)=V^{\prime}(0)=0\) and \(V^{\prime\prime}(z)=\tanh^2z\). Since \(\tanh t\le t\) for \(t\ge0\), \(V(t)\le t^4/12\). For \(0\le t\le1\), \(\tanh t\ge t/2\), giving \(V(t)\ge t^4/48\). For \(t\ge2\), integrating \(V^{\prime\prime}\) over \([t/2,t]\) gives \(V(t)\ge t^2/32\). For \(1\le t\le2\), monotonicity gives \(V(t)\ge V(1)\ge1/48\ge t^2/192\). Consequently
+
+\[
+c\min(t^4,t^2)\le V(t)\le t^4/12.
+\]
+
+If \(|z|\le b\), then \(na z^2/2\le1/2\) and \(nz^4/12\le1/12\), so \(nW_\beta(z)\le7/12\). Integrating here gives \(A\ge cb\).
+
+For \(|z|\le1\), put \(z=by\) and \(u=na b^2\), \(v=\sqrt n\,b^2\). Since \(u+v=1\),
+
+\[
+nW_\beta(by)\ge (u/2)y^2+c v^2y^4.
+\]
+
+Either \(u\ge1/2\), giving a Gaussian integrable bound, or \(v\ge1/2\), giving a quartic integrable bound. Hence the integral of \(|z|^r\exp(-nW_\beta(z))\) over \(|z|\le1\) is at most \(C_r b^{r+1}\). For \(|z|\ge1\), \(W_\beta(z)\ge(a/2+c)z^2\), and \(n(a/2+c)\ge c^{\prime}(na+\sqrt n)=c^{\prime}b^{-2}\). Gaussian integration gives the same bound for the remaining integral. Division by \(A\ge cb\) proves the moments and \(A\le Cb\).
+
+Finally, for \(|p|\le b/2\le1/2\), \(|\operatorname{arctanh}p|\le2|p|\le b\). Change of variables yields
+
+\[
+r(p)=\frac{e^{-nW_\beta(\operatorname{arctanh}p)}}{A(1-p^2)}
+\ge\frac{e^{-7/12}}{Cb}.
+\]
+
+The latent law is even, hence \(\mathbb E P=0\) and \(\mathbb E P^2\le\mathbb E Z^2\le Cb^2\le Cn^{-1/2}\).

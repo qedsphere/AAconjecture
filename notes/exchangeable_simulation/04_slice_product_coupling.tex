@@ -1,0 +1,27 @@
+\subsection{Slice-to-product coupling}\label{exch:sec-3}
+
+\textbf{Lemma.} Suppose \(p=k/N\in[a,1-a]\) and \(|q-p|\le\eta\). There
+is a coupling \(X\sim U_{N,k}\) and
+\(Y\sim\operatorname{Bernoulli}(q)^{\otimes N}\) satisfying
+
+\[
+\Pr[Y_i\ne X_i\mid X]\le\eta/a+1/(2a\sqrt N)
+\]
+
+for every coordinate and every input string \(X\).
+
+\textbf{Proof.} Independently draw
+\(W\sim\operatorname{Binomial}(N,q)\). If \(W>k\), flip \(W-k\)
+uniformly chosen zero positions; if \(W<k\), flip \(k-W\) uniformly
+chosen one positions. Conditional on \(W\), the result is a uniform
+weight-\(W\) string, so it has the required product law. A given
+position is flipped with probability at most
+
+\[
+\frac{\mathbb E|W-k|}{\min(k,N-k)}
+\le\frac{N|q-p|+\sqrt{Nq(1-q)}}{Na}
+\le\eta/a+1/(2a\sqrt N).
+\]
+
+This is a conditional bound for each \(X\), sufficient for adaptive
+classical and quantum algorithms. \(\square\)

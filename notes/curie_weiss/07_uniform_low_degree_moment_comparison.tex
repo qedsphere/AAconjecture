@@ -1,0 +1,19 @@
+\subsection{Uniform low-degree moment comparison}\label{cw:uniform-low-degree-moment-comparison}
+
+For a multilinear polynomial $h$ of degree at most $k$ with \(|h|\le1\) on the entire cube, \(q(p)=\mathbb E_{\pi_p}h\) is a univariate polynomial of degree at most $k$ satisfying \(|q|\le1\) on \([-1,1]\). Applying the ordinary Markov polynomial inequality twice gives \(\lVert q^{\prime\prime}\rVert_\infty\le k^4\). Since \(\mathbb E P=0\), Taylor's formula gives
+
+\[
+|\mathbb E_\mu h-\mathbb E_Uh|
+=|\mathbb E q(P)-q(0)|
+\le\tfrac12 k^4\mathbb E P^2
+\le Ck^4 n^{-1/2}.
+\]
+
+Apply this to $f$ and to the multilinearization of \(f^2\). If \(|f|\le1\) and \(\deg f\le d\), then
+
+\[
+\boxed{|\operatorname{Var}_{\mu}f-\operatorname{Var}_Uf|
+\le Cd^4n^{-1/2}.}
+\]
+
+The central density bound from Section~\ref{cw:uniform-latent-estimates-throughout-0betale1}, applied to the nonnegative polynomial \(p\mapsto\mathbb E_{\pi_p}(D_i f)^2\), also yields a multiplicative comparison \(I_i^\mu\ge c I_i^U/d^2\). The polynomial integral lemma and the resulting combination are proved in Section~\ref{proof:high_temperature}.

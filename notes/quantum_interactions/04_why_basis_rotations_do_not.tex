@@ -1,0 +1,27 @@
+\subsection{Why basis rotations do not preserve this AA
+problem}\label{quant:sec-4}
+
+In ground-energy estimation, conjugation by a known product unitary
+preserves the task. Marwaha--Sud can therefore use such conjugations in
+normal forms.
+
+In a classical coordinate-query problem, the measurement outcomes and
+their bit oracle are part of the task. Rotating the Hamiltonian while
+retaining a fixed measurement basis changes the input law. The example
+above proves this exactly.
+
+If the measurement projectors are rotated as well, their outcome
+probabilities are restored:
+
+\[
+\operatorname{Tr}\!\left[
+e^{-\beta W^{\otimes n}\mathcal H W^{\otimes n}}
+W^{\otimes n}|x\rangle\langle x|W^{\otimes n}
+\right]/Z
+=\langle x|e^{-\beta\mathcal H}|x\rangle/Z.
+\]
+
+That is a simultaneous change of physical representation, not a
+classification of a fixed-basis classical oracle. Relabeling or
+complementing classical coordinates preserves the query model; arbitrary
+local unitaries need not.

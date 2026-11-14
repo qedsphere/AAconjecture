@@ -1,0 +1,68 @@
+\subsection{Rank, norm, and even the entire interaction spectrum are
+insufficient}\label{proof:local_interactions:rank-norm-and-even-the-entire-interaction-spectrum-are-insufficient}
+
+The following comparison uses zero-diagonal matrices throughout, so it
+is not an artifact of adding diagonal constants to the Hamiltonian.
+
+Let n be even. Define \(J_{\mathrm{loc}}\) to have \(J_{12}=J_{21}=1\)
+and all other entries zero. Define \(J_{\mathrm{deloc}}\) on two equal
+parts \(L,R\) of size \(N=n/2\) by
+
+\[
+(J_{\rm deloc})_{ij}=\begin{cases}1/N,&i\in L,j\in R\text{ or vice versa},\\0,&\text{otherwise}.\end{cases}
+\]
+
+Both matrices have exactly the same full spectrum
+
+\[
+\{1,-1,\underbrace{0,\ldots,0}_{n-2}\},
+\]
+
+and therefore the same rank two, operator norm one, and Frobenius norm
+\(\sqrt{2}\). Both have maximum absolute row sum one. For
+\(J_{\mathrm{loc}}\) the two nonzero eigenvectors are supported on two
+sites. For \(J_{\mathrm{deloc}}\) they are constant or staggered over
+all n sites.
+
+The \(J_{\mathrm{loc}}\) Gibbs law is one correlated pair and \(n-2\)
+independent fair spins, so the bounded-block theorem gives AA at every
+fixed finite \(\beta\).
+
+For \(J_{\mathrm{deloc}}\), take S with a sites in L and b in R, and
+write \(k=a+b\le n/2\). Its weighted boundary is
+
+\[
+B_{J_{\rm deloc}}(S)=k-\frac{4ab}{n}
+\ge k-\frac{k^2}{n}\ge k/2.
+\]
+
+Thus \(\kappa =1/2\) in Theorem L2. Taking \(\alpha =1/4\) proves
+failure for every fixed \(\beta >4\log 2\), in particular at
+\(\beta =6\). The law has a distributed magnetization witness, while the
+isospectral localized matrix does not.
+
+\textbf{Conclusion.} Neither fixed interaction rank, bounded operator
+norm, row normalization, nor the entire list of eigenvalues determines
+the AA outcome of an individual family. Structural criteria using
+spectral information must also control where the relevant eigenvectors
+live or otherwise detect collective order. This does not refute a
+small-enough spectral-norm sufficient condition; the counterexample
+operates at a specified larger value of \(\beta \lVert J\rVert\).
+
+The isospectral comparison can also have an extensive energy range on
+both sides. For n divisible by four, use the preceding comparison on the
+first \(n/2\) vertices and append the same disjoint unit-weight matching
+on the other \(n/2\) vertices. The two full matrices remain exactly
+isospectral and row-normalized, and both Hamiltonians now have energy
+range \(\Theta (n)\). The positive member still has components of size
+at most two; the negative member retains the ordered component of size
+\(n/2\), whose normalized magnetization is a degree-one AA
+counterexample. Fixed rank and extensivity are different constraints;
+this variant preserves the isospectral obstruction while giving up fixed
+total rank.
+
+Diagonal convention matters in any proposed spectral criterion:
+replacing J by \(J+cI\) changes H only by the constant \(-cn/2\) and
+leaves the Gibbs law unchanged. Therefore positivity of J alone, without
+a fixed diagonal convention or an optimization over diagonal shifts,
+imposes no substantive restriction on the classical Gibbs distribution.

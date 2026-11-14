@@ -1,0 +1,44 @@
+\subsection{Full support with exponentially small
+influences}\label{proof:thin_shell_obstruction:full-support-with-exponentially-small-influences}
+
+Let \(\nu _n\) be uniform on \(\{x:S(x)\in\{-4,4\}\}\). Equivalently,
+put probability one half on each uniform slice; they have equal
+cardinalities. Define
+
+\[
+\mu_n=(1-e^{-n})\nu_n+e^{-n}U_n.
+\tag{2.1}
+\]
+
+This law has full support and global spin-flip symmetry. Since \(f_n\)
+is odd,
+
+\[
+\mathbb E_{\mu_n}f_n=0,\qquad
+\operatorname{Var}_{\mu_n}(f_n)\ge(1-e^{-n})n^{-10}.
+\tag{2.2}
+\]
+
+Equation (1.3) and \(|D_if_n|\le 1\) imply
+
+\[
+I_i^{\mu_n}(f_n)=e^{-n}I_i^{U_n}(f_n)\le e^{-n}\quad\text{for every }i.
+\tag{2.3}
+\]
+
+\textbf{Theorem T1.} The full-support family (2.1) fails every
+dimension-independent polynomial AA influence bound.
+
+\textbf{Proof.} A bound \(\max _i I_i\ge c \operatorname{Var}(f)^A/d^B\)
+with fixed \(c>0\) and finite \(A,B>0\) would, on taking \(d=5\), imply
+
+\[
+e^{-n}\ge\frac{c}{5^B}(1-e^{-n})^A n^{-10A}.
+\]
+
+This fails for all sufficiently large even \(n\) because exponential decay
+beats every fixed inverse power. \qed
+
+The variance tends to zero polynomially. Restricting a search to
+counterexamples with variance bounded below by a constant would miss
+this obstruction.

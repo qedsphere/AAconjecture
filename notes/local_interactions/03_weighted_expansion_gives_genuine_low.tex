@@ -1,0 +1,73 @@
+\subsection{Weighted expansion gives a genuine low-temperature
+counterexample}\label{proof:local_interactions:weighted-expansion-gives-a-genuine-low-temperature-counterexample}
+
+Let \(J_{ij}\ge 0\). For \(S\subseteq [n]\), put
+
+\[
+B_J(S)=\sum_{i\in S,\,j\notin S}J_{ij}.
+\]
+
+Assume there is a fixed \(\kappa >0\) such that
+
+\[
+B_J(S)\ge\kappa |S|\qquad(1\le |S|\le n/2).
+\tag{E}
+\]
+
+\textbf{Theorem L2.} Fix \(\alpha \in (0,1/2)\), and suppose
+
+\[
+2\beta\kappa\alpha>\log2.
+\tag{LT}
+\]
+
+For every ferromagnetic family satisfying (E), the magnetization
+\(M=n^{-1}\sum_iX_i\) obeys
+
+\[
+\Pr_{\mu_{\beta,J}}(|M|\le1-2\alpha)
+\le\tfrac12 e^{-n(2\beta\kappa\alpha-\log2)},
+\tag{3.1}
+\]
+
+and hence
+
+\[
+\operatorname{Var}_{\mu_{\beta,J}}(M)
+\ge(1-2\alpha)^2\left[1-\tfrac12e^{-n(2\beta\kappa\alpha-\log2)}\right].
+\tag{3.2}
+\]
+
+All normalized flip influences of M equal \(n^{-2}\). Therefore
+influence AA fails. The sufficient temperature condition is explicit but
+is not asserted to be the sharp critical temperature of the graph
+family.
+
+\textbf{Proof.} Let \(S=\{i:x_i=-1\}\). Relative to the all-plus
+configuration,
+
+\[
+H_J(x)-H_J(\mathbf1)=2B_J(S).
+\]
+
+If \(|M(x)|\le 1-2\alpha\), then both \(|S|\) and \(|S^{c}|\) are at
+least \(\alpha n\). Apply (E) to whichever is smaller to obtain
+\(B_J(S)\ge \kappa \alpha n\). Every configuration in this event
+therefore has Gibbs weight at most \(\exp (-2\beta \kappa \alpha n)\)
+times the all-plus weight. There are at most \(2^n\) such
+configurations, while the partition function is at least twice the
+all-plus weight because the all-minus configuration has the same energy.
+This proves (3.1). Global spin-flip symmetry gives \(\mathbb{E} M=0\),
+and outside the event \(M^{2}>(1-2\alpha )^{2}\), proving (3.2). Finally
+\(D_iM=1/n\). \qed
+
+This elementary entropy--energy comparison proves a counterexample. It
+does not merely observe that a high-temperature proof stops applying.
+
+It is specifically an influence counterexample. The witness M itself is
+easy to approximate classically: sampling
+\(O(\epsilon ^{-2}\log (1/\delta ))\) uniformly chosen coordinates
+estimates its value within \(\epsilon\) with failure probability at most
+\(\delta\), for every fixed input string. The same observation applies
+to staggered magnetization. Thus this proof supplies no
+quantum-versus-classical query separation for the local Gibbs families.

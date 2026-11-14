@@ -1,0 +1,33 @@
+\subsection{Theorem}\label{exch:heading-2}
+
+Assume uniform-input AA: every \(T\)-query quantum acceptance function
+has a deterministic classical approximation under the uniform input law
+with average absolute error \(\epsilon\), using at most
+\(S_0(T,1/\epsilon)\) queries for a fixed polynomial \(S_0\).
+
+Then there is a polynomial \(R(T,1/\epsilon)\) such that, for every
+\(n\) and every \(T\)-query quantum acceptance function
+\(Q:\{0,1\}^n\to[0,1]\), there is \textbf{one} deterministic classical
+algorithm \(D\) with at most \(R(T,1/\epsilon)\) queries satisfying
+
+\[
+\mathbb E_{X\sim U_{n,k}}|D(X)-Q(X)|\le\epsilon
+\quad\text{simultaneously for every }k=0,\ldots,n.
+\]
+
+Here \(U_{n,k}\) is uniform on the Hamming slice of weight \(k\).
+Consequently the same \(D\) works for every permutation-invariant input
+law, since every such law is a mixture of these slices.
+
+In particular, Curie--Weiss input laws admit polynomial classical
+acceptance simulation at every inverse temperature, including
+dimension-dependent temperatures and the zero-temperature symmetric
+phase mixture. This remains true where their local-influence AA versions
+fail.
+
+This proof is a deduction recorded for the investigation; no novelty
+claim is made. Quantitative biased-product simulation and slice
+couplings also appear in
+\href{https://arxiv.org/html/2609.35327v1}{Girish--Mittal--Nehoran--Raz,
+Propositions 3.6 and 3.10, Remark 3.4}. The proof below derives the
+needed ingredients.

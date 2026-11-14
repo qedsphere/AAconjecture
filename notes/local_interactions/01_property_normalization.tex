@@ -1,0 +1,38 @@
+\subsection{The property and its
+normalization}\label{proof:local_interactions:the-property-and-its-normalization}
+
+Let \(J\) be a symmetric, zero-diagonal \(n\)-by-\(n\) interaction matrix and take
+no external field. Write
+
+\[
+H_J(x)=-\sum_{i<j}J_{ij}x_ix_j=-\tfrac12x^TJx,
+\qquad
+\mu_{\beta,J}(x)\propto e^{-\beta H_J(x)}.
+\]
+
+We fix the interaction scale by
+
+\[
+\max_i\sum_{j\ne i}|J_{ij}|\le1.
+\tag{N}
+\]
+
+For \(|f|\le 1\) on the whole cube and degree at most \(d\ge 1\), use
+\(I_i^\mu (f)=\mathbb{E}_\mu (D_if)^{2}\) with
+\(D_if=(f(x_{-i},1)-f(x_{-i},-1))/2\). A family has influence AA if
+there are \(c,a,b>0\) independent of \(n,d,f\) such that
+\(\max _i I_i^\mu (f)\ge c \operatorname{Var}_\mu (f)^a/d^b\). Constants
+may depend on a fixed inverse temperature or fixed structural
+parameters.
+
+Under (N) every finite-temperature law has the dimension-independent
+finite-energy bound
+
+\[
+\frac1{1+e^{2\beta}}\le\Pr(X_i=1\mid X_{-i})\le\frac{e^{2\beta}}{1+e^{2\beta}}.
+\tag{FE}
+\]
+
+Thus the negative examples below have full support and uniformly
+nondegenerate single-spin conditionals. Their failure does not come from
+forbidding configurations.

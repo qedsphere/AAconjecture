@@ -1,0 +1,75 @@
+% Shared preamble. Compile main.tex with LuaLaTeX.
+\usepackage[letterpaper,margin=1in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}[Scale=MatchLowercase]
+\setmonofont{TeX Gyre Cursor}[Scale=MatchLowercase]
+\setmathfont{TeX Gyre Pagella Math}
+\usepackage{microtype}
+\usepackage{xcolor}
+\definecolor{ReportBlue}{HTML}{17384B}
+\definecolor{LinkBlue}{HTML}{176078}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{enumitem,fancyvrb,fvextra,upquote,caption}
+\usepackage{titlesec,fancyhdr,needspace}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=LinkBlue,urlcolor=LinkBlue,citecolor=LinkBlue,
+  bookmarksnumbered=true,pdfencoding=auto]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{5pt}
+\setlength{\LTpre}{8pt}
+\setlength{\LTpost}{8pt}
+\renewcommand{\arraystretch}{1.15}
+\setlist{topsep=4pt,itemsep=3pt,parsep=1pt,leftmargin=*}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\allowdisplaybreaks[2]
+\titleformat{\section}{\Large\bfseries\color{ReportBlue}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{ReportBlue}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{13pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{10pt}{4pt}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Distributional AA}
+\fancyhead[R]{\small\sffamily November 2026}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\urlstyle{same}
+\providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\providecommand{\E}{\mathbb E}
+\providecommand{\R}{\mathbb R}
+\providecommand{\N}{\mathbb N}
+\providecommand{\AA}{\mathrm{AA}}
+\providecommand{\cAA}{c_{\mathrm{AA}}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\diag}{diag}
+\pdfstringdefDisableCommands{%
+  \def\AA{AA}\def\E{E}\def\Var{Var}\def\Cov{Cov}%
+  \def\beta{beta}\def\gamma{gamma}\def\lambda{lambda}%
+  \def\mu{mu}\def\rho{rho}\def\le{<=}\def\ge{>=}%
+}

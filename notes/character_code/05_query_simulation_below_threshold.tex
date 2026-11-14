@@ -1,0 +1,28 @@
+\subsection{Query simulation below the threshold}\label{qm:query-simulation-below-the-threshold}
+
+Let \(Q(y)\in[0,1]\) be the acceptance probability of an arbitrary \(T\)-query quantum algorithm. Clip any classical output to \([0,1]\); this never increases its absolute error. The uniform-input AA theorem supplies a classical algorithm \(D\) with
+
+\[
+\mathbb E_U|D-Q|\le\epsilon/2,\qquad
+\text{queries}\le\mathcal P(T,2/\epsilon)
+\]
+
+for a fixed polynomial \(\mathcal P\). If \(w_{\beta,n}\le\epsilon/2\), then
+
+\[
+\mathbb E_\mu|D-Q|\le\mathbb E_U|D-Q|+w\le\epsilon.
+\]
+
+If \(w>\epsilon/2\), the bound from Section~\ref{qm:exact-mixture-identity-and-transition-width} forces
+
+\[
+n<\frac{2}{1-\beta}\log_2(2/\epsilon).
+\]
+
+Read all \(n\) input bits and evaluate \(Q\) exactly. Query complexity ignores computation time, as in AA. Together these cases give a query bound
+
+\[
+\max\left\{\mathcal P(T,2/\epsilon),\frac{2}{1-\beta}\log_2(2/\epsilon)\right\},
+\]
+
+which is polynomial for each fixed \(\beta<1\). A high-probability additive approximation follows by applying this with average error \(\epsilon\delta\) and Markov's inequality.

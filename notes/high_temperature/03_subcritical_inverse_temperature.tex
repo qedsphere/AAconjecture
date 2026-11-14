@@ -1,0 +1,54 @@
+\subsection{Subcritical inverse temperature}\label{ht:subcritical-inverse-temperature-0-ux3b2-1}
+
+Our inverse-temperature convention is
+
+\[
+\mu_{n,\beta}(x)
+=\frac{1}{2^n Z_{n,\beta}}
+  \exp\!\left(\frac{\beta}{2n}\left(\sum_i x_i\right)^2\right),
+\qquad
+Z_{n,\beta}=\mathbb E_{U_n}e^{\beta S_n^2/(2n)}.
+\tag{CW}
+\]
+
+For every \(0\le \beta<1\),
+
+\[
+1\le Z_{n,\beta}\le(1-\beta)^{-1/2}.
+\tag{3.1}
+\]
+
+To verify the upper bound, let \(G\) be standard normal. The Gaussian moment-generating identity and \(\cosh(t)\le \exp(t^2/2)\) give
+
+\[
+\begin{aligned}
+Z_{n,\beta}
+ &=\mathbb E_G\left[\cosh\left(\sqrt{\beta/n}\,G\right)^n\right]\\
+ &\le\mathbb E_G e^{\beta G^2/2}
+ =(1-\beta)^{-1/2}.
+\end{aligned}
+\]
+
+Consequently, for \(1<p<1/\beta\),
+
+\[
+r_{n,\beta}\ge\sqrt{1-\beta},\qquad
+\|r_{n,\beta}\|_p
+=\frac{Z_{n,p\beta}^{1/p}}{Z_{n,\beta}}
+\le(1-p\beta)^{-1/(2p)}.
+\]
+
+Theorem HT1 yields the explicit statement
+
+\[
+\boxed{\quad
+\max_i I_i^{\mu_{n,\beta}}(f)
+\ge c_{\rm AA}\sqrt{1-\beta}\,
+ (1-p\beta)^{5/[4(p-1)]}
+ 4^{-\frac52(q-1)}
+ \frac{\operatorname{Var}_{\mu_{n,\beta}}(f)^{5q/2}}{d^6}.
+\quad}
+\tag{HT2}
+\]
+
+For example, when \(0<\beta<1\), choose \(p=(1+\beta)/(2\beta)\), so \(q=(1+\beta)/(1-\beta)\). This proves AA for each fixed subcritical inverse temperature. The constants and exponents in (HT2) deteriorate as \(\beta\) tends to one. The next argument gives a uniform polynomial bound on the entire closed interval \(0\le \beta\le 1\).

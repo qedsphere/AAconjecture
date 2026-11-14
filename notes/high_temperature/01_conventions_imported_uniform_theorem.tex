@@ -1,0 +1,20 @@
+\subsection{Conventions and imported uniform theorem}\label{ht:conventions-and-imported-uniform-theorem}
+
+Write \(U_n\) for uniform measure on \(\{-1,1\}^n\). The functions under discussion are multilinear polynomials \(f\) of degree at most \(d\ge 1\), bounded by \(|f(x)|\le 1\) on the \textbf{entire cube}. Define
+
+\[
+ D_i f(x)=\frac{f(x^{i\leftarrow+1})-f(x^{i\leftarrow-1})}{2},
+ \qquad I_i^\mu(f)=\mathbb E_\mu (D_i f)^2.
+\]
+
+The square equals \((f(x)-f(x^i))^2/4\). The derivative is independent of \(x_i\), has degree at most \(d-1\), and is bounded by one on the cube.
+
+We use the established uniform-cube bound
+
+\[
+ \max_i I_i^{U_n}(f)\ge c_{\rm AA}
+ \frac{\operatorname{Var}_{U_n}(f)^{5/2}}{d^6}.
+ \tag{UAA}
+\]
+
+Theorem 1.1 of \href{https://arxiv.org/abs/2611.09773}{Turturean, arXiv:2611.09773} states this normalization and exponent. The project-supplied \texttt{AA\_Exposition.pdf}, page 3, also records this stronger bound. Nothing below re-proves the uniform AA theorem.

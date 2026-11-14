@@ -1,0 +1,157 @@
+\subsection{A transport criterion with the missing hypothesis made
+explicit}\label{proof:positive_structure:a-transport-criterion-with-the-missing-hypothesis-made-explicit}
+
+Let \(Z\) be uniform on \(\{-1,1\}^N\), let \(T:\{-1,1\}^N \to\{-1,1\}^n\),
+and let \(\mu =T_*U_N\). Assume:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Each output coordinate \(T_i\) has multilinear degree at most \(k\) in
+  the source bits.
+\item
+  Each source coordinate \(j\) has a deterministic set \(S_j\) of at
+  most \(L\) outputs it can affect. Thus \(T(z)\) and \(T(z^j)\) agree
+  outside \(S_j\) for every \(z\).
+\item
+  Choose a fixed ordering of \(S_j\), and replace these output
+  coordinates one at a time to interpolate from \(T(z)\) to \(T(z^j)\).
+  Every intermediate random configuration \(W_{j,l}\) has law dominated
+  by \(C \mu\): for every nonnegative function \(h\),
+  \(\mathbb{E} h(W_{j,l}) \le  C \mathbb{E}_\mu  h\).
+\end{enumerate}
+
+\textbf{Theorem P1 (local-map transfer).} Under these assumptions,
+
+\[
+\boxed{\max_i I_i^\mu(f)
+\ge \frac{c_0}{C L^2 k^6}\frac{v^{5/2}}{d^6}.}
+\tag{P1}
+\]
+
+Source coordinates with no affected outputs have zero influence and can
+be ignored.
+
+\textbf{Proof.} The composition \(F=f\circ T\), after
+multilinearization, has degree at most \(kd\), is globally bounded, and
+has variance \(v\). A source-bit flip is telescoped over at most \(L\)
+output flips. Cauchy--Schwarz gives
+
+\[
+I_j^U(F)\le L\sum_{i\in S_j}\mathbb E(D_i f(W_{j,l(i)}))^2
+\le LC\sum_{i\in S_j}I_i^\mu(f)
+\le L^2C\max_i I_i^\mu(f).
+\]
+
+Apply UAA to \(F\) and rearrange. \qed
+
+The domination hypothesis cannot be omitted. A local source flip may
+move the output through configurations carrying negligible or zero
+target mass, even if its endpoints have the correct marginal law.
+
+\subsubsection{Finite conditional energies supply path
+domination}\label{proof:positive_structure:finite-conditional-energies-supply-path-domination}
+
+Suppose \(\mu\) has full support and, uniformly over all coordinates and
+conditioning configurations,
+
+\[
+\min_{s\in\{-1,1\}}\mu(X_i=s\mid X_{-i}=x_{-i})\ge a>0.
+\tag{FE}
+\]
+
+Then every conditional block atom on a set \(S\) of size at most \(L\)
+has probability at least \(a^L\). Reveal the coordinates of \(S\)
+sequentially: the partially conditioned probabilities are averages of
+the fully conditioned ones and remain at least \(a\).
+
+If \(X~\mu\) and any randomized modification \(W\) agrees with \(X\)
+outside \(S\), then
+
+\[
+\Pr(W=x)\le\mu(X_{-S}=x_{-S})\le a^{-L}\mu(x).
+\]
+
+No independence between the modification and \(X\) is needed.
+
+\textbf{Corollary P2.} Assumptions 1--2 of P1 and (FE) imply
+
+\[
+\boxed{\max_i I_i^\mu(f)
+\ge \frac{c_0a^L}{L^2k^6}\frac{v^{5/2}}{d^6}.}
+\tag{P2}
+\]
+
+This is dimension independent when \(a,k,L\) are fixed. A sampling
+radius growing with dimension cannot silently be absorbed into the
+constant.
+
+For a classical interaction Hamiltonian
+
+\[
+H(x)=-\sum_A J_A\prod_{i\in A}x_i,
+\qquad\Lambda=\max_i\sum_{A\ni i}|J_A|,
+\]
+
+the Gibbs law has (FE) with \(a=(1+\exp (2 \beta \Lambda))^{-1}\). A
+bounded local-field norm therefore supplies path comparison \textbf{if
+an exact sampling map with controlled \(k,L\) is also available}.
+Bounded local fields alone do not construct that map.
+
+\subsubsection{Counterexamples to tempting weaker
+statements}\label{proof:positive_structure:counterexamples-to-tempting-weaker-statements}
+
+\textbf{Local degree and overlap alone do not suffice.} Let
+\(T(z)=(z,z,z)\) for one uniform source spin, and let
+
+\[
+f(x)=\operatorname{Maj}_3(x)=\frac{x_1+x_2+x_3-x_1x_2x_3}{2}.
+\]
+
+The map has output degree one and source fanout three. The globally
+bounded \(f\) has degree three and variance one under \(T_*U\), but
+every coordinate influence is zero: a single bit flip at \(+++\) or
+\(---\) leaves majority unchanged. The interpolating paths leave the
+support.
+
+\textbf{Full support without uniform nondegeneracy does not repair the
+claim.} On each independent triple take
+\((1-\epsilon _n) \operatorname{Unif}\{+++ , ---\}+\epsilon _n U_3\), with
+\(\epsilon _n \to  0\). Majority of the first triple still has variance
+one and all its nonzero influences equal \(\epsilon _n/2\). These are
+full-support laws with independent bounded blocks; a uniform lower bound
+on block atom masses is essential below.
+
+\textbf{Finite conditional energies and easy sampling alone do not
+suffice.} Let \(Z\) be uniform and \(E_i\) independent spins
+with mean \(t \in (0,1)\), and put \(X_i=ZE_i\). Every conditional
+one-spin probability is in \([(1-t)/2,(1+t)/2]\). Nevertheless
+
+\[
+f(X)=\frac1n\sum_iX_i,\quad
+\operatorname{Var}f=t^2+(1-t^2)/n,\quad I_i(f)=n^{-2}.
+\]
+
+The sampler has depth two and degree two in its independent, partly
+biased source spins, but the source \(Z\) affects every output. To give
+a counterexample with only fair source bits, fix \(t=1/2\) and generate
+each \(E_i\) from two fair bits, assigning three source strings
+to \(+1\) and one to \(-1\). Then each output has degree at most three
+in fair bits, while the source \(Z\) still has fanout \(n\). With this
+explicit encoding, unbounded fanout is the sole missing hypothesis in
+P2.
+
+An explicit two-body Gibbs realization includes the root as an input
+spin:
+
+\[
+H(x_0,x_1,\ldots,x_n)=-Jx_0\sum_{i=1}^n x_i,
+\quad t=\tanh(\beta J).
+\]
+
+Leaf magnetization gives the same counterexample, with root influence
+zero, for every fixed \(\beta  J>0\). Interaction arity and individual
+coupling magnitude are bounded, but the root degree and total incident
+coupling are unbounded. Those first two bounds alone therefore cannot
+ensure a universal positive-temperature AA regime.

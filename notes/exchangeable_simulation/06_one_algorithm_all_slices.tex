@@ -1,0 +1,39 @@
+\subsection{One algorithm for all slices}\label{exch:sec-5}
+
+Take \(T\ge1\); the case \(T=0\) is immediate. For \(\epsilon\in(0,1)\)
+choose
+
+\[
+a=(\epsilon/(64T))^2,\qquad s=\max\{1,S(T,\epsilon/4,a)\},
+\] \[
+\Gamma=\min\{\epsilon/(8s),(\epsilon/(32T))^2\},\qquad
+\eta=a\Gamma/2,
+\] \[
+L=\lceil4/(\epsilon\eta^2)\rceil,\qquad
+N_0=\lceil1/(a^2\Gamma^2)\rceil,\qquad
+M=\max\{2L,L+N_0\}.
+\]
+
+Each quantity is polynomially bounded in \(T,1/\epsilon\). If \(n<M\),
+read every bit and output \(Q(X)\) exactly.
+
+Otherwise query the first \(L\) bits, calculate \(q\), and restrict
+\(Q\) to this observed prefix. Write the restricted acceptance function
+as \(Q_{\rm tr}\) on the remaining \(N=n-L\) bits. Fixing known
+coordinates does not increase quantum query complexity.
+
+\begin{itemize}
+\tightlist
+\item
+  If \(q\le2a\), output \(Q_{\rm tr}(0^N)\).
+\item
+  If \(q\ge1-2a\), output \(Q_{\rm tr}(1^N)\).
+\item
+  Otherwise run the product-bias-\(q\) simulator for \(Q_{\rm tr}\) from
+  Section~\ref{exch:sec-2}, with error \(\epsilon/4\)
+  and at most \(s\) further queries.
+\end{itemize}
+
+A suitable tree can be hardwired for each of the finitely many observed
+prefixes. This uses unrestricted computation but at most \(L+s\)
+queries, and never uses the unknown total weight \(k\).

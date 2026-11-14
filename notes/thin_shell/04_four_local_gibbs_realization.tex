@@ -1,0 +1,101 @@
+\subsection{A four-local Gibbs
+realization}\label{proof:thin_shell_obstruction:a-four-local-gibbs-realization}
+
+Set
+
+\[
+H_n(x)=n(S(x)^2-16)^2,\qquad
+\widetilde\mu_n(x)=\frac{e^{-H_n(x)}}{\sum_y e^{-H_n(y)}}.
+\tag{4.1}
+\]
+
+The inverse temperature is \(\beta =1\). The ground configurations are
+exactly \(S=\pm 4\), and every finite-n Gibbs weight is positive. Since
+n is even, off these shells the least value of \((S^{2}-16)^{2}\) is
+144, attained at \(S=\pm 2\). Every off-shell configuration has energy
+at least \(144n\).
+
+Writing \(\delta_n=\widetilde\mu_n(S\notin\{-4,4\})\), the zero-energy
+configurations give a partition-function lower bound
+\(2\binom{n}{n/2+2}\). Hence
+
+\[
+\delta_n\le\frac{2^n e^{-144n}}{2\binom n{n/2+2}}
+\le2^{n-1}e^{-144n}\le e^{-143n}.
+\tag{4.2}
+\]
+
+Conditional on the ground shells the law is \(\nu _n\). Symmetry and
+(1.3) therefore yield
+
+\[
+\operatorname{Var}_{\widetilde\mu_n}(f_n)\ge(1-\delta_n)n^{-10},
+\qquad \max_i I_i^{\widetilde\mu_n}(f_n)\le\delta_n\le e^{-143n}.
+\tag{4.3}
+\]
+
+\textbf{Theorem T2.} The fixed-temperature Gibbs family (4.1), generated
+by interactions involving at most four spins, fails every polynomial AA
+influence bound.
+
+The proof is the exponential-versus-polynomial comparison in T1. This is
+an actual low-arity Hamiltonian counterexample, rather than failure of
+an available proof technique.
+
+\subsubsection{Exact expansion and interaction
+strength}\label{proof:thin_shell_obstruction:exact-expansion-and-interaction-strength}
+
+On the Boolean cube,
+
+\[
+S^4=3n^2-2n+(12n-16)\sum_{i<j}x_ix_j
++24\sum_{i<j<k<\ell}x_ix_jx_kx_\ell.
+\]
+
+It follows that
+
+\[
+H_n(x)=n(3n^2-34n+256)
++n(12n-80)\sum_{i<j}x_ix_j
++24n\sum_{i<j<k<\ell}x_ix_jx_kx_\ell.
+\tag{4.4}
+\]
+
+The constant does not affect the law. The nonconstant interactions are
+two-local and four-local, but their strengths grow with n.~The maximum
+incident absolute interaction strength equals
+
+\[
+\Lambda_n=(n-1)|n(12n-80)|+24n\binom{n-1}{3}=\Theta(n^4).
+\]
+
+The energy range is \(n(n^{2}-16)^{2}=\Theta (n^{5})\) for even
+\(n\ge 6\). \textbf{This is not an extensive Hamiltonian with bounded
+local strength and does not satisfy the row/local-field normalization of
+the bounded-degree Ising examples.} Rescaling changes effective
+temperature; the conclusion cannot be transferred to that different
+normalization. The example disproves criteria based on interaction
+arity, covariance norm, or magnetization concentration alone.
+
+\subsubsection{Covariance remains bounded in the Gibbs
+realization}\label{proof:thin_shell_obstruction:covariance-remains-bounded-in-the-gibbs-realization}
+
+The elementary bounds
+\(16(1-\delta _n)\le \mathbb{E} S^{2}\le 16+n^{2}\delta _n\) already
+give \(\operatorname{Var}(M)\sim 16/n^{2}\) and a uniform covariance
+bound. In fact \(\mathbb{E} S^{2}<16\) for every even \(n\ge 6\), so the
+same norm bound two holds for \(n\ge 8\).
+
+To verify this, examine the unnormalized sum of \((S^{2}-16)e^{-H_n}\).
+The two shells \(S=\pm 2\) contribute at most \(-24e^{-144n}\), even
+ignoring their binomial multiplicities. Positive contributions come only
+from \(|S|\ge 6\), where \(H_n\ge 400n\), and their total is at most
+\(n^{2}2^n e^{-400n}\), which is strictly smaller than \(24e^{-144n}\).
+The \(S=0\) contribution is negative and \(S=\pm 4\) contributes zero.
+Therefore the sum is negative.
+
+For any exchangeable mean-zero spin law, the covariance eigenvalues are
+\(\mathbb{E} S^{2}/n\) and \((n^{2}-\mathbb{E} S^{2})/(n(n-1))\). Here
+they are at most \(16/n\) and \(n/(n-1)\), respectively, proving
+\(\lVert \operatorname{Cov}(X)\rVert_{\mathrm{op}}\le 2\) for even
+\(n\ge 8\).

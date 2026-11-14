@@ -1,0 +1,43 @@
+\subsection{Bounded degree, bounded row norm, and an explicit parameter
+choice}\label{proof:local_interactions:bounded-degree-bounded-row-norm-and-an-explicit-parameter-choice}
+
+For a \(d_{0}\)-regular graph G, set \(J_{ij}=1/d_{0}\) on edges and
+zero elsewhere. Then (N) holds with equality at every vertex. If the
+unweighted edge expansion is \(|\partial S|\ge h|S|\) for
+\(|S|\le n/2\), condition (E) holds with \(\kappa =h/d_{0}\). Theorem L2
+applies whenever
+
+\[
+\beta>\frac{d_0\log2}{2\alpha h}.
+\]
+
+There are infinite families of bipartite 16-regular Ramanujan graphs:
+\href{https://arxiv.org/abs/1304.4132}{Marcus, Spielman and Srivastava,
+\emph{Interlacing Families I}} proves existence of infinite bipartite
+Ramanujan families for every degree greater than two. Their
+second-largest adjacency eigenvalue is at most \(2\sqrt{15}<8\). For
+completeness, the standard spectral-to-cut estimate is
+
+\[
+|\partial S|=\mathbf1_S^T(16I-A)\mathbf1_S
+\ge(16-\lambda_2)|S|(1-|S|/n)\ge4|S|
+\]
+
+for \(|S|\le n/2\). To obtain the middle inequality subtract the
+constant component \((|S|/n)1\) and use the Laplacian spectral gap; the
+bipartite eigenvalue \(-16\) causes no problem for this lower bound.
+
+Thus \(\kappa \ge 1/4\). Choose \(\beta =6\) and \(\alpha =1/4\). Then
+\(2\beta \kappa \alpha \ge 3/4>\log 2\), and
+
+\[
+\operatorname{Var}(M)\ge\tfrac14\left[1-\tfrac12e^{-n(3/4-\log2)}\right],
+\qquad \max_i I_i(M)=n^{-2}.
+\tag{4.1}
+\]
+
+This is failure for \textbf{two-spin interactions on a graph of maximum
+degree 16, with row normalization one and a fixed finite \(\beta\)}. The
+graphs are not asserted to be nearest-neighbor graphs in a
+fixed-dimensional Euclidean lattice. Two-locality and spatial locality
+must not be conflated.

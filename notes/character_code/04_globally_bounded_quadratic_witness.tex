@@ -1,0 +1,54 @@
+\subsection{A globally bounded quadratic witness}\label{qm:a-globally-bounded-quadratic-witness}
+
+Define the quadratic Boolean function on the hidden string
+
+\[
+h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2,
+\qquad r_0=2^{-m}|h^{-1}(1)|=\frac{1-n^{-1/2}}2.
+\]
+
+For arbitrary spin input \(y\), define
+
+\[
+\widehat y(a)=\frac1n\sum_z y_z(-1)^{a\cdot z},
+\qquad P(y)=\sum_{a:h(a)=1}\widehat y(a)^2.
+\]
+
+By Parseval, \(\sum_a\widehat y(a)^2=1\) on the cube. Thus \(0\le P\le1\) everywhere, and \(P\) is a multilinear polynomial of degree at most \(2\), after replacing \(y_z^2\) by \(1\). On codewords, \(P(c_a)=h(a)\).
+
+For completeness, let \(A\) be the orthogonal projection with matrix
+
+\[
+A_{zz'}=\frac1n\sum_{a:h(a)=1}(-1)^{a\cdot(z+z')}.
+\]
+
+Then \(P(y)=y^TAy/n\), \(A_{zz}=r_0\), \(A^2=A\), and \(Ac_a=h(a)c_a\). These identities give
+
+\[
+\begin{array}{c|cc}
+&U_n&U_{C_n}\\\hline
+\mathbb EP&r_0&r_0\\
+\operatorname{Var}(P)&2r_0(1-r_0)/n&r_0(1-r_0)\\
+I_z(P)&4r_0(1-r_0)/n^2&4r_0(1-r_0)/n^2.
+\end{array}
+\]
+
+Here is the influence calculation explicitly:
+
+\[
+\frac{P(y)-P(y^{\oplus z})}{2}
+=\frac{2}{n}y_z\sum_{z'\ne z}A_{zz'}y_{z'}.
+\]
+
+Under \(U_n\), the squared expectation is \(4n^{-2}\sum_{z'\ne z}A_{zz'}^2=4r_0(1-r_0)/n^2\). At \(c_a\), it is \(4(h(a)-r_0)^2/n^2\), with the same code average. The uniform variance follows by orthogonality of distinct quadratic monomials and \(\sum_{z\ne z'}A_{zz'}^2=nr_0(1-r_0)\).
+
+Consequently, for the normalized witness \(f=2P-1\in[-1,1]\),
+
+\[
+\boxed{\displaystyle
+\operatorname{Var}_{\mu_{\beta,n}}(f)
+=(1-1/n)\left[w_{\beta,n}+\frac{2(1-w_{\beta,n})}{n}\right],
+\qquad I_z^{\mu_{\beta,n}}(f)=\frac{4(1-1/n)}{n^2}.}
+\]
+
+At \(\beta\ge1\), \(w\ge1/2\), so the variance is at least \(3/8\) for \(n\ge4\), while every influence tends to zero. No bound \(c_\beta(v/d)^{C_\beta}\) can hold. Heat-bath failure follows from \(B_z^\mu(f)\le I_z^\mu(f)\), which follows pointwise from the conditional factor \(4p_z(1-p_z)\le1\).

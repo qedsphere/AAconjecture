@@ -1,0 +1,25 @@
+\subsection{Three different coordinate quantities}
+
+The single-site conditional-variance influence is
+\[
+ H_i^\mu(f)=\mathbb E_\mu\operatorname{Var}(f\mid X_{-i})
+ =\mathbb E_\mu\left[\operatorname{Var}(X_i\mid X_{-i})(D_if)^2\right].
+\]
+For Curie--Weiss at finite $\beta\ge0$,
+\[
+ \operatorname{sech}^2(\beta)I_i^\mu(f)
+ \le H_i^\mu(f)\le I_i^\mu(f),
+\]
+because $\mathbb E[X_i\mid X_{-i}]=\tanh(\beta\sum_{j\ne i}X_j/n)$. Both definitions therefore have the same fixed-temperature threshold.
+
+The variance explained by \emph{revealing} a coordinate,
+\[
+ R_i^\mu(f)=\operatorname{Var}_\mu\bigl(\mathbb E_\mu[f\mid X_i]\bigr),
+\]
+is different again. For zero-field Curie--Weiss and $M=n^{-1}\sum_iX_i$, exchangeability and sign symmetry give
+\[
+ \mathbb E[M\mid X_i]=\operatorname{Var}(M)X_i,
+ \qquad R_i^\mu(M)=\operatorname{Var}(M)^2,
+ \qquad I_i^\mu(M)=n^{-2}.
+\]
+Above the transition the reveal quantity stays bounded away from zero while flip influence vanishes. Sampling $O(\epsilon^{-2})$ coordinates estimates $M$ to additive error $\epsilon$ with constant success probability on every fixed input. Thus magnetization disproves an influence inequality without demonstrating quantum advantage.

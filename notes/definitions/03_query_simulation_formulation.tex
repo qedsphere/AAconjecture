@@ -1,0 +1,5 @@
+\subsection{Query-simulation formulation}
+
+For a family $\mu_n$, acceptance simulation means that every $T$-query quantum algorithm has its acceptance probability approximated to additive error $\epsilon$ on at least a $1-\delta$ fraction of $\mu_n$ inputs using $\operatorname{poly}(T,1/\epsilon,1/\delta)$ classical queries, with a polynomial independent of $n$. Fixed model parameters may affect that polynomial. Computation time and the cost of sampling the Gibbs measure are not included in this query bound.
+
+Uniform AA implies this property for uniform inputs. A correlated-measure influence inequality alone does not supply the restriction argument needed for simulation. Section~\ref{proof:query_models} gives an actual query separation under a different Gibbs family.

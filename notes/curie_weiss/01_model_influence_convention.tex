@@ -1,0 +1,16 @@
+\subsection{Model and influence convention}\label{cw:model-and-influence-convention}
+
+For \(n\ge1\) and fixed \(\beta\ge0\), let
+
+\[
+\mu_{n,\beta}(x)=\mathcal Z_{n,\beta}^{-1}\exp\{\beta S(x)^2/(2n)\},\qquad S(x)=\sum_{i=1}^n x_i,
+\]
+
+on \(\{-1,1\}^n\), where the raw partition function is the sum over all cube inputs; it equals \(2^n\) times the uniform-expectation normalizer used in Section~\ref{proof:high_temperature}. There is no external field. The $1/n$ interaction normalization is essential to the numerical threshold. Write \(M=S/n\). For globally bounded multilinear \(f:\{-1,1\}^n\to[-1,1]\), define
+
+\[
+D_i f(x_{-i})=\frac{f(x_{-i},1)-f(x_{-i},-1)}2,\qquad
+I_i^\mu(f)=\mathbb E_\mu(D_if)^2.
+\]
+
+Thus \(I_i=\tfrac14\mathbb E(f(X)-f(X^i))^2\). The AA property considered here asks for a bound \(\max_i I_i\ge c\operatorname{Var}(f)^a/d^b\), with \(c>0\) and finite $a,b$ independent of $n,d,f$, for globally bounded polynomials of degree at most \(d\ge1\).

@@ -1,0 +1,27 @@
+\subsection{Elementary latent Poincaré inequality}\label{cw:elementary-latent-poincaruxe9-inequality}
+
+For smooth $h$ with finite indicated integrals,
+
+\[
+\boxed{\operatorname{Var}_{\rho}(h)\le A^2\mathbb E_{\rho}(h')^2
+\le Cb^2\mathbb E_{\rho}(h')^2.}
+\]
+
+Proof. \(W_\beta\) is convex and even because \(W_\beta^{\prime\prime}=a+\tanh^2z\ge0\). For \(z\ge0\) let \(T(z)=\int_z^\infty\rho(t)\,dt\). Convexity gives
+
+\[
+\frac{T(z)}{\rho(z)}
+=\int_0^\infty e^{-n(W_\beta(z+t)-W_\beta(z))}dt
+\le\int_0^\infty e^{-nW_\beta(t)}dt=A/2.
+\]
+
+Put \(u=h-h(0)\). Integration by parts on the positive half-line followed by Cauchy--Schwarz gives
+
+\[
+\int_0^\infty u^2\rho
+=2\int_0^\infty uu'T
+\le A\left(\int_0^\infty u^2\rho\right)^{1/2}
+       \left(\int_0^\infty (u')^2\rho\right)^{1/2}.
+\]
+
+Thus the first integral is at most \(A^2\) times the derivative integral. Reflection proves the same on the negative half-line, and \(\operatorname{Var}(h)\le\mathbb E(h-h(0))^2\) finishes the proof. One can first use compactly supported derivatives and then truncate. The application below is bounded and smooth, with vanishing boundary terms directly.

@@ -1,0 +1,55 @@
+\subsection{A reusable criterion for shrinking latent
+mixtures}\label{proof:positive_structure:a-reusable-criterion-for-shrinking-latent-mixtures}
+
+Suppose \(\mu _n\) is a mixture of product-spin laws with common random
+mean \(T_n\), and assume, with fixed constants:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(T_n\) is symmetric and \(\mathbb{E} T_n^2\le C n^{-\alpha }\) for
+  some \(\alpha >0\).
+\item
+  Its density is at least \(\eta /a_n\) on \([-a_n,a_n]\), with
+  \(a_n \in (0,1]\) and fixed \(\eta >0\).
+\item
+  \(\operatorname{Var}_\mu  g\le C n^\gamma  \sum_i I_i^\mu (g)\) for
+  every real \(g\), with \(\gamma \ge 0\).
+\end{enumerate}
+
+\textbf{Theorem P4 (latent-mixture transfer).} These conditions imply
+
+\[
+\max_i I_i^{\mu_n}(f)\ge c\frac{v^A}{d^B},
+\quad A=\max\left\{\frac52,1+\frac{\gamma+1}{\alpha}\right\},
+\quad B=\max\left\{8,\frac{4(\gamma+1)}{\alpha}\right\}.
+\tag{P4}
+\]
+
+\textbf{Proof.} For bounded degree-\(r\) \(h\), the function
+\(q(t)=\mathbb{E}_{P_t}h\) is a bounded univariate degree-\(r\)
+polynomial, so \(\lVert q''\rVert\le r^4\). Symmetry gives
+\(|\mathbb{E}_\mu  h-\mathbb{E}_U h|\le C r^4n^{-\alpha }\) and hence
+\(|\operatorname{Var}_\mu  f-\operatorname{Var}_U f|\le C d^4n^{-\alpha }\).
+
+For the nonnegative polynomial \(q_i(t)=\mathbb{E}_{P_t}(D_i f)^2\),
+central density and the rescaled Markov inequality give
+\(I_i^\mu \ge c I_i^U/d^2\): its integral over the central interval is
+at least a constant times \(a_n q_i(0)/d^2\). The complete polynomial
+integral lemma is in Section~\ref{proof:high_temperature}.
+
+When \(n\ge (C d^4/v)^{1/\alpha }\), variance comparison and UAA give
+\(I_{\max}\ge c v^{5/2}/d^8\). Below that cutoff, Poincaré gives
+
+\(I_{\max}\ge v/(C n^{\gamma +1})\ge c v^{1+(\gamma +1)/\alpha }/d^{4(\gamma +1)/\alpha }\).
+
+Both imply P4 because \(v\le 1\) and \(d\ge 1\). \qed
+
+Normalized zero-field Curie--Weiss at \(0<\beta \le 1\) has
+\(\alpha =\gamma =1/2\), recovering the sharp variance exponent four and
+degree exponent twelve. The endpoint \(\beta =0\) is uniform and is
+handled directly; its degenerate latent variable has no density of the
+type assumed above. This criterion isolates latent concentration,
+central mass, and a controlled variance inequality rather than treating
+temperature alone as decisive.

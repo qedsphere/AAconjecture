@@ -1,0 +1,38 @@
+\subsection{The interaction
+Hamiltonian}\label{proof:higher_order_obstructions:the-interaction-hamiltonian}
+
+Let \(L = \operatorname{arctanh} \rho\). At \(\beta  = 1\), an exact
+Hamiltonian up to an additive constant is
+
+\[
+H_{n,\rho}(x)=-\log\sum_{a\in\mathbb F_2^m}
+\cosh\left(L\sum_z x_zc_a(z)\right). \tag{H2}
+\]
+
+This follows by summing the product-noise likelihoods over \(A,B\). The
+conditional-probability bound implies
+\(|H(x)-H(x^{(i)})| \le  2 \operatorname{arctanh} \rho\). Thus
+single-spin energy changes can be arbitrarily small and entropy density
+arbitrarily close to \(\log  2\), yet AA fails.
+
+The energy oscillation is at most \(\log  \cosh (Ln) \le  Ln\): the sum
+of coshes lies between n and \(n \cosh (Ln)\). Thus this obstruction
+also respects an \(O(n)\) total-energy budget. It relies on global
+higher-order interactions, not a superextensive energy range.
+
+The energy is invariant under coordinatewise multiplication by every
+affine character codeword. Its Fourier coefficients can therefore be
+nonzero only on sets S with \(|S|\) even and \(\sum_{z\in S}z=0\). The
+smallest nonempty such set has size four. There are no one-, two-, or
+three-body Fourier terms. This is a higher-order global interaction, not
+a four-locality claim: higher orders are generally present.
+
+Consequently uniform marginals, identity covariance, three-wise
+independence, near-maximal entropy density, a uniform lower bound on
+single-site conditional randomness, and small one-spin energy changes
+are jointly insufficient for influence AA. These are genuine negatives
+furnished by H1.
+
+They do not refute Dobrushin contraction, spectral independence under
+every pinning, or bounded interaction order: those stronger hypotheses
+have not been established for this example.

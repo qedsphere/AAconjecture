@@ -1,0 +1,145 @@
+\subsection{Products of arbitrary finite
+blocks}\label{proof:positive_structure:products-of-arbitrary-finite-blocks}
+
+Partition the coordinates into arbitrary disjoint blocks of size at most
+\(B\). Let
+
+\[
+\mu=\bigotimes_b\pi_b,
+\qquad\pi_b(x_b)\ge a>0
+\quad\text{for every block atom.}
+\tag{BP}
+\]
+
+The block laws may differ and depend on the total dimension; \(B,a\) are
+uniform.
+
+\textbf{Theorem P3 (bounded blocks).} There is \(c_{B,a}>0\) such that
+
+\[
+\boxed{\max_i I_i^\mu(f)
+\ge c_{B,a}\frac{v^{5/2}}{d^6\log^6(2d/v)}
+\ge c'_{B,a}\frac{v^{7/2}}{d^7}.}
+\tag{P3}
+\]
+
+For \(v=0\), use the polynomial bound with right side zero. Arbitrary
+real atom probabilities are permitted: no finite-precision assumption is
+imposed.
+
+\subsubsection{Step 1: simultaneous dyadic approximation avoids
+dimension
+error}\label{proof:positive_structure:step-1-simultaneous-dyadic-approximation-avoids-dimension-error}
+
+Approximate each block law by a law \(\pi'_b\) with denominator \(2^k\),
+total mass one, and atom errors at most \(2^{-k}\). Round masses down
+and distribute the missing units. If \(2^{-k}\le a/2\), every new atom
+is at least \(a/2\).
+
+Put \(\pi_{b,t}=\pi_b+t(\pi'_b-\pi_b)\). These are probability laws whenever
+\(|t|\le R=a2^{k-1}\): every atom remains at least \(a/2\), and the
+masses sum to one. For any cube-bounded multilinear degree-\(r\)
+function \(h\),
+
+\[
+q_h(t)=\mathbb E_{\otimes_b\pi_{b,t}}h
+\]
+
+is a polynomial of degree at most \(r\): a monomial touches at most
+\(r\) blocks. It is bounded by one on \([-R,R]\). When \(R\ge 1\),
+Markov's inequality gives
+
+\[
+|\mathbb E_{\mu'}h-\mathbb{E}_\mu h|
+\le r^2/R=2r^2 2^{-k}/a.
+\tag{3.1}
+\]
+
+There is no dependence on the number of blocks. Applying this to
+\(f,f^2,(D_i f)^2\), with multilinearization where necessary, yields
+
+\[
+|\operatorname{Var}_{\mu'}f-v|\le12d^2 2^{-k}/a,
+\quad |I_i^{\mu'}(f)-I_i^\mu(f)|\le8d^2 2^{-k}/a.
+\tag{3.2}
+\]
+
+\subsubsection{Step 2: exact sampling of approximate
+blocks}\label{proof:positive_structure:step-2-exact-sampling-of-approximate-blocks}
+
+Sample each \(\pi'_b\) with exactly \(k\) fair bits, assigning the
+\(2^k\) source strings with the prescribed multiplicities. Every output
+coordinate has degree at most \(k\). Hence \(F=f\circ T\) has degree at
+most \(kd\) and variance
+\(\operatorname{\operatorname{Var}}_{\mu\prime} f\).
+
+A source-bit flip changes only its own block, at most \(B\) outputs.
+Every intermediate output law is at most \((2/a)\mu '\): outside the
+block the law is unchanged and independent, and every block atom has
+mass at least \(a/2\). The telescoping proof of P1 gives
+
+\[
+\max_i I_i^{\mu'}(f)
+\ge\frac{c_0a}{2B^2}
+\frac{\operatorname{Var}_{\mu'}(f)^{5/2}}{k^6d^6}.
+\tag{3.3}
+\]
+
+This direct full-block comparison is stronger than applying a
+single-site floor for each changed coordinate.
+
+\subsubsection{Step 3: choose precision using degree and
+variance}\label{proof:positive_structure:step-3-choose-precision-using-degree-and-variance}
+
+Choose \(k=\lceil A_{B,a}\log_2(2d/v)\rceil\), where \(A_{B,a}\) is
+sufficiently large. Then \(R\ge 1\), the variance error in (3.2) is at
+most \(v/2\), and its influence error is at most half of (3.3) with
+variance replaced by \(v/2\).
+
+To justify a uniform choice, put \(x=2d/v\ge 2\). Since
+\(d^8/v^{5/2}\le x^8\), the needed error comparison reduces to
+\(2^{-k}k^6\le c_{B,a}x^{-8}\). With \(k\le A_{B,a}\log _2 x+1\),
+sufficiently large fixed \(A_{B,a}\) makes this true for all \(x\ge 2\).
+Exponential decay in \(k\) dominates its sixth power. No choice depends
+separately on dimension.
+
+Equations (3.2)--(3.3) prove the first bound in P3. The universal bound
+\(\log ^6(2d/v)\le C d/v\) gives the second. \qed
+
+\subsubsection{Interaction interpretation and a density-method
+counterexample}\label{proof:positive_structure:interaction-interpretation-and-a-density-method-counterexample}
+
+If a classical Hamiltonian decomposes over components of size at most
+\(B\), each with energy oscillation at most \(W\), its Gibbs law
+satisfies (BP) with \(a\ge 2^{-B}e^{-\beta  W}\). Thus fixed finite
+inverse temperature, bounded component size, and bounded component
+energy oscillation imply AA. There is no universal finite-temperature
+failure threshold in this class; constants may deteriorate as
+temperature approaches zero.
+
+For \(m\) independent Ising edges with coupling \(K=\beta  J \ne 0\),
+relative density to uniform is a product of \(e^{Kxy}/\cosh  K\). Its
+minimum is \((e^{-|K|}/\cosh  K)^m\), tending exponentially to zero. For
+every fixed \(p>1\),
+
+\[
+\left\|\frac{d\mu}{dU}\right\|_p
+=\left(\frac{\cosh(pK)}{\cosh(K)^p}\right)^{m/p},
+\]
+
+which grows exponentially. P3 still proves AA at every fixed finite
+coupling. Independent biased spins are the block-size-one special case.
+
+\subsubsection{An alternative finite-alphabet
+reduction}\label{proof:positive_structure:an-alternative-finite-alphabet-reduction}
+
+A \(K\le 2^B\)-atom block can also be sampled by \(K-1\) independent
+stick-breaking Bernoulli variables, with stage-\(j\) probability
+\(\pi_j/(\pi_j+\cdots+\pi_K)\). If all atoms are at least \(a\), these
+probabilities lie in \([a,1-a]\). Output coordinates have degree at most
+\(K-1\). The block-path argument then transfers AA from bounded-bias
+products.
+\href{https://arxiv.org/html/2609.35327v1}{Girish--Mittal--Nehoran--Raz,
+Remark 4.5} explicitly permits coordinate-dependent biases bounded away
+from zero and one. The proof above avoids this additional imported
+theorem.

@@ -1,0 +1,22 @@
+\subsection{Hybrid estimates}\label{exch:sec-1}
+
+Suppose \((X,Y)\) is a coupling for which, for every coordinate and
+every \(x\) in the support, \(\Pr[Y_i\ne X_i\mid X=x]\le\gamma\). Then
+
+\[
+\mathbb E|Q(X)-Q(Y)|\le4T\sqrt\gamma,\qquad
+\mathbb E|D(X)-D(Y)|\le s\gamma
+\]
+
+for a \(T\)-query quantum acceptance function \(Q\) and an \(s\)-query
+deterministic classical output \(D\in[0,1]\).
+
+For the quantum estimate, telescope the computations one oracle call at
+a time. If \(q_{t,i}(x)\) is the query weight at location \(i\) in the
+computation on \(x\) before query \(t\), the usual hybrid bound is
+\(4\sum_{t=1}^T(\sum_{i:x_i\ne y_i}q_{t,i}(x))^{1/2}\). Condition on
+\(X\), apply Jensen, and use \(\sum_iq_{t,i}(x)=1\). For the classical
+estimate, the computations agree unless a mismatch occurs at one of the
+at most \(s\) coordinates on the path on \(X\); use the conditional
+union bound. The same estimates hold in the reverse direction if the
+conditional mismatch hypothesis is reversed.

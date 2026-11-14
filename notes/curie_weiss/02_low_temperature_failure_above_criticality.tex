@@ -1,0 +1,29 @@
+\subsection{Low temperature: failure above criticality}\label{cw:low-temperature-failure-for-every-fixed-beta1}
+
+Take \(f=M\). It is globally bounded and has degree one. Its derivative is \(D_iM=1/n\), so \(I_i(M)=1/n^2\) under every distribution. Symmetry gives \(\mathbb E M=0\). For every fixed \(\beta>1\),
+
+\[
+M\Longrightarrow\tfrac12\delta_{-m_\beta}+\tfrac12\delta_{m_\beta},\qquad
+\operatorname{Var}(M)\longrightarrow m_\beta^2>0,
+\]
+
+where \(m_\beta\) is the unique positive solution of \(m=\tanh(\beta m)\). Fix \(\varepsilon=m_\beta^2/2\). For all sufficiently large n, \(\operatorname{Var}(M)\ge\varepsilon\) while \(\max_i I_i(M)=n^{-2}\to0\). Therefore \textbf{no positive dimension-free influence lower bound depending only on degree and a positive lower bound on variance} can hold for this family at \(\beta>1\), even if polynomial dependence is not required.
+
+\subsubsection{Elementary proof of phase coexistence}\label{cw:elementary-proof-of-phase-coexistence}
+
+Let
+
+\[
+h(m)=-\frac{1+m}{2}\log\frac{1+m}{2}-\frac{1-m}{2}\log\frac{1-m}{2},\qquad
+F_\beta(m)=h(m)+\beta m^2/2.
+\]
+
+For the lattice point \(m=(2k-n)/n\), its probability is proportional to \(\binom nk\exp(n\beta m^2/2)\). Uniformly in k, the elementary type bounds give
+
+\[
+(n+1)^{-1}e^{nh(m)}\le\binom nk\le e^{nh(m)}.
+\]
+
+For \(|m|<1\), \(F_\beta^{\prime}(m)=\beta m-\operatorname{arctanh}(m)\). On (0,1), \(\operatorname{arctanh}(m)/m\) is strictly increasing from 1 to infinity. Thus when \(\beta>1\) the only global maxima are \(\pm m_\beta\). Away from any neighborhoods of them, compactness gives a positive free-energy gap. The binomial bounds imply that the probability of this complement tends to zero exponentially, up to a polynomial factor, by comparing to a lattice point near a maximum. Symmetry gives equal limiting masses at the two maxima. Since \(|M|\le1\), convergence of its second moment follows. This proves the assertion.
+
+For \(\beta\le1\), the same derivative calculation makes 0 the unique free-energy maximum, hence \(M\to0\) in probability. This fact by itself would not establish AA.

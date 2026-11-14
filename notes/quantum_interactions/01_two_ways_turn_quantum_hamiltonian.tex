@@ -1,0 +1,37 @@
+\subsection{Two ways to turn a quantum Hamiltonian into classical
+input}\label{quant:sec-1}
+
+Let \(\mathcal H\) be an \(n\)-qubit Hamiltonian with a fixed
+computational basis. Two possible classical input measures are
+
+\[
+\begin{aligned}
+\mu_{\beta,\mathcal H}^{\rm meas}(x)
+&=\frac{\langle x|e^{-\beta\mathcal H}|x\rangle}{\operatorname{Tr}(e^{-\beta\mathcal H})},\\
+\mu_{\beta,\mathcal H}^{\rm diag}(x)
+&=\frac{e^{-\beta\langle x|\mathcal H|x\rangle}}
+{\sum_y e^{-\beta\langle y|\mathcal H|y\rangle}}.
+\end{aligned}
+\]
+
+The first measures a quantum thermal state in the computational basis.
+The second discards off-diagonal entries before taking a classical Gibbs
+law. They agree for diagonal Hamiltonians but generally differ:
+dephasing and exponentiating do not commute.
+
+For the EPR interaction \(K=-|\psi^+\rangle\langle\psi^+|\), the
+unnormalized measured thermal weights on \(00,01,10,11\) are
+
+\[
+1,\quad(1+e^\beta)/2,\quad(1+e^\beta)/2,\quad1.
+\]
+
+Exponentiating diagonal energies instead gives
+
+\[
+1,\quad e^{\beta/2},\quad e^{\beta/2},\quad1.
+\]
+
+These differ for every \(\beta>0\). An AA problem with quantum
+interactions must choose a model. The counterexample below works for
+both.

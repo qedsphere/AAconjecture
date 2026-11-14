@@ -1,0 +1,39 @@
+\subsection{Magnetization concentration and bounded
+covariance}\label{proof:thin_shell_obstruction:magnetization-concentration-and-bounded-covariance}
+
+The spin means vanish. Under \(\nu _n\), \(\mathbb{E} S^{2}=16\), and
+exchangeability gives
+
+\[
+\mathbb E_{\nu_n}X_iX_j=\frac{16-n}{n(n-1)}\quad(i\ne j).
+\]
+
+The covariance eigenvalues are \(16/n\) in the all-ones direction and
+\((n^{2}-16)/(n(n-1))\) on its orthogonal complement. Therefore
+
+\[
+\|\operatorname{Cov}_{\nu_n}(X)\|_{\rm op}\le2\quad(n\ge8\text{ even}).
+\tag{3.1}
+\]
+
+At \(n=6\) the norm is \(8/3\), not two. The same norm bound two holds
+for \(\mu _n\) when \(n\ge 8\), since its covariance is
+\((1-e^{-n})\operatorname{Cov}_\nu +e^{-n}I\). For \(M=S/n\),
+
+\[
+\operatorname{Var}_{\mu_n}(M)=(1-e^{-n})\frac{16}{n^2}+e^{-n}\frac1n
+\sim\frac{16}{n^2}.
+\tag{3.2}
+\]
+
+Moreover \(\mu _n(|M|=4/n)\ge 1-e^{-n}\). These distributions have
+stronger magnetization concentration than the uniform cube, bounded
+covariance norm, and no constant-variance distributed linear witness,
+but still fail full polynomial AA.
+
+Bounded covariance does imply a degree-one theorem: if
+\(\lVert \operatorname{Cov}(X)\rVert_{\mathrm{op}}\le C\) and
+\(f=a_{0}+\sum_i a_iX_i\) is globally bounded by one, then
+\(\sum_i|a_i|\le 1\) and \(\operatorname{Var}(f)\le C \max _i|a_i|\).
+Thus \(\max _i I_i(f)\ge \operatorname{Var}(f)^{2}/C^{2}\). Theorem T1
+shows why this does not automatically extend to higher fixed degrees.

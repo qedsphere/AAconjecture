@@ -1,0 +1,31 @@
+\subsection{Noisy affine-character
+inputs}\label{proof:higher_order_obstructions:noisy-affine-character-inputs}
+
+Fix \(0 < \rho  < 1\), set \(\epsilon  = (1-\rho )/2\), let \(m \ge  2\)
+be even, and let \(n = 2^{m}\). Coordinates are
+\(z \in  \mathbb F_2^m\). Draw A uniform on \(\mathbb F_2^m\), B uniform
+on \(\mathbb F_2\), and independent signs \(\eta _z\) of mean \(\rho\).
+Set \(X_z = (-1)^{B+A\cdot z}\eta _z\) and denote its full-support law
+by \(\mu_{n,\rho}\). Then:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Every marginal of at most three distinct coordinates is uniform;
+  \(\operatorname{Cov}(X)=I\).
+\item
+  \(\epsilon  \le  \Pr (X_i=+1\mid X_{-i}) \le  1-\epsilon\) for every
+  conditioning.
+\item
+  Shannon entropy \(H(X) \ge  n h(\epsilon )\), in natural units, and
+  \(\max _{x}\mu (x) \le  (1-\epsilon )^{n}\).
+\end{enumerate}
+
+For (1), odd joint moments up to order three vanish by averaging B;
+distinct pair moments vanish by averaging A. Independent noise preserves
+these zero moments. For (2), condition additionally on \(A,B\): the
+remaining noise bit is independent, with probability \(\epsilon\) or
+\(1-\epsilon\), and averaging preserves this interval. For (3),
+\(H(X) \ge  H(X|A,B) = n h(\epsilon )\); each mixture component has the
+stated maximum point mass.

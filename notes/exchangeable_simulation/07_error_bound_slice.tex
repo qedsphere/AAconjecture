@@ -1,0 +1,44 @@
+\subsection{Error bound for every slice}\label{exch:sec-6}
+
+Fix any \(k\) for the analysis. A bad prefix is one with \(|p-q|>\eta\).
+Its probability is at most \(\epsilon/4\) by Section~\ref{exch:sec-4}. On good
+prefixes:
+
+\textbf{Endpoint branches.} If \(q\le2a\), then \(p\le3a\), because
+\(\eta\le a\). Couple the remaining slice with the fixed all-zero string
+and apply the hybrid bound conditioning on that all-zero string: each
+coordinate differs with probability \(p\). Hence
+
+\[
+\mathbb E|Q_{\rm tr}(X)-Q_{\rm tr}(0^N)|
+\le4T\sqrt{3a}=(\sqrt3/16)\epsilon<\epsilon/8.
+\]
+
+The all-one branch has the same bound.
+
+\textbf{Central branch.} Here \(q\in(2a,1-2a)\) and \(p\in[a,1-a]\).
+Since \(N\ge N_0\), the coupling of
+Section~\ref{exch:sec-3} has mismatch probability
+\(\gamma\le\Gamma\). Its product variable is \(Y\). The selected tree
+\(D_{\rm tr}\) therefore has slice error bounded by
+
+\[
+\begin{aligned}
+\mathbb E|D_{\rm tr}(X)-Q_{\rm tr}(X)|
+&\le\mathbb E|D_{\rm tr}(Y)-Q_{\rm tr}(Y)|
++\mathbb E|D_{\rm tr}(X)-D_{\rm tr}(Y)|\\
+&\quad+\mathbb E|Q_{\rm tr}(X)-Q_{\rm tr}(Y)|\\
+&\le\epsilon/4+s\Gamma+4T\sqrt\Gamma\\
+&\le\epsilon/4+\epsilon/8+\epsilon/8=\epsilon/2.
+\end{aligned}
+\]
+
+Bad prefixes contribute at most their probability, since absolute error
+is at most one. Thus for every \(k\),
+
+\[
+\mathbb E_{U_{n,k}}|D-Q|\le\epsilon/2+\epsilon/4<\epsilon.
+\]
+
+This is the same tree for all \(k\). Its query bound \(\max\{M,L+s\}\)
+is polynomial, completing the proof. \(\square\)

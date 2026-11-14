@@ -1,0 +1,38 @@
+\subsection{Finite-size spin Poincaré bound}\label{cw:finite-n-spin-poincaruxe9-bound-uniform-in-betale1}
+
+For every real function $f$ on the cube,
+
+\[
+\boxed{\operatorname{Var}_{\mu_{n,\beta}}f
+\le(1+Cnb^2)\sum_i I_i^{\mu_{n,\beta}}(f)
+\le C'n^{3/2}\max_i I_i^{\mu_{n,\beta}}(f).}
+\]
+
+Here \(0<\beta\le1\), while \(\beta=0\) satisfies the stronger ordinary product Poincaré inequality. To prove the displayed bound, write \(g(z)=\mathbb E_{\pi_p}f\) with \(p=\tanh z\). Conditional variance decomposition gives
+
+\[
+\operatorname{Var}_{\mu}f
+=\mathbb E_Z\operatorname{Var}_{\pi_p}f+\operatorname{Var}_Zg.
+\]
+
+Product Efron--Stein says
+
+\[
+\operatorname{Var}_{\pi_p}f\le(1-p^2)\sum_i\mathbb E_{\pi_p}(D_if)^2.
+\]
+
+Differentiating the finite product-measure expectation gives
+
+\[
+g'(z)=(1-p^2)\sum_i\mathbb E_{\pi_p}D_if,
+\qquad
+|g'(z)|^2\le n\sum_i\mathbb E_{\pi_p}(D_if)^2.
+\]
+
+The second inequality uses Cauchy--Schwarz and Jensen. Integrate and apply Section~\ref{cw:elementary-latent-poincaruxe9-inequality} to conclude
+
+\[
+\operatorname{Var}_{\mu}f\le(1+Cnb^2)\sum_i I_i^{\mu}(f).
+\]
+
+Since \(nb^2\le\sqrt n\) and \(n\ge1\), the second bound follows.

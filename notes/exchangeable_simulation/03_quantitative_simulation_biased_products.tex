@@ -1,0 +1,45 @@
+\subsection{Quantitative simulation on biased
+products}\label{exch:sec-2}
+
+\textbf{Lemma.} For \(a\in(0,1/2]\), every bias \(q\in[a,1-a]\), every
+input length \(N\), and every \(T\)-query acceptance function, there is
+a deterministic simulator with error \(e\) under
+\(\operatorname{Bernoulli}(q)^{\otimes N}\) and at most
+
+\[
+S(T,e,a)=S_0(2bT,2/e),\qquad
+b=\max\left\{1,\left\lceil\log_2\frac{64T^2}{ae^2}\right\rceil\right\}
+\]
+
+queries. A monotone polynomial majorant gives a common bound for all
+indicated biases.
+
+\textbf{Proof.} Let \(q'\) be the smallest dyadic of denominator \(2^b\)
+at least \(q\). A threshold gadget \(g\) on \(b\) uniform bits has
+acceptance probability \(q'\). Lift the original quantum algorithm to
+\(Q(g(z_1),\ldots,g(z_N))\). Each virtual query is implementable with
+\(2b\) input queries, so uniform AA supplies a classical approximation
+with error \(e/2\) and the stated query bound.
+
+On a \(q'\)-biased input \(Y\), independently generate each block
+conditional on \(g(z_i)=Y_i\) and simulate the classical tree. Formally,
+pre-sample a separate conditional block for each possible bit value at
+every position, independently of the input, then select the appropriate
+block after querying that bit. Lazy generation needs at most one query
+to \(Y_i\) when that block is first touched. The expected error is still
+\(e/2\); fix the auxiliary randomness by averaging to obtain a
+deterministic tree \(A(Y)\).
+
+Couple \(q\)-biased \(X\) and \(q'\)-biased \(Y\) coordinatewise by
+common independent uniform thresholds. Then
+
+\[
+\Pr[X_i\ne Y_i\mid X_i]\le(q'-q)/(1-q)\le2^{-b}/a.
+\]
+
+The quantum hybrid estimate gives \(\mathbb E|Q(X)-Q(Y)|\le e/2\), hence
+\(\mathbb E|A(Y)-Q(X)|\le e\). To implement this approximation on \(X\),
+sample the independent channels \(Y_i\mid X_i\) as each location is
+queried. Fix the channel randomness by averaging. The resulting
+deterministic tree on \(X\) uses no additional queries and has error at
+most \(e\). All fixed random seeds are input-independent. \(\square\)

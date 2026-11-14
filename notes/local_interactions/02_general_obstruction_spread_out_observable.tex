@@ -1,0 +1,45 @@
+\subsection{A general obstruction: a spread-out observable distinguishes
+phases}\label{proof:local_interactions:a-general-obstruction-a-spread-out-observable-distinguishes-phases}
+
+\textbf{Proposition L1.} Let \(\mu _n\) be any spin distribution.
+Suppose there are real vectors \(a^{(n)}\) with \(\sum_i|a_i|\le 1\),
+\(\max _i|a_i|\to 0\), and
+
+\[
+\liminf_{n\to\infty}\operatorname{Var}_{\mu_n}\left(\sum_i a_iX_i\right)>0.
+\]
+
+Then the family fails influence AA, and in fact fails every positive
+dimension-free influence guarantee based on degree and a positive lower
+bound for the variance.
+
+\textbf{Proof.} The linear function \(f_n(x)=\sum_i a_ix_i\) is bounded
+by one on the entire cube and has \(I_i(f_n)=a_i^{2}\) under every law.
+Its maximum influence tends to zero while its variance is bounded below.
+\qed
+
+For symmetric zero-field systems the most direct case is \(a_i=1/n\).
+More generally \(a_i=\sigma _i/n\), \(\sigma_i\in\{-1,1\}\), detects a
+staggered or gauge-transformed phase. The substantive condition is a
+collective random phase with a distributed linear witness. Concentration
+on a single configuration alone does not satisfy it, because then the
+variance disappears.
+
+\textbf{Proposition L1a (a degree-one positive criterion).} If the spin
+covariance matrix satisfies
+\(\lVert \operatorname{Cov}_\mu (X)\rVert_{\mathrm{op}}\le C\) uniformly
+in n, then every globally bounded linear polynomial obeys
+
+\[
+\max_i I_i^\mu(f)\ge \operatorname{Var}_\mu(f)^2/C^2.
+\]
+
+Indeed, writing \(f=a_{0}+\sum_i a_iX_i\), global boundedness gives
+\(\sum_i|a_i|\le 1\). Thus
+\(\operatorname{Var}(f)\le C\sum_i a_i^{2}\le C \max _i|a_i|\), and
+\(I_i(f)=a_i^{2}\). This is an actual positive theorem for degree one,
+not a claim for arbitrary low degree. Bounded covariance norm is not
+necessary for full AA: at critical Curie--Weiss the covariance norm
+grows on the order of \(\sqrt{n}\), yet the polynomial AA theorem in the
+main investigation holds with variance exponent four. Diverging
+susceptibility therefore does not by itself prove AA failure.

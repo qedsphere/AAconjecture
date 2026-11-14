@@ -1,0 +1,37 @@
+\subsection{A globally bounded degree-five polynomial flat on shell
+neighborhoods}\label{proof:thin_shell_obstruction:a-globally-bounded-degree-five-polynomial-flat-on-shell-neighborhoods}
+
+Let \(n\ge 6\) be even, let \(S(x)=\sum_i x_i\), and set
+
+\[
+q(u)=\frac{u^5-15u^3+74u}{60},\qquad f_n(x)=n^{-5}q(S(x)/2).
+\tag{1.1}
+\]
+
+The polynomial \(q\) is odd and satisfies \(q(1)=q(2)=q(3)=1\). Indeed,
+
+\[
+q(u)-1=\frac{(u-1)(u-2)(u-3)(u^2+6u+10)}{60}.
+\]
+
+After multilinearizing on the Boolean cube, \(f_n\) has degree at most
+five. It is bounded on the entire cube: since \(|S/2|\le n/2\) and
+\(n/2\ge 1\),
+
+\[
+|q(S/2)|\le\frac{1+15+74}{60}(n/2)^5=\frac3{64}n^5,
+\qquad |f_n|\le3/64<1.
+\tag{1.2}
+\]
+
+On \(S=4\), \(f_n=n^{-5}\), and any spin flip moves S to 2 or 6, where
+\(f_n\) has the same value. On \(S=-4\), the corresponding three values
+are all \(-n^{-5}\). Consequently
+
+\[
+S(x)\in\{-4,4\}\quad\Longrightarrow\quad D_if_n(x)=0\quad\text{for every }i.
+\tag{1.3}
+\]
+
+This is an exact finite-difference statement, not a
+continuous-derivative approximation.

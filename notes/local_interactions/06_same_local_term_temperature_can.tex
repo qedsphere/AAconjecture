@@ -1,0 +1,69 @@
+\subsection{The same local term and temperature can give opposite
+answers}\label{proof:local_interactions:the-same-local-term-and-temperature-can-give-opposite-answers}
+
+Compare the following at the same fixed \(\beta =6\), with the same
+local term \(K(x_i,x_j)=-x_ix_j\) and positive edge weights:
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}Xccc@{}}
+\toprule
+Family & Edge weights & \shortstack{Maximum absolute\\row sum} & Influence AA \\
+\midrule
+Disjoint matching & 1 & 1 & Holds \\
+The 16-regular expanders above & \(1/16\) & 1 & Fails \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+For a matching, the Gibbs law is a product of two-spin blocks. Each pair
+has atom probabilities \(\exp (\pm \beta )/(4\cosh  \beta )\), all at
+least
+
+\[
+a_\beta=\frac1{2(e^{2\beta}+1)}>0.
+\]
+
+The bounded-block theorem in Appendix~\ref{proof:positive_structure} proves
+influence AA for arbitrary independent blocks of uniformly bounded size
+and an atom lower bound. It therefore applies for every fixed finite
+\(\beta\), including 6. Isolated spins, if needed, are uniform singleton
+blocks.
+
+The row normalization is identical, although the edge weights differ to
+compensate for degree. Both families use positive weights of the same
+symmetric two-body term. The comparison is meaningful in the
+positive-weight interaction setting of the supplied Marwaha--Sud paper.
+
+This disproves an \textbf{instance-family classification that predicts a
+common AA outcome solely from the local interaction term and \(\beta\)}.
+It does not invalidate a worst-case classification over all allowed
+interaction graphs: a worst-case family can contain easy instances and
+still fail a uniform guarantee. In fact, the expander construction
+proves that such a universal guarantee fails for the ferromagnetic term
+at \(\beta =6\), and the gauge construction proves the same for the
+antiferromagnetic term on a restricted bipartite graph class.
+
+Both ferromagnetic families have trivially computable ground states
+(all-plus and all-minus), yet they have opposite AA behavior. Thus easy
+ground-state optimization does not imply a Gibbs-input influence
+guarantee.
+
+\textbf{Corollary L4 (unrestricted positive weights give a trivial
+worst-case temperature boundary).} Suppose a fixed local term is either
+\(-x_ix_j\) or \(+x_ix_j\), allowed with arbitrary positive edge
+weights, with no uniform interaction normalization such as (N). For
+every fixed \(\beta >0\), its class of Gibbs input families contains a
+bounded-degree AA counterexample. At \(\beta =0\) the law is uniform and
+AA holds.
+
+To prove the positive-temperature claim, put weight \(6/(16\beta )\) on
+the edges of the bipartite 16-regular expanders. For the ferromagnet,
+\(\beta\) times each edge weight is exactly \(6/16\), so the Gibbs law
+is the \(\beta =6\) normalized counterexample from Section~\ref{proof:local_interactions:bounded-degree-bounded-row-norm-and-an-explicit-parameter-choice}. For the
+antiferromagnet use the staggered gauge. These weights are constants
+with respect to n, hence meet an allowance of positive weights bounded
+by \(\operatorname{poly}(n)\) for all sufficiently large n.~The
+term-wise \textbf{worst-case} boundary under unrestricted scaling is
+therefore zero, even though many instance families at \(\beta >0\)
+satisfy AA. A meaningful nonzero temperature classification must fix a
+scale or a uniform strength budget.

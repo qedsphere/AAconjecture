@@ -1,0 +1,238 @@
+\subsection{Two-sided density moments and antiferromagnetic mean
+field}\label{proof:positive_structure:two-sided-density-moments-and-antiferromagnetic-mean-field}
+
+The earlier density-floor criterion can be strengthened: pointwise
+density comparison is unnecessary if both directions of comparison have
+suitable moments.
+
+\textbf{Theorem P5 (two-sided moment transfer).} Let \(\mu _n\) have
+full support, with \(r_n=\mathrm d\mu_n/\mathrm dU_n\). Suppose that, uniformly in
+dimension,
+
+\[
+\|r_n\|_{L^p(U_n)}\le M,
+\qquad \|r_n^{-1}\|_{L^s(\mu_n)}\le N,
+\qquad p,s\in(1,\infty].
+\]
+
+Write \(q=p/(p-1)\) and \(t=s/(s-1)\), using conjugate exponent one when
+\(p\) or \(s\) is infinite. Then
+
+\[
+\boxed{\max_i I_i^{\mu_n}(f)
+\ge c_0^tN^{-t}\big[M^{-q}4^{1-q}\big]^{5t/2}
+\frac{v^{5qt/2}}{d^{6t}}.}
+\tag{P5}
+\]
+
+The support assumption is necessary for this argument: finiteness of an
+inverse-density moment measured under \(\mu\) alone would not detect
+missing uniform mass at points where \(r=0\).
+
+\textbf{Proof.} Let \(a_0=\mathbb{E}_Uf\), \(V=\operatorname{Var}_Uf\),
+and \(g=(f-a_0)^2\le 4\). Hölder and the bound on \(g\) give
+
+\[
+v\le \mathbb{E}_U(rg)\le M(\mathbb{E}_Ug^q)^{1/q}
+\le M4^{1-1/q}V^{1/q},
+\]
+
+and hence \(V\ge M^{-q}4^{1-q}v^q\). For \(p=\infty\), this is simply
+\(v\le MV\).
+
+For each coordinate put \(h=(D_i f)^2\), which lies in \([0,1]\). Full
+support and Hölder's inequality after reversing the change of measure
+give
+
+\[
+I_i^U(f)=\mathbb{E}_\mu(r^{-1}h)
+\le N(\mathbb{E}_\mu h^t)^{1/t}
+\le N I_i^\mu(f)^{1/t}.
+\]
+
+When \(s=\infty\), the last statement is the ordinary density-floor
+comparison. Therefore \(I_i^\mu  \ge  (I_i^U/N)^t\). Choose the
+coordinate supplied by UAA and substitute the variance bound.
+\qed
+
+\subsubsection{Antiferromagnetic Curie--Weiss at every fixed
+strength}\label{proof:positive_structure:antiferromagnetic-curieweiss-at-every-fixed-strength}
+
+Let \(b>0\) be fixed and define
+
+\[
+\mu_{n,-b}(x)=\frac{1}{2^nZ_{n,-b}}
+\exp\left[-\frac b{2n}\left(\sum_i x_i\right)^2\right],
+\qquad
+Z_{n,-b}=\mathbb{E}_U e^{-bS^2/(2n)}.
+\]
+
+Since \(\mathbb{E}_US^2=n\), Jensen gives \(e^{-b/2}\le Z_{n,-b}\le 1\).
+Thus its density satisfies \(\lVert r\rVert_\infty \le e^{b/2}\). For
+every \(s>1\) with \((s-1)b<1\),
+
+\[
+\mathbb{E}_\mu r^{-s}
+=Z_{n,-b}^{s-1}\mathbb{E}_Ue^{(s-1)bS^2/(2n)}
+\le[1-(s-1)b]^{-1/2}.
+\tag{5.1}
+\]
+
+For completeness, the exponential-moment inequality used here follows by
+introducing a standard Gaussian \(G\):
+
+\[
+\mathbb{E}_Ue^{aS^2/(2n)}
+=\mathbb{E}_G\cosh(\sqrt{a/n}\,G)^n
+\le \mathbb{E}_Ge^{aG^2/2}=(1-a)^{-1/2}
+\quad(0\le a<1).
+\]
+
+Choose \(s=1+1/(2b)\). Then \(t=1+2b\), \(N\le 2^{1/(2s)}\), and
+\(p=\infty ,q=1\). P5 gives the explicit dimension-independent bound
+
+\[
+\boxed{\max_i I_i^{\mu_{n,-b}}(f)
+\ge c_0^{1+2b}\,2^{-b}
+e^{-5b(1+2b)/4}
+\frac{v^{(5/2)(1+2b)}}{d^{6(1+2b)}}.}
+\tag{5.2}
+\]
+
+In particular, \textbf{every fixed antiferromagnetic mean-field strength
+satisfies full polynomial AA}. Constants and exponents are allowed to
+depend on that fixed strength. This does not assert a uniform theorem
+for arbitrary growing \(b=b_n\).
+
+Combining (5.2) with the ferromagnetic and critical results in the
+original investigation yields an exact signed-coupling classification
+for
+
+\[
+\mu_{n,\lambda}(x)\propto e^{\lambda S(x)^2/(2n)},
+\qquad\lambda\in\mathbb R\text{ fixed}:
+\]
+
+\[
+\boxed{\text{influence AA holds if and only if }\lambda\le1.}
+\]
+
+The positive endpoint \(\lambda =1\) is included; the obstruction for
+\(\lambda >1\) is the constant-variance magnetization witness. Heat-bath
+influence has the same fixed-parameter classification, because its
+conditional variance factor is between
+\(\operatorname{sech}^2(|\lambda |)\) and one.
+
+\subsubsection{Uniform-preserving channels preserve the moment
+criterion}\label{proof:positive_structure:uniform-preserving-channels-preserve-the-moment-criterion}
+
+Let a Markov channel preserve uniform measure. Its action on densities
+can be written as a positive averaging operator \(K\) with \(K1=1\) and
+\(\mathbb{E}_U Kh=\mathbb{E}_Uh\). If the input density is \(r\), the
+output density is \(r_{\mathrm{out}}=Kr\). Jensen gives
+
+\[
+\|Kr\|_{L^p(U)}\le\|r\|_{L^p(U)},
+\qquad \mathbb{E}_U(Kr)^{1-s}\le \mathbb{E}_Ur^{1-s}
+\quad(p>1,\ s>1),
+\]
+
+because both \(z^p\) and \(z^{1-s}\) are convex. The second inequality
+is precisely
+
+\(\mathbb{E}_{\mu _{\mathrm{out}}} r_{\mathrm{out}}^{-s} \le  \mathbb{E}_\mu  r^{-s}\).
+
+The infinite-exponent cases follow by preserving the maximum and minimum
+bounds. Positive input density gives positive output density. Thus every
+such channel preserves the hypotheses and constants of P5. This
+conclusion concerns this sufficient moment criterion; it does not assert
+that arbitrary channels preserve AA without these hypotheses.
+
+In particular, the product spin channel \(\Pr (X_i=x\mid S_i=s)=(1+cxs)/2\),
+for any \(c \in [-1,1]\), preserves uniform measure. Therefore the
+antiferromagnetic mean-field bound (5.2) holds after this channel, with
+constants independent of \(c\).
+
+Applied to the measured thermal law of the commuting quantum interaction
+\(+(u\cdot \sigma )\otimes (u\cdot \sigma )\) on normalized complete
+graphs, the underlying Ising law is antiferromagnetic and the
+measurement channel has \(c=u_z\). Consequently \textbf{all fixed
+inverse temperatures and all orientations satisfy influence AA in this
+antiferromagnetic subfamily}, uniformly over orientation at each fixed
+inverse temperature. The bound for heat-bath influence follows as well:
+conditioning through the underlying spins gives
+\(|\mathbb{E}(X_i\mid X_{-i})|\le |c|\tanh  b\), so its variance factor is at
+least \(\operatorname{sech}^2 b\).
+
+\subsubsection{Positive semidefinite quadratic penalties with bounded
+trace}\label{proof:positive_structure:positive-semidefinite-quadratic-penalties-with-bounded-trace}
+
+There is a useful matrix-valued version. Let \(A_n\) be positive
+semidefinite and suppose \(\operatorname{tr}(A_n)\le B\), for fixed
+\(B>0\), uniformly in dimension. Absorb inverse temperature into
+\(A_n\), and consider
+
+\[
+\mu_{A_n}(x)\propto \exp(-x^TA_nx/2).
+\]
+
+Its normalizer relative to uniform is at least \(e^{-B/2}\) by Jensen,
+and its density is at most \(e^{B/2}\). For
+\(0<\theta <1/\lVert A_n\rVert_{\mathrm{op}}\), a centered Gaussian
+\(G\) of covariance \(A_n\) gives
+
+\[
+\begin{aligned}
+\mathbb{E}_Ue^{\theta X^TA_nX/2}
+&=\mathbb{E}_G\prod_i\cosh(\sqrt\theta\,G_i)\\
+&\le \mathbb{E}_Ge^{\theta\|G\|_2^2/2}
+=\det(I-\theta A_n)^{-1/2}\\
+&\le\exp\left(\frac{\theta\operatorname{tr}A_n}
+{2(1-\theta\|A_n\|_{\rm op})}\right).
+\end{aligned}
+\]
+
+The last inequality follows by applying \(-\log (1-z)\le z/(1-z_{\max} )\)
+to the nonnegative eigenvalues scaled by \(\theta\). Since
+\(\lVert A_n\rVert_{\mathrm{op}}\le B\), choosing \(\theta =1/(2B)\)
+bounds this moment by \(e^{1/2}\). With \(s=1+\theta\) and \(t=1+2B\),
+the inverse-density calculation of Section~\ref{proof:positive_structure:antiferromagnetic-curieweiss-at-every-fixed-strength} therefore gives
+\(N\le e^{1/(2s)}\). P5 implies
+
+\[
+\boxed{\max_i I_i^{\mu_{A_n}}(f)
+\ge c_0^{1+2B}e^{-B-5B(1+2B)/4}
+\frac{v^{(5/2)(1+2B)}}{d^{6(1+2B)}}.}
+\tag{5.3}
+\]
+
+Thus arbitrary fixed-rank mean-field quadratic penalties of bounded
+total spectral weight satisfy AA; rank itself need not be bounded if the
+trace is. The zero matrix gives uniform measure directly. A
+uniform-preserving channel preserves this conclusion by Section~\ref{proof:positive_structure:uniform-preserving-channels-preserve-the-moment-criterion}.
+
+Equivalently, the classical Hamiltonian must admit such a positive
+semidefinite representation with \textbf{uniformly bounded trace}, up to
+a constant on the cube. Diagonal changes are permitted in finding a
+representation because they change only that constant. Positive
+semidefiniteness alone is insufficient: adding a large diagonal matrix
+can make the trace grow with dimension, violating the hypothesis.
+
+This condition distinguishes the isospectral pair in
+Appendix~\ref{proof:local_interactions}. For one ferromagnetic edge of unit
+strength, the two-by-two penalty matrix
+\(\bigl(\begin{smallmatrix}1&-1\\-1&1\end{smallmatrix}\bigr)\) is
+positive semidefinite of trace two and produces \(-x_1x_2\) up to a
+constant. In contrast, for the delocalized normalized ferromagnetic
+matrix with \(J 1=1\), a penalty representation has off-diagonal entries
+\(-J_{ij}\). If its diagonal is \(d_i\), positivity on the all-ones vector
+forces
+
+\[
+0\le\mathbf1^TA\mathbf1=\sum_i d_i-\sum_{i,j}J_{ij}
+=\operatorname{tr}A-n.
+\]
+
+Every such positive semidefinite completion has trace at least \(n\). It
+cannot meet the bounded-trace hypothesis, despite the bounded rank and
+norm of the original interaction matrix.

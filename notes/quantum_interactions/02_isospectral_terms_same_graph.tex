@@ -1,0 +1,43 @@
+\subsection{Isospectral terms on the same graph}\label{quant:sec-2}
+
+For any finite graph \(G\) with nonnegative edge weights define
+
+\[
+\mathcal H_Z(G)=-\sum_{\{i,j\}}J_{ij}Z_iZ_j,\qquad
+\mathcal H_X(G)=-\sum_{\{i,j\}}J_{ij}X_iX_j.
+\]
+
+They use one symmetric strictly two-local interaction, \(-ZZ\) or
+\(-XX\), on the same weighted graph. If \(W\) is the single-qubit
+Hadamard unitary,
+
+\[
+\mathcal H_X(G)=W^{\otimes n}\mathcal H_Z(G)W^{\otimes n}.
+\]
+
+Thus they have identical many-body spectra, partition functions, free
+energies, quantum thermal entropies, and ground-energy complexity. Their
+local spectra are both \((-1,-1,1,1)\), with identical
+singlet-versus-triplet ordering.
+
+\textbf{Claim.} For every graph and every inverse temperature, measuring
+the thermal state of \(\mathcal H_X\) in the computational basis gives
+exactly uniform classical input.
+
+\textbf{Proof.} Let \(E_Z(y)=\langle y|\mathcal H_Z|y\rangle\). Every
+entry of \(W^{\otimes n}\) has squared modulus \(2^{-n}\), so
+
+\[
+\begin{aligned}
+\langle x|e^{-\beta\mathcal H_X}|x\rangle
+&=\sum_y|\langle x|W^{\otimes n}|y\rangle|^2e^{-\beta E_Z(y)}\\
+&=2^{-n}\sum_y e^{-\beta E_Z(y)}.
+\end{aligned}
+\]
+
+Division by the common partition function proves the claim. \(\square\)
+
+For \(\mathcal H_Z\), the measured law is the ordinary Ising law
+\(\mu(s)\propto\exp(\beta\sum_{\{i,j\}}J_{ij}s_is_j)\). In the
+diagonal-energy model, \(\langle x|\mathcal H_X|x\rangle=0\), so its law
+is also uniform, while the \(Z\) model remains Ising.

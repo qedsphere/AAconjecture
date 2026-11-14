@@ -1,0 +1,49 @@
+\subsection{Positive influence result below the threshold}\label{qm:positive-influence-result-below-the-threshold}
+
+For \(f:\{-1,1\}^n\to[-1,1]\), use
+
+\[
+I_i^\mu(f)=\mathbb E_\mu[((f(X)-f(X^{\oplus i}))/2)^2],
+\quad B_i^\mu(f)=\mathbb E_\mu[\operatorname{Var}(f\mid X_{-i})].
+\]
+
+Assume the uniform AA theorem in the form
+
+\[
+\max_i I_i^U(f)\ge c_0\operatorname{Var}_U(f)^a/d^b
+\]
+
+for absolute \(c_0,a,b>0\). The current theorem permits \(a=5/2,b=6\); normalization only changes \(c_0\).
+
+Let \(r=d\mu/dU\). At \(0<\beta<1\), take \(p=1/\beta>1\). Directly from the density,
+
+\[
+r=\frac{e^{\beta\Delta_n\mathbf1_{C_n}}}{1+\delta_n(e^{\beta\Delta_n}-1)},
+\qquad r\ge1/2,\qquad \mathbb E_Ur^p\le2.
+\]
+
+The last bound follows because \(p\beta=1\) and \(1+\delta_n(e^{\Delta_n}-1)=2\). Write \(v=\operatorname{Var}_\mu(f)\), \(V=\operatorname{Var}_U(f)\), \(g=(f-\mathbb E_Uf)^2\le4\), and \(q=p/(p-1)\). Hölder yields
+
+\[
+v\le\mathbb E_U[rg]\le2^{1/p}(\mathbb E_Ug^q)^{1/q}
+\le8^{1/p}V^{1/q}.
+\]
+
+Thus \(V\ge8^{-\beta/(1-\beta)}v^{1/(1-\beta)}\). Since \(r\ge1/2\),
+
+\[
+\boxed{\displaystyle
+\max_i I_i^{\mu_{\beta,n}}(f)
+\ge\frac{c_0}{2}\,8^{-a\beta/(1-\beta)}
+\frac{v^{a/(1-\beta)}}{d^b}.}
+\]
+
+This is a polynomial AA bound for every fixed \(\beta<1\), with no restriction on \(v,d,n\). At \(\beta=0\), use uniform AA directly. The exponent is not uniform as \(\beta\uparrow1\).
+
+The same comparison holds for heat-bath influence. For each edge \(x_+,x_-\) obtained by fixing \(X_{-i}\), its heat-bath contribution is
+
+\[
+\frac{\mu(x_+)\mu(x_-)}{\mu(x_+)+\mu(x_-)}(f(x_+)-f(x_-))^2.
+\]
+
+The function \(uv/(u+v)\) is increasing in each argument. Both endpoint masses are at least half their uniform masses, so \(B_i^\mu(f)\ge\frac12 B_i^U(f)=\frac12 I_i^U(f)\). The displayed AA bound follows unchanged.

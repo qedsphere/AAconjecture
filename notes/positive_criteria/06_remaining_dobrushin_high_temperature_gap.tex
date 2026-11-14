@@ -1,0 +1,40 @@
+\subsection{The remaining Dobrushin high-temperature
+gap}\label{proof:positive_structure:the-remaining-dobrushin-high-temperature-gap}
+
+For an Ising model, a Dobrushin condition such as
+\(\max _i \sum_{j\ne i} \tanh (\beta  |J_{ij}|)<1\) controls boundary
+effects; the underlying conditional-distribution method goes back to
+\href{https://doi.org/10.1137/1113026}{Dobrushin (1968)}. Such
+conditions yield spectral-gap and transportation estimates, for example
+in \href{https://arxiv.org/abs/math/0611635}{Wu (2006)}. They do not
+directly match the theorems above:
+
+\begin{itemize}
+\tightlist
+\item
+  Poincaré alone yields \(I_{\max}\ge v/(C n)\), retaining dimension
+  dependence.
+\item
+  A rapidly mixing sampler need not provide an exact finite-degree,
+  bounded-fanout source map. Truncating its history requires error
+  control for all bounded low-degree observables, not just a per-site
+  coupling bound.
+\item
+  Telescoping a sampler without bounding intermediate laws is invalid;
+  the majority example shows this exactly.
+\item
+  If source fanout is \(L\), elementary path domination costs
+  \(a^{-L}\). A polynomially large \(L\) in inverse approximation
+  accuracy creates an exponential loss.
+\item
+  Total-variation approximation of the entire Gibbs law generally needs
+  precision depending on \(n\). The block proof avoids that loss through
+  low-degree interpolation; no analogous general Gibbs interpolation
+  estimate has been proved here.
+\end{itemize}
+
+No general implication from Dobrushin uniqueness, spectral independence,
+log-Sobolev inequalities, or efficient sampling alone to full polynomial
+AA is established in this dossier. Such an implication remains an
+identified research question, rather than a claimed consequence of
+mixing.

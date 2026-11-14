@@ -1,0 +1,32 @@
+\subsection{General transfer from a density floor and an Lp bound}\label{ht:general-transfer-from-a-density-floor-and-an-lp-bound}
+
+\textbf{Theorem HT1.} Let \(\mu_n\) have density \(r_n=\frac{d\mu_n}{dU_n}\). Suppose, uniformly in \(n\),
+
+\[
+ r_n\ge\ell>0,\qquad \|r_n\|_{L^p(U_n)}\le M<\infty
+ \quad\text{for some }p>1.
+\]
+
+Set \(q=p/(p-1)\). Then every admissible \(f\) satisfies
+
+\[
+ \max_i I_i^{\mu_n}(f)
+ \ge c_{\rm AA}\ell M^{-5q/2}
+       4^{-\frac52(q-1)}
+       \frac{\operatorname{Var}_{\mu_n}(f)^{5q/2}}{d^6}.
+ \tag{HT1}
+\]
+
+\textbf{Proof.} Let \(a=\mathbb E_U f\), \(v_U=\operatorname{Var}_U f\), and \(v=\operatorname{Var}_\mu f\). Since \(|f-a|\le 2\), Hölder gives
+
+\[
+\begin{aligned}
+v&\le \mathbb E_U[r(f-a)^2]\\
+ &\le M\big(\mathbb E_U |f-a|^{2q}\big)^{1/q}\\
+ &\le M\,4^{1-1/q}v_U^{1/q}.
+\end{aligned}
+\]
+
+Thus \(v_U\ge M^{-q}4^{1-q}v^q\). Also \(I_i^\mu\ge \ell I_i^U\) for every coordinate. Applying (UAA) proves the claim. No independence of \(\mu\) is required. \(\square\)
+
+This theorem is a sufficient condition, not a necessary criterion. In particular, its hypothesis fails at critical Curie--Weiss temperature even though AA still holds there, as proved below.

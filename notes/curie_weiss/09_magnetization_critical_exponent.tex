@@ -1,0 +1,28 @@
+\subsection{Magnetization and the critical exponent}\label{cw:magnetization-and-the-critical-exponent}
+
+The free-energy expansion is
+
+\[
+F_\beta(m)=\log2+(\beta-1)m^2/2-m^4/12+O(m^6).
+\]
+
+Stirling's formula and dominated Laplace sums give the classical fixed-temperature asymptotics
+
+\[
+\operatorname{Var}(M)\sim
+\begin{cases}
+[(1-\beta)n]^{-1},&0\le\beta<1,\\
+\sqrt{12}\,\Gamma(3/4)\Gamma(1/4)^{-1}n^{-1/2},&\beta=1,\\
+m_\beta^2,&\beta>1.
+\end{cases}
+\]
+
+For completeness the critical asymptotic also follows directly from the mixture. At \(\beta=1\), \(n^{1/4}Z\) converges with all fixed moments to density proportional to \(\exp(-t^4/12)\): substitute \(z=n^{-1/4}t\) in its exact density, use \(nV(n^{-1/4}t)\to t^4/12\), and apply the lower bounds on V from Section~\ref{cw:uniform-latent-estimates-throughout-0betale1} for uniform integrability. Since \(\tanh Z=Z+O(Z^3)\), \(\mathbb E(\tanh Z)^2\sim\mathbb E Z^2\). Conditional on $Z$,
+
+\[
+\mathbb E(M^2\mid Z)=\frac{1-P^2}{n}+P^2.
+\]
+
+It follows that \(\sqrt n\operatorname{Var}(M)\to\mathbb E T^2=\sqrt{12}\,\Gamma(3/4)/\Gamma(1/4)\). Since \(I_i(M)=n^{-2}\), an inequality \(\max_i I_i\ge c\operatorname{Var}(f)^a/d^b\) at \(\beta=1\) with \(d=1\) forces \(a\ge4\). In particular the critical magnetization does not refute arbitrary polynomial AA; it identifies the minimum possible variance exponent, which Section~\ref{cw:consequence-exact-fixed-ux3b2-threshold} attains.
+
+The thermodynamic crossover window is \(\beta_n=1+\lambda/\sqrt n\) for fixed \(\lambda\), with \(n^{1/4}M\) tending to density proportional to \(\exp(\lambda t^2/2-t^4/12)\). This context is not needed for the fixed-temperature theorem. No uniform assertion above the critical point is made for arbitrary n-dependent \(\beta_n\).

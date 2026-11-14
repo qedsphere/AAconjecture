@@ -1,0 +1,40 @@
+\subsection{A bounded quadratic
+witness}\label{proof:higher_order_obstructions:a-bounded-quadratic-witness}
+
+Set \(h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\) modulo two,
+\(r = \Pr [h(A)=1] = (1-n^{-1/2})/2\), and \(c_a(z) = (-1)^{a\cdot z}\).
+Define
+
+\[
+P(x)=\sum_{a:h(a)=1}\left(\frac1n\sum_z x_zc_a(z)\right)^2.
+\]
+
+Parseval gives \(0 \le  P \le  1\) on the whole cube; its multilinear
+degree is at most two. \(\Pi  = n^{-1}\sum_{a:h(a)=1}c_a c_a^{T}\) is an
+orthogonal projection with diagonal r, and \(P(x) = x^{T}\Pi x/n\). On
+\((-1)^{b}c_a\), \(P = h(a)\). Exactly,
+
+\[
+\mathbb{E}_\mu P=r,\quad
+\operatorname{Var}_\mu(P)=r(1-r)\left[\rho^4+\frac{2(1-\rho^4)}n\right],\quad
+I_z^\mu(P)=\frac{4r(1-r)}{n^2}. \tag{H1}
+\]
+
+The mean follows from pairwise independence. The normalized flip
+difference is
+\(\frac{2}{n}x_z\sum_{z'\ne z}\Pi_{zz'}x_{z'}\). Squaring
+and using pairwise independence gives
+\(4n^{-2}\sum_{z'\ne z}\Pi_{zz'}^{2}=4r(1-r)/n^2\).
+
+For variance expand \(P-r\) into distinct quadratic monomials. Identical
+pairs contribute the uniform variance \(2r(1-r)/n\); pairs sharing one
+index contribute zero; four-distinct-index terms equal \(\rho ^{4}\)
+times their noiseless affine-code expectations. Therefore
+\(\operatorname{Var}_\mu (P) = (1-\rho ^{4})\operatorname{Var}_U(P)+\rho ^{4}\operatorname{Var}_{\mathrm{code}}(P)\),
+where \(\operatorname{Var}_{\mathrm{code}}(P) = r(1-r)\). This proves
+H1.
+
+For \(f = 2P-1\), \(\operatorname{Var}(f) \to  \rho ^{4} > 0\) and every
+influence is \(4(1-1/n)/n^{2}\). Hence AA fails for every fixed
+\(\rho  > 0\). Heat-bath AA fails too, since it is at most flip
+influence. No query lower bound for this noisy law is asserted here.

@@ -1,0 +1,25 @@
+\subsection{A fixed sample estimates the remaining
+density}\label{exch:sec-4}
+
+Fix total weight \(k\) and \(X\sim U_{n,k}\). Query the first \(L\)
+coordinates, assuming \(n\ge2L\). Let \(Y\) be their number of ones,
+\(q=Y/L\), \(N=n-L\), and \(p=(k-Y)/N\).
+
+Given the complete observed prefix, the remaining input is uniform on
+the slice of weight \(k-Y\). Hypergeometric sampling gives
+
+\[
+\mathbb E q=k/n,\qquad
+\operatorname{Var}(q)=\frac{(k/n)(1-k/n)}L\,\frac{n-L}{n-1}\le\frac1{4L}.
+\]
+
+Since \(p-q=\frac{n}{n-L}(k/n-q)\) and \(n/(n-L)\le2\), Chebyshev's
+inequality yields
+
+\[
+\Pr[|p-q|>\eta]\le1/(L\eta^2).
+\]
+
+This holds for every \(k\), without randomizing the queried locations.
+The final simulator is therefore deterministic and independent of the
+unknown slice or mixture.

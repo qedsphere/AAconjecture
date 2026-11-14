@@ -1,0 +1,18 @@
+\subsection{Influence formulation}
+
+Let $\mu_n$ be distributions on $\{-1,+1\}^n$. For a multilinear polynomial $f$, define
+\[
+\begin{aligned}
+ D_if(x_{-i})&=\frac{f(x_{-i},+1)-f(x_{-i},-1)}2,\\
+ I_i^\mu(f)&=\mathbb E_\mu(D_if)^2
+ =\frac14\mathbb E_\mu\bigl(f(X)-f(X^{(i)})\bigr)^2,\\
+ V_\mu(f)&=\operatorname{Var}_\mu(f).
+\end{aligned}
+\]
+The family has the \emph{distributional AA property} if there are $c>0$ and finite positive $A,B$, independent of $n,d,f$, such that every globally bounded polynomial $f:\{-1,+1\}^n\to[-1,1]$ of degree at most $d\ge1$ satisfies
+\[
+ \max_i I_i^{\mu_n}(f)\ge c\,\frac{V_{\mu_n}(f)^A}{d^B}.
+\]
+For a fixed-temperature family, constants may depend on that temperature unless stated otherwise. This is equivalent to a lower bound $c(V/d)^C$ after increasing the exponent, since $V\le1$ and $d\ge1$. A counterexample must defeat every finite exponent. In particular, $V\asymp n^{-1/2}$ and $I_i=n^{-2}$ do not refute AA: $V^4$ has precisely that scale.
+
+The polynomial must be bounded on the \emph{whole cube}, including low-probability inputs. Restricting boundedness to a promise set defines a different problem.

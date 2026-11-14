@@ -1,0 +1,27 @@
+\subsection{Exact mixture identity and transition width}\label{qm:exact-mixture-identity-and-transition-width}
+
+Put \(\delta_n=n/2^n\). Multiplying all Gibbs weights by \(e^{\beta\Delta_n}\) gives weights \(e^{\beta\Delta_n}\) on \(C_n\), and \(1\) outside. Consequently
+
+\[
+\mu_{\beta,n}=(1-w_{\beta,n})U_n+w_{\beta,n}U_{C_n},\qquad
+w_{\beta,n}=\frac{\delta_n(e^{\beta\Delta_n}-1)}{1+\delta_n(e^{\beta\Delta_n}-1)}.
+\]
+
+In particular \(w_{1,n}=1/2\) exactly. For fixed \(\beta<1\), \(w_{\beta,n}\to0\); for \(\beta>1\), it tends to \(1\). For fixed \(s\in\mathbb R\),
+
+\[
+\beta_n=1+s/\Delta_n\quad\Longrightarrow\quad
+w_{\beta_n,n}\longrightarrow\frac{e^s}{1+e^s}.
+\]
+
+Indeed, \(\delta_n(e^{\beta_n\Delta_n}-1)=(1+\delta_n)e^s-\delta_n\to e^s\). The temperature window has width \(\Theta(1/n)\). Code membership probability is \(w+(1-w)\delta_n\), not exactly \(w\).
+
+For later use, when \(0<\beta<1\), subadditivity of the power \(\beta\) gives
+
+\[
+w_{\beta,n}\le\delta_n[(1+1/\delta_n)^\beta-1]
+\le\delta_n^{1-\beta}
+\le2^{-(1-\beta)n/2},\qquad n\ge4.
+\]
+
+The last inequality uses \(\log_2 n\le n/2\), valid for our \(n=4,16,64,\ldots\). At \(\beta=0\), \(w=0\).

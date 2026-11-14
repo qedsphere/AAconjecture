@@ -1,0 +1,35 @@
+\subsection{One quantum query versus logarithmically many classical queries}\label{qm:one-quantum-query-versus-logarithmically-many-classical-queries}
+
+Prepare \(n^{-1/2}\sum_z|z\rangle\), make one phase query \(|z\rangle\mapsto y_z|z\rangle\), apply the Walsh--Hadamard transform, measure \(a\), and accept iff \(h(a)=1\). Its acceptance probability is exactly \(P(y)\) for every input, and on \(C_n\) the measurement recovers the hidden \(a\) with certainty. This is the Bernstein--Vazirani query procedure with a final decision rule; see \href{https://epubs.siam.org/doi/10.1137/S0097539796300921}{Bernstein--Vazirani, Quantum Complexity Theory}.
+
+The decision rule is essential: requesting an individual hidden bit would be classically easy. We now prove that the chosen rule is hard even on average.
+
+Let \(F(a)=(-1)^{h(a)}\). Factoring over the \(m/2\) pairs shows that every Fourier coefficient has absolute value \(2^{-m/2}\): for one pair,
+
+\[
+\frac14\sum_{u,v\in\{0,1\}}(-1)^{uv+bu+cv}=\frac12(-1)^{bc}.
+\]
+
+Consider any adaptive deterministic classical algorithm making at most \(t\) queries. On \(C_n\), querying coordinate \(z\) reveals one linear equation \(a\cdot z\). Each leaf therefore conditions a uniform hidden \(a\) onto a nonempty affine subspace \(a_0+V\) of codimension \(r\le t\). Fourier expansion gives
+
+\[
+\left|\mathbb E[F(a)\mid a\in a_0+V]\right|
+=\left|\sum_{b\in V^\perp}\widehat F(b)(-1)^{a_0\cdot b}\right|
+\le2^{r-m/2}\le2^{t-m/2}.
+\]
+
+For a binary target, the best real output in \([0,1]\) has conditional absolute error equal to the smaller conditional label probability. Hence
+
+\[
+\mathbb E_{U_C}|D-P|\ge\frac{1-2^{t-m/2}}2.
+\]
+
+The same inequality holds for randomized algorithms by conditioning on their random seed; it also holds if their output is interpreted as an acceptance probability, since absolute error against a binary target is affine in that probability. Finally,
+
+\[
+\boxed{\displaystyle
+\mathbb E_{\mu_{\beta,n}}|D-P|
+\ge w_{\beta,n}\frac{1-2^{t-m/2}}2.}
+\]
+
+At \(\beta\ge1\), an algorithm with \(t\le m/2-2\) has error at least \(3/16>1/8\). Thus error \(1/8\) requires \(\Omega(m)=\Omega(\log n)\) queries, while the quantum algorithm uses exactly one. This disproves any dimension-independent polynomial overhead in \(T,1/\epsilon\). It also disproves the usual high-probability version: an output in \([0,1]\) with additive error at most \(1/16\) on a \(15/16\) fraction of inputs would have mean absolute error at most \(31/256<1/8\).

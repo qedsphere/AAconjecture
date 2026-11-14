@@ -1,0 +1,33 @@
+\subsection{Model and theorem}\label{qm:model-and-theorem}
+
+Let \(m\ge2\) be even, \(n=2^m\), and index the \(n\) spin coordinates by \(z\in\mathbb F_2^m\). Define the character code
+
+\[
+C_n=\{c_a:a\in\mathbb F_2^m\},\qquad (c_a)_z=(-1)^{a\cdot z}.
+\]
+
+Its \(n\) codewords are distinct. Let \(U_n\) be uniform on the whole \(n\)-spin cube and \(U_{C_n}\) uniform on the code. Fix the energy normalization
+
+\[
+\Delta_n=\log(1+2^n/n),\qquad H_n(y)=\Delta_n\mathbf1_{y\notin C_n},
+\qquad\mu_{\beta,n}(y)=Z_{\beta,n}^{-1}e^{-\beta H_n(y)}.
+\]
+
+Here \(\beta\ge0\) is fixed as \(n\to\infty\); \(\Delta_n=\Theta(n)\). For every finite \(n,\beta\), the measure has full support.
+
+\textbf{Theorem.} This family has the exact threshold \(\beta_c=1\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  For each fixed \(0\le\beta<1\), every globally bounded degree-\(d\) polynomial satisfies a dimension-independent AA influence bound, with constants and exponent allowed to depend on \(\beta\). The conclusion holds for normalized bit-flip influence and for heat-bath influence.
+\item
+  At every fixed \(\beta\ge1\), degree-two polynomials with variance bounded below by an absolute constant have all normalized bit-flip influences \(O(n^{-2})\). Both influence versions therefore fail, already at the critical point.
+\item
+  For each fixed \(\beta<1\), every \(T\)-query quantum acceptance probability has a classical approximation with average absolute error \(\epsilon\), using \(\operatorname{poly}_{\beta}(T,1/\epsilon)\) queries.
+\item
+  At every \(\beta\ge1\), one fixed one-query quantum algorithm requires \(\Omega(\log n)\) classical queries for average absolute error \(1/8\). Thus the distributional acceptance-simulation version also fails.
+\end{enumerate}
+
+The threshold's numerical value comes from the stated energy normalization. This theorem gives an explicit example; it does not suggest a universal temperature applicable to other Hamiltonians.
