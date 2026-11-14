@@ -1,0 +1,82 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{The original AA potential works without changing its
+logic}\label{influence-recovery:the-original-aa-potential-works-without-changing-its-logic}
+
+Under an arbitrary product of blocks, write the orthogonal Hoeffding
+decomposition \(g=\sum_Sg_S\), where each \(g_S\) depends on \(S\) and
+has mean zero in each block in \(S\). Global block degree at most
+\(\Delta\) implies \(g_S=0\) for \(|S|>\Delta\). Therefore
+
+\[
+ \mathcal P(g):=\sum_a J_a(g)
+ =\sum_S |S|\|g_S\|_2^2
+ \le\Delta\operatorname{Var}(g)\le\Delta/4.
+ \tag{P1}
+\]
+
+Revealing block \(a\) and continuing under its conditional product law
+gives the exact identity
+
+\[
+ \mathbb E_{Z_a}\mathcal P(g\mid Z_a)
+ =\mathcal P(g)-J_a(g).
+ \tag{P2}
+\]
+
+For example, every component containing \(a\) loses one from its support
+size; components become orthogonal after averaging over the revealed
+block. Thus parity causes no problem: a block can reduce this potential
+even when the immediately revealed block explains zero variance of \(g\)
+itself.
+
+At each nonconstant decision-tree leaf, query a block with largest
+\(J_a\) for the restricted function; constant leaves stop. This uses no
+information other than the previously revealed source blocks. Let
+\(V_t\) be the expected conditional variance of \(g\) given the source
+transcript through depth \(t\), and let \(P_t\) be the average potential
+there. Restricted functions retain block degree at most \(\Delta\) and
+remain bounded on the full remaining cube, so (B2) applies at every
+leaf. For
+
+\[
+ h(v)=\frac{v^{5/2}}{[k+\log(\Delta/v)]^6},\qquad h(0)=0,
+\]
+
+the second derivative is positive on \((0,1/4]\): more generally
+\(v^aL(v)^{-b}\), where \(L(v)=k+\log(\Delta/v)\), has second derivative
+
+\[
+ v^{a-2}L^{-b}\left[a(a-1)
+       +\frac{b(2a-1)}L+\frac{b(b+1)}{L^2}\right]>0
+\]
+
+when \(a>1\) and \(b>0\). Equations (B2), (P2), and Jensen consequently
+give
+
+\[
+ P_t-P_{t+1}\ge\frac c{\Delta^6}h(V_t).
+ \tag{P3}
+\]
+
+\(V_t\) is nonincreasing. If \(V_s>e^2\), every one of the \(s\) steps
+decreases the potential by at least
+\(ce^5/[\Delta^6(k+\log(\Delta/e^2))^6]\). The initial potential is at
+most \(\Delta/4\). Hence a deterministic depth bound
+
+\[
+ S(\Delta,e;k)
+ =\left\lceil
+ C_2\Delta^7[k+\log(\Delta/e^2)]^6 e^{-5}
+ \right\rceil+1
+ \tag{P4}
+\]
+
+forces \(V_s\le e^2\). Outputting the conditional mean yields mean
+absolute error at most \(e\). Here \(0<e<1/2\); larger target errors
+follow by using \(e=1/2\). There is no expected-depth truncation or
+extra error factor in (P4).
+
+This is the usual AA proof: influential source block, exact drop in
+total source influence, repeated restrictions, and conditional-mean
+output. Dyadic encodings were used only to prove (B2); the resulting
+source tree queries the original blocks with their exact laws.

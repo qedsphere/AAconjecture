@@ -1,0 +1,40 @@
+\subsubsection{1. Two elementary floors used in the proofs}\label{two-elementary-floors-used-in-the-proofs}
+
+\paragraph{\texorpdfstring{1.1 A full-support comparison floor (repairing the small-\(n\) argument)}{1.1 A full-support comparison floor (repairing the small-n argument)}}\label{a-full-support-comparison-floor-repairing-the-small-n-argument}
+
+\textbf{Lemma 1.1.} Let \(\mu\) have full support on \(\{0,1\}^n\), and set
+\[a=2^n\min_x\mu(x)>0,\qquad b=2^n\max_x\mu(x).\]
+For every \(f\),
+\[\operatorname{Var}_\mu(f)\le\frac{b}{4a}\sum_i\operatorname{Inf}_i^\mu(f),
+\qquad\text{hence}\qquad
+\max_i\operatorname{Inf}_i^\mu(f)\ge\frac{4a}{bn}\operatorname{Var}_\mu(f).\]
+
+\textbf{Proof.} Let \(U\) be uniform. Since variance is the minimum squared distance to a constant,
+\[
+\operatorname{Var}_\mu(f)
+\le \mathbb E_\mu[(f-\mathbb E_Uf)^2]
+\le b\,\mathbb E_U[(f-\mathbb E_Uf)^2]
+=b\operatorname{Var}_U(f).
+\]
+The uniform product Poincaré/Efron--Stein inequality gives
+\[\operatorname{Var}_U(f)\le\frac14\sum_i\operatorname{Inf}_i^U(f).\]
+Also \(\operatorname{Inf}_i^U(f)\le a^{-1}\operatorname{Inf}_i^\mu(f)\), because each is an expectation of the same nonnegative function. Combining the three displays proves the first inequality; averaging over at most \(n\) coordinates proves the second. ∎
+
+This lemma is valid at critical Curie--Weiss, where Dobrushin's \(1-r\) vanishes. It gives a poor but positive constant on every fixed finite cube, which is all the small-\(n\) assembly needs. It cannot be extended to degenerate support: the copy-law counterexample in §5.1 has variance \(1/4\) and zero influence.
+
+\paragraph{1.2 The binary conditional-variance identity and Wu's limitation}\label{the-binary-conditional-variance-identity-and-wus-limitation}
+
+\textbf{Lemma 1.2.} If \(q_i=\mu_i(1\mid x_{-i})\), then
+\[\mathbb E_\mu[\operatorname{Var}_{\mu_i}(p)]
+=\mathbb E_\mu[q_i(1-q_i)(p-p^{\oplus i})^2]
+\le\frac14\operatorname{Inf}_i^\mu(p).\]
+Consequently, if \(r=\operatorname{rsp}(C)<1\),
+\[\operatorname{Var}_\mu(p)\le\frac{1}{4(1-r)}\sum_i\operatorname{Inf}_i^\mu(p),
+\qquad
+\max_i\operatorname{Inf}_i^\mu(p)\ge\frac{4(1-r)}n\operatorname{Var}_\mu(p).\]
+
+\textbf{Proof.} With \(a=p(x_{-i},0)\) and \(b=p(x_{-i},1)\), conditional variance is
+\[q_i(1-q_i)(a-b)^2.\]
+The difference \(a-b\) is, up to sign, \(p(x)-p(x^{\oplus i})\) for either extension of \(x_{-i}\). Taking expectations and using \(q_i(1-q_i)\le1/4\) gives the display. Wu's theorem and averaging over \(i\) give the rest. ∎
+
+This does \textbf{not} yield an \(n\)-independent AA bound: it loses exactly \(1/n\) when passing from total to maximum influence. Nor does it construct BDST face-supported routing.

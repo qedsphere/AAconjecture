@@ -1,0 +1,72 @@
+\subsubsection{1B. Established earlier results {[}PROJECT{]}}\label{b.-established-earlier-results-project}
+
+\paragraph{Curie--Weiss and mean-field models}\label{curieweiss-and-mean-field-models}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Curie--Weiss, sharp threshold:} AA holds for \(\beta\le1\), including \(\beta_c=1\), and fails for \(\beta>1\). The route uses exact mixture/slice identities, stability to uniform measure, and a small-\(n\) Poincaré floor.
+\item
+  \textbf{Verification of critical asymptotics:}
+  \(\operatorname{Var}(S)=\Theta(n^{3/2})\) at \(\beta=1\);
+  \(\operatorname{Var}(S)/n^{1.5}\to1.164\) and the doubling ratio \(\to2.838\) (predicted \(2^{1.5}=2.828\)).
+\item
+  The weighted slice distance \(D=\sum_t|p_\beta-p_{\mathrm{Bin}}||t|\) satisfies
+  \(D/n^{0.75}\to0.909\), hence \(D/n=O(n^{-1/4})\to0\) and the stability error \(O(d^2D/n)\) vanishes.
+\item
+  \textbf{Finite-n warning:} the crossover is slow; small-\(n\) numbers do not locate \(\beta_c\). The relevant scale is \(n\gg(\beta-1)^{-3/2}\).
+\item
+  \textbf{General degenerate mean-field minima:} if the rate function has finite flatness \(I(m)=I(m_*)+c|m|^{2k}\) at its minimum, then \(\operatorname{Var}(S)=\Theta(n^{2-1/k})=o(n^2)\) and the same AA strategy applies. Measured doubling exponents \(1.000,1.500,1.667\) match \(2-1/k=1,1.5,1.667\).
+\end{itemize}
+
+\paragraph{Degree-one bounds and tree/mean-field consequences}\label{degree-one-bounds-and-treemean-field-consequences}
+
+For affine \(f\), with finite covariance row bound \(R=\sup_i\sum_j|\operatorname{Cov}(i,j)|\),
+
+\[\max_i\operatorname{Inf}_i(f)\ge \operatorname{Var}(f)^2/R^2.\]
+
+Dobrushin gives \(R\le1/[4(1-\alpha)]\), hence a degree-one bound with \(n\)-uniform constants. Consequences include:
+
+\begin{itemize}
+\tightlist
+\item
+  Dobrushin Gibbs at degree 1 generally;
+\item
+  one-dimensional Ising at every finite \(\beta\) at degree 1;
+\item
+  two-dimensional Ising at degree 1 up to \(\beta_c\) (using standard correlation-decay results);
+\item
+  \(b\)-ary trees at \(\beta_c=\operatorname{artanh}(1/b)\), showing the AA threshold can be \textbf{strictly above} the Dobrushin threshold \(\beta_D\) (and below the KS threshold \(\operatorname{artanh}(1/\sqrt b)\)). Dobrushin is sufficient, not necessary, for AA.
+\end{itemize}
+
+\paragraph{Block-independent special cases}\label{block-independent-special-cases}
+
+Correct geometric criterion: flatness requires two support atoms whose \textbf{closed neighbourhoods are disjoint}, equivalently, for two atoms, Hamming distance at least 3. A flip landing off-support still matters because the Dirichlet/flip weight uses \(\lambda(x)>0\).
+
+\begin{itemize}
+\tightlist
+\item
+  Original naive statement ``disconnected support graph'' is false as a criterion. For the \(k=2\) copy law uniform on \(\{00,11\}\), the support graph has no edges, but the two closed neighbourhoods intersect, so no flat nonconstant block function exists.
+\item
+  For every \(k=2\) law with at least two support atoms, closed neighbourhoods meet, giving positive finite-block Poincaré gap with the unweighted flip form.
+\item
+  A \(k\ge3\) counterexample remains decisive: \(\lambda\) uniform on \(\{000,111\}\) and \(f=\operatorname{MAJ}_3\) has \(\operatorname{Var}(f)=1/4\) but every single-bit flip influence is zero. Any general block-independent AA claim for unrestricted \(k\ge3\) is therefore false.
+\item
+  A reported full \(k=2\) theorem has
+  \(\max\operatorname{Inf}\ge c\,\delta_{\min}^{-6}\operatorname{Var}^8/d^{12}\),
+  with \(\delta_{\min}\) the least block-atom probability. This is accepted in the older log but should be referenced with its exact proof, not casually generalized.
+\item
+  A stronger \(k=2\) result with law-independent constants was \textbf{accepted only conditionally} because its level-\(d\) comparison lemma was not independently audited. Do not treat it as established.
+\end{itemize}
+
+\paragraph{Ising in restricted regimes}\label{ising-in-restricted-regimes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{2D Ising at \(\beta=0.35\), degree 2:} a coarse-graining/SSM proof gives \(n\)-uniform AA, with a formal but practically useless constant around \(10^{-300}\) from block size 100 and huge regularity factors. This reaches beyond \(\beta_D=0.25\) but not \(\beta_c\approx0.4407\).
+\item
+  \textbf{Higher-temperature expansion:} for sufficiently small \(\kappa=\beta\|J\|_{\rm row}\), connected-cluster counts compare low-degree Walsh moments to product measure. Crude animal counting gives roughly \(\kappa<1/e\) and sharper lattice constants about \(\kappa<1/2.3\). Crucially \(\Delta\) cancels along \((e\Delta)^\ell(\kappa/\Delta)^\ell=(e\kappa)^\ell\). This does not cover the interval up to Dobrushin \(\kappa<1\).
+\item
+  \textbf{1D Ising, higher degrees:} only a conditional transfer-matrix/LSI route remains in the notes; do not quote it as an established general-degree theorem without the block-routing step.
+\end{itemize}

@@ -1,0 +1,66 @@
+\subsubsection{Exact classification with the paper's worst-case graph
+quantifier}\label{quant:heading-8}
+
+Now fix any \(\beta>0\) and allow all interaction graphs and positive
+polynomially bounded edge weights, as in the Marwaha--Sud problem
+family. For the single fixed term \(K_u=-(u\cdot\sigma)^{\otimes2}\), a
+uniform influence-AA guarantee over this whole family holds \textbf{if
+and only if} \(u_z=0\).
+
+If \(u_z=0\), the measurement channel outputs independent fair bits for
+every underlying Ising configuration, on every graph and at every
+strength, so uniform AA applies. If \(u_z\ne0\), choose complete-graph
+weights \(2/(\beta n)\). The underlying Ising law then has effective
+Curie--Weiss inverse temperature two. Its measured magnetization has
+variance tending to \(u_z^2m_2^2>0\) and all influences \(n^{-2}\),
+proving failure of the universal guarantee. These weights are positive
+and polynomially bounded. At \(\beta=0\) every thermal state is
+maximally mixed and all orientations satisfy AA.
+
+This is a genuine worst-case interaction classification for an
+isospectral subclass, rather than merely contrasting easy and hard graph
+instances. It concerns influence AA. No worst-case acceptance-simulation
+classification over arbitrary graphs is asserted.
+
+The worst-case orientation criterion also holds for the diagonal-energy
+model. For \(c\ne0\), use weights \(2/(\beta c^2n)\), producing
+effective Curie--Weiss inverse temperature two; for \(c=0\) all diagonal
+energies are zero. The different weights are necessary because the two
+ways to form classical inputs are not interchangeable.
+
+The signed interaction admits the same complete worst-case
+classification. For fixed \(\beta\ge0,\lambda\in\mathbb R,u\), a uniform
+influence-AA guarantee over all positive polynomially bounded weighted
+graphs holds \textbf{if and only if \(\beta\lambda=0\) or \(u_z=0\)}, in
+either classical-input model.
+
+Only the case \(\lambda<0\), \(\beta>0\), \(c=u_z\ne0\) needs an
+additional argument. Use the bipartite 16-regular expander family from
+Section~\ref{proof:local_interactions},
+putting weight \(6/(16\beta|\lambda|)\) on every edge. Its underlying
+Ising law is the antiferromagnetic normalized expander law at effective
+inverse temperature six. A bipartite spin gauge converts it to the
+proved ferromagnetic counterexample. If \(\sigma_i\) is \(+1\) on one
+part and \(-1\) on the other, its staggered magnetization
+\(M_{\rm stag}(S)=n^{-1}\sum_i\sigma_iS_i\) has variance bounded away
+from zero.
+
+For the measured law, the independent measurement channel gives
+
+\[
+\operatorname{Var}\!\left(n^{-1}\sum_i\sigma_iX_i\right)
+=c^2\operatorname{Var}(M_{\rm stag}(S))+(1-c^2)/n.
+\]
+
+This is a constant-variance degree-one witness with every influence
+\(n^{-2}\). For the diagonal-energy model use edge weight
+\(6/(16\beta|\lambda|c^2)\) instead, so its classical effective coupling
+is the same antiferromagnetic expander coupling. Positive \(\lambda\)
+follows by rescaling the complete-graph argument; \(\beta\lambda=0\) or
+\(c=0\) gives uniform input. Both influence conventions have the same
+classification.
+
+The universal graph quantifier matters: antiferromagnetic normalized
+complete graphs satisfy AA at every fixed strength, while the
+arbitrary-graph class of that same interaction contains these
+counterexamples.

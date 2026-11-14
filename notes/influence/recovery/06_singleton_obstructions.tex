@@ -1,0 +1,64 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{Why both additions matter}\label{influence-recovery:why-both-additions-matter}
+
+For magnetization \(M=n^{-1}\sum_iX_i\) in zero-field Curie--Weiss,
+exchangeability and sign symmetry imply \[
+ I_i(M)=n^{-2},\qquad
+ \operatorname{Var}(\mathbb E[M\mid X_i])
+   =\operatorname{Var}(M)^2.
+\] The reveal term captures ordered-phase magnetization with a single
+query. But merely adding singleton reveal gain to flip influence does
+not work for every exchangeable law. Let \[
+ \mu=\tfrac12U_n+\tfrac14\delta_{(+1)^n}
+                       +\tfrac14\delta_{(-1)^n},\qquad f=M^2.
+\] This law has full support. Its \(f\)-variance tends to \(1/4\), while
+\(I_i(f)\le4/n^2\). Global sign symmetry makes \(\mathbb E[f\mid X_i]\)
+constant, so every singleton reveal gain is zero. A short prefix can
+identify the density sector even though a single observation cannot;
+derivative influences handle variance remaining inside a sector. This
+explains the bounded lookahead block.
+
+The theorem is derived from exchangeability and UAA, not asserted for
+all dependent Gibbs laws. A law with a genuine quantum-versus-classical
+query separation cannot satisfy a comparable hereditary polynomial
+progress theorem for all relevant bounded polynomials.
+
+\subsubsection{A full-support Gibbs example with bounded one-spin energy changes}
+\label{influence-recovery:smooth-singleton-obstruction}
+
+The independent audit strengthens the preceding singleton obstruction.
+Fix \(0<r<1\), and draw a latent mean \(\Theta\) equal to zero with
+probability \(1/2\), and to each of \(+r,-r\) with probability \(1/4\).
+Conditional on \(\Theta\), draw independent spins with mean \(\Theta\).
+Its density relative to the uniform law is
+\[
+ w_n(x)=\frac12+\frac14\prod_i(1+rx_i)
+                    +\frac14\prod_i(1-rx_i).
+\]
+This is a full-support exchangeable law and is the Gibbs law of
+\(H_n=-\log w_n\) at inverse temperature one. Its energy range is \(O(n)\).
+A one-spin change alters the energy by at most
+\(\log((1+r)/(1-r))\): the ratio of every positive summand before and
+after a change lies in the corresponding fixed interval, as does the
+ratio of their sums.
+
+Let \(M=n^{-1}\sum_i x_i\) and \(f=M^2\in[0,1]\), of degree two.
+Conditional laws of large numbers give
+\[
+ \operatorname{Var}(f)\longrightarrow r^4/4>0.
+\]
+Meanwhile
+\[
+ D_i f=\frac{2\sum_{j\ne i}x_j}{n^2},\qquad I_i(f)\le4/n^2.
+\]
+The law is invariant under global spin reversal and \(f\) is even, so
+its two conditional expectations given \(X_i=+1\) and \(X_i=-1\) agree:
+\[
+ \operatorname{Var}(\mathbb E[f\mid X_i])=0
+ \quad\text{for every }i.
+\]
+Every temperature of this Hamiltonian remains exchangeable and hence
+belongs to the all-temperature approximation class proved above.
+Adding the two singleton quantities cannot provide a general influence
+repair. A short transcript can reveal higher-order phase information;
+recoverable-source influence gives another possible repair.

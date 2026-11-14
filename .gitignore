@@ -7,7 +7,8 @@ papers/AA_Exposition.pdf
 .DS_Store
 
 # LaTeX build output
-notes/*.pdf
+/notes/**/*.pdf
+/*.pdf
 *.aux
 *.log
 *.toc

@@ -1,0 +1,62 @@
+\subsubsection{1D. Important proved structural facts and counterexamples}\label{d.-important-proved-structural-facts-and-counterexamples}
+
+\paragraph{Valid degree-growth example}\label{valid-degree-growth-example}
+
+Heat-bath Glauber on the 3-leaf star \(K_{1,3}\) maps a degree-1 polynomial into degree 3:
+
+\[\mathcal Lx_0=-x_0+c_1(x_1+x_2+x_3)
++c_3x_1x_2x_3,\qquad
+c_3=\frac{\tanh(3\beta)-3\tanh\beta}{4}.\]
+
+At \(\beta=0.2\), \(c_3\neq0\). Hence \(P_tx_0\) has a nonzero degree-3 term for small \(t\). Because \(c_3<0\), any small-\(t\) interval must use \(|c_3|\) in its bound.
+
+By contrast, the Ising 3-path preserves affine functions: there \(\mathcal L V_1\subseteq V_1\) and \(P_tV_1\subseteq V_1\). Thus \textbf{do not use the 3-path as a degree-growth counterexample}.
+
+\paragraph{Conditional expectations raise degree: ANOVA is not safe}\label{conditional-expectations-raise-degree-anova-is-not-safe}
+
+The star gives
+\[\mathbb E_0[x_0]=\tanh(\beta(x_1+x_2+x_3)),\]
+which has a nonzero cubic component. Therefore block-Hoeffding degree, ANOVA degree, and semigroup level are not automatically bounded by original multilinear degree. Any proof claiming block-degree preservation or \(P_t h=e^{-kt}h\) without proof must be rejected.
+
+\paragraph{Bounded versus unbounded MLSI obstruction}\label{bounded-versus-unbounded-mlsi-obstruction}
+
+An unbounded degree-2 example, built from alternating Rademacher pair products, has constant-order variance and requires \(\Omega(n)\) relevant coordinates for a small-error junta approximation. It demonstrates that a pure MLSI assumption cannot, by itself, produce the desired junta theorem. \textbf{It is not a counterexample to bounded Lemma J:} its range grows like \(\sqrt m\), and clipping to \([0,1]\) destroys multilinear degree. The bounded MLSI claim and the bounded Dobrushin claim therefore remain distinct open problems.
+
+\paragraph{Far monomial kills generic gradient localization}\label{far-monomial-kills-generic-gradient-localization}
+
+For uniform product and \(p=x_ix_j\) with \(\operatorname{dist}(i,j)>R\),
+\[h_i(x)=(p(x)-p(x^i))^2=x_j.\]
+
+For every \(B(i,R)\)-local \(\ell\),
+
+\[\|h_i-\ell\|_2^2\ge1/4,\]
+
+with optimum \(\ell=1/2\). Moreover \(\sum_kh_k=x_i+x_j\le2\le4d^2\) for \(d=2\), so the GMNR total-influence budget does not rescue localization. Degree-2 monomials can have globally dispersed support. Correlation decay does not imply \(R\)-local approximability.
+
+This is an obstruction to \textbf{local approximation}, not by itself a refutation of TV comparison on the actual support \(\{j\}\).
+
+\paragraph{Correct Dirichlet dynamics for copy blocks}\label{correct-dirichlet-dynamics-for-copy-blocks}
+
+For exact copy \(\lambda\) uniform on \(\{00,11\}\), single-site heat-bath has zero gap: transitions leaving the copy states have rate zero. The unweighted flip form's positive finite-block gap is \textbf{not} the reversible heat-bath MLSI constant. Tensorised block resampling dynamics is the appropriate block-MLSI object. Do not cite a positive single-site Glauber MLSI for the exact copy law.
+
+\paragraph{Bounded global-gradient witness}\label{bounded-global-gradient-witness}
+
+The legal polynomial
+\[p_n=x_{i_0}\frac1{n-1}\sum_{j\ne i_0}x_j,\]
+is bounded on \(\{0,1\}^n\), has degree 2 and
+\[\operatorname{Var}(p_n)=\frac1{16}+\frac1{8(n-1)}.\]
+Its \(h_{i_0}\) depends on the other \(n-1\) coordinates. This provides a genuine bounded global example with \(\Theta(n)\) gradient support; no need for the unbounded polynomial \((n^{-1/2}\sum x_j)^2\).
+
+\paragraph{A biased-product mean-square obstruction}\label{a-biased-product-mean-square-obstruction}
+
+A proposed universal comparison \(\|f\|_{L^2(\mu)}\le C\|f\|_{L^2(U)}\) for degree-bounded polynomials is false without a matching first-moment hypothesis. Let \(\mu=\operatorname{Ber}(3/4)^{\otimes n}\) on \(\{\pm1\}^n\), \(U\) uniform, and \(f=1+n^{-1}\sum_i y_i\):
+\[\|f\|_{L^2(U)}^2=1+1/n,\qquad
+\mathbb E_\mu f^2\to9/4.\]
+The mean-square term cannot be omitted.
+
+\paragraph{Duplicate-pair average: no linear variance-to-influence bound}\label{duplicate-pair-average-no-linear-variance-to-influence-bound}
+
+For \(p_m=m^{-1}\sum_{j=1}^m x_{2j-1}x_{2j}\) under uniform independent bits,
+\[\operatorname{Var}(p_m)=\frac3{16m},\qquad
+\max_i\operatorname{Inf}_i(p_m)=\frac1{2m^2},\]
+so \(\max\operatorname{Inf}/\operatorname{Var}=8/(3m)\to0\). This refutes \(n\)-uniform versions of \(\max\operatorname{Inf}\ge c(d)\operatorname{Var}\); a polynomial in \(v\), here \(v^2\), is necessary.

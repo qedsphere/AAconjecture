@@ -1,0 +1,126 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{An atom-independent influence theorem for product
+blocks}\label{influence-recovery:an-atom-independent-influence-theorem-for-product-blocks}
+
+Let \(\nu\) be an arbitrary product law on Boolean blocks \(Z_a\), each
+of size at most \(k\). Zeros and arbitrarily small atom probabilities
+are permitted. A function has \textbf{block degree at most \(\Delta\)}
+if it is a sum of functions each depending on at most \(\Delta\) blocks.
+This is a pointwise representation on the entire Boolean cube, including
+points outside the support of \(\nu\).
+
+For \(g:\{-1,+1\}^N\to[0,1]\) of block degree at most \(\Delta\ge1\),
+define
+
+\[
+ J_a^\nu(g)=\mathbb E_\nu\operatorname{Var}_{Z_a}
+                      (g\mid Z_{-a})
+ =\frac12\mathbb E(g(Z)-g(Z^{a\leftarrow Z_a'}))^2,
+ \tag{B1}
+\]
+
+where \(Z_a'\) is an independent block with its original law. Write
+\(v=\operatorname{Var}_\nu(g)>0\) and \(L=k+\log(\Delta/v)\), using
+natural logarithms.
+
+\textbf{Theorem.} An absolute \(c>0\) satisfies
+
+\[
+ \boxed{\quad
+ \max_a J_a^\nu(g)
+ \ge c\,\frac{v^{5/2}}
+ {\Delta^6\,[k+\log(\Delta/v)]^6}.
+ \quad} \tag{B2}
+\]
+
+This is independent of the number of blocks and their smallest atom
+masses. Its influence resamples an entire block, rather than physically
+flipping one bit in a possibly constrained block.
+
+\textbf{Proof.} For \(\eta\in(0,1)\), round each block law \(\nu_a\) to
+a dyadic law on \(b=k+\lceil\log_2(1/\eta)\rceil\) fair source bits.
+Allocate at least \(\lceil(1-\eta)2^b\nu_a(z)\rceil\) source words to
+each supported \(z\). These counts sum to at most \(2^b\); fill the
+remaining words arbitrarily. The resulting law is
+
+\[
+ \nu'_a=(1-\eta)\nu_a+\eta r_a.
+ \tag{B3}
+\]
+
+We compare moments by a single univariate interpolation. Put
+\(\nu_a(t)=(1-t)\nu_a+t r_a\) and \(\nu(t)=\bigotimes_a\nu_a(t)\), for
+\(0\le t\le1\). For any bounded function \(H\) of block degree at most
+\(m\), \(\mathbb E_{\nu(t)}H\) is a polynomial in \(t\) of degree at
+most \(m\). The univariate Markov inequality on \([0,1]\) bounds its
+derivative by \(2m^2\) times its supremum absolute value. Applied to
+\(g\) and \(g^2\), whose block degrees are at most \(\Delta\) and
+\(2\Delta\), this gives
+
+\[
+ |\operatorname{Var}_{\nu'}g-\operatorname{Var}_{\nu}g|
+ \le12\Delta^2\eta.
+ \tag{B4}
+\]
+
+Indeed, the first moment changes by at most \(2\Delta^2\eta\), the
+second by at most \(8\Delta^2\eta\), and squaring a \([0,1]\)-valued
+first moment costs at most twice its change. Thus
+\(\operatorname{Var}_{\nu'}(g)\ge v/4\) for sufficiently small
+\(\Delta^2\eta/v\). Compose \(g\) with the independent dyadic block maps
+to get \(h\) on fair bits. Each term depending on at most \(\Delta\)
+blocks now depends on at most \(b\Delta\) fair bits. Therefore
+\(\deg(h)\le b\Delta\) and \(h\) is globally bounded. By (U), some fair
+bit \(j\) has
+
+\[
+ I_j(h)\ge \frac{c_0}{32}
+             \frac{v^{5/2}}{b^6\Delta^6}.
+ \tag{B5}
+\]
+
+Suppose \(j\) lies in the fair source of block \(a\). Conditional on all
+other blocks, flipping \(j\) gives two identically distributed
+\(g\)-values, with common variance \(\operatorname{Var}_{\nu'_a}(g)\).
+For any identically distributed \(A,B\),
+\(\mathbb E(A-B)^2\le4\operatorname{Var}(A)\). Hence
+
+\[
+ I_j(h)\le J_a^{\nu'}(g).
+ \tag{B6}
+\]
+
+We next compare block influences without comparing the global densities.
+Put \(H_a(z_{-a})=\operatorname{Var}_{\nu_a}(g(z_{-a},Z_a))\). This is a
+globally bounded function in \([0,1/4]\) of block degree at most
+\(2\Delta\). Replacing \(\nu_a\) by the mixture (B3) increases this
+conditional variance by at most \(2\eta\): the mixture-variance identity
+gives the sharper upper bound \(5\eta/4\). Apply the same univariate
+interpolation to \(H_a\) while varying the other block laws. Markov
+bounds the change in its expectation by \(2\Delta^2\eta\). Consequently
+
+\[
+ J_a^{\nu'}(g)
+ \le J_a^\nu(g)+4\Delta^2\eta
+ \tag{B7}
+\]
+
+This step remains valid with zero atoms and does not use any comparison
+between the global product densities.
+
+Choose
+
+\[
+ \eta=\alpha\frac{v^3}{\Delta^8 L^6},
+ \qquad L=k+\log(\Delta/v),
+ \tag{B8}
+\]
+
+where \(\alpha>0\) is an absolute sufficiently small constant. Then
+\(b\le C_\alpha L\) with \(C_\alpha=O(1+\log(1/\alpha))\). The variance
+condition in (B4) holds for small enough \(\alpha\). The error in (B7)
+is at most \(4\alpha v^3/(\Delta^6L^6)\). The lower bound (B5) is at
+least \(c_0v^{5/2}/(32C_\alpha^6\Delta^6L^6)\). Choose \(\alpha\) so
+small that \(4\alpha\le c_0/(64C_\alpha^6)\), which is possible because
+\(\alpha(1+\log(1/\alpha))^6\to0\). Since \(v\le1\), subtracting (B7)
+proves (B2). This finishes the proof.

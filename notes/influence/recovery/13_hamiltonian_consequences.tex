@@ -1,0 +1,103 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{Concrete Hamiltonian
+consequences}\label{influence-recovery:concrete-hamiltonian-consequences}
+
+\subsubsection{Ising forests: every fixed finite temperature, arbitrary
+fields}\label{influence-recovery:ising-forests-every-fixed-finite-temperature-arbitrary-fields}
+
+Use the reset/copy representation for Ising forests in
+Theorem\textasciitilde{}\ref{thm:threshold-ising-forests}. Its
+independent source blocks are the edge pairs \((C_e,Y_e)\) and root
+spins, so \(k=2\). Put \(\rho=1-\exp(-4\beta J_{\mathrm{edge}})<1\). The
+ancestor truncation after \(L\) edges obeys:
+
+\begin{itemize}
+\tightlist
+\item
+  Each \(F_L\) output reads at most \(r=L+1\) source blocks.
+\item
+  \(\Pr[F_L(Z)_i\ne x_i\mid X=x]\le\rho^L\).
+\item
+  Any \(s\) source-block requests use at most \(2s\) physical queries,
+  because the posterior of an edge block depends only on its endpoint
+  spins.
+\end{itemize}
+
+For simulation choose
+
+\[
+ L=\max\left\{1,\left\lceil
+ \frac{\log(2C d^2/e)}{\log(1/\rho)}\right\rceil\right\}
+ \tag{F1}
+\]
+
+when \(\rho>0\); \(L=1\) suffices for \(\rho=0\). Equations (S2) and
+(S3) apply, with the influence version instead choosing \(L\) to make
+\(Cd^2\rho^L\le v/4\). Thus every globally bounded degree-\(d\)
+polynomial has mean-error-\(e\) simulation using
+
+\[
+ 2S((L+1)d,e/2;2)
+ =\operatorname{poly}_{\beta J_{\rm edge}}(d,1/e)
+ \tag{F2}
+\]
+
+physical queries. The source influence bound is dimension independent
+even where a physical site flip cannot move a macroscopic phase. Pinning
+leaves a forest, changes only fields, and leaves the edge-strength bound
+unchanged; the same conclusion therefore holds uniformly after every
+pinning.
+
+\subsubsection{Bounded-degree high-temperature
+interactions}\label{influence-recovery:bounded-degree-high-temperature-interactions}
+
+Use the high-temperature random-map construction in
+Theorem\textasciitilde{}\ref{thm:resolution-dynamics-ising} and its
+local posterior oracle in
+Section\textasciitilde{}\ref{resolution-dynamics:simulation}. Let \(D\)
+be the dependency degree, \(B=D+1\), \(q\le D+1\) the number of colors,
+and \(\theta=D(1-\exp(-4\beta\Lambda))\le\theta_*<1\). For \(L\) sweeps
+write
+
+\[
+ N_L=B^{qL+1}.
+\]
+
+The source blocks encode independent random update maps and have size at
+most \(k=D+1\). Each truncated output reads at most \(r=N_L\) blocks,
+its mismatch conditional on all of \(X\) is at most \(\theta^L\), and
+its exact posterior source oracle needs at most \(BN_Ls\) physical
+queries for \(s\) requested blocks. Choose \(L\) as in (F1), with
+\(\rho\) replaced by \(\theta_*\) (and take \(L=1\) if \(\theta_*=0\)).
+The resulting bound is
+
+\[
+ B N_L\,S(dN_L,e/2;D+1)
+ =\operatorname{poly}_{D,\theta_*}(d,1/e).
+ \tag{D1}
+\]
+
+The same choice with \(e\) replaced by a constant multiple of \(v\)
+gives (S2). The original hypotheses allow arbitrary external fields and
+both signs of couplings, and extend to higher-order classical
+interactions with the specified bounded dependency graph. They survive
+pinnings. This proves a generalized influence-and-restriction theorem
+for the stated regime; it does not cover the entire Dobrushin region or
+arbitrary low-temperature interaction graphs.
+
+\subsubsection{Independent local observation
+channels}\label{influence-recovery:independent-local-observation-channels}
+
+The exact observation map and lazy posterior construction in
+Theorem\textasciitilde{}\ref{thm:resolution-channel-closure} also work
+for bounded polynomials. The map \(X_i=B_i(S_i)\) depends on three
+source bits, so \(p\circ F\) has degree at most \(3d\) and stays
+bounded. Apply (D1) to the augmented Gibbs source (latent spins plus
+independent channel-table bits). The posterior oracle supplies at most
+\(s\) adaptively requested source coordinates with expected work at most
+\(s/(1-\alpha)\), where \(\alpha=D\tanh(\beta\Lambda)\le\theta_*\).
+Using source error \(e/2\) and capping at \(2s/[e(1-\alpha)]\) events
+yields total error at most \(e\) and polynomial physical query cost. The
+cap's abort probability is uniform conditional on \(X\). This transports
+the generalized influence proof above; it does not assert preservation
+of ordinary physical flip influences by the channel.

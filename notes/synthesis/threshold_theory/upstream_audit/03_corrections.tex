@@ -1,0 +1,69 @@
+\subsubsection{Corrections needed before importing the other claims}
+
+\begin{enumerate}
+\item \textbf{Uniform Fourier levels have additive influences.}
+If $p=\sum_{k=0}^d p_k$ is its homogeneous Walsh decomposition, then
+with our normalized flip convention,
+\[
+ I_i^U(p)=\sum_{S\ni i}\widehat p(S)^2
+         =\sum_{k=1}^d I_i^U(p_k).
+\]
+The contrary sentence in the handoff is false under uniform input.
+What a levelwise fcb argument must still track is the norm of the
+selected level, including its ambient degree parameter. Under
+correlated laws, Walsh orthogonality need not survive.
+
+\item \textbf{The stated polynomial fcb target is already a uniform-AA
+corollary.} The primary definition satisfies
+$\|p\|_\infty\le\|p\|_{\mathrm{fcb},d}$; see
+\href{https://arxiv.org/abs/2304.06713v2}{Escudero Guti\'errez,
+Proposition 2.3}. Hence $\|p\|_{\mathrm{fcb},d}\le1$ is a stronger
+restriction than supremum boundedness and puts $p$ within the
+uniform-AA theorem imported here. The sharper degree-independent
+$\operatorname{Var}^2$ estimate, or a proof exploiting fcb directly,
+is a separate target. This supplies no correlated-Gibbs transfer.
+
+\item \textbf{Repair the mean-square comparison witness.}
+The handoff's $f=1+n^{-1}\sum_iY_i$, with independent mean-$1/2$
+signs $Y_i$, gives a squared-norm ratio tending to $9/4$; that example
+alone does not refute an arbitrary finite comparison constant. The
+intended claim is proved by the bounded affine polynomial
+$M=n^{-1}\sum_iY_i$:
+\[
+ \mathbb E_U M^2=1/n,\qquad
+ \mathbb E_\mu M^2=\tfrac14+\tfrac{3}{4n},\qquad
+ \frac{\mathbb E_\mu M^2}{\mathbb E_U M^2}=\frac{n+3}{4}.
+\]
+Independent fields themselves have full AA. This is a failure of a
+comparison method, not of simulation.
+
+\item \textbf{Do not use the reported inverse-atom prefactor.}
+The handoff's project-level two-bit influence formula has a factor
+$\delta_{\min}^{-6}$. It cannot hold with a positive prefactor uniform
+in $\delta_{\min}$: take a nearly-copy two-bit law with fair marginals
+and $p(x)=x_1$ on $\{0,1\}^2$. Its variance is $1/4$ and unnormalized
+maximum flip influence is one, while the proposed right side diverges
+as the least atom probability tends to zero. The source formula needs
+its exact proof and parameter dependence; we do not silently repair
+its exponent or rely on it. Our full-AA block theorem has its own proof.
+
+\item \textbf{Boolean degree does not imply $d^2\ge n$.}
+For the addressing function with $k$ address bits and $2^k$ data bits,
+all $n=k+2^k$ variables are relevant, while the exact degree is $d=k+1$.
+Expand it as $\sum_a\mathbf1[\text{address}=a]x_a$ to see the upper
+bound; the top coefficient involving a fixed data bit is nonzero.
+The handoff's blanket Boolean shortcut in Task 2 is therefore unavailable.
+
+\item \textbf{Critical covariance needs a separate argument.}
+On a free $b$-ary Ising tree of depth $h$,
+$\operatorname{Cov}(X_o,X_v)=\tanh(\beta)^{\operatorname{dist}(o,v)}$.
+At $\tanh\beta=1/b$, the root covariance row sum is $h+1$, not a
+dimension-uniform constant. Thus that proof route cannot establish the
+reported critical endpoint without another argument. This does not
+refute a separate influence theorem, and our forest simulation does
+not use covariance-row summability. On the square lattice the usual
+field-uniform coefficient bound is $4\tanh\beta<1$, reaching
+$\operatorname{arctanh}(1/4)$; $\beta<1/4$ is the more conservative
+linear row-norm criterion. Neither should be conflated with a
+convention-free exact physical or full-AA threshold.
+\end{enumerate}

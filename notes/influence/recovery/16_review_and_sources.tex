@@ -1,0 +1,55 @@
+\subsection{Sources, independent reviews, and finite verification}
+\label{influence-recovery:review-and-verification}
+
+The imported uniform influence inequality is
+\href{https://arxiv.org/abs/2611.09773}{Turturean, Theorem 1.1}.
+The fractional-certificate input is
+\href{https://arxiv.org/html/2611.11626v1}{Blanc--Docter--Strassle--Tan,
+Fact 2.4}, also recorded in the supplied
+\href{https://guyblanc.github.io/AA_Exposition.pdf}{exposition}.
+The original audit records checking the uniform bound directly on
+14 November 2026. The slice estimates are rederived above from
+\href{https://arxiv.org/html/2609.35327v1}{Girish--Mittal--Nehoran--Raz,
+Lemmas 4.6 and 4.9--4.10}. All generalized inequalities here are
+deductions using those stated imports.
+
+The original audit records independent agent checks of both complete
+proofs, with no substantive gap found. For the exchangeable proof the
+checks covered deletion/addition of a uniformly chosen spin in adjacent
+slices; the endpoint-uniform \(4r^2/N\) comparison; its validity for a
+polynomial or coordinate selected after the prefix; the constants
+\(24d^2b_H\), \(16d^2b_H\), and expected error \(36d^2/\sqrt L\);
+the absence of an atom-floor factor; the exact potential identity and
+budget under pinnings; and the final exponents.
+
+The fixed-species extension was checked separately. Absolute differences
+across an \(i\)-edge do not depend on its current \(i\)-spin, so the
+product-expectation derivative estimate, including degenerate biases,
+has no dimension factor. Conditional on a complete species-weight
+vector, the remaining slice factors are independent after the fixed
+prefixes. Telescoping before averaging permits arbitrarily correlated
+weight vectors; reading small species fully causes no difficulty.
+The error \(36rd^2/\sqrt L\), prefix cost \(O(r^3d^{18}/v^7)\),
+and final \(O(r^3d^{27}\epsilon^{-21})\) bound were checked. Dependence
+on a growing species count must remain explicit.
+
+The product-block review checked dominated dyadic rounding even with
+zero atoms; the comparison of fair-bit and block-resampling influences;
+and the low-degree univariate interpolation of block laws. Indeed,
+variance itself has degree at most \(2\Delta\) and range \([0,1/4]\),
+allowing a stronger Markov bound than the conservative estimate in (B4).
+The Hoeffding identity, convexity calculation, fixed-depth iteration,
+posterior transfer, and forest and bounded-degree dynamics applications
+were also checked, including the requirement to ignore incidental
+physical observations. These are mathematical checks by another agent,
+not formal verification or publication review.
+
+The archived verification script records 99 exact conditional-potential
+identities using rational arithmetic; the singleton-reveal obstruction;
+a frozen block with zero physical influence but positive source influence;
+an exact forest posterior; and finite Curie--Weiss identities. All recorded
+checks passed. These finite checks corroborate the identities and do not
+replace the proofs. The original Markdown, generated reports, scripts,
+and numerical artifacts are archived outside the notes; this TeX edition
+preserves the complete two mathematical source notes, the audit's unique
+estimates and Gibbs construction, and their provenance.

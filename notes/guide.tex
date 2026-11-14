@@ -1,0 +1,39 @@
+\section*{Reading guide and organization}
+\addcontentsline{toc}{section}{Reading guide and organization}
+
+The notes distinguish full acceptance simulation from inequalities for
+physical spin influences. A counterexample to the latter is not by itself
+a counterexample to the former. Source files are organized by their
+mathematical direction:
+\begin{description}
+\item[\texttt{foundations/}] Definitions, posterior transfer, reveal
+progress, density comparison, and completion for product alphabets.
+\item[\texttt{influence/}] Physical-influence results and obstructions,
+mean-field studies, and generalized influence recovery for correlated laws.
+\item[\texttt{simulation/}] Positive full-AA families: independent
+blocks, forests, exchangeable inputs, and local observation channels.
+\item[\texttt{high\_temperature/}] The verified classical weighted
+interaction criterion and its extension to measured noncommuting Gibbs
+states.
+\item[\texttt{obstructions/}] Actual quantum-versus-classical query
+separations from global, noisy, and bounded-degree local code Hamiltonians.
+\item[\texttt{synthesis/}] Temperature-set conclusions, physical
+interpretation, literature, and audits of upstream claims.
+\item[\texttt{upstream/}] The supplied task summary and proof companion,
+retained as source material with their original claim-status distinctions.
+\end{description}
+
+The independently compilable file
+\path{../weighted_interaction_full_proof.tex} collects the classical
+weighted-interaction proof and its dependencies. Its eight source bodies
+were compared against verified revision \texttt{c7aa877}; they match
+apart from the declared internal cross-reference adjustment. Its
+mathematics also matches the audited revision \texttt{5fb8f18}; the
+intervening change was equation layout. The standalone file imports the
+uniform-AA and finite Boolean-box results explicitly, and needs no local
+\verb|\input| files. The noncommuting quantum extension remains in
+\texttt{high\_temperature/quantum/}.
+
+Compile this collection from the \texttt{notes/} directory. Build
+outputs, numerical checks, and superseded report assemblies are kept
+outside the notes tree; no PDF is part of this source organization.

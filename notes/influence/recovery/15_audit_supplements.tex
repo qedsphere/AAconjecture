@@ -1,0 +1,67 @@
+\subsection{Additional normalization, potential, and robustness checks}
+\label{influence-recovery:audit-supplements}
+
+This subsection retains the additional estimates in the original
+independent audit. Unless a different range is stated, \(f\in[0,1]\),
+and compositions and squares are multilinearized on the cube.
+The dossier uses \(I_i(f)=\mathbb E(D_i f)^2\), one quarter of the
+unnormalized squared-flip influence in the imported exposition.
+This affects only absolute constants.
+
+\paragraph{A sharper pointwise budget.}
+At a vertex \(x\), split coordinates according to the sign of
+\(x_iD_i f(x)\). For either group \(S\), move exactly its coordinates
+along the line from \(x\) to their opposites. The multilinear extension
+of \(f\) on this line is a degree-at-most-\(d\) polynomial in \([0,1]\)
+on \([0,1]\). Endpoint Markov bounds its derivative in absolute value
+by \(d^2\); that derivative at zero is
+\(-2\sum_{i\in S}x_iD_i f(x)\). Adding the two bounds gives
+\[
+ \sum_i|D_i f(x)|\le d^2,
+ \qquad
+ \sum_i(D_i f(x))^2\le d^2/2,
+\]
+where the last step uses \(|D_i f|\le1/2\). Thus
+\(A_\mu(f)\le d^2/2\) for every law, before or after restriction.
+This sharper normalization is compatible with the conservative
+\(4d^2\) budget for \([-1,1]\)-valued functions above.
+
+\paragraph{The fair-bit source specialization.}
+For a degree-\(D\), \([0,1]\)-valued function \(g\) on independent fair
+bits, Fourier orthogonality gives
+\[
+ J_j(g)=\sum_{S\ni j}\widehat g(S)^2,
+ \qquad
+ \Phi(g)=\sum_jJ_j(g)\le D\operatorname{Var}(g)\le D/4.
+\]
+The average potential drop when querying \(j\) is exactly \(J_j(g)\),
+even when the immediately revealed variance is zero, as for parity
+before all its coordinates have been read. Query the most influential
+bit at every nonconstant leaf. Uniform AA and Jensen give
+\[
+ \mathbb E\Phi_t-\mathbb E\Phi_{t+1}
+ \ge cV_t^{5/2}/D^6,
+\]
+where \(V_t\) is expected residual variance. Since \(V_t\) is
+nonincreasing, more than \(D^7/(4ce^5)\) rounds force \(V_t\le e^2\).
+Conditional-mean output then has mean absolute error at most \(e\).
+For \([-1,1]\)-valued functions replace the initial \(D/4\) budget by
+\(D\), or rescale. This specialization needs no dyadic-rounding logarithm.
+
+\paragraph{Variance stability and the posterior transcript.}
+For \([0,1]\)-valued random variables \(A=f(X)\), \(B=g(Z)\), if
+\(\mathbb E|A-B|\le\delta\), then
+\[
+ |\operatorname{Var}A-\operatorname{Var}B|\le2\delta.
+\]
+Apply the independent-copy identity for variance and
+\(|a^2-b^2|\le2|a-b|\) for \(a,b\in[-1,1]\).
+The conditional per-site discrepancy hypothesis in (R) is essential;
+unconditional coordinate-error bounds alone do not imply its
+fractional-certificate estimate. Likewise, an exact globally consistent
+oracle for \(Z\mid X=x\) supplies a fixed logical source tree with its
+product prior after averaging over \(X\). This does not make source bits
+independent conditional on the entire physical transcript. Incidental
+physical observations must remain outside the logical source selection
+rule. Fair-bit rounding can have large conditional error after a rare
+output observation; the atom-independent block argument avoids this issue.

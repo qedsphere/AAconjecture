@@ -1,0 +1,33 @@
+\subsubsection{The transportation problem: existence versus a new proof}
+
+The handoff labels the exact face-supported summed-$(b')$ LP open, but
+its feasibility already follows from the accepted determinant argument
+in the supplied
+\href{https://arxiv.org/abs/2611.11626}{Blanc--Docter--Strassle--Tan
+exposition, Lemma 3.1 and Section 2.5.4}. That argument produces a
+\emph{permutation} $\pi$ of $A$ satisfying the face constraint and,
+simultaneously for every coordinate,
+\[
+ \#\{x\in A:\pi(x)_i=x_i\}
+ \le\#\{x\in A:x^{\oplus i}\notin A\}.
+\]
+Set $M_{xy}=\mathbf1[y=\pi(x)]$. It is doubly stochastic and has the
+required face support. Multiplying these inequalities by $w_i>0$ and
+summing proves exactly the handoff's weighted LP bound. The remaining
+research problem is a \emph{determinant-free proof or construction},
+not existence or a counterexample to that LP under the imported theorem.
+Birkhoff decomposition alone does not give such a new construction;
+Hall feasibility alone does not imply the weighted cost estimate.
+No weighted Gibbs-law analogue is thereby proved.
+
+Indeed a literal Gibbs-preserving version already fails for one biased
+independent bit. Let $A=\{0,1\}$ and $T(0)=T(1)=\{1\}$. For a law
+with $\mu(0)=p\ne1/2$, face support forces any coupling with first
+marginal $\mu$ to have masses $\gamma(0,1)=p$ and
+$\gamma(1,0)=1-p$. Its second marginal is reversed, so it cannot also
+equal $\mu$. Both faces are valid. Even empty faces would force this
+swap if one retained the zero-boundary, zero-agreement-cost bound.
+This is an obstruction to that literal transport extension, while
+independent-field inputs remain full-AA positive. A nonuniform proof
+must change the coupling, the cost, or the source representation; the
+failure of this transport cannot define a temperature threshold.

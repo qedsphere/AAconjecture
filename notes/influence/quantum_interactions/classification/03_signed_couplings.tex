@@ -1,0 +1,54 @@
+\subsubsection{Complete diagram with signed interaction
+strength}\label{quant:heading-7}
+
+Allow the fixed interaction
+
+\[
+K_{\lambda,u}=-\lambda(u\cdot\sigma)\otimes(u\cdot\sigma),
+\qquad |u|=1,\quad \lambda\in\mathbb R,
+\]
+
+on the complete graph with edge weights \(1/n\). Put
+\(\gamma=\beta\lambda\) and \(c=u_z\). At each fixed
+\(\gamma\in\mathbb R\) and fixed orientation,
+
+\[
+\boxed{\begin{aligned}
+\text{Measured input:}\quad&
+\text{AA holds iff }\gamma\le1\text{ or }c=0,\\
+\text{Diagonal-energy input:}\quad&
+\text{AA holds iff }\gamma c^2\le1.
+\end{aligned}}
+\]
+
+Every boundary in these criteria is included in the positive region.
+Both flip and heat-bath influence have these classifications. Both input
+models admit polynomial classical acceptance simulation throughout the
+entire diagram.
+
+The preceding arguments proved the claims for \(\gamma\ge0\). For
+\(\gamma=-b<0\), the underlying Ising density is
+\(r=e^{-bS^2/(2n)}/Z_{n,-b}\). Jensen gives \(r\le e^{b/2}\). For
+\(s=1+1/(2b)\),
+
+\[
+\mathbb E_{\mu}r^{-s}
+=Z_{n,-b}^{s-1}\mathbb E_Ue^{(s-1)bS^2/(2n)}
+\le\sqrt2.
+\]
+
+The two-sided moment transfer theorem P5 in
+Appendix~\ref{proof:positive_structure} therefore
+proves full influence AA at every fixed \(b>0\). Its hypotheses are
+preserved by every uniform-preserving channel: if \(r_{\rm out}\) is the
+conditional average of \(r\), convexity of \(t^p\) and \(t^{1-s}\)
+contracts the forward and inverse density moments. Applying the product
+measurement channel proves the measured-input statement uniformly over
+orientation. The diagonal-energy law is simply signed Curie--Weiss at
+coupling \(\gamma c^2\le0\), so P5 applies there directly.
+
+For heat-bath influence, the conditional mean bound through the
+underlying Ising spins gives
+\(|\mathbb E[X_i\mid X_{-i}]|\le |c|\tanh|\gamma|\). Thus the
+conditional variance factor is bounded below at every fixed coupling,
+and the same classifications follow.

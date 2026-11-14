@@ -1,0 +1,53 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{Proof of the influence
+theorem}\label{influence-recovery:proof-of-the-influence-theorem}
+
+Decrease \(c_2\) in (6) to at most one, and set \[
+ h_v=\frac{c_2}{4^{7/2}}\frac{v^{7/2}}{d^7},\qquad
+ L=\left\lceil(72d^2/h_v)^2\right\rceil.                 \tag{16}
+\] Thus \(e_L\le h_v/2\le v/4\) and \(L=O(d^{18}/v^7)\). If \(n<2L\),
+querying the entire input makes the final potential zero, so
+\(\mathcal J=\Psi\ge v\).
+
+Otherwise query a fixed prefix of length \(L\), and write
+\(G=\operatorname{Var}(\mathbb E[f\mid H])\). If \(G\ge v/2\), this
+prefix already gives \(\mathcal J\ge v/2\ge h_v/2\). Otherwise \[
+ \mathbb E v_H=v-G>v/2,\qquad
+ \mathbb E s_H\ge\mathbb E v_H-e_L\ge v/4.               \tag{17}
+\] At each prefix choose a remaining coordinate \(i(H)\) maximizing
+\(I_i^{\pi_{q_H}}(f_H)\). By (6) and Jensen, \[
+ \mathbb E I_{i(H)}^{\pi_{q_H}}(f_H)
+ \ge\frac{c_2}{d^7}\mathbb E s_H^{7/2}
+ \ge\frac{c_2}{d^7}(\mathbb E s_H)^{7/2}\ge h_v.          \tag{18}
+\] By (14)--(15), its expected influence under the actual conditional
+law is at least \(h_v-e_L\ge h_v/2\). Query this one coordinate. All
+terms in (4) are nonnegative, so \(\mathcal J\ge h_v/2\). The depth is
+at most \(L+1\) here or \(2L\) in the small-dimension case. This proves
+(2) with absolute constants. The tree uses only the known law and
+polynomial and the observed prefix, not any unknown slice count.
+
+\subsection{Recovering the original potential
+iteration}\label{influence-recovery:recovering-the-original-potential-iteration}
+
+Fix \(0<\epsilon<1\) and \(a=\epsilon^2/2\). At every current leaf of
+conditional variance \(w\ge a\), use the theorem with its actual \(w\);
+freeze other leaves. Each active block has depth at most
+\(O(d^{18}a^{-7})\) and decreases conditional expected potential by at
+least \(c w^{7/2}/d^7\). Every conditional remaining law is exchangeable
+and every restricted polynomial remains globally bounded.
+
+Let \(V_j\) be the expected remaining variance after round \(j\). If
+\(V_j\ge2a\), the active leaves contribute at least
+\(\mathbb E[w\mathbf1_{w\ge a}]\ge V_j-a\ge a\). Jensen gives \[
+ \mathbb E[w^{7/2}\mathbf1_{w\ge a}]
+ =\mathbb E[(w\mathbf1_{w\ge a})^{7/2}]\ge a^{7/2}.
+\] Consequently each such round decreases expected potential by at least
+\(c a^{7/2}/d^7\). Since the initial budget is at most \(1+4d^2\), after
+\(R=O(d^9 a^{-7/2})\) rounds one has \(V_R<2a=\epsilon^2\). Output the
+conditional mean at each final leaf. Cauchy--Schwarz gives mean absolute
+error below \(\epsilon\), with worst-case query count \[
+ O(d^9 a^{-7/2})\,O(d^{18}a^{-7})
+ =O(d^{27}\epsilon^{-21}).                              \tag{19}
+\] As in the original AA query argument, preprocessing and conditional
+expectation computations are unrestricted. This is a query-complexity
+theorem, not a computational-efficiency claim.

@@ -1,0 +1,33 @@
+\subsubsection{1A. Formal targets}\label{a.-formal-targets}
+
+For a Boolean Gibbs measure \(\mu\) with bit-level Dobrushin coefficient \(\alpha\le1-\delta\), bounded range/degree/fields, and every multilinear polynomial \(p:\{0,1\}^n\to[0,1]\) of degree at most \(d\), the AA goal is
+
+\[
+\max_i\operatorname{Inf}_i^\mu(p)
+\ge c(\delta,\delta_0,\Delta,d,R_0)
+\left(\frac{\operatorname{Var}_\mu(p)}d\right)^{C(\delta,\Delta,R_0,d)},
+\]
+
+where \(c,C>0\) are independent of \(n\). Here
+
+\[\operatorname{Inf}_i^\mu(p)=\mathbb E_{x\sim\mu}[(p(x)-p(x^{\oplus i}))^2].\]
+
+A junta-free alternative is the \textbf{weak DFKO tail}. Put \(v=\operatorname{Var}_\mu(p)>0\), \(m=\mathbb E_\mu p\), and \(f=(p-m)/\sqrt v\). If \(I=\max_i\operatorname{Inf}_i^\mu(f)\), prove
+
+\[I\le\frac{\eta_0(t)}{t^2}
+\quad\Longrightarrow\quad
+\Pr_\mu[|f|>t]\ge\eta_1(t)>0,\]
+
+with \(\eta_0,\eta_1\) independent of \(n\), and with
+
+\[\eta_0(t)\ge c\,t^{-A}\]
+
+for fixed positive \(c,A\). This is sufficient, not necessary in general, to obtain AA:
+
+\[\max_i\operatorname{Inf}_i^\mu(p)
+\ge \frac14v^2\eta_0(2/\sqrt v)
+\ge c'v^{2+A/2}.\]
+
+An exponentially decaying threshold \(\eta_0(t)=e^{-Ct^2}\) is \textbf{not enough} for polynomial AA: it yields only \(v^2e^{-\Theta(1/v)}\).
+
+The simultaneous physical-junta version sought by an earlier route also remains open: find a single low-degree, pointwise-bounded polynomial junta \(q\), on an \(n\)-independent support, achieving both \(\|p-q\|_{L^2(\mu)}^2\le\eta\) and \(\|p-q\|_{L^2(\widetilde{\mu}^R)}^2\le\eta\).

@@ -14,7 +14,7 @@ The three files marked "No" are listed in `.gitignore` because their licence doe
 
 ## Additional sources consulted for the full-AA threshold theory
 
-Primary records checked on 2026-11-14; these PDFs are not added to this repository. See the [detailed scope audit](../notes/distributions/threshold_physics/04_literature_audit.tex).
+Primary records checked on 2026-11-14; these PDFs are not added to this repository. See the [detailed scope audit](../notes/synthesis/physical_models/04_literature_audit.tex).
 
 - [Spinka, *Finitary codings for spatial mixing Markov random fields*](https://arxiv.org/abs/1803.10578): forward local coding; no automatic conditional-source query access.
 - [Chayes, Crawford, Ioffe, Levit, *The Phase Diagram of the Quantum Curie–Weiss Model*](https://arxiv.org/abs/0804.1605): physical phase boundary for the collective transverse-field model.

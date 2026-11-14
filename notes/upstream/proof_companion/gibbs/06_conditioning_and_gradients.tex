@@ -1,0 +1,82 @@
+\subsubsection{6. Conditional expectations, global gradients, and influence comparisons}\label{conditional-expectations-global-gradients-and-influence-comparisons}
+
+\paragraph{6.1 The 3-path is affine-preserving; the star raises degree}\label{the-3-path-is-affine-preserving-the-star-raises-degree}
+
+On the Ising 3-path with zero field, every conditional expectation of \(x_i\) in an affine function remains affine. End sites satisfy \(E[x_1\mid x_2]=x_2\tanh\beta\), and the centre satisfies
+\[\tanh(\beta(x_1+x_3))=\frac{\tanh(2\beta)}2(x_1+x_3),\]
+because an odd function of two bits has no quadratic term. The heat-bath generator therefore preserves the affine space.
+
+On the star \(K_{1,3}\) with centre \(0\) and \(S=x_1+x_2+x_3\),
+\[E[x_0\mid x_{-0}]=\tanh(\beta S)
+=c_1(x_1+x_2+x_3)+c_3x_1x_2x_3,\]
+where oddness and symmetry give
+\[c_1=\frac{\tanh(3\beta)+\tanh\beta}{4},
+\qquad
+c_3=\frac{\tanh(3\beta)-3\tanh\beta}{4}.\]
+At \(\beta=0.2\), \(c_3<0\) and is nonzero. Thus
+\[\mathcal Lx_0=-x_0+c_1(x_1+x_2+x_3)+c_3x_1x_2x_3\]
+has exact degree \(3\). The absolutely convergent expansion \(P_t=I+t\mathcal L+O(t^2)\) gives a nonzero degree-\(3\) coefficient \(tc_3+O(t^2)\) for all sufficiently small \(t>0\). Conditional expectation and Glauber semigroups therefore need not preserve multilinear degree.
+
+\paragraph{6.2 Far monomials are not localizable around a coordinate}\label{far-monomials-are-not-localizable-around-a-coordinate}
+
+Under uniform product, take \(p=x_ix_j\). Then
+\[h_i=(p-p^{\oplus i})^2=x_j,\qquad h_j=x_i.\]
+If \(j\notin B(i,R)\), any \(B(i,R)\)-local \(\ell\) is independent of \(x_j\), so
+\[\|h_i-\ell\|_2^2\ge\operatorname{Var}(x_j)=1/4,\]
+with optimum \(\ell=1/2\). Meanwhile \(\sum_kh_k=x_i+x_j\le2\), comfortably below \(4d^2=16\). Correlation decay therefore does not localize discrete gradients around \(i\). This does not rule out expectation comparison on the small support \(\{j\}\).
+
+A legal global bounded example is
+\[p_n(x)=x_{i_0}\frac1{n-1}\sum_{j\ne i_0}x_j.\]
+Under uniform product it has degree \(2\), range \([0,1]\), and
+\[\operatorname{Var}(p_n)=\frac1{16}+\frac1{8(n-1)}.\]
+Indeed, \(p_n^2=x_{i_0}(n-1)^{-2}\sum_{j,k}x_jx_k\), whose mean is \([1+(n-1)/2]/(2(n-1))\), while \((\mathbb Ep_n)^2=1/16\). Its squared gradient at \(i_0\) depends on all other coordinates.
+
+\paragraph{\texorpdfstring{6.3 Variance and per-coordinate influence under \(L^2\) approximation}{6.3 Variance and per-coordinate influence under L\^{}2 approximation}}\label{variance-and-per-coordinate-influence-under-l2-approximation}
+
+For \(p,q:\{0,1\}^n\to[0,1]\),
+\[|\operatorname{Var}_\mu(p)-\operatorname{Var}_\mu(q)|
+\le4\|p-q\|_{2,\mu}.\]
+To see this, bound the second-moment difference by \(2\|p-q\|_2\) and the squared-mean difference by another \(2\|p-q\|_2\).
+
+If \(\mu(x^{\oplus i})/\mu(x)\le C_{\rm RN}\) for all \(x,i\), then
+\[\mathbb E_\mu[(\Delta_i(p-q))^2]
+\le2(1+C_{\rm RN})\|p-q\|_{2,\mu}^2,\]
+where \(\Delta_ir(x)=r(x)-r(x^{\oplus i})\). The proof is
+\[(\Delta_ir)^2\le2r(x)^2+2r(x^{\oplus i})^2,\]
+followed by the flip change of variables. Minkowski and \((u+v)^2\le2u^2+2v^2\) yield
+\[\operatorname{Inf}_i^\mu(q)
+\le2\operatorname{Inf}_i^\mu(p)+4(1+C_{\rm RN})\|p-q\|_2^2.\]
+The same inequality applied with \(p,q\) interchanged supplies the reverse comparison. Degree and pointwise boundedness are separate requirements: clipping an arbitrary \(L^2\) approximant to \([0,1]\) need not preserve its multilinear degree.
+
+\paragraph{6.4 Two independence-sensitive expectation calculations}\label{two-independence-sensitive-expectation-calculations}
+
+On \(\{\pm1\}^n\), let \(f=1+n^{-1}\sum_i y_i\). Under uniform product \(\mathbb E_Uf^2=1+1/n\). Under \(\mu=\operatorname{Ber}(3/4)^{\otimes n}\) (encoding \(q=(3/4,1/4)\) for \(y_i=1,-1\)), \(\mathbb E_\mu f=1+1/2=3/2\) and
+\[\mathbb E_\mu f^2=9/4+\operatorname{Var}(n^{-1}\sum y_i)=9/4+O(1/n).\]
+No universal second-moment comparison without mean matching is possible.
+
+Under uniform \(\{0,1\}\) bits, put \(p_m=m^{-1}\sum_{j=1}^mx_{2j-1}x_{2j}\). The transformation \(q_j=y_{2j-1}y_{2j}\) with \(y=2x-1\) gives independent mean-zero \(q_j\), and
+\[p_m=\frac14+\frac1{4m}\sum_j(y_{2j-1}+y_{2j}+q_j).\]
+The three summands in each block are orthogonal, so
+\[\operatorname{Var}(p_m)=\frac{3}{16m}.\]
+Also \(D_{2j-1}p_m=x_{2j}/m\) and \(D_{2j}p_m=x_{2j-1}/m\), hence
+\[\max_i\operatorname{Inf}_i(p_m)=\frac1{2m^2},
+\qquad \frac{\max_i\operatorname{Inf}_i}{\operatorname{Var}}=\frac{8}{3m}.\]
+This rules out an \(n\)-uniform linear bound \(\max_i\operatorname{Inf}_i\ge c(d)\operatorname{Var}\) even for degree \(2\) under uniform product.
+
+\paragraph{6.5 The unbounded MLSI-junta obstruction, with its scope}\label{the-unbounded-mlsi-junta-obstruction-with-its-scope}
+
+For \(\varepsilon>0\) small, let a two-bit block law be
+\[\lambda_\varepsilon=(1-\varepsilon)\tfrac12(\delta_{00}+\delta_{11})
++\varepsilon\,\operatorname{Unif}_{4},\]
+and let \(\mu=\lambda_\varepsilon^{\otimes m}\) on \(n=2m\) bits. Write \(y_j=2x_{2j-1}-1\) and
+\[\widetilde p_m=c\,m^{-1/2}\sum_{j=1}^m(-1)^jy_jy_{j+1},\]
+with indices read cyclically and \(c=1/8\). This is a degree-\(2\) example. The individual block laws have positive gap, and the respective reversible block-resampling functional inequality tensorises, giving an \(n\)-independent constant for this product family.
+
+Every \(y_j\) has mean zero: the copy component has equal masses at \(-1\) and \(+1\), and the uniform component also has mean zero. The products \(Z_j=y_jy_{j+1}\) are orthonormal. Indeed \(E Z_j^2=1\); for distinct \(j,k\), either they are independent and have mean \(E Z_j\,E Z_k=0\), or they share one mean-zero bit and another independent mean-zero bit makes their product mean zero. Thus \(\operatorname{Var}(\widetilde p_m)=c^2\) exactly.
+
+Let \(q\) depend on at most \(M\) coordinate bits. If \(Z_j\) involves a bit outside that coordinate set, then \(q\) is orthogonal to \(Z_j\). At most \(M\) of the \(m\) products can have both endpoint bits observed. Orthonormality therefore gives the exact projection bound
+\[\|\widetilde p_m-q\|_{2,\mu}^2
+\ge c^2\left(1-\frac Mm\right).\]
+For every fixed \(M\) and every \(\varepsilon>0\), the error remains bounded away from zero as \(m\to\infty\). This rules out an \(n\)-independent junta for the functional inequality alone. However,
+\[\|\widetilde p_m\|_\infty=\Theta(\sqrt m),\]
+so this is \textbf{not} a counterexample to the bounded \([0,1]\) Lemma J. Clipping it to \([0,1]\) generally destroys its multilinear degree. The bounded version remains open.

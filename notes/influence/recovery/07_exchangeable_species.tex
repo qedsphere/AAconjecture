@@ -1,0 +1,77 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{Extension to finitely many exchangeable
+species}\label{influence-recovery:extension-to-finitely-many-exchangeable-species}
+
+Let \([n]=B_1\sqcup\cdots\sqcup B_r\) be a known partition, and suppose
+\(\mu\) is invariant under separate permutations inside each species.
+Conditional on the vector of species weights, it is a product of uniform
+slices; the weights themselves may be arbitrarily dependent. There are
+absolute constants such that the same potential satisfies \[
+ \mathcal J_\mu(f;\mathcal T)\ge c v^{7/2}/d^7
+ \quad\text{with depth }O(r^3d^{18}/v^7).                 \tag{20}
+\] Consequently the influence iteration gives
+\(O(r^3d^{27}\epsilon^{-21})\) deterministic queries. For fixed \(r\),
+this is dimension independent and uniform over all species sizes and
+mixing laws. If \(r\) grows with \(n\), the displayed dependence on
+\(r\) must be retained.
+
+First extend (6) to arbitrary coordinate-bias vectors. For a globally
+bounded degree-\(s\) polynomial \(h\), write
+\(F(\mathbf p)=\mathbb E_{\pi_{\mathbf p}}h\). Differentiating this
+multilinear product expectation gives \[
+ \sum_i|\partial_{p_i}F(\mathbf p)|
+ \le\mathbb E_{\pi_{\mathbf p}}
+      \sum_i|h(X^{\oplus i})-h(X)|\le4s^2.               \tag{21}
+\] The last bound is pointwise: use the signed-sum Markov argument
+separately for positive and negative differences of \(h\). This also
+holds at boundary biases by polynomial continuity. Integrating along the
+segment from \(\mathbf p\) to \(\mathbf q\) yields \[
+ |\mathbb E_{\pi_{\mathbf p}}h-
+       \mathbb E_{\pi_{\mathbf q}}h|
+ \le4s^2\|\mathbf p-\mathbf q\|_\infty.                 \tag{22}
+\] Applying (22) to \(f,f^2,(D_i f)^2\) bounds the corresponding
+variance and influence errors by respectively \(24d^2\eta\) and
+\(16d^2\eta\), where \(\eta=\|\mathbf p-\mathbf q\|_\infty\). Round
+every bias to a dyadic with the same denominator \(2^b\). The source
+comparison (8) still holds, with a separate threshold gadget for each
+coordinate. Increasing the absolute constant \(B\) in the choice of
+\(b\) absorbs the changed constants in (9). Thus (6), with adjusted
+absolute constants, holds for every product law \(\pi_{\mathbf p}\),
+including arbitrary endpoint biases.
+
+For the species theorem, choose a prefix length \(L\). Read in full
+every species of size less than \(2L\); in each other species read a
+fixed prefix of \(L\) coordinates. This uses at most \(2rL\) queries.
+Let \(H\) be the whole transcript. In each unread species \(b\), write
+\(N_b\ge L\) for its remaining size, \(q_b\) for its observed prefix
+density, and \(P_b\) for its latent remaining density. Define \[
+ b_H=\sum_{b\text{ unread}}
+       \left(\mathbb E[|P_b-q_b|\mid H]+\frac1{2\sqrt{N_b}}\right).
+\] Conditional on the original vector of species weights, each prefix
+count is hypergeometric, so (12) holds in each species. Averaging gives
+\(\mathbb E_H b_H\le3r/(2\sqrt L)\), regardless of dependence among the
+weights.
+
+For a fixed remaining weight vector, telescope the replacement of the
+individual slice factors by their bias-\(q_b\) products. At each step,
+integrate the polynomial over all other species; the resulting function
+on the current species remains globally bounded and has degree at most
+the original degree. Thus (11) gives, after conditioning on \(H\) and
+averaging the weight vector, \[
+ |\mathbb E_{\mu_H}h-\mathbb E_{\pi_{\mathbf q}}h|
+ \le4s^2b_H.                                           \tag{23}
+\] This argument permits correlated latent weights: the telescoping is
+performed for each weight vector before it is averaged. Consequently
+(14) holds with this new \(b_H\), and the average error is at most
+\(e_L=36rd^2/\sqrt L\).
+
+Now use the same \(h_v\) as in (16), with the absolute product constant
+just established, and choose \(L=\lceil(72rd^2/h_v)^2\rceil\). Then
+\(e_L\le h_v/2\). If no unread coordinates remain, the transcript
+determines \(f\). Otherwise repeat (17)--(18): either the initial
+transcript reveals variance at least \(v/2\), or a coordinate selected
+from it has expected conditional derivative influence at least
+\(h_v/2\). Query that coordinate. The depth is at most \(2rL+1\),
+proving (20). Pinnings preserve the species symmetries, so the preceding
+potential iteration applies unchanged, with only the factor \(r^3\) in
+its per-round query cost.

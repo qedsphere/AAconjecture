@@ -1,0 +1,48 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\section{Recovering the influence proof for every exchangeable
+law}\label{recovering-the-influence-proof-for-every-exchangeable-law}
+
+Research deduction, 14 November 2026. This proves a direct generalized
+influence inequality and then runs the original influence-potential
+iteration. It applies to \textbf{all globally bounded polynomials}, not
+only quantum acceptance functions. Uniform AA is the only non-elementary
+input; the influence inequality is not inferred from a simulation
+theorem.
+
+\subsection{The theorem}\label{influence-recovery:the-theorem}
+
+Let \(\mu\) be any exchangeable law on \(\{-1,1\}^n\), and let
+\(f:\{-1,1\}^n\to[-1,1]\) have multilinear degree at most \(d\ge1\). Use
+\(D_i f=(f(x^{i\leftarrow+1})-f(x^{i\leftarrow-1}))/2\) and
+\(I_i^\mu(f)=\mathbb E_\mu(D_i f)^2\). Set \[
+ v=\operatorname{Var}_\mu f,\qquad A_\mu(f)=\sum_i I_i^\mu(f),\qquad
+ \Psi_\mu(f)=\operatorname{Var}_\mu f+A_\mu(f).
+\] For a deterministic query tree \(\mathcal T\) with final transcript
+\(H\), let \(\mu_H,f_H\) be its conditional law and restricted
+polynomial on the remaining coordinates. Define its
+\textbf{reveal-and-derivative influence} by \[
+ \mathcal J_\mu(f;\mathcal T)
+ =\Psi_\mu(f)-\mathbb E_H\Psi_{\mu_H}(f_H).                 \tag{1}
+\] This equals the variance explained by the transcript plus the
+expected cumulative derivative influences of the queried coordinates, as
+proved below. Like the original derivative influence, it depends on the
+polynomial's full-cube extension.
+
+\textbf{Theorem.} There are absolute constants \(c,C>0\) such that
+whenever \(v>0\), a deterministic tree of depth at most \[
+ K(d,v)=\lceil C d^{18}v^{-7}\rceil
+\] satisfies \[
+ \boxed{\mathcal J_\mu(f;\mathcal T)\ge c v^{7/2}/d^7.}    \tag{2}
+\] For large \(n\), the tree consists of a fixed prefix of queries
+followed by one coordinate chosen from those answers. For small \(n\),
+it queries the entire input. The result is uniform after arbitrary
+positive-probability coordinate pinnings, since the remaining law stays
+exchangeable.
+
+The influence-potential iteration consequently gives a deterministic
+\(O(d^{27}\epsilon^{-21})\)-query approximation with mean absolute error
+\(\epsilon\). All constants are independent of dimension, temperature,
+slice weights, full support, and minimum atom probabilities. In
+particular, this recovers an influence proof for Curie--Weiss at every
+temperature, including growing inverse temperatures and the
+zero-temperature phase mixture. The exponents are not claimed optimal.

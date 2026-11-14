@@ -1,0 +1,47 @@
+\subsubsection{What strengthens the structural theory}
+
+\textbf{Quantifiers matter.} The handoff's Gibbs target permits a
+prefactor $c(d,\ldots)$ and variance exponent $C(d,\ldots)$ depending
+arbitrarily on degree. Even dimension-independent bounds of that form
+need not yield a polynomial in $T,1/\epsilon$. Its hypotheses also
+include bounded degree, range, and fields. They therefore do not settle
+our conjecture uniform over fields and graph size at a fixed Dobrushin
+margin. Fixed-degree influence results remain useful probes when their
+degree and structural dependence are stated explicitly.
+
+\textbf{Gibbs averaging is not coordinate restriction.} On a zero-field
+three-leaf Ising star, with center 0 and unit couplings,
+\[
+ \mathbb E[X_0\mid X_1,X_2,X_3]
+ =c_1(X_1+X_2+X_3)+c_3X_1X_2X_3,
+ \qquad
+ c_3=\frac{\tanh(3\beta)-3\tanh\beta}{4}
+     =-\frac{2\tanh^3\beta}{1+3\tanh^2\beta}.
+\]
+This is nonzero for every $\beta>0$, including the strict Dobrushin
+regime $3\tanh\beta<1$. Conditional projections and heat-bath
+evolution can therefore raise degree from one to three. This rules out
+the handoff's degree-preservation shortcut. It does not affect our
+forest theorem: that proof bounds the queries of the composed quantum
+oracle and samples edge sources conditionally, without claiming degree
+preservation under Gibbs averaging. In
+Proposition~\ref{tht:reveal-prop}, pinning substitutes known coordinates
+in $Q$; conditional means are only leaf outputs and need not be
+low-degree polynomials of the remaining coordinates.
+
+\textbf{Physical locality does not localize arbitrary query observables.}
+Under independent uniform bits in $\{0,1\}$, take $p=x_ix_j$ with $j$
+outside a prescribed neighborhood of $i$. Then
+\[
+ (p(x)-p(x^{\oplus i}))^2=x_j,
+ \qquad
+ \inf_{\ell\text{ measurable near }i}\mathbb E(x_j-\ell)^2=\tfrac14.
+\]
+This bounded degree-two example has no interactions at all. Correlation
+decay cannot justify localizing every acceptance gradient around its
+differentiation site. Geometry should control the input representation
+and its conditional access; the quantum observable may couple distant
+sites. The handoff's joint-endpoint TV estimate is also weaker than
+the full-input conditional mismatch bound and consistent adaptive
+posterior oracle required in
+Proposition~\ref{prop:threshold-local-posterior}.

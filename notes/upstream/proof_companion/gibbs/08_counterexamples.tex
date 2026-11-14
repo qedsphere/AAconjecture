@@ -1,0 +1,58 @@
+\subsubsection{8. Counterexamples used in the latest adjudication}\label{counterexamples-used-in-the-latest-adjudication}
+
+\paragraph{8.1 BSC damping: exact identities and the two-site coefficient}\label{bsc-damping-exact-identities-and-the-two-site-coefficient}
+
+Let \(Y_i=W_iX_i\), with independent \(W_i\) of mean \(\rho\). Then
+\[\mathbb E[Y_i\mid X]=\rho X_i,\qquad
+\mathbb E[Y_i\mid Y_{-i}]=\rho\mathbb E[X_i\mid Y_{-i}],\]
+by the tower property. For \(i\ne j\),
+\[\operatorname{Cov}(Y_i,Y_j)=\rho^2\operatorname{Cov}(X_i,X_j),\]
+and \(\operatorname{Var}(Y_i)=1-\rho^2(\mathbb E X_i)^2\). The diagonal qualification shows why full covariance row sums do not simply scale by \(\rho^2\).
+
+For zero-field two-site Ising \(\mu_J(x)\propto e^{Jx_1x_2}\),
+\[\mathbb E[Y_1Y_2]=\rho^2\tanh J,
+\qquad \mathbb E[Y_1\mid Y_2]=\rho^2(\tanh J)Y_2.\]
+Thus \(c_{12}^Y=\rho^2\tanh J\) in the binary-conditional TV normalization, not \(\rho\tanh J\). Conditioning on noisy outputs requires the posterior on \(X\), so the identity \(C^Y=\rho C^X\) does not follow.
+
+For any bounded \(p\), total variance gives
+\[\operatorname{Var}_\nu(p)=\operatorname{Var}_\mu(T_\rho p)
++\mathbb E_X\operatorname{Var}(p(Y)\mid X),\qquad T_\rho p(x)=\mathbb E[p(Y)\mid X=x].\]
+If \(\mu\) is uniform product then \(\nu=\mu\) for every \(\rho\), so \(\operatorname{Var}_\nu(p)-\operatorname{Var}_\mu(p)=0\). It would be incorrect to subtract \(\operatorname{Var}_\mu(T_\rho p)\) here and call that zero; the conditional-noise term is generally nonzero.
+
+\paragraph{8.2 Full-marginal TV is not controlled by fixed weak coupling}\label{full-marginal-tv-is-not-controlled-by-fixed-weak-coupling}
+
+Take \(m\) independent two-site Ising blocks with \(J\ne0\), and let \(\pi\) be uniform product of their marginals. For one block,
+\[D(\mu_J\|U_2)=J\tanh J-\log\cosh J=K_J>0,\]
+so total KL divergence is \(mK_J\). More elementarily, let \(T=\sum_{b=1}^mX_{b,1}X_{b,2}\) and \(U=T\operatorname{sgn}J\). Then \(U\) has mean \(m|\tanh J|\) under \(\mu\) and mean \(0\) under \(\pi\), and variance \(O(m)\) under either. Chebyshev at \(m|\tanh J|/2\) gives an event with probability tending to \(1\) under \(\mu\) and to \(0\) under \(\pi\). Hence the TV distance tends to \(1\) for every fixed \(J\ne0\), however small. Full-marginal TV cannot serve as an \(n\)-uniform product proxy at fixed positive coupling; this does not refute weaker comparisons confined to low-degree tests.
+
+\paragraph{\texorpdfstring{8.3 Hadamard quadratic with growing Fourier-\(\ell_1\) norm}{8.3 Hadamard quadratic with growing Fourier-\textbackslash ell\_1 norm}}\label{hadamard-quadratic-with-growing-fourier-ell_1-norm}
+
+Let \(H\) be an \(N\times N\) Hadamard matrix, \(HH^{\mathsf T}=NI_N\), and define
+\[p_H(x,y)=N^{-3/2}\sum_{i,j=1}^NH_{ij}x_iy_j.\]
+Since \(H/\sqrt N\) is orthogonal,
+\[|p_H(x,y)|=N^{-1}|x^{\mathsf T}(H/\sqrt N)y|
+\le N^{-1}\|x\|_2\|(H/\sqrt N)y\|_2\le1.\]
+It has degree \(2\) and \(N^2\) nonzero Walsh coefficients, each of size \(N^{-3/2}\). Hence its Fourier-\(\ell_1\) norm is \(N^2N^{-3/2}=\sqrt N\). Thus sup norm and degree do not give a dimension-independent coefficient-\(\ell_1\) estimate. This example is not automatically of the restricted squared-gradient form \((p-p^{\oplus i})^2\); the bridge problem for that restricted class remains open.
+
+\paragraph{8.4 One-sided thresholds; cancellation for two-sided thresholds}\label{one-sided-thresholds-cancellation-for-two-sided-thresholds}
+
+For \(I_{k_0}(x)=\mathbf1_{\{|x|>k_0\}}\), \(0\le k_0<n\), the top coefficient is
+\[2^{-n}\sum_{t=k_0+1}^n\binom nt(-1)^t
+=2^{-n}(-1)^{k_0+1}\binom{n-1}{k_0}\ne0,\]
+using \(\sum_{t=0}^{k_0}(-1)^t\binom nt=(-1)^{k_0}\binom{n-1}{k_0}\). Therefore \(\deg I_{k_0}=n\) exactly.
+
+No such universal statement holds for two-sided absolute-magnetization thresholds. On three bits, with \(w=|x|\),
+\[\mathbf1_{\{000,111\}}=1-\frac32w+\frac12w^2,\]
+which has degree \(2\), not \(3\). Any general tail-degree proof must include support and parity/cancellation analysis.
+
+For a specific valid example, edit only \(1^n\) by flipping its first bit, and take \(p=x_1\). Then
+\[p(G(x))=x_1+(1-2x_1)\mathbf1_{\{1^n\}}(x),\]
+whose top coefficient is \(-2^{-n}(-1)^n\ne0\). Hence \(\deg(p\circ G)=n\) exactly. This proves degree blow-up for this particular map, not for every tail map or every approximate implementation.
+
+\paragraph{8.5 Influence and stability details that affect other claims}\label{influence-and-stability-details-that-affect-other-claims}
+
+A uniform vector \(\lambda_x=2/n\) is not a valid fractional certificate for Majority at a boundary 1-input: one sensitive flip of a single \(1\) gives a 0-input, so every valid certificate must put at least mass \(1\) on that coordinate. Consequently, the revised WAP/Majority separation based on \(2/n\) certificates cannot be used.
+
+The latest tail argument gives a TV separation at scale \(n^{3/4}\). On the corresponding event it implies only
+\[D\ge a n^{3/4}\,|\nu(E)-\nu_{\rm CW}(E)|=\Omega(n^{3/4}),\]
+not \(D=\Omega(n)\). This is compatible with \(D=o(n)\) and therefore does not rule out the GMNR stability regime \(D/n\to0\).

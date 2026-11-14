@@ -1,0 +1,37 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{A product AA bound uniform over all
+biases}\label{influence-recovery:a-product-aa-bound-uniform-over-all-biases}
+
+Let \(\pi_p\) have independent coordinates with plus-spin probability
+\(p\). The imported uniform AA theorem says \[
+ \max_j I_j^U(F)\ge c_0\operatorname{Var}_U(F)^{5/2}/\deg(F)^6.\tag{UAA}
+\] It implies, with absolute constants independent of \(p\in[0,1]\), \[
+ \max_i I_i^{\pi_p}(f)
+ \ge c_1\frac{s^{5/2}}{d^6\log^6(2d/s)}
+ \ge c_2\frac{s^{7/2}}{d^7},\qquad
+ s=\operatorname{Var}_{\pi_p}f>0.                         \tag{6}
+\] These are normalized squared-derivative influences, without a factor
+\(p(1-p)\).
+
+To prove this, both \(V(p)=\operatorname{Var}_{\pi_p}f\) and
+\(I_i(p)=I_i^{\pi_p}(f)\) are polynomials in \(p\), of degree at most
+\(2d\), bounded between zero and one on \([0,1]\). Markov gives \[
+ |V(p)-V(q)|,\ |I_i(p)-I_i(q)|\le8d^2|p-q|.               \tag{7}
+\] Choose a dyadic \(q\) of denominator \(2^b\) with \(|p-q|\le2^{-b}\),
+where \(b=\lceil B\log_2(2d/s)\rceil\) and \(B\) is a sufficiently large
+absolute constant. Sample each bias-\(q\) spin by a threshold map
+\(g:\{-1,1\}^b\to\{-1,1\}\) on independent fair bits. The pullback
+\(F=f(g(z_1),\ldots,g(z_n))\) has degree at most \(bd\) and variance
+\(V(q)\). A source flip in block \(i\) changes only physical spin \(i\).
+Since \(D_i f\) is independent of that spin and source block, \[
+ I_j^U(F)=\Pr[g(z_i)\ne g(z_i^{\oplus j})]I_i^{\pi_q}(f)
+ \le I_i^{\pi_q}(f).                                    \tag{8}
+\] There is no atom-floor loss. The universal choice of \(B\) can ensure
+\[
+ 8d^2 2^{-b}\le s/2,\qquad
+ 8d^2 2^{-b}\le \frac{c_0(s/2)^{5/2}}{2b^6d^6}.           \tag{9}
+\] Indeed, writing \(x=2d/s\ge2\), use \(d^8/s^{5/2}\le x^8\) and
+\(b^6 2^{-b}\le c x^{-8}\) for sufficiently large universal \(B\). Now
+apply (UAA), (8), and (7). This proves the first bound in (6);
+\(\log^6x\le Cx\) gives the second. At \(s=0\), including endpoint
+products, the lower bound zero is immediate.

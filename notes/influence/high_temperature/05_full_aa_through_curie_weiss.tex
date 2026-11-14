@@ -1,0 +1,59 @@
+\subsection{Influence AA through the Curie--Weiss critical point}\label{ht:full-aa-through-the-curieweiss-critical-point}
+
+\textbf{Theorem HT5.} There is an absolute constant \(c>0\) such that for every \(n\ge 1\), \(0\le \beta\le 1\), and admissible \(f\) of degree at most \(d\ge 1\),
+
+\[
+\boxed{\qquad
+\max_i I_i^{\mu_{n,\beta}}(f)
+\ge c\,\frac{\operatorname{Var}_{\mu_{n,\beta}}(f)^4}{d^{12}}.
+\qquad}
+\tag{HT5}
+\]
+
+In particular, the critical inverse temperature \(\beta=1\) is on the side where distributional AA holds.
+
+The variance exponent four is sharp at this endpoint: the degree-one magnetization \(M_n=(X_1+\cdots +X_n)/n\) has \(I_i(M_n)=n^{-2}\) and \(\operatorname{Var}_{\mu_{n,1}}(M_n)=\Theta(n^{-1/2})\), as proved in Section~\ref{proof:curie_weiss}. A uniform lower bound with variance exponent strictly less than four would already fail on this family. No optimality claim is made for the degree exponent twelve.
+
+\textbf{Latent-measure inputs.} The elementary Hubbard--Stratonovich calculation in Section~\ref{proof:curie_weiss} expresses (CW), for \(0<\beta\le 1\), as the mixture \(\mu=\mathbb E[P_T]\) with \(T=\tanh Z\) and
+
+\[
+\nu_{n,\beta}(dz)
+\propto \exp\left[-n\left(\frac{z^2}{2\beta}-\log\cosh z\right)\right]dz.
+\]
+
+The estimates proved there give absolute constants \(C_0,C_1,\eta>0\) such that:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(T\) is symmetric and \(\mathbb E T^2\le C_0 n^{-1/2}\).
+\item
+  For some \(a \in (0,1)\), the density of \(T\) is at least \(\eta/a\) on \([-a,a]\).
+\item
+  Every real function on the cube satisfies \(\operatorname{Var}_\mu f \le  C_1 \sqrt{n} \sum_i I_i^\mu(f)\).
+\end{enumerate}
+
+These estimates hold uniformly over \(0<\beta\le 1\); the relevant latent width shrinks as \(\beta\) decreases. They concern the normalized complete-graph model (CW), not all Ising interactions.
+
+\textbf{Proof of HT5.} Let \(v=\operatorname{Var}_\mu f\). If \(v=0\), the conclusion is immediate. Assume \(v>0\), and set \(B=18C_0\).
+
+If \(n \ge  B^2 d^8/v^2\), equation (4.1) implies \(\operatorname{Var}_U f\ge v/2\). By HT4 and (UAA),
+
+\[
+\max_i I_i^\mu(f)
+\ge c\frac{v^{5/2}}{d^8}
+\ge c\frac{v^4}{d^{12}},
+\]
+
+where the last inequality uses \(0<v\le 1\) and \(d\ge 1\).
+
+If \(n < B^2 d^8/v^2\), the latent Poincaré bound gives
+
+\[
+\max_i I_i^\mu(f)
+\ge\frac{v}{C_1 n^{3/2}}
+>\frac{v^4}{C_1B^3d^{12}}.
+\]
+
+This proves the uniform claim for \(0<\beta\le 1\). At \(\beta=0\), (UAA) directly implies HT5. \(\square\)

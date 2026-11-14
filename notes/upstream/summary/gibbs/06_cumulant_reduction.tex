@@ -1,0 +1,18 @@
+\subsubsection{1F. Conditional cumulant/MGF reduction {[}CONDITIONAL{]}}\label{f.-conditional-cumulantmgf-reduction-conditional}
+
+Suppose, for suitably normalized \(f\), both a hypercontractive moment and cumulant estimate hold:
+
+\[\|f\|_q\le(K_0q)^{K_1d}\|f\|_2, \tag{HC}\]
+
+\[|\kappa_q(f)|\le(C_1dq)^{C_2dq}I^{q/2-1}q!. \tag{CU}\]
+
+Then over the relevant interval,
+\[\log M(s)=s^2/2+O(s^3\sqrt I).\]
+
+At \(s=t+C\) for a suitable constant \(C\), the tilted mean lies above \(t\) with bounded tilted variance, so Chebyshev gives constant central-mass probability. Backward tilting gives
+
+\[\Pr[f>t]\ge c\exp(-t^2/2+O(t^3\sqrt I)).\]
+
+Using both signs and arranging \(t^3\sqrt I=O(1)\) gives a weak DFKO tail with a polynomial-in-\(t\) influence threshold, and hence polynomial AA conditionally via the usual cutoff.
+
+\textbf{HC+CU remain completely unproved.} Dirichlet proofs, derivative/ANOVA versions, and the small-\(\kappa\) corollary are not accepted. This is a useful sufficient package only, not a completed route.

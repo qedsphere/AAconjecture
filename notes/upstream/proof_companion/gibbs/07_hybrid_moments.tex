@@ -1,0 +1,52 @@
+\subsubsection{7. Endpoint coupling, hybrid identity, and conditional moment route}\label{endpoint-coupling-hybrid-identity-and-conditional-moment-route}
+
+\paragraph{7.1 Joint endpoint functional TV}\label{joint-endpoint-functional-tv}
+
+Let \((z,z^k)\) be coupled product inputs and let \(x=F(z),y=F(z^k)\), with truncations \(x^R=F^R(z),y^R=F^R(z^k)\). Suppose \(A_S\) is an event on which both truncated endpoints agree with the untruncated ones on \(S\), with
+\[\Pr[A_S^c]\le\eta(M_S,R)=2C_0M_Se^{-c_0\delta R}+2L2^{-L}.\]
+Then, for every \([0,1]\)-valued test functional \(\Phi\),
+\[|\mathbb E\Phi(x_S^R,y_S^R)-\mathbb E\Phi(x_S,y_S)|
+\le\Pr[A_S^c]\le\eta(M_S,R).\]
+The proof is simply that the difference vanishes on \(A_S\) and is at most \(1\) off it. An ordered path functional defined from \textbf{both} endpoints is an admissible \(\Phi\) if it depends only on the displayed coordinates.
+
+This proves a joint-law TV comparison only. It does not show that an intermediate path value is dominated by the original squared gradient or by \(\operatorname{Inf}_i^\mu\); that separate missing step cannot be inferred from the TV estimate.
+
+\paragraph{7.2 Exact hybrid/Taylor identity}\label{exact-hybridtaylor-identity}
+
+Let \(X\sim\mu\), \(Y\sim\nu\) independently, and define
+\[Z^{(i)}=(Y_1,\ldots,Y_i,X_{i+1},\ldots,X_n),\qquad
+W^{(i)}=(Y_1,\ldots,Y_{i-1},X_{i+1},\ldots,X_n).\]
+For any \(h\), \(\mathbb E_\mu h-\mathbb E_\nu h=\sum_i\mathbb E[h(Z^{(i-1)})-h(Z^{(i)})]\) exactly. Multilinearity gives
+\[f(Z^{(i-1)})-f(Z^{(i)})
+=(X_i-Y_i)\,\partial_ip(W^{(i)})/\sqrt v.\]
+For \(\psi\in C^3\), exact Taylor expansion gives
+\[\begin{aligned}
+\psi(f^{(i-1)})-\psi(f^{(i)})
+={}&\psi'(f^{(i)})(X_i-Y_i)\partial_ip/\sqrt v\\
+&+\tfrac12\psi''(f^{(i)})(X_i-Y_i)^2(\partial_ip)^2/v+R_i,
+\end{aligned}\]
+with
+\[|R_i|\le\frac16\|\psi^{(3)}\|_\infty
+|X_i-Y_i|^3|\partial_ip|^3/v^{3/2}.\]
+These are identities only. The first-order covariance bound and any subsequent exponential-tail comparison remain open. A smooth \(C^3\) error polynomial in \(t\) does not prove a lower tail of size \(e^{-\Theta(t^2)}\).
+
+\paragraph{7.3 Conditional HC+CU route}\label{conditional-hccu-route}
+
+Assume, for standardized \(f\) with mean \(0\), variance \(1\), and \(I=\max_i\operatorname{Inf}_i(f)\), both
+\[\|f\|_q\le(K_0q)^{K_1d}\quad\text{(HC)},\]
+and, for \(q\ge3\),
+\[|\kappa_q(f)|\le(C_1dq)^{C_2dq}I^{q/2-1}q!\quad\text{(CU)}.\]
+After absorbing model-dependent constants, \(\log M(s)=\sum_q\kappa_qs^q/q!\) gives, on the stated geometrically small interval,
+\[\log M(s)=\frac{s^2}{2}+O(s^3\sqrt I).\]
+Tilting by \(dP_s=e^{sf}dP/M(s)\) differentiates the cumulant function once and twice. The tilted mean is \(s+O(s^2\sqrt I)\) and the tilted variance is \(1+O(s\sqrt I)\). Choosing \(s=t+O(1)\) and using Chebyshev on the tilted law yields, in the admissible interval,
+\[\Pr[f>t]\ge c\exp(-t^2/2+O(t^3\sqrt I)).\]
+Apply the same argument to \(-f\). Thus, whenever \(t^3\sqrt I=O(1)\), the probability is positive with an \(n\)-independent lower bound. If \(I\le c t^{-6}\) with suitable \(c\), this condition holds.
+
+For bounded \(t\), HC and \(Ef^4\le K^4\) give
+\[\Pr(|f|>1/2)\ge\frac{(1-1/4)^2}{K^4}=\frac9{16K^4},\]
+by splitting \(Ef^2\) at level \(1/2\) and applying Cauchy--Schwarz on the large part.
+
+Finally, for \(p\in[0,1]\) and \(f=(p-\mathbb Ep)/\sqrt v\), boundedness makes \(\Pr(|f|>2/\sqrt v)=0\). Taking \(t=2/\sqrt v\) in the contrapositive gives, polynomially,
+\[I\gtrsim t^{-6}\asymp v^3,
+\qquad \max_i\operatorname{Inf}_i(p)=vI\gtrsim v^4.\]
+This is a complete \textbf{conditional} proof only. HC and CU are not established under general Dobrushin, and the moment argument does not prove them.

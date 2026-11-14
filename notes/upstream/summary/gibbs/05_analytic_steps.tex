@@ -1,0 +1,25 @@
+\subsubsection{1E. Accepted partial analytic steps (not AA proofs)}\label{e.-accepted-partial-analytic-steps-not-aa-proofs}
+
+\paragraph{\texorpdfstring{Corrected \(L^2\) influence ledger}{Corrected L\^{}2 influence ledger}}\label{corrected-l2-influence-ledger}
+
+For bounded \(p,q\), with \(C_{\rm RN}\le(1-\delta_0)/\delta_0\),
+
+\[\mathbb E_\mu[(\Delta_i(p-q))^2]
+\le2(1+C_{\rm RN})\|p-q\|_{2,\mu}^2.\]
+
+This follows by flipping variables and using \(\mu(x^i)/\mu(x)\le C_{\rm RN}\). It gives a per-coordinate influence comparison. Separately, \(|\operatorname{Var}_\mu(p)-\operatorname{Var}_\mu(q)|\le4\|p-q\|_2\).
+
+\textbf{Requirements:} preserve the distinction between \(\eta\) and \(\sqrt\eta\), and require \(q\) to be both multilinear degree \(\le d\) and pointwise bounded. Clipping a general junta to \([0,1]\) need not preserve multilinear degree and can invalidate the product-AA application.
+
+GMNR Lemma 2.11 correctly gives \(\sum_i(f(x)-f(x^i))^2\le4d^2\) pointwise for bounded degree-\(d\) \(f\), under any distribution. Earlier denials of that citation were themselves wrong and have been withdrawn.
+
+\paragraph{Joint endpoint functional TV lemma}\label{joint-endpoint-functional-tv-lemma}
+
+For ordered pairs \((x^R,y^R)=(F^R(z),F^R(z^k))\) and \((x,y)=(F(z),F(z^k))\), on \(A_S=G_S\cap G'_S\), both truncations agree with their untruncated counterparts. For bounded \(\Phi\),
+
+\[\left|\mathbb E_{\pi_k}\Phi(x_S^R,y_S^R)-\mathbb E_{\pi_k}\Phi(x_S,y_S)\right|
+\le 2C_0M_Se^{-c_0\delta R}+2L2^{-L}.\]
+
+The path functional is correctly a function of \textbf{both} endpoints; the previous definition from only \(x^R\) was invalid.
+
+\textbf{Still missing:} the additional domination/aggregation connecting that functional to \(\operatorname{Inf}_i^\mu\). This is not an influence-transfer theorem or AA proof.

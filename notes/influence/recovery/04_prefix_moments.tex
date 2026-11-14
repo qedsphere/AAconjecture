@@ -1,0 +1,38 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{Prefix conditioning makes low-degree moments
+product-like}\label{influence-recovery:prefix-conditioning-makes-low-degree-moments-product-like}
+
+For a cube-bounded degree-\(r\) polynomial \(h\), let \(F(k)\) be its
+mean on the uniform slice \(U_{N,k}\). The elementary bound is \[
+ |F(k)-F(k-1)|\le4r^2/N.                                \tag{10}
+\] Deleting a uniformly chosen plus spin from the weight-\(k\) slice
+gives the weight-\(k-1\) slice. The Markov signed-sum argument above
+gives \(2r^2/k\) for the difference of the means. Reversing the
+construction gives \(2r^2/(N-k+1)\). Their minimum proves (10). If
+\(W\sim\operatorname{Binomial}(N,q)\), telescoping gives \[
+ |\mathbb E_{U_{N,k}}h-\mathbb E_{\pi_q}h|
+ \le4r^2\left(|k/N-q|+\frac1{2\sqrt N}\right).            \tag{11}
+\] This includes \(q=0,1\), and follows from
+\(\mathbb E|W-k|\le N|q-k/N|+\sqrt N/2\).
+
+Query a fixed prefix of \(L\) spins, with \(n\ge2L\). Let \(H\) be the
+complete prefix, \(Y\) its number of plus spins, \(q_H=Y/L\), \(N=n-L\),
+and \(P=(K-Y)/N\), where \(K\) is the unknown total plus count.
+Conditional on \(K\), \(Y\) is hypergeometric; hence \[
+ \mathbb E[|P-q_H|\mid K]
+ =\frac nN\mathbb E[|K/n-Y/L|\mid K]\le1/\sqrt L.         \tag{12}
+\] Define \(b_H=\mathbb E[|P-q_H|\mid H]+1/(2\sqrt N)\). Then
+\(\mathbb E b_H\le3/(2\sqrt L)\). The conditional remaining law
+\(\nu_H\) is a mixture of slices, so (11) gives \[
+ |\mathbb E_{\nu_H}h-\mathbb E_{\pi_{q_H}}h|\le4r^2 b_H. \tag{13}
+\] This holds for every bounded degree-\(r\) polynomial chosen after the
+prefix is known. For \(v_H=\operatorname{Var}_{\nu_H}f_H\) and
+\(s_H=\operatorname{Var}_{\pi_{q_H}}f_H\), apply it to
+\(f_H,f_H^2,(D_i f_H)^2\) to obtain \[
+ |v_H-s_H|\le24d^2b_H,\qquad
+ |I_i^{\nu_H}(f_H)-I_i^{\pi_{q_H}}(f_H)|\le16d^2b_H.      \tag{14}
+\] The influence comparison holds simultaneously for every \(i\), so
+also for an index chosen from the prefix. The expectation of either
+right side is at most \[
+ e_L=36d^2/\sqrt L.                                     \tag{15}
+\]

@@ -1,0 +1,30 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\subsection{Exact potential identity and dimension-free
+budget}\label{influence-recovery:exact-potential-identity-and-dimension-free-budget}
+
+For an arbitrary input law, derivatives in coordinates \(j\ne i\)
+commute with restriction of coordinate \(i\). Therefore \[
+ \mathbb E_{X_i} A_{\mu\mid X_i}(f\mid X_i)
+ =A_\mu(f)-I_i^\mu(f).                                   \tag{3}
+\] Together with total variance, telescoping along an adaptive query
+tree gives the exact identity \[
+ \mathcal J_\mu(f;\mathcal T)
+ =\operatorname{Var}_\mu(\mathbb E[f\mid H])
+  +\mathbb E\sum_{t<\operatorname{depth}(H)}
+       I_{i_t}^{\mu_{H_t}}(f_{H_t}).                       \tag{4}
+\] Equivalently, the second term is
+\(\mathbb E_X\sum_{i\text{ queried on }X}(D_i f(X))^2\); the tree never
+needs to query a coordinate twice. In particular it is nonnegative.
+Moreover, for every input law, \[
+ 0\le\Psi_\mu(f)\le1+4d^2.                               \tag{5}
+\] For completeness, let \(g=(f+1)/2\). At a fixed vertex \(x\), flip
+each coordinate in a subset \(S\) independently with probability \(t\).
+The expected value \(P(t)\) of \(g\) is a polynomial of degree at most
+\(d\), bounded in \([0,1]\) for \(t\in[0,1]\). Markov's inequality gives
+\[
+ \left|\sum_{i\in S}(g(x^{\oplus i})-g(x))\right|
+ =|P'(0)|\le2d^2.
+\] Apply this separately to positive and negative differences. Since
+each difference has magnitude at most one,
+\(\sum_i(D_i f(x))^2=\sum_i(g(x^{\oplus i})-g(x))^2\le4d^2\). Averaging
+proves (5). Independence is not used in this section.

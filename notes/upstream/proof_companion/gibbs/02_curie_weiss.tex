@@ -1,0 +1,116 @@
+\subsubsection{2. Curie--Weiss: proof including criticality and failure above it}\label{curieweiss-proof-including-criticality-and-failure-above-it}
+
+\paragraph{2.1 Exact slice mixture and influence/variance identities}\label{exact-slice-mixture-and-influencevariance-identities}
+
+On \(\{0,1\}^n\), let \(S(x)=|x|\) and \(M=2S-n\). For \(\beta\ge0\), define
+\[
+\mu_\beta(x)=Z_{n,\beta}^{-1}\exp\!\left(\frac{\beta}{2n}M(x)^2\right),\qquad
+p_\beta(t)=\mu_\beta(S=t).
+\]
+The energy depends only on \(S\), so conditioning on \(S=t\) gives the uniform slice \(\nu_t\):
+\[\mu_\beta=\sum_{t=0}^np_\beta(t)\nu_t,\qquad
+p_\beta(t)=Z_{n,\beta}^{-1}\binom nt\exp\!\left(\frac{2\beta}{n}(t-n/2)^2\right).\]
+
+The tower law immediately gives, for every \(f\),
+\[
+\operatorname{Inf}_i^{\mu_\beta}(f)=\sum_t p_\beta(t)\operatorname{Inf}_i^{\nu_t}(f), \tag{CW-1}
+\]
+and the law of total variance gives
+\[
+\operatorname{Var}_{\mu_\beta}(f)
+=\sum_t p_\beta(t)\operatorname{Var}_{\nu_t}(f)
++\operatorname{Var}_{t\sim p_\beta}(F(t)),
+\quad F(t)=\mathbb E_{\nu_t}f. \tag{CW-2}
+\]
+No independence or low-degree hypothesis is used in (CW-1)--(CW-2). A flip may leave the slice; the definition of \(\operatorname{Inf}_i^{\nu_t}\) accounts for it correctly.
+
+\paragraph{2.2 Slice expectations are Lipschitz}\label{slice-expectations-are-lipschitz}
+
+First recall the pointwise total-flip estimate. For \(f:\{0,1\}^n\to[0,1]\) of degree at most \(D\) and any \(A\subseteq[n]\), define \(g(s)=\mathbb E[f(X(s))]\), where each bit in \(A\) is flipped independently with probability \(s\). Then \(\deg g\le D\), \(|g|\le1\) on \([0,1]\), and the Markov brothers inequality gives
+\[
+\left|\sum_{i\in A}(f(x^{\oplus i})-f(x))\right|=|g'(0)|
+\le2D^2. \tag{MB}
+\]
+Splitting the flip differences into positive and negative parts yields, pointwise,
+\[
+\sum_i(f(x)-f(x^{\oplus i}))^2
+\le\sum_i|f(x)-f(x^{\oplus i})|\le4D^2. \tag{TF}
+\]
+
+\textbf{Lemma 2.1 (GMNR Lemma 4.9).} If \(F(t)=\mathbb E_{\nu_t}f\), then
+\[|F(t)-F(t-1)|\le\frac{4D^2}{n},
+\qquad |F(t)-F(u)|\le\frac{4D^2}{n}|t-u|.\]
+
+\textbf{Proof.} Sample \(X\) uniformly on slice \(t\) and flip a uniformly chosen \(1\)-coordinate. This produces a uniform point of slice \(t-1\). Hence
+\[F(t-1)-F(t)=\mathbb E\!\left[\frac1t\sum_{i:X_i=1}(f(X^{\oplus i})-f(X))\right],\]
+whose absolute value is at most \(2D^2/t\) by (MB). Doing the same from slice \(t-1\) toward \(t\) gives the bound \(2D^2/(n-t+1)\). Using \(\max(t,n-t+1)\ge n/2\) gives \(4D^2/n\). Telescope for arbitrary \(t,u\). ∎
+
+Applying Lemma 2.1 to \(f\) and to the degree-\(2d\) functions \(f^2\) and \(h_i=(f-f^{\oplus i})^2\) gives the next stability estimate.
+
+\textbf{Lemma 2.2 (additive stability).} Put
+\[D_\beta:=\sum_t|p_\beta(t)-p_0(t)|\,|t-n/2|,\]
+where \(p_0(t)=2^{-n}\binom nt\) is the uniform binomial law. Then, for degree \(\le d\) with \(f\in[0,1]\),
+\[
+|\operatorname{Inf}_i^{\mu_\beta}(f)-\operatorname{Inf}_i^{\mu_0}(f)|
+\le\frac{16d^2}{n}D_\beta,
+\]
+and
+\[
+|\operatorname{Var}_{\mu_\beta}(f)-\operatorname{Var}_{\mu_0}(f)|
+\le\frac{24d^2}{n}D_\beta
+\le\frac{48d^2}{n}D_\beta.
+\]
+
+\textbf{Proof.} For influence, subtract \(H_i(\lfloor n/2\rfloor)\) from the signed sum \(\sum_t(p_\beta-p_0)H_i(t)\), using that the coefficients sum to zero. The degree-\(2d\) Lipschitz constant is \(16d^2/n\). For variance, use \(\operatorname{Var}(f)=\mathbb E f^2-(\mathbb E f)^2\): the second moments differ by at most \(16d^2D_\beta/n\), and the squared means differ by at most \(2\cdot4d^2D_\beta/n\). ∎
+
+Since both \(p_\beta\) and \(p_0\) are symmetric about \(n/2\), the triangle inequality and Cauchy--Schwarz yield
+\[
+D_\beta\le\sigma_\beta+\sigma_0,
+\qquad \sigma_\beta^2=\operatorname{Var}_{\mu_\beta}(S),
+\quad \sigma_0=\sqrt n/2. \tag{D-bound}
+\]
+
+\paragraph{2.3 Magnetization fluctuations}\label{magnetization-fluctuations}
+
+Write \(m=M/n\). Stirling's formula and \(I(m)=\frac{1+m}{2}\log(1+m)+\frac{1-m}{2}\log(1-m)\) give, away from the endpoints,
+\[p_\beta(M=nm)\asymp e^{-n(I(m)-\beta m^2/2)},\qquad
+I(m)=\frac{m^2}{2}+\frac{m^4}{12}+O(m^6).\]
+The Laplace method therefore gives:
+
+\begin{itemize}
+\tightlist
+\item
+  for fixed \(\beta<1\), \(\operatorname{Var}(M)=\Theta_\beta(n)\) and \(\sigma_\beta=O_\beta(\sqrt n)\);
+\item
+  at \(\beta=1\), after \(M=n^{3/4}u\), the limiting density is proportional to \(e^{-u^4/12}\), hence \(\operatorname{Var}(M)=\Theta(n^{3/2})\) and \(\sigma_\beta=O(n^{3/4})\).
+\end{itemize}
+
+The same scaling calculation proves the finite-flatness formula in §3. These are also the classical Curie--Weiss fluctuation theorems (Ellis--Newman/Ellis); the asymptotic numerical constants 1.164 and 0.909 in the summary are numerical diagnostics, not needed for AA.
+
+Thus, for every fixed \(\beta\le1\),
+\[\sigma_\beta=o(n),\qquad D_\beta/n\to0,\]
+with rates \(O_{\beta}(n^{-1/2})\) for \(\beta<1\) and \(O(n^{-1/4})\) at \(\beta=1\).
+
+\paragraph{\texorpdfstring{2.4 AA assembly, including the repaired critical small-\(n\) case}{2.4 AA assembly, including the repaired critical small-n case}}\label{aa-assembly-including-the-repaired-critical-small-n-case}
+
+\textbf{Theorem 2.3.} For each fixed \(\beta\le1\), AA holds for \(\mu_\beta\) with constants depending only on \(\beta,d,v\) and not on \(n\).
+
+\textbf{Proof.} Let \(v=\operatorname{Var}_{\mu_\beta}(f)>0\). Using Lemma 2.2 and \(D_\beta/n\to0\), choose \(N=N(\beta,d,v)\) such that, for all \(n\ge N\),
+\[\frac{48d^2D_\beta}{n}\le\frac v2,
+\qquad
+\frac{16d^2D_\beta}{n}\le\frac12S_0(v/2,d).\]
+For such \(n\), uniform variance is at least \(v/2\). Uniform AA and influence stability then give
+\[\max_i\operatorname{Inf}_i^{\mu_\beta}(f)
+\ge S_0(v/2,d)-\frac12S_0(v/2,d)
+=\frac12S_0(v/2,d).\]
+For \(n<N\), Lemma 1.1 applies because \(\mu_\beta\) has full support. If \(a_\beta(N),b_\beta(N)\) bound its normalized minimum/maximum atom probabilities over \(n<N\), then
+\[\max_i\operatorname{Inf}_i^{\mu_\beta}(f)
+\ge \frac{4a_\beta(N)}{b_\beta(N)N}\,v.\]
+Both lower bounds are positive polynomials in \(v/d\), with constants depending only on \(\beta,d,v\) and not on \(n\). This avoids the false ``every distribution'' \(1/(2n^2)\) floor. ∎
+
+\paragraph{\texorpdfstring{2.5 Failure for \(\beta>1\)}{2.5 Failure for \textbackslash beta\textgreater1}}\label{failure-for-beta1}
+
+For \(\beta>1\), the Curie--Weiss rate function has two minimizing phase values \(\pm m_*\), \(m_*>0\). Let \(f=\mathbf1_{\{M>0\}}\) (with any tie convention). Phase coexistence gives \(\operatorname{Var}(f)=1/4-o(1)\). A single flip changes \(M\) by two, so it can change the phase label only on a bounded neighbourhood of \(M=0\):
+\[\operatorname{Inf}_i^{\mu_\beta}(f)\le\mu_\beta(|M|\le2)
+=\exp(-\Theta_\beta(n)).\]
+The one-sided threshold has exact degree \(n\) (proved in §8.4). If AA held with fixed \(c,C>0\) independent of \(n\), it would require \(\max_i\operatorname{Inf}_i\ge c(1/(4n))^C\), polynomially rather than exponentially small. Contradiction. Hence the threshold \(\beta_{\rm AA}=\beta_c=1\) is sharp.

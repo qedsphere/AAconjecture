@@ -1,0 +1,25 @@
+\subsubsection{4. Degree one: the two susceptibility formulations}\label{degree-one-the-two-susceptibility-formulations}
+
+\textbf{Theorem 4.1.} Let \(p(x)=a_0+\sum_i a_ix_i\) on \(\{0,1\}^n\) be \([0,1]\)-valued, and let \(\Sigma_{ij}=\operatorname{Cov}_\mu(X_i,X_j)\). Write \(\rho=\|\Sigma\|_{\rm op}\). Then
+\[\max_i\operatorname{Inf}_i^\mu(p)\ge\frac{\operatorname{Var}_\mu(p)^2}{\rho^2}.\]
+The same conclusion holds with \(\rho\) replaced by \(R=\sup_i\sum_j|\Sigma_{ij}|\), since \(\|\Sigma\|_{\rm op}\le R\) by the Schur test. Under Wu's hypothesis \(r=\operatorname{rsp}(C)<1\),
+\[\rho\le\frac{1}{4(1-r)},\qquad\text{so}\qquad
+\max_i\operatorname{Inf}_i^\mu(p)\ge16(1-r)^2\operatorname{Var}_\mu(p)^2.\]
+
+\textbf{Proof.} The range condition implies \(\|a\|_1=\max p-\min p\le1\). Also \(\operatorname{Inf}_i^\mu(p)=a_i^2\). Put \(M=\max_i|a_i|=\sqrt{\max_i\operatorname{Inf}_i}\). Then
+\[
+\operatorname{Var}_\mu(p)=a^{\mathsf T}\Sigma a
+\le\rho\|a\|_2^2
+\le\rho M\|a\|_1
+\le\rho M.
+\]
+Thus \(M\ge\operatorname{Var}_\mu(p)/\rho\); squaring gives the result.
+For the Wu estimate, Lemma 1.2 applied to arbitrary affine \(f\) gives
+\[a^{\mathsf T}\Sigma a\le\frac{\|a\|_2^2}{4(1-r)},\]
+which is precisely the operator-norm statement. ∎
+
+The summary's sentence ``Dobrushin gives \(R\le1/[4(1-\alpha)]\)'' for the \textbf{absolute row sum} is not what follows from this argument. The valid Dobrushin statement here is for \(\|\Sigma\|_{\rm op}\). Finite absolute row sums can instead be supplied by model-specific correlation decay (for example the cited tree, 1D, and 2D results); those external decay theorems are not reproved in this companion.
+
+For a product of \(k\)-bit independent blocks, \(\Sigma\) is block diagonal. Every block covariance operator has norm at most \(k/4\) (its trace is at most \(k/4\) and it is positive semidefinite). Theorem 4.1 therefore gives
+\[\max_i\operatorname{Inf}_i\ge\frac{16}{k^2}\operatorname{Var}^2\]
+for affine functions under every such block law.

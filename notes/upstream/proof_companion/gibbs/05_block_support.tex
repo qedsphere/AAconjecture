@@ -1,0 +1,22 @@
+\subsubsection{5. Block-support flatness and the basic counterexample}\label{block-support-flatness-and-the-basic-counterexample}
+
+\paragraph{\texorpdfstring{5.1 Exact criterion and the \(k=3\) witness}{5.1 Exact criterion and the k=3 witness}}\label{exact-criterion-and-the-k3-witness}
+
+Fix a block law \(\lambda\) with support \(B\subseteq\{0,1\}^k\). Construct a graph on the \textbf{whole} cube by adding an edge \(\{u,u^{\oplus i}\}\) whenever \(u\in B\) and \(i\in[k]\). A function has zero single-bit influence at every support atom exactly when it is constant on each connected component of this graph. Hence a nonconstant flat function exists iff \(B\) meets at least two components.
+
+For two support atoms \(u,v\), this happens exactly when \(d_H(u,v)\ge3\): at distance \(1\) the atoms are adjacent, at distance \(2\) a common off-support neighbour joins them, and at distance at least \(3\) their closed neighbourhoods are disjoint. This corrects the obsolete ``disconnected support graph'' criterion.
+
+At \(k=3\), \(B=\{000,111\}\) produces two components. For \(f=\operatorname{MAJ}_3\),
+- \(\operatorname{Var}_\lambda(f)=1/4\), since \(f(000)=0\) and \(f(111)=1\) with equal probabilities;
+- on either support atom, every one-bit flip stays in the same majority class, so \(\operatorname{Inf}_i^\lambda(f)=0\) for all \(i\).
+The function has degree \(3\). Taking independent blocks makes \(n\) arbitrarily large while preserving variance \(1/4\), degree \(3\), and zero influence. Thus unrestricted block-independent AA is false for \(k\ge3\). At \(k\le2\), every two support atoms have distance at most \(2\), so this particular mechanism cannot occur.
+
+\paragraph{5.2 Exact smoothed-copy calculation}\label{exact-smoothed-copy-calculation}
+
+Let \(\mu_q\) be obtained by choosing \(000\) or \(111\) with probability \(1/2\) and then flipping each bit independently with probability \(q\in(0,1/2)\). Global-complement symmetry still gives \(\operatorname{Var}(\operatorname{MAJ}_3)=1/4\). A coordinate flip changes majority exactly when the other two bits differ; those two bits began equal and differ after independent noise with probability \(2q(1-q)\). Hence
+\[\operatorname{Inf}_i^{\mu_q}(\operatorname{MAJ}_3)=2q(1-q).\]
+The reported Dobrushin values were independently enumerated in \texttt{scripts/audit\_smwgvdmlu.py}; they are numerical evaluations, not an impossibility proof.
+
+\paragraph{5.3 Exact-copy heat-bath dynamics has zero gap}\label{exact-copy-heat-bath-dynamics-has-zero-gap}
+
+For the unsmoothed copy law, conditional on the other two bits, a bit is forced to equal their common value. Hence \(\operatorname{Var}_{\mu_i}(f)=0\) on every support atom for every \(f\). The single-site heat-bath Dirichlet form therefore vanishes identically and its spectral gap is zero. Off-support majority values used in the unweighted flip definition do not help the heat-bath form, which has zero transition rate out of each copy atom. Tensorised block resampling is a different generator; a positive unweighted flip-form constant cannot be cited as its Glauber MLSI constant.

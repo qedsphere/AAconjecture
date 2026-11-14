@@ -1,0 +1,61 @@
+% Converted from the authoritative recovery source, 2026-11-14.
+\section{Recoverable-source influences: an actual AA restriction
+proof}\label{recoverable-source-influences-an-actual-aa-restriction-proof}
+
+14 November 2026. New deductions from the uniform AA inequality and the
+fractional-certificate bound recorded in the supplied exposition.
+Constants below are absolute unless their structural dependence is
+stated. No claim of priority is made.
+
+This note proves a generalized influence inequality and uses it in the
+original restriction/total-influence proof. It does not infer influence
+progress from an already established simulation theorem. It also
+upgrades the existing forest and bounded-degree high-temperature results
+from quantum acceptance functions to \textbf{every polynomial bounded on
+the entire cube}.
+
+\subsection{Two imported inputs, and a robustness
+lemma}\label{influence-recovery:two-imported-inputs-and-a-robustness-lemma}
+
+For a function bounded in \([0,1]\) on the uniform Boolean cube, the
+imported AA bound is
+
+\[
+ \max_j \mathbb E(D_jg)^2
+ \ge c_0\frac{\operatorname{Var}(g)^{5/2}}{\deg(g)^6}.
+ \tag{U}
+\]
+
+The supplied exposition, Fact 2.4, gives an absolute \(C\) such that
+every globally bounded degree-\(d\) polynomial \(p\) has a fractional
+certificate at each \(x\): nonnegative weights \(\lambda_x(i)\) of total
+mass at most \(Cd^2\) satisfying
+
+\[
+ |p(x)-p(y)|\le\sum_{i:x_i\ne y_i}\lambda_x(i).
+ \tag{FC}
+\]
+
+Consequently, if a coupling \((X,Y)\) obeys
+\(\Pr[Y_i\ne x_i\mid X=x]\le\gamma\) for every \(i\) and every supported
+\(x\), then
+
+\[
+ \mathbb E|p(X)-p(Y)|\le C d^2\gamma.
+ \tag{R}
+\]
+
+Indeed, condition (FC) on \(X=x\) and sum its weights. The conditional
+hypothesis is essential. No independence of the errors is required.
+Since both values lie in \([0,1]\), this also bounds their mean squared
+difference. In particular,
+
+\[
+ \left|\sqrt{\operatorname{Var}p(X)}-
+             \sqrt{\operatorname{Var}p(Y)}\right|
+ \le\sqrt{C d^2\gamma}.
+ \tag{RV}
+\]
+
+The last inequality is the \(L^2\) triangle inequality after applying
+the orthogonal projection that subtracts the mean.
