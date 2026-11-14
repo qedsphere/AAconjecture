@@ -1,0 +1,69 @@
+\subsection{Noncommuting mean-field Hamiltonians have no full-AA temperature boundary}
+\label{threshold_physics:quantum_symmetry}
+
+For an \(n\)-qubit Hamiltonian \(\mathcal H_n\), the input law used here
+is the outcome of measuring its Gibbs state in the computational basis:
+\[
+ \mu_{n,\beta}(x)=
+ \frac{\langle x|e^{-\beta\mathcal H_n}|x\rangle}
+ {\operatorname{Tr}(e^{-\beta\mathcal H_n})}.
+\]
+It is generally different from exponentiating the diagonal entries of
+\(\mathcal H_n\), as explained in Section~\ref{proof:quantum_interactions}.
+
+\begin{corollary}[Symmetry of the Hamiltonian suffices at every temperature]
+\label{cor:quantum_species}
+Suppose \(P_\pi\mathcal H_nP_\pi^*=\mathcal H_n\) for every permutation
+\(\pi\) preserving each block of a known \(r\)-species partition. Then
+the measured Gibbs input law has full AA with the bound of
+Theorem~\ref{thm:species_simulation}. For fixed \(r\), this is uniform in
+\(\beta\), in the Hamiltonian's coefficients, and in dimension-dependent
+temperature schedules. It includes the canonical zero-temperature limit.
+\end{corollary}
+
+\begin{proof}
+Functional calculus gives
+\(P_\pi e^{-\beta\mathcal H_n}P_\pi^*=e^{-\beta\mathcal H_n}\).
+Since \(P_\pi|x\rangle=|\pi x\rangle\), the measured law is invariant
+under every such permutation. Apply the species theorem. At zero
+temperature the Gibbs state converges to the normalized projector onto
+the ground space; that projector has the same symmetry. The simultaneous
+slice simulator is unchanged, so its guarantee passes to this limit.
+\end{proof}
+
+This does not cover an arbitrarily selected symmetry-breaking pure
+ground state: that is a different input preparation. Measuring every
+site in the same rotated single-qubit basis, or using one common basis
+per species, also preserves the relevant permutation symmetry.
+
+In particular the collective transverse-field Ising family
+\[
+ \mathcal H_n=-\frac{J}{2n}\left(\sum_iZ_i\right)^2
+              -\Gamma\sum_iX_i-h\sum_iZ_i
+\]
+has full AA for all \(J,\Gamma,h,\beta\), including parameters depending
+on \(n\). The terms need not commute. The conclusion extends to arbitrary
+permutation-invariant polynomials in collective spin operators, and to
+fixed-species collective couplings. For example, with
+\(S_b^\alpha=\sum_{i\in B_b}\sigma_i^\alpha\), arbitrary self-adjoint
+expressions in the \(S_b^\alpha\) have the required symmetry.
+
+The model nevertheless has a genuine thermodynamic phase boundary.
+For \(J>0\), \(h=0\), its zero-magnetization boundary is
+\[
+ \frac{J}{\Gamma}\tanh(\beta\Gamma)=1,
+ \qquad\text{with the limit }\beta J=1\text{ at }\Gamma=0.
+\]
+This follows by rescaling the normalization in
+\href{https://arxiv.org/abs/0804.1605}{Chayes--Crawford--Ioffe--Levit,
+Theorem 3.2 and equation (3.7)}. The single-spin susceptibility
+\(\chi_0=\tanh(\beta\Gamma)/\Gamma\) is also obtained directly by
+differentiating
+\[
+ \langle Z\rangle_{-\Gamma X-uZ}
+ =\frac{u}{\sqrt{\Gamma^2+u^2}}
+   \tanh\!\left(\beta\sqrt{\Gamma^2+u^2}\right)
+\]
+at \(u=0\). For the full-AA question, both sides of this physical
+boundary are in the same proven positive region. A phase transition is
+therefore not sufficient to predict an acceptance-simulation threshold.

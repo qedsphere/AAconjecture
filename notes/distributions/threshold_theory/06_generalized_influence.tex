@@ -1,0 +1,117 @@
+\subsection{Which generalized influences could still explain full AA?}
+\label{tht:generalized-influence}
+
+Yes: an influence-based approach remains meaningful if influence
+measures information revealed by queries, or changes to recoverable
+latent variables. Replacing single-spin flips by bounded-size physical
+updates does not suffice. These are different assertions, with different
+proof obligations.
+
+\begin{proposition}[A limitation of physically local updates]
+\label{tht:local-update-obstruction}
+Let \(M(x)=n^{-1}\sum_i x_i\), and let \(K(x,dy)\) be any randomized
+update that changes at most \(k\) spins almost surely. Define its
+unnormalized squared-change quantity by
+\[
+ \mathcal E_K^\mu(M)=
+ \mathbb E_{X\sim\mu,\,Y\sim K(X,\cdot)}(M(X)-M(Y))^2.
+\]
+Then \(\mathcal E_K^\mu(M)\le4k^2/n^2\). Consequently, for the
+zero-field Curie--Weiss family at fixed \(\beta>1\), no maximum of
+such quantities with \(k=o(n)\) and dimension-independent normalization
+can satisfy an AA lower bound in variance and polynomial degree.
+\end{proposition}
+
+\begin{proof}
+The deterministic bound \(|M(x)-M(y)|\le2k/n\) implies the displayed
+inequality, without any stationarity or reversibility assumption on
+\(K\). In ordered Curie--Weiss, \(M\) has degree one and variance
+bounded below by a positive temperature-dependent constant, whereas
+the bound tends to zero. It applies uniformly to every choice of
+kernel, hence also to their maximum. Multiplying by a fixed convention
+factor, such as \(1/4\), changes nothing.
+\end{proof}
+
+This rules out a whole class of local Dirichlet-form repairs, including
+fixed-size heat-bath block updates. It does not rule out an update that
+changes a global phase while using few observed spins: physical update
+size and input-query cost are distinct resources.
+
+\textbf{Revealing information is the first viable replacement.}
+For a query transcript \(\mathcal F\), use
+\[
+ G_\mu(Q,\mathcal F)
+ =\operatorname{Var}_\mu\bigl(\mathbb E[Q\mid\mathcal F]\bigr).
+\]
+If \(\mathcal F_0\subseteq\cdots\subseteq\mathcal F_s\) is the
+transcript of an adaptive tree and
+\(m_t=\mathbb E[Q\mid\mathcal F_t]\), martingale orthogonality gives
+\[
+ G_\mu(Q,\mathcal F_s)=
+ \sum_{t=1}^s\mathbb E(m_t-m_{t-1})^2
+\]
+when \(\mathcal F_0\) is trivial. This is the accumulated variance
+explained by the queried coordinates.
+
+It recognizes information missed by physical flips. For zero-field
+Curie--Weiss, exchangeability and sign symmetry give exactly
+\[
+ \mathbb E[M\mid X_i]=v_nX_i,\qquad
+ v_n=\operatorname{Var}(M),\qquad
+ \operatorname{Var}(\mathbb E[M\mid X_i])=v_n^2.
+\]
+Thus one-spin reveal gain stays positive in the ordered phase even
+though every bounded-size physical update has vanishing squared
+change. For the acceptance-valued observable \(Q=(1+M)/2\), the
+corresponding gain is \(v_n^2/4\).
+
+Singleton reveal gain nevertheless cannot be the universal criterion.
+Under independent fair spins,
+\(Q=(1+x_1x_2)/2\) has variance \(1/4\), yet
+\(\mathbb E[Q\mid X_i]=1/2\) for every individual coordinate.
+Revealing \(X_1,X_2\) determines \(Q\). This is itself a one-query
+quantum acceptance function: query the two-coordinate uniform
+superposition with a phase oracle and measure its overlap with the
+initial state. Hence even genuine low-query acceptance functions need
+not have positive singleton reveal gain. A bounded-length adaptive
+transcript, allowing initially uninformative queries, is the appropriate
+object.
+
+Proposition~\ref{tht:reveal-prop} already proves that polynomial
+transcript length and polynomial reveal progress, uniformly under
+pinnings, characterize hereditary full AA. This is a useful target,
+but not a shortcut: postulating that property is essentially postulating
+the desired simulation theorem. The substantive step must derive it
+from independently checkable Hamiltonian structure.
+
+\textbf{Recoverable latent-source influence is the second route.}
+Suppose \(X=F(Z)\) for independent fair source bits, and each coherent
+output query uses at most \(a\) source queries. Then \(Q\circ F\)
+is an actual \(aT\)-query acceptance function, globally bounded and of
+degree at most \(2aT\). Uniform-input AA may therefore be applied to
+the source influences
+\[
+ I_j^{U}(Q\circ F)=\mathbb E_U\bigl[(D_j(Q\circ F))^2\bigr].
+\]
+A source flip may change many physical spins, so the local-update
+obstruction above does not apply. For biased sources one can use the
+fair-bit encodings and approximation proved in the block theorem.
+
+Source influences alone are insufficient: the classical simulator
+must operate on the actual input \(X\), not on an inaccessible sample
+of \(Z\). Proposition~\ref{prop:threshold-local-posterior} supplies
+the needed bridge when \(Z\mid X=x\) can be generated on demand with
+few physical queries. Its approximate version also requires the
+conditional mismatch bound controlling quantum hybrid error. The
+whole source simulator is transported; no lower bound on a single
+physical-spin influence or singleton reveal gain is asserted.
+
+\textbf{Established versus open.} Ising forests provide an established
+Hamiltonian-derived realization: independent reset/copy variables have
+an edge-local posterior and a uniformly bounded conditional
+continuation probability. These facts give the dimension-independent
+simulation theorem, with uniform AA as its imported input. Extending
+this construction, or proving transcript reveal progress directly,
+for general Dobrushin interaction graphs remains open. The upstream
+semigroup degree-growth and gradient-localization counterexamples
+constrain possible proofs but do not refute either of these two routes.

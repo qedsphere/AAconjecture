@@ -1,0 +1,63 @@
+\subsection{Arbitrary independent blocks, including hard constraints}
+\label{sec:threshold-positive-blocks}
+
+\begin{theorem}[Block-product full AA without nondegeneracy]
+\label{thm:threshold-block-products}
+Let the input coordinates be partitioned into blocks of size at most
+\(k\), and let \(\mu\) be an arbitrary product of laws on these
+blocks. The block laws may depend on dimension and may assign
+probability zero to some atoms. For \(T\ge1\) and \(0<e<1\), set
+\[
+ \eta=\frac{e^2}{64T^2},\qquad
+ b=k+\left\lceil\log_2(1/\eta)\right\rceil.
+\]
+Every \(T\)-query acceptance function admits a deterministic simulator
+of mean error at most \(e\), using at most
+\[
+ S_B(T,e;k):=k\,s_U(2bT,e/2)
+\]
+queries. In particular, a uniform bound on block size implies full AA,
+uniformly over all choices of block laws and temperatures.
+\end{theorem}
+
+\begin{proof}
+For a block law \(p\) on at most \(2^k\) atoms, put \(N=2^b\).
+Give each atom \(u\) the integer count
+\(c_u=\lceil(1-\eta)Np(u)\rceil\). Since
+\(\sum_uc_u\le(1-\eta)N+2^k\le N\), distribute any remaining
+counts arbitrarily. The resulting dyadic law \(p'\) satisfies
+\(p'(u)\ge(1-\eta)p(u)\), so it has the form
+\[
+ p'=(1-\eta)p+\eta r
+\]
+for another probability law \(r\). A deterministic map of \(b\)
+fair bits generates \(p'\) exactly.
+
+Perform this construction independently in each block. Couple
+\(X\sim\mu\) to the product law \(Y\) by keeping each entire block
+with probability \(1-\eta\), otherwise replacing it by an independent
+sample from its \(r\). Thus, conditional on \emph{all} of \(X=x\),
+each coordinate changes with probability at most \(\eta\).
+
+Compose the block gadgets with \(Q\). Each virtual input query costs
+at most \(2b\) fair-source queries by reading the source block,
+computing the requested output bit, and uncomputing. Uniform AA gives
+a source tree with error \(e/2\). To supply its source bits on input
+\(X\), query the entire physical block when that source block is first
+visited, generate its coupled \(Y\)-block, and sample the uniform
+source block conditional on that \(Y\)-block. Cache the result.
+Different blocks are independent, so this is the correct conditional
+source oracle, with at most \(k\) physical queries per first visit.
+The transfer proposition gives error
+\(e/2+4T\sqrt\eta=e\), followed by derandomization.
+\end{proof}
+
+The case \(k=1\) covers products with arbitrarily varying coordinate
+biases, including deterministic bits, with no minimum bias assumption.
+The case \(k=3\) includes products of laws supported on
+\(\{+++ ,---\}\), for which the flip-influence property can fail even
+at degree three. Thus the absence of a nondegeneracy assumption is
+specific to the full query-simulation target. For a Hamiltonian that
+is a sum of disjoint bounded-size components, no finite-temperature
+full-AA transition is possible under this theorem; even hard-constraint
+limits of the block laws are covered.

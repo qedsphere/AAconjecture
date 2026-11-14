@@ -1,0 +1,164 @@
+\subsection{A bounded-flip-energy Hamiltonian failing at every positive inverse temperature}
+\label{threshold:fixed-soft-code}
+
+Fix $L>0$ once and for all.  Let $\mathcal C_n=\{(-1)^bc_a:a,b\}$,
+so $K:=|\mathcal C_n|=2n$, and define the temperature-independent
+Hamiltonian
+\[
+ S_L(x)=\sum_{v\in\mathcal C_n}e^{Lx\cdot v},
+ \qquad H_{n,L}(x)=-\log S_L(x),
+ \qquad \mu_{n,\beta,L}(x)\propto S_L(x)^\beta.
+ \tag{SC}
+\]
+An additive normalization such as $+\log(2n)$ in $H$ has no effect on
+the Gibbs law.  The energy is a global many-body interaction.  The
+following theorem makes no bounded-arity or bounded-degree claim.
+
+\begin{theorem}[A fixed soft-code Hamiltonian]
+\label{threshold:soft-code-theorem}
+For each fixed $\beta,L>0$, put $\rho_\beta=\tanh(\beta L)$.  There
+exist positive constants $C,c$, depending on $\beta,L$ but not $n$, such
+that
+\[
+ \|\mu_{n,\beta,L}-\nu_{n,\rho_\beta}\|_{\rm TV}\le Ce^{-cn}.
+ \tag{SC-TV}
+\]
+Consequently $\mathcal A(\mu_{\beta,L})$ fails for every fixed
+$\beta>0$.  At $\beta=0$ it holds by uniform-input AA.  Moreover, for
+every $n$ and $\beta\ge0$:
+\begin{enumerate}
+\item $|H(x)-H(x^{(i)})|\le2L$ and
+      $\max H-\min H\le\log\cosh(Ln)\le Ln$.
+\item All marginals on at most three distinct spins are exactly uniform;
+      in particular $\Cov(X)=I$.
+\item With $\varepsilon_\beta=(1+e^{2\beta L})^{-1}$,
+      $\varepsilon_\beta\le\Pr(X_i=1\mid X_{-i})\le1-\varepsilon_\beta$
+      for every conditioning.
+\item In natural logarithms,
+      $H_{\rm Shannon}(X)\ge n h(\varepsilon_\beta)$ and
+      $\max_x\mu(x)\le(1-\varepsilon_\beta)^n$.
+\end{enumerate}
+Thus arbitrarily small single-spin energy changes, extensive total
+energy, almost maximal entropy density, and these exact low-order
+marginals do not guarantee full AA at any fixed positive inverse
+temperature when global interaction order is unrestricted.
+\end{theorem}
+
+\begin{proof}[Proof of the total-variation comparison]
+Write $\rho=\tanh(\beta L)$ and
+\[
+ A_v(x)=e^{Lx\cdot v},\qquad
+ Q(x)=\sum_v A_v(x)^\beta,\qquad
+ R(x)=\frac{S_L(x)^\beta}{Q(x)}.
+\]
+The law $q(x):=Q(x)/\sum_yQ(y)$ is exactly $\nu_{n,\rho}$:
+each $v$ has the same partition function $(2\cosh(\beta L))^n$,
+and conditioned on $v$ the spins are $X_z=v_z\eta_z$ with mean-$\rho$
+independent signs.  The power-mean inequalities give the global bounds
+\[
+ \begin{array}{ll}
+ 1\le R(x)\le K^{\beta-1},&\beta\ge1,\\
+ K^{\beta-1}\le R(x)\le1,&0<\beta\le1.
+ \end{array}
+ \tag{SC-R}
+\]
+In particular $|R-1|\le K^{(\beta-1)_+}$ everywhere, where
+$u_+=\max(u,0)$.
+
+Condition on the sampled mode $v$.  Every other signed character $w$
+differs from $v$ on at least $n/2$ coordinates.  If $D=\{z:v_z\ne w_z\}$,
+then
+\[
+ X\cdot v-X\cdot w=2\sum_{z\in D}\eta_z.
+\]
+Hoeffding's inequality, using $|D|\ge n/2$, gives
+\[
+ \Pr\{X\cdot v-X\cdot w<\rho n/2\mid v\}
+ \le e^{-\rho^2n/16}.
+\]
+Let $G$ be the event that some mode exceeds every other score by at
+least $d:=\rho n/2$.  A union bound therefore yields
+\[
+ q(G^c)\le(K-1)e^{-\rho^2n/16}.
+ \tag{SC-bad}
+\]
+
+On $G$, let $M=\max_v A_v(x)$.  Then
+\[
+ S_L=M(1+u),\quad Q=M^\beta(1+v'),\quad
+ 0\le u\le u_n:=(K-1)e^{-L\rho n/2},\quad
+ 0\le v'\le v_n:=(K-1)e^{-\beta L\rho n/2}.
+\]
+For all sufficiently large $n$, $u_n\le1$.  The mean value theorem
+gives
+\[
+ |R-1|\le\beta2^{(\beta-1)_+}u_n+v_n
+ \quad\hbox{on }G.
+\]
+Consequently
+\[
+ \mathbb E_q|R-1|\le e_n:={}
+ \beta2^{(\beta-1)_+}(K-1)e^{-L\rho n/2}
+ +(K-1)e^{-\beta L\rho n/2}
+ +K^{(\beta-1)_+}(K-1)e^{-\rho^2n/16}.
+ \tag{SC-error}
+\]
+For fixed positive $\beta,L$ this is exponentially small, including
+when $\beta<1$.  Finally,
+$d\mu/dq=R/\mathbb E_qR$, and whenever $e_n<1$,
+\[
+ \|\mu-q\|_{\rm TV}
+ =\frac{\mathbb E_q|R-\mathbb E_qR|}{2\mathbb E_qR}
+ \le\frac{e_n}{1-e_n}.
+\]
+This proves (SC-TV); enlarging $C$ covers the finitely many smaller
+$n$.  Theorem~\ref{threshold:noisy-query-theorem} and
+Lemma~\ref{threshold:hard-component} then prove the query separation.
+\end{proof}
+
+\begin{proof}[Proof of the structural assertions]
+A single flip multiplies each summand in $S_L$ by a factor in
+$[e^{-2L},e^{2L}]$, proving the energy increment bound.  Pairing $v,-v$
+shows
+$2n\le S_L(x)\le2n\cosh(Ln)$, proving the energy-range bound.
+
+Multiplication of $x$ coordinatewise by any signed character permutes
+the modes in $S_L$, hence preserves $H$ and every Gibbs power.  For a
+nonempty set $T$ of at most three distinct coordinates, one can choose
+a signed character whose product on $T$ is $-1$: use the global sign
+if $|T|$ is odd, and for two distinct $z,z'$ choose a character with
+$a\cdot(z+z')=1$.  Thus
+$\mathbb E\prod_{z\in T}X_z=0$.  Fourier inversion on each marginal
+proves exact three-wise independence.
+
+The energy increment bound makes every single-site odds ratio lie in
+$[e^{-2\beta L},e^{2\beta L}]$, proving assertion (3).  The same
+probability bounds hold when only an arbitrary subset of the other
+spins is conditioned, by conditional expectation.  Applying the
+chain rule for entropy gives the lower bound in (4); multiplying
+successive conditional probability bounds gives the maximum-atom
+bound.  For fixed $\beta$, choosing $L$ as small as desired makes
+$h(\varepsilon_\beta)$ approach $\log2$ while the query obstruction
+persists for every fixed $L>0$.
+\end{proof}
+
+At $\beta=1$, the comparison in (SC-TV) is an equality of laws, since
+$S_L^1=Q$.  For other $\beta$, the theorem compares the actual Gibbs
+power of the \emph{same} Hamiltonian with a noise model; it does not
+silently replace $L$ by $\beta L$ in the definition of the Hamiltonian.
+The obstruction persists because the mode identity carries a hidden
+linear code accessible coherently to one quantum query, whereas each
+classical coordinate supplies only one linear equation.
+
+There need not be a singularity of the limiting pressure at any finite
+positive inverse temperature. The same proof gives
+\[
+ Z_n(\beta)=2n\,[2\cosh(\beta L)]^n\mathbb E_qR,
+ \qquad
+ \lim_{n\to\infty}\frac{\log Z_n(\beta)}n
+       =\log(2\cosh(\beta L))\quad(\beta>0).
+\]
+Indeed $\mathbb E_qR=1+O(e^{-cn})$. The displayed limiting pressure is
+analytic throughout $\beta>0$, although full AA fails everywhere in
+that interval. At $\beta=0$ the pressure equals $\log2$ exactly; no
+claim about analyticity across negative inverse temperatures is needed.

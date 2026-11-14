@@ -1,0 +1,70 @@
+\subsection{A small cyclic part, and what remains missing on general graphs}
+\label{sec:threshold-positive-scope}
+
+\begin{corollary}[Bounded feedback vertex sets]
+\label{cor:threshold-feedback-sets}
+Fix \(r<\infty\). Suppose a known set \(S\) of at most \(r\) vertices can be deleted
+from an Ising interaction graph to leave a forest. At every fixed
+\(\beta J_{\mathrm{edge}}<\infty\), its Gibbs laws have full AA with the query
+bound in Theorem~\ref{thm:threshold-ising-forests} increased by \(r\).
+The fields, degrees, and couplings incident to \(S\) may vary
+arbitrarily; the unpinned forest edges must satisfy the stated
+\(J_{\mathrm{edge}}\) bound.
+\end{corollary}
+
+\begin{proof}
+Query all of \(S\). Conditional on its revealed assignment, the
+remaining Hamiltonian is an Ising forest Hamiltonian with additional
+fields. Fixing the \(S\)-coordinates in the quantum oracle leaves a
+quantum algorithm with at most \(T\) queries to the remaining input.
+Choose the forest simulator for each positive-probability assignment
+of \(S\). The field-uniform query bound is common to all branches,
+and averaging their conditional errors gives the same mean error.
+\end{proof}
+
+\textbf{Structural implication.} A large tree, long correlation length,
+or bounded-size cyclic separator is not by itself a source of a
+finite-temperature full-AA obstruction. On a tree, the important fact
+is that the randomness generating dependence has an edge-local
+posterior, so it can be recovered lazily from the observed input. This
+remains true even when a root is correlated with many descendants and
+local flip-influence statements are inappropriate proxies.
+
+\textbf{Research direction, not a theorem for all high-temperature
+Gibbs laws.} General graphs suggest replacing the single ancestor
+path by a random dependency cluster. A sufficient route would be:
+\begin{enumerate}
+\item a source representation by independent bounded-size blocks;
+\item coherent evaluation after truncation using
+\(\operatorname{poly}(T,1/e)\) source queries;
+\item conditional, rather than merely marginal, disagreement at most
+\(e^2/(64T^2)\);
+\item a posterior source oracle that answers the polynomially many
+adaptive requests with polynomially many input queries.
+\end{enumerate}
+Under those four conditions the transfer proposition proves full AA.
+A physical uniqueness or percolation threshold is relevant when it
+controls these quantitative properties. It is not itself the missing
+query-theoretic implication.
+
+There is substantial precedent for the forward part:
+\href{https://arxiv.org/abs/1803.10578}{Spinka, \emph{Finitary codings
+for spatial mixing Markov random fields}} proves that exponential
+strong spatial mixing gives an i.i.d. coding with exponential coding
+radius tails. This supplies a reason to investigate such encodings;
+it does not assert the posterior-access or pointwise conditional
+tail bounds used here. Nor does an exponential radius tail by itself
+give a dimension-free query bound on graphs with rapidly growing
+balls without controlling the constants and volume growth. The
+forest proof establishes all of these query-relevant steps directly.
+
+\textbf{Status and provenance.} The local posterior criterion,
+atom-independent block theorem, forest theorem, and feedback-set
+corollary are deductions recorded in this investigation. The
+coordinatewise quantum hybrid bound and the uniform-AA simulation
+input were already used in the shared exchangeable-simulation notes;
+conditional gadget sampling is also used in
+\href{https://arxiv.org/abs/2609.35327}{Girish--Mittal--Nehoran--Raz}.
+No novelty or research-priority claim is made. The criterion on general
+dependency clusters is a proposed proof program, not a classification
+of arbitrary pair interactions or noncommuting Hamiltonians.

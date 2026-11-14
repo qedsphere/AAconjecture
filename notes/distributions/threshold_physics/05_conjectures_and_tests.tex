@@ -1,0 +1,74 @@
+\subsection{A testable high-temperature programme, with precise limits}
+\label{threshold_physics:conjectures}
+
+\textbf{Classical contraction conjecture.}
+Fix \(k\) and \(\kappa>0\). Every family of classical \(k\)-local Gibbs
+laws with
+\[
+ \beta\max_i\sum_{A\ni i}(|A|-1)|J_A|\le1-\kappa
+\]
+has full distributional AA, with polynomial query overhead independent
+of dimension; the polynomial may depend on \(k,\kappa\). Arbitrary
+one-site fields are allowed. This is a proposed sufficient condition,
+not an asserted sharp boundary and not an implication proved by the
+Dobrushin coefficient calculation alone.
+
+\textbf{Quantum high-temperature conjecture.}
+There is a universal small constant \(c>0\) such that, for every fixed
+locality \(k\), every measured Pauli Gibbs family with per-site
+strength \(s\) and \(\beta ks<c\) has full AA in a fixed product
+measurement basis. Constants may depend on the slack below the stated
+bound. This remains a research conjecture here. Separability or
+approximate Markovianity supplies motivation, not the missing proof.
+
+A useful proof would expose the particular oracle's latent thermal
+randomness locally. Specifically, it should provide a source of
+independent variables, a way to evaluate requested spins from that
+source, and a way to sample the source \emph{conditional on the actual
+queried input} without examining a growing number of other spins.
+The necessary conditional-access property is stronger than a forward
+Gibbs sampler. All estimates must survive the adaptive transcripts of
+the proposed simulator.
+
+Approximate local constructions must also control the correct error.
+A guarantee \(\Pr[X_i\ne\widetilde X_i]\le\eta\) only after averaging
+over \(X\) is insufficient for the standard hybrid argument: a quantum
+algorithm may place its query mass on input-dependent exceptional
+coordinates. A safe target is
+\[
+ \sup_x\max_i\Pr[X_i\ne\widetilde X_i\mid X=x]\le\eta,
+\]
+or a directly proved bound on the query-weighted error. This gives a
+\(4T\sqrt\eta\) acceptance error without a union bound over all \(n\)
+spins. Requiring total variation approximation of the whole input
+instead typically introduces a dimension-dependent cost.
+
+The best discriminating experiments and proofs would test the following
+contrasts.
+\begin{enumerate}
+\item
+Hold the local strength and locality fixed while destroying species
+symmetry. Full AA already holds at every temperature before this change;
+criticality alone predicts no loss of it.
+\item
+Compare a readily estimable collective order parameter with an encoded
+label whose coordinate answers reveal only linear constraints. The
+former is covered by slice simulation, whereas the latter can support
+the character-code separation.
+\item
+Track both the Gibbs weight of an encoded sector and the classical
+query cost of its predicate. Energy--entropy competition matters only
+if the thermally populated sector also has a genuine query separation.
+\item
+For proposed local encodings, expose every ancilla as an oracle
+coordinate during the lower-bound analysis. An auxiliary spin that
+stores the answer can erase the separation. A marginal-input convention
+that hides ancillas is a different model and must be declared.
+\end{enumerate}
+
+Thus physical mixing and loss of order are useful candidates for
+\emph{sufficient} positive-temperature scales. They cannot supply a
+universal necessary boundary. The full-AA obstruction sought is a
+thermally significant, classically inaccessible encoded label; symmetry
+and local conditional access are mechanisms that prevent this
+obstruction even in ordered or noncommuting models.

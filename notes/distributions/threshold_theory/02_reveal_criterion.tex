@@ -1,0 +1,89 @@
+\subsection{A criterion that targets the full simulation problem}
+\label{tht:reveal}
+
+Here is a precise criterion for the information that classical queries
+must reveal. It avoids confusing coordinate derivatives with information
+gained by observing a spin. For a law $\nu$, acceptance function $Q$, and
+depth-$k$ classical query tree with transcript $\mathcal F$, write
+\[
+ v=\operatorname{Var}_{\nu}Q,
+ \qquad G_{\nu}(Q,\mathcal F)
+   =\operatorname{Var}_{\nu}\bigl(\mathbb E_{\nu}[Q\mid\mathcal F]\bigr).
+\]
+The law of total variance gives
+$G_{\nu}(Q,\mathcal F)=v-\mathbb E_{\nu}\operatorname{Var}(Q\mid\mathcal F)$.
+The tree may be adaptive; insisting on a fixed set of sites would be a
+stronger, unnecessary condition.
+
+\begin{proposition}[Polynomial reveal progress]
+\label{tht:reveal-prop}
+Let $\mathcal C$ be a class of input laws closed under conditioning any
+set of coordinates to a positive-probability assignment. Suppose that
+for every $\nu\in\mathcal C$, every $T$-query acceptance function $Q$,
+and every $0<a\le1$, whenever $\operatorname{Var}_{\nu}Q\ge a$ there is
+a transcript of depth at most $K(T,1/a)$ with
+\[
+ G_{\nu}(Q,\mathcal F)\ge g(T,a)>0.
+\]
+Assume $K(T,1/a)$ and $1/g(T,a)$ have polynomial upper bounds uniform
+over the class. Then $\mathcal C$ has full AA, uniformly over its laws
+and all such conditionings. Conversely, a uniform full-AA theorem for
+$\mathcal C$ implies this progress property, with $g(T,a)=3a/4$ and a
+polynomial $K$.
+\end{proposition}
+
+\begin{proof}
+For sufficiency take $0<\epsilon<1$ and let $a=\epsilon^2/2$; larger
+errors are trivial. At each transcript leaf whose
+conditional variance is at least $a$, run a progress tree of depth at
+most $K(T,1/a)$; freeze every other leaf. Restricted quantum algorithms
+still use at most $T$ queries. Let $V_j$ be the expected conditional
+variance after round $j$. It is nonincreasing and at most one. If
+$V_j\ge2a$, the probability of active leaves is at least $a$: indeed
+$V_j\le a+\Pr(\text{active})$, since each conditional variance is at
+most one. The next round therefore decreases $V_j$ by at least
+$a g(T,a)$. After
+\[
+ R=\left\lceil\frac{1}{a g(T,a)}\right\rceil+1
+\]
+rounds, $V_R<2a=\epsilon^2$; otherwise the total decrease would exceed
+one. At each final leaf output the conditional expectation of $Q$.
+Cauchy--Schwarz gives mean absolute error at most $\sqrt{V_R}<\epsilon$,
+with depth $RK(T,1/a)$. Computing these expectations is permitted by
+the query model.
+
+Conversely, simulate $Q$ to mean absolute error $a/4$, fixing a random
+seed by averaging if necessary, and let
+$\mathcal F$ be the simulator's transcript. Clip its output $D$ to
+$[0,1]$. Conditional expectation minimizes mean squared error, hence
+\[
+ \mathbb E\operatorname{Var}(Q\mid\mathcal F)
+ \le\mathbb E(Q-D)^2\le\mathbb E|Q-D|\le a/4.
+\]
+If $v\ge a$, this gives $G\ge v-a/4\ge3a/4$. The simulator's query
+bound is the required polynomial $K$.
+\end{proof}
+
+This is a characterization of \emph{hereditary} full AA, namely a
+uniform theorem after arbitrary pinnings. It does not assert that
+full AA for a single unconditioned family automatically extends to its
+exponentially rare conditional laws. The characterization is an
+operational target, not by itself a computable test on coupling matrices.
+
+Even under a product law, one-site reveal variance is insufficient:
+$Q(x)=(1+x_1x_2)/2$ has variance $1/4$ but
+$\mathbb E[Q\mid X_i]=1/2$ for each individual coordinate. Two queries
+reveal $Q$ exactly. Conversely, Curie--Weiss magnetization has tiny
+flip derivatives in the ordered phase but can be estimated by sampling
+coordinates. These two examples explain why transferring a
+flip-influence inequality is neither the necessary nor the most direct
+route to the primary target.
+
+For classical Gibbs laws, pinning preserves interaction order and the
+sum of absolute incident interaction strengths: terms meeting fixed
+spins become lower-order terms. A candidate high-temperature theorem
+should therefore control reveal progress uniformly over the induced
+fields and boundary conditions. For measured noncommuting quantum
+Gibbs states, conditioning measurement outcomes need not equal taking
+the Gibbs state of the naively pinned Hamiltonian; that additional
+step must be justified separately.

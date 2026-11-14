@@ -1,0 +1,44 @@
+\subsection{The obstruction has to survive at the level of queries}
+\label{threshold:obstruction-transfer}
+
+Write $\mathcal A(\mu)$ for the following property of a family of input
+laws: every $T$-query quantum acceptance function $Q_n:\{-1,1\}^n\to[0,1]$
+has a classical decision-tree approximation $D_n$ satisfying
+$\mathbb E_{\mu_n}|D_n-Q_n|\le\epsilon$ with at most
+$\operatorname{poly}(T,1/\epsilon)$ queries.  The polynomial must be
+independent of $n$, but can depend on fixed model parameters.  Decision
+trees may be computationally unbounded.  Outputs can be clipped to
+$[0,1]$.  Mean-error and the usual high-probability formulation imply
+one another with polynomial changes in the accuracy parameters.
+
+\begin{lemma}[Hard-component and perturbation transfer]
+\label{threshold:hard-component}
+Suppose every classical tree of depth at most $t$ satisfies
+$\mathbb E_{\nu_n}|D-Q_n|\ge L_n(t)$.  If
+$\mu_n\ge w_n\nu_n$ pointwise, then
+\[
+ \mathbb E_{\mu_n}|D-Q_n|\ge w_nL_n(t).
+\]
+If instead $\|\mu_n-\nu_n\|_{\rm TV}\le\eta_n$, then
+\[
+ \mathbb E_{\mu_n}|D-Q_n|\ge L_n(t)-\eta_n.
+\]
+The statements also hold for randomized trees, with expectation over
+their randomness, whenever the premise does.
+\end{lemma}
+
+\begin{proof}
+The loss is nonnegative and at most one, so the first assertion follows
+by integration and the second by the variational characterization of
+total variation.  Conditioning on the random seed proves the randomized
+version.
+\end{proof}
+
+This identifies two separate requirements for a thermally generated
+obstruction.  A hard conditional law must possess an actual quantum
+versus classical query separation.  Its Gibbs mass must also be large
+enough relative to the separation and the allowed approximation error.
+Macroscopic phase coexistence supplies neither requirement automatically.
+For example, the exchangeable-simulation theorem in
+Section~\ref{exch:heading-2} handles all Curie--Weiss temperatures,
+including its two-phase regime.

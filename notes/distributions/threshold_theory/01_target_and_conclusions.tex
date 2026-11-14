@@ -1,0 +1,65 @@
+\subsection{The target and the proposed organizing principle}
+\label{tht:target}
+
+In this investigation, \emph{full AA} means the acceptance-simulation
+property: for every $T$-query quantum acceptance function
+$Q:\{-1,1\}^n\to[0,1]$ and every $\epsilon>0$, a classical query
+algorithm $D$ satisfies
+\[
+ \mathbb E_{\mu_n}|D(X)-Q(X)|\le\epsilon,
+ \qquad \operatorname{queries}(D)\le P(T,1/\epsilon),
+\]
+where $P$ is a polynomial independent of $n$. We may take $D$ to be a
+deterministic tree with real outputs in $[0,1]$: auxiliary randomness
+can be fixed by averaging. This terminology follows the task's primary
+target; in the literature, AA often specifically names the stronger
+bounded-polynomial influence statement. The distinction is essential.
+Replacing $\epsilon$ by $\epsilon\delta$ gives additive error $\epsilon$
+outside a set of measure at most $\delta$. Computation and preprocessing
+are unrestricted; sampling a fresh input does not approximate a function
+of the particular unknown input supplied to the algorithm.
+
+Positive results import uniform-input AA, as proved in
+\href{https://arxiv.org/abs/2611.09773}{Turturean's November 2026 preprint}
+and developed in the supplied exposition. The product/slice transfer
+background is
+\href{https://arxiv.org/abs/2609.35327}{Girish--Mittal--Nehoran--Raz}.
+New deductions below are proved within these notes; research priority
+and formal verification are not claimed.
+
+The proposed organizing principle is this:
+\begin{quote}
+A full-AA threshold can arise when cooling gives appreciable weight to
+collective information that a few coherent oracle queries can read but
+polynomially many classical coordinate queries cannot infer. Ordinary
+ordering is insufficient. On the positive side, a local representation
+must remain accessible after conditioning on the observed input, or
+symmetry must make the relevant collective information classically
+estimable.
+\end{quote}
+This is an interpretation supported by the theorems below, not a proved
+classification of all Hamiltonians. A physical model must specify a
+sequence $H_n$, interaction normalization, measurement basis if quantum,
+and fixed versus dimension-dependent temperature parameters.
+
+Three results give the interpretation concrete content. First, the
+existing exchangeable-input theorem and its extension to finitely many
+species imply full AA at \emph{every} temperature for fully connected
+permutation-symmetric classical and transverse-field quantum models.
+Second, the posterior-access argument below proves full AA for Ising
+forests at every fixed finite temperature with bounded edge strengths,
+including arbitrary external fields. Thus even branching, long-range
+order, or a thermodynamic transition need not obstruct simulation.
+Third, the noisy-character construction below gives a single extensive
+Hamiltonian family with bounded one-spin energy changes for which full
+AA fails at \emph{every fixed} $\beta>0$. Its global interaction order is
+unbounded. This separates weak local energy changes from genuinely local
+interaction structure.
+
+The genuine finite positive threshold already established in the dossier
+is the character-code penalty family: full AA holds for fixed $\beta<1$
+and fails for $\beta\ge1$. Its energy--entropy balance makes a hard code
+sector thermally visible. The numerical value one depends on the stated
+energy normalization. Neither this example nor the new zero-threshold
+example establishes a transition for bounded-degree finite-range Ising
+systems.

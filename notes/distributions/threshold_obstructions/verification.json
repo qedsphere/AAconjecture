@@ -1,0 +1,83 @@
+{
+  "checks": [
+    {
+      "m": 2,
+      "n": 4,
+      "L": 0.4,
+      "temperatures": [
+        {
+          "beta": 0.3,
+          "rho_beta": 0.11942729853438588,
+          "comparison_tv": 0.0030247210725271034,
+          "noisy_acceptance_mean": 0.24999999999999983,
+          "noisy_acceptance_variance": 0.09376907153770202,
+          "variance_formula_error": 4.163336342344337e-17,
+          "max_conditional_mean_error": 5.551115123125783e-17,
+          "max_moment_degree_le_3": 5.551115123125783e-17
+        },
+        {
+          "beta": 1.0,
+          "rho_beta": 0.3799489622552249,
+          "comparison_tv": 0.0,
+          "noisy_acceptance_mean": 0.24999999999999994,
+          "noisy_acceptance_variance": 0.09570376500788585,
+          "variance_formula_error": 1.3877787807814457e-17,
+          "max_conditional_mean_error": 2.7755575615628914e-17,
+          "max_moment_degree_le_3": 0.0
+        },
+        {
+          "beta": 2.0,
+          "rho_beta": 0.664036770267849,
+          "comparison_tv": 0.07638505967567208,
+          "noisy_acceptance_mean": 0.24999999999999992,
+          "noisy_acceptance_variance": 0.11197803235346619,
+          "variance_formula_error": 0.0,
+          "max_conditional_mean_error": 1.1102230246251565e-16,
+          "max_moment_degree_le_3": 4.163336342344337e-17
+        }
+      ],
+      "max_single_flip_energy": 0.04168635583264946,
+      "energy_range": 0.04168635583264946
+    },
+    {
+      "m": 4,
+      "n": 16,
+      "L": 0.4,
+      "temperatures": [
+        {
+          "beta": 0.3,
+          "rho_beta": 0.11942729853438588,
+          "comparison_tv": 0.019055151432680547,
+          "noisy_acceptance_mean": 0.37500000000000033,
+          "noisy_acceptance_variance": 0.02933859398872333,
+          "variance_formula_error": 4.163336342344337e-17,
+          "max_conditional_mean_error": 3.885780586188048e-16,
+          "max_moment_degree_le_3": 5.377642775528102e-17
+        },
+        {
+          "beta": 1.0,
+          "rho_beta": 0.3799489622552249,
+          "comparison_tv": 0.0,
+          "noisy_acceptance_mean": 0.3750000000000001,
+          "noisy_acceptance_variance": 0.03357073595475036,
+          "variance_formula_error": 6.938893903907228e-18,
+          "max_conditional_mean_error": 1.6653345369377348e-16,
+          "max_moment_degree_le_3": 2.7755575615628914e-17
+        },
+        {
+          "beta": 2.0,
+          "rho_beta": 0.664036770267849,
+          "comparison_tv": 0.2791173370649162,
+          "noisy_acceptance_mean": 0.37500000000000044,
+          "noisy_acceptance_variance": 0.06917069577320736,
+          "variance_formula_error": 2.7755575615628914e-17,
+          "max_conditional_mean_error": 8.881784197001252e-16,
+          "max_moment_degree_le_3": 6.938893903907228e-17
+        }
+      ],
+      "max_single_flip_energy": 0.7102917264346731,
+      "energy_range": 2.036104745127137
+    }
+  ],
+  "status": "passed"
+}

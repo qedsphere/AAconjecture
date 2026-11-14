@@ -1,0 +1,99 @@
+\subsection{Energy--entropy competition and the mass of a hard sector}
+\label{threshold:energy-entropy}
+
+For any subset $C_n\subseteq\{-1,1\}^n$, consider a two-level energy
+$H_n=\Delta_n\mathbf1_{C_n^c}$.  Its exact code-sector mass is
+\[
+ p_{\beta,n}=\mu_{\beta,n}(C_n)
+ =\frac1{1+\exp\{S_n-\beta\Delta_n\}},
+ \qquad
+ S_n=\log\frac{2^n-|C_n|}{|C_n|}.
+ \tag{EE}
+\]
+The scale $S_n/\Delta_n$ is where the sector energy benefit compensates
+its entropy deficit; a bounded change in $\beta\Delta_n-S_n$ changes
+its mass by a constant amount.  This is an exact calculation, not a
+universal criterion for AA.  The uniform law on $C_n$ must separately
+have a query obstruction.  For example, choosing $C_n$ to be a pair of
+constant strings gives a readily identifiable sector rather than the
+hidden-character separation.
+
+For the character code of Section~\ref{qm:model-and-theorem},
+$|C_n|=n$, $\delta_n=n/2^n$, and
+$\Delta_n=\log(1+1/\delta_n)$ yield the exact decomposition
+\[
+ \mu_n=(1-w_n)U_n+w_nU_{C_n},\qquad
+ w_n=\frac{\delta_n(e^{\beta_n\Delta_n}-1)}
+ {1+\delta_n(e^{\beta_n\Delta_n}-1)}.
+ \tag{EW}
+\]
+At fixed $\beta<1$ the hard mass is exponentially small and full AA
+holds; at fixed $\beta\ge1$ it is bounded below and full AA fails.
+The exact fixed-temperature result is already established in that
+section.  The following refinement explains why merely showing
+$w_n\to0$ is insufficient for arbitrary temperature schedules.
+
+\begin{theorem}[Exact criterion for arbitrary character-code weights]
+\label{threshold:weight-criterion}
+Assume uniform-input AA.  For any sequence $w_n\in[0,1]$, on
+$n=2^m$ with even $m$, the family
+$(1-w_n)U_n+w_nU_{C_n}$ has property $\mathcal A$ if and only if there
+exist constants $a,C>0$ such that
+\[
+ \log_2 n\le Cw_n^{-a}\qquad\hbox{whenever }w_n>0.
+ \tag{WC}
+\]
+No restriction is needed at indices with $w_n=0$.
+\end{theorem}
+
+\begin{proof}
+For necessity, the one-query witness $P$ from the character-code
+section satisfies, for every depth-$t$ classical tree,
+\[
+ \mathbb E_{\mu_n}|D-P|
+ \ge\frac{w_n}{2}(1-2^{t-m/2}).
+\]
+Accuracy $\epsilon_n=w_n/8$ therefore requires
+$t>m/2-2$.  A fixed polynomial simulation bound at $T=1$ implies (WC),
+after changing constants to cover small $m$.
+
+For sufficiency, fix $T,\epsilon$ and a quantum acceptance function $Q$.
+If $w_n\le\epsilon/2$, use its uniform-AA simulator with uniform
+mean error $\epsilon/2$; the mixture error is at most $\epsilon$.
+If $w_n>\epsilon/2$, (WC) gives
+$m\le C(2/\epsilon)^a$.  Query the $m$ positions indexed by the
+standard basis vectors of $\mathbb F_2^m$.  These answers determine
+a unique candidate character $c_{\widehat a}$.  Query
+$k=\lceil\log_2(4/\epsilon)\rceil$ distinct remaining positions and
+check agreement with that character.  If fewer than $k$ positions
+remain, read the whole input and evaluate $Q$ exactly; this costs at
+most $m+k$ queries.
+
+Otherwise, on passing all checks output $Q(c_{\widehat a})$; on
+failing, run a uniform-AA simulator $D_U$ with mean error
+$\epsilon/4$.  On a true codeword the output is exact.  Under uniform
+input the checked coordinates remain independent uniform signs after
+the basis answers have been fixed, so the pass probability is exactly
+$2^{-k}\le\epsilon/4$.  The uniform mean error of this procedure is
+at most
+$\mathbb E_U|D_U-Q|+\Pr_U(\mathrm{pass})\le\epsilon/2$.
+The cost is
+\[
+ C(2/\epsilon)^a+\lceil\log_2(4/\epsilon)\rceil
+ +S_0(T,4/\epsilon),
+\]
+where $S_0$ is the uniform-AA simulation polynomial.  This proves
+$\mathcal A$.  Computation of $Q$ on a fully known candidate incurs
+no input-query cost.
+\end{proof}
+
+For a near-critical schedule
+$\beta_n=1-s_n/\Delta_n$ with $s_n\ge0$ and $s_n=o(n)$,
+(EW) gives $w_n\asymp e^{-s_n}$ for all sufficiently large $n$.
+Thus if $s_n=o(\log\log n)$, full AA still fails, even though $w_n$
+may tend to zero.  If $s_n\ge c\log\log n$ for some fixed $c>0$
+eventually, full AA holds.  The exact criterion (WC) covers irregular
+schedules.  The fixed-mass thermodynamic window is $\Theta(1/n)$;
+the polynomial-query property for a varying-temperature family asks
+the finer question of how sector mass compares with its query
+hardness.  These are different statements.

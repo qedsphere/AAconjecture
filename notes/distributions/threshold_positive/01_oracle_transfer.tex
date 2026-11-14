@@ -1,0 +1,65 @@
+\subsection{The two directions a sampling representation must support}
+\label{sec:threshold-positive-transfer}
+
+Throughout this section, \emph{full AA} means classical approximation of
+the acceptance probability of an arbitrary quantum query algorithm under
+the specified input law. We use mean absolute error: a simulator for a
+\(T\)-query acceptance function \(Q\) has
+\(\mathbb E_\mu|A-Q|\le e\). Substituting \(e=\epsilon\delta\) gives
+error at most \(\epsilon\) except on a \(\delta\)-fraction of inputs.
+We import the uniform-input simulation consequence of AA, with query
+bound \(s_U(T,e)=\operatorname{poly}(T,1/e)\), as in the existing
+exchangeable-simulation section. All statements below are deductions
+conditional on that imported result, not additional claims about its
+provenance. Computation, preprocessing, and the storage of nonuniform
+decision trees are free; only queries to the input are counted.
+
+\begin{proposition}[A local posterior transfer criterion]
+\label{prop:threshold-local-posterior}
+Let \((X,Z)\) be a coupling with \(X\sim\mu\), \(Z\sim\nu\), where
+\(\nu\) has a full-AA simulator costing \(s_\nu(T,e)\). Suppose a
+deterministic map \(F\) has the following properties.
+\begin{enumerate}
+\item A coherent query to \(F(Z)_i\) can be implemented with at most
+\(a\) queries to \(Z\), uniformly in \(i\).
+\item For every \(x\) of positive \(\mu\)-probability and every \(i\),
+\(\Pr[F(Z)_i\ne x_i\mid X=x]\le\gamma\).
+\item Given oracle access to \(x\), the conditional law \(Z\mid X=x\)
+can be supplied consistently on demand: answering any adaptive sequence
+of \(s\) source-bit requests uses at most \(b(s)\) queries to \(x\).
+\end{enumerate}
+Then a \(T\)-query acceptance function has a deterministic simulator
+using at most \(b(s_\nu(aT,e/2))\) queries and mean error at most
+\[
+ e/2+4T\sqrt\gamma.
+\]
+\end{proposition}
+
+\begin{proof}
+Apply simulation under \(\nu\) to the genuine quantum algorithm
+\(Q\circ F\), obtaining a source decision tree \(D(Z)\) with average
+error \(e/2\). On input \(X=x\), run this tree using the conditional
+source oracle from the third hypothesis. Averaging over the coupling
+preserves the \(e/2\) bound. The quantum hybrid argument, conditioned
+on \(X=x\), gives
+\(\mathbb E|Q(X)-Q(F(Z))|\le4T\sqrt\gamma\): at each query the
+expected weight on disagreements is at most \(\gamma\), even though
+the query weights depend on \(x\). The triangle inequality proves the
+claim. The conditional oracle is an ordinary randomized query procedure
+using input-independent random coins; fixing those coins by averaging
+gives one deterministic simulator of no greater average error.
+\end{proof}
+
+The conditional probability in the second hypothesis is essential.
+A marginal estimate \(\Pr[F(Z)_i\ne X_i]\le\gamma\) does not by
+itself control quantum query weights that adapt to \(X\). Likewise,
+an efficient forward sampler alone does not provide the third
+hypothesis. The theorem requires sampling the hidden randomness
+\emph{conditional on the actual input}, with a query bound. An
+arbitrary global posterior computation might require reading all of
+\(x\).
+
+This criterion has no source-fanout requirement. One source bit may
+affect many output spins, provided that its value can be sampled from
+the posterior using few observed spins. That is a substantive
+difference from local flip-influence transfer.

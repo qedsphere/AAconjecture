@@ -1,0 +1,59 @@
+\subsection{The structural data behind a meaningful temperature scale}
+\label{threshold_physics:scales}
+
+Temperature acquires meaning only after interaction strengths and
+locality have been fixed. For a classical Ising Hamiltonian
+\[
+ H(x)=-\sum_{i<j}J_{ij}x_ix_j-\sum_i h_ix_i,
+ \qquad J_* =\max_i\sum_{j\ne i}|J_{ij}|,
+\]
+the dimensionless small-coupling parameter is \(\beta J_*\), not
+\(\beta\) alone. One-site conditional distributions obey
+\[
+ c_{ij}:=\sup_{x_{-j}=y_{-j}}
+ \|\mu(X_i\in\cdot\mid x_{-i})-
+       \mu(X_i\in\cdot\mid y_{-i})\|_{\rm TV}
+ \le\tanh(\beta|J_{ij}|).
+\]
+Indeed a change of spin \(j\) shifts the effective dimensionless field
+at \(i\) by \(2\beta J_{ij}\), and the maximal difference of the two
+Bernoulli probabilities is \(\tanh(\beta|J_{ij}|)\). Thus
+\[
+ \alpha:=\max_i\sum_j c_{ij}
+ \le\max_i\sum_j\tanh(\beta|J_{ij}|)\le\beta J_*.
+\]
+The bound survives every coordinate pinning: edges to pinned spins
+become fields. This is the useful feature of a Dobrushin condition for
+an adaptive-query proof. It is a condition on the conditional laws met
+after transcripts, rather than on unconditioned covariance alone.
+
+More generally for
+\(H(x)=-\sum_{A:2\le|A|\le k}J_A\prod_{i\in A}x_i
+-\sum_i h_ix_i\), telescoping changes in the conditional field gives
+\[
+ \alpha\le
+ \max_i\sum_{A\ni i}(|A|-1)\tanh(\beta|J_A|)
+ \le \beta(k-1)\max_i\sum_{A\ni i}|J_A|.
+\]
+Pinning again does not increase this bound. These inequalities identify
+a plausible sufficient temperature \emph{scale}; they do not by
+themselves prove full AA.
+
+For a Pauli Hamiltonian \(\mathcal H=\sum_A\lambda_AP_A\), record
+\[
+ k=\max_A|\supp(P_A)|,
+ \qquad s=\max_i\sum_{A:i\in\supp(P_A)}|\lambda_A|.
+\]
+These parameters remain meaningful for normalized dense interactions.
+The high-temperature scale \(\beta sk\) is supported by quantum Gibbs
+structure theorems discussed below. For transverse Ising,
+\(s\le J_*+\max_i(|h_i|+|\Gamma_i|)\) under this convention.
+Including independent fields in \(s\) is a conservative convention;
+independent-spin laws themselves satisfy full AA at every temperature.
+
+A sum of many weak terms cannot be classified from the spectrum of one
+term. The graph, per-site summed strengths, growth of interaction
+neighborhoods, and measurement/oracle basis all enter. Likewise,
+\(O(n)\) total energy oscillation does not force a threshold: the
+collective quantum family above has an extensive energy scale and full
+AA throughout its phase diagram.

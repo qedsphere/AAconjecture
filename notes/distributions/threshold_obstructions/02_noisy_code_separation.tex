@@ -1,0 +1,91 @@
+\subsection{A noisy code is a genuine full-AA obstruction}
+\label{threshold:noisy-code}
+
+Let $m\ge2$ be even, $n=2^m$, and index coordinates by
+$z\in\mathbb F_2^m$.  Put $c_a(z)=(-1)^{a\cdot z}$ and
+\[
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod 2,
+ \qquad r=\Pr[h(A)=1]=\frac{1-n^{-1/2}}2.
+\]
+Draw $A,B$ uniformly and independently from $\mathbb F_2^m,\mathbb F_2$,
+and independent signs $\eta_z$ with $\mathbb E\eta_z=\rho$, where
+$0<\rho<1$.  The noisy affine-code law $\nu_{n,\rho}$ is
+\[
+ X_z=(-1)^B c_A(z)\eta_z.
+\]
+Define on the entire cube
+\[
+ P(x)=\sum_{a:h(a)=1}\left(\frac1n\sum_z x_zc_a(z)\right)^2.
+\]
+Parseval gives $0\le P\le1$.  A single phase query, followed by the
+Walsh transform and the test $h(a)=1$, has acceptance probability $P(x)$
+for every input.  This is the hidden-character quantum procedure of
+\href{https://people.eecs.berkeley.edu/~vazirani/pubs/bv.pdf}
+{Bernstein and Vazirani}, with an additional classical decision rule.
+
+\begin{theorem}[Noise-robust one-query separation]
+\label{threshold:noisy-query-theorem}
+Every classical tree $D$ of depth at most $t$ satisfies
+\[
+ \boxed{\displaystyle
+ \mathbb E_{\nu_{n,\rho}}|D-P|
+ \ge \frac{\rho^2}{2}\bigl(1-2^{t-m/2}\bigr)
+ -\sqrt{\frac{2r(1-r)(1-\rho^4)}{n}}.}
+ \tag{NQ}
+\]
+This holds also with randomized queries or a randomized real output.
+Consequently $\mathcal A(\nu_{\rho})$ fails for every fixed $\rho>0$:
+one quantum query requires $\Omega(\log n)$ classical queries at a
+fixed positive accuracy depending only on $\rho$.
+\end{theorem}
+
+\begin{proof}
+The projection calculation of Section~\ref{proof:higher_order_obstructions}
+gives
+\[
+ \mathbb E[P\mid A,B]=(1-\rho^2)r+\rho^2h(A)=:G(A),
+ \qquad
+ \Var(P)=r(1-r)\left[\rho^4+\frac{2(1-\rho^4)}n\right].
+\]
+The first identity can also be read directly from the quadratic form:
+diagonal terms are unchanged, and distinct-coordinate terms acquire
+the factor $\rho^2$.  Since $\Var(G)=\rho^4r(1-r)$, the law of total
+variance and Cauchy--Schwarz imply
+\[
+ \mathbb E|P-G(A)|
+ \le\sqrt{\mathbb E\Var(P\mid A,B)}
+ =\sqrt{2r(1-r)(1-\rho^4)/n}.
+ \tag{NC}
+\]
+
+Fix $B$, the entire noise vector $\eta$, and any private random seed of
+the classical algorithm.  A query to $X_z$ can then be answered from
+one query to the clean character $c_A(z)$, by multiplying the answer by
+the fixed sign $(-1)^B\eta_z$.  Even granting these fixed signs to the
+algorithm cannot invalidate a lower bound.  A depth-$t$ transcript
+therefore conditions uniform $A$ on an affine subspace of codimension
+at most $t$.
+
+The Boolean sign $(-1)^{h(A)}$ has all Fourier coefficients of magnitude
+$2^{-m/2}$.  Thus its conditional bias at every such leaf is at most
+$2^{t-m/2}$, exactly as in
+Section~\ref{qm:one-quantum-query-versus-logarithmically-many-classical-queries}.
+The target $G(A)$ takes two values at distance $\rho^2$.  The minimum
+conditional absolute loss of any real prediction is this distance
+times the smaller conditional label probability.  Hence
+\[
+ \mathbb E|D-G(A)|\ge
+ \rho^2(1-2^{t-m/2})/2.
+\]
+Averaging over the fixed signs and seeds, and then using (NC) and the
+triangle inequality, proves (NQ).  For $t\le m/2-2$, the leading term
+is at least $3\rho^2/8$; for sufficiently large $n$, the subtracted
+term is at most $\rho^2/16$.  Accuracy $\rho^2/8$ therefore requires
+$t>m/2-2$.
+\end{proof}
+
+The noise is sampled once as part of the input.  It is not resampled
+at each oracle invocation.  This distinction is needed for the quantum
+acceptance formula and for the classical simulation by a fixed noise
+vector.  The result strengthens the earlier influence-only statement
+for this same law to a query separation.

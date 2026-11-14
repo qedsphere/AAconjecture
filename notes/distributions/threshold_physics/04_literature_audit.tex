@@ -1,0 +1,83 @@
+\subsection{What current Gibbs-state results do and do not establish}
+\label{threshold_physics:literature}
+
+The following sources were checked against primary records on
+14 November 2026. They guide proposed sufficient conditions; none is
+being cited as a theorem about unknown-input AA simulation.
+
+\begin{itemize}
+\item
+\href{https://arxiv.org/abs/2403.16850v2}{Bakshi--Liu--Moitra--Tang,
+\emph{High-Temperature Gibbs States are Unentangled and Efficiently
+Preparable}, v2 (2025)} prove high-temperature separability and classical
+preparation for local Hamiltonians. Their updated abstract gives
+separability at inverse temperature \(O(1/\mathfrak d)\), and a
+preparation regime \(O(1/\mathfrak d^2)\), under the paper's normalized
+interaction-degree convention. The older v1/FOCS formulation has
+different quantitative parameters; they should not be mixed.
+
+\item
+\href{https://arxiv.org/abs/2607.28536v2}{Putterman--Zlokapa--Cotler,
+\emph{When quantum thermal states look classical}, v2 (2026)} use
+locality \(k\) and per-site Pauli strength \(s\), allowing long-range
+interactions. Their abstract and Sections 1.1--1.4 give a universal
+separability/classical-preparation scale \(\beta=O(1/(sk))\) and
+distinguish it from thermodynamic analyticity and other transitions.
+Their measurement-outcome sampling task produces a new random input;
+it does not estimate an arbitrary \(Q(x)\) from a few queries to the
+particular unknown input \(x\).
+
+\item
+\href{https://arxiv.org/abs/2411.03413}{Chen--Chen--Yin--Zhang,
+\emph{Rapid Mixing at the Uniqueness Threshold} (2024)} obtain polynomial
+Glauber mixing at critical uniqueness thresholds and investigate spectral
+independence there. This reinforces the need to state which kind of
+threshold is meant. A sampler using polynomially many operations in
+\(n\) is compatible with a classical query lower bound growing with
+\(n\).
+
+\item
+\href{https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.134.199901}
+{Kuwahara--Kato--Brand\~ao's 2025 erratum} identifies failures in the
+original 2020 effective-Hamiltonian/CMI cluster-expansion proof. Its
+recovered and unresolved claims have different subsystem qualifications.
+We do not import the original unrestricted theorem.
+\href{https://arxiv.org/abs/2504.02235v2}{Kato--Kuwahara, v2 (2025)}
+instead develop quantum belief-propagation channels and give CMI decay
+under specified locality/mixing or clustering assumptions, with
+high-temperature consequences.
+\href{https://arxiv.org/abs/2504.02208}{Chen--Rouz\'e (2025)} prove a
+local recovery statement at arbitrary temperature for bounded interaction
+degree, including CMI decay for a shielded small region. Neither result
+is automatically a classical adaptive-query theorem.
+\end{itemize}
+
+There are three independent logical gaps to avoid. First, separability
+does not suffice: every classical input law is the diagonal of the
+separable state \(\sum_x\mu(x)|x\rangle\langle x|\), including the
+character-code full-AA counterexample. Second, even easy global
+sampling does not reveal the hidden data of the particular oracle
+input. The character-code mixture is easy to generate by choosing its
+branch and then choosing either uniform bits or a uniform hidden code
+label, yet it has a one-versus-\(\Omega(\log n)\) query separation.
+Third, small quantum CMI is not automatically preserved by measuring
+the conditioning system: information processing on the middle register
+can increase conditional mutual information. The classical measured
+conditional laws must be controlled in their own right.
+
+In particular, after observing a measured set \(S\) with outcome \(a\),
+the remaining outcome probabilities are proportional to
+\[
+ \langle a,x|e^{-\beta\mathcal H}|a,x\rangle.
+\]
+For noncommuting \(\mathcal H\), they need not be the diagonal entries
+of \(e^{-\beta\langle a|\mathcal H|a\rangle}\). Projecting the
+Hamiltonian before exponentiation loses imaginary-time excursions
+outside the measured subspace. A theorem stable under classical
+Hamiltonian pinning therefore cannot be transferred to measured
+quantum Gibbs laws by that substitution.
+
+The quantum/classical comparison here concerns \emph{queries to a
+classical string}. Complexity of preparing \(\rho_\beta\), evaluating
+\(\operatorname{Tr}(O\rho_\beta)\), and sampling a new measurement
+outcome are different tasks.

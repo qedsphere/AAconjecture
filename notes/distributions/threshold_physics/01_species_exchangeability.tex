@@ -1,0 +1,110 @@
+\subsection{A full-AA theorem for finitely many exchangeable species}
+\label{threshold_physics:species}
+
+Let \([n]=B_1\sqcup\cdots\sqcup B_r\) be a known partition. A law is
+\emph{species-exchangeable} if it is invariant under independent
+coordinate permutations within every \(B_b\). Conditional on the vector
+of block weights \((k_1,\ldots,k_r)\), such a law is the product
+\(\bigotimes_b U_{|B_b|,k_b}\). The weights themselves can be arbitrarily
+dependent.
+
+\begin{theorem}[Simultaneous simulation on products of slices]
+\label{thm:species_simulation}
+Assume uniform-input acceptance simulation with a fixed polynomial query
+bound \(S_0(T,1/e)\). There is a polynomial \(R(T,r,1/\epsilon)\) such
+that for every known partition into \(r\) blocks and every \(T\)-query
+acceptance function \(Q\), one deterministic decision tree \(D\) makes
+at most \(R(T,r,1/\epsilon)\) queries and satisfies
+\[
+ \mathbb E_{\bigotimes_b U_{|B_b|,k_b}}|D-Q|\le\epsilon
+ \quad\text{for every admissible vector }(k_1,\ldots,k_r).
+\]
+Consequently, for fixed \(r\), every species-exchangeable family has
+full distributional AA, uniformly over its mixing law and all its model
+parameters.
+\end{theorem}
+
+\begin{proof}
+We extend the slice argument in Section~\ref{proof:exchangeable_queries}.
+First, its biased-product lemma works for arbitrary known coordinate
+biases \(q_i\in[a,1-a]\), with the same bound
+\[
+ S(T,e,a)=S_0(2bT,2/e),\qquad
+ b=\max\left\{1,\left\lceil
+ \log_2\frac{64T^2}{ae^2}\right\rceil\right\}.
+\]
+Indeed use a different threshold gadget of the same \(b\)-bit length at
+each coordinate, rounding each \(q_i\) upward to a dyadic. Every quantum
+oracle call costs at most \(2b\) uniform-bit queries. Conditional sampling
+of each source block given its output bit remains independent across
+coordinates, and the rounded-product coupling has conditional mismatch
+at most \(2^{-b}/a\) at every coordinate. The same hybrid bound and
+averaging over input-independent auxiliary seeds prove the assertion.
+Replace \(S\) by a monotone polynomial majorant when convenient.
+
+For \(T\ge1\) and \(0<\epsilon<1\), take
+\[
+\begin{split}
+a&=(\epsilon/(64T))^2,\qquad
+s=\max\{1,S(T,\epsilon/8,a)\},\\
+g&=\min\{\epsilon/(16s),(\epsilon/(64T))^2\},\qquad
+\eta=ag/2,\\
+L&=\left\lceil4r/(\epsilon\eta^2)\right\rceil,\qquad
+N_0=\left\lceil1/(a^2g^2)\right\rceil,\qquad
+M=\max\{2L,L+N_0\}.
+\end{split}
+\]
+Read every coordinate of blocks of size less than \(M\). In each
+remaining block query its first \(L\) coordinates and let \(q_b\) be
+their empirical density. Restrict \(Q\) to every coordinate read so far.
+For a remaining block with \(q_b\le2a\), set its unread coordinates to
+zero in this restricted quantum computation; with \(q_b\ge1-2a\), set
+them to one. Call the resulting acceptance function on the other,
+\emph{central}, coordinates \(Q_0\). Simulate \(Q_0\) under the product
+law whose coordinate bias is \(q_b\) on central block \(b\), using the
+vector-biased-product lemma at error \(\epsilon/8\). This is a fixed
+tree for each observed transcript. If no central coordinates remain,
+evaluate the fully specified computation with no further queries.
+All choices depend only on the observed transcript, not on the unknown
+\(k_b\). The query count is at most \(rM+s\), a polynomial in the stated
+parameters.
+
+For the analysis fix an arbitrary weight vector. After the prefixes,
+the unread coordinates are independent uniform slices. Let \(p_b\)
+be the unread density in block \(b\). The hypergeometric estimate from
+Section~\ref{exch:sec-4} and a union bound give
+\[
+ \Pr[\exists b:\ |p_b-q_b|>\eta]\le r/(L\eta^2)\le\epsilon/4.
+\]
+On a good transcript an endpoint block has density at most \(3a\) away
+from its chosen constant string. Couple the original unread input with
+the input in which all endpoint blocks have been replaced by these
+constant strings. Conditional on the latter input, every coordinate has
+mismatch probability at most \(3a\): the endpoint slices are independent
+of the central slices, and are exchangeable internally. The quantum
+hybrid estimate therefore bounds the expected change of acceptance by
+\(4T\sqrt{3a}<\epsilon/8\). There is no factor \(r\), since query
+weights sum to one over all coordinates.
+
+For central block \(b\), \(p_b\in[a,1-a]\) and its unread size is at
+least \(N_0\). Independently couple each central slice to its
+\(q_b\)-biased product as in Section~\ref{exch:sec-3}. Conditional on
+the entire original central input, every coordinate has mismatch
+probability at most
+\[
+ \eta/a+1/(2a\sqrt{N_0})\le g.
+\]
+The classical and quantum hybrid bounds give central error at most
+\[
+ \epsilon/8+sg+4T\sqrt g\le\epsilon/4.
+\]
+Including endpoint replacement and bad transcripts gives total error
+less than \(\epsilon/4+\epsilon/8+\epsilon/4<\epsilon\), simultaneously
+for every weight vector. The case \(T=0\) is immediate. Mixing the
+weight vectors proves the last assertion.
+\end{proof}
+
+The fixed-species qualification matters: \(r=r_n\) produces a bound
+polynomial in \(r_n\), which is not in general dimension independent.
+No ability to sample the Gibbs law, determine the weight vector, or
+identify a thermodynamic phase is assumed.

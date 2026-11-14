@@ -1,0 +1,76 @@
+\subsection{What Hamiltonian structure to look for next}
+\label{tht:program}
+
+The positive and negative results suggest examining four distinct
+features of a normalized Hamiltonian, in this order.
+
+\begin{enumerate}
+\item \textbf{Thermally occupied sectors.} Determine their restricted
+partition functions and their weights at the requested error scale.
+For a rare hard sector of weight $w_n$, a lower bound is multiplied by
+$w_n$. A fixed-error separation requires nonvanishing weight; when the
+requested error also decreases, compare the lower bound with a
+polynomial in its inverse. A statement at constant error does not
+classify every temperature schedule.
+\item \textbf{Information stored in a sector.} A magnetization phase,
+or finitely many species magnetizations, can be learned by coordinate
+sampling. The bent label of a character code has a small quantum query
+cost but needs an unbounded number of classical queries. Sector count,
+covariance, entropy density, and a spectral gap of the Hamiltonian do
+not decide this distinction by themselves.
+\item \textbf{Conditional access.} Look for a product or other
+simulable source whose output oracle is cheap to implement, and whose
+source can be sampled conditionally on the observed input using few
+input queries. Forward sampling alone supplies only the first half.
+For an Ising tree, conditioning all spins factorizes the latent edge
+variables, making the second half possible. Alternatively, establish
+the reveal-progress criterion uniformly over pinnings.
+\item \textbf{Geometry of interactions in the observed basis.}
+Bounded interaction order, incident norm, loops, frustration, and
+measurement basis must be recorded separately. A bounded single-spin
+energy change does not bound the total effect of the other spins on a
+site's conditional law. The global noisy-code obstruction exploits
+exactly this difference. Cycles are not by themselves a negative
+criterion: independent finite blocks and permutation-symmetric dense
+models remain positive examples.
+\end{enumerate}
+
+For a classical Ising model use, for example,
+\[
+ H_n(x)=-\sum_{i<j}J_{ij}x_ix_j-\sum_i h_i x_i,
+ \qquad \alpha(\beta)=\max_i\sum_{j\ne i}
+                  \tanh(\beta|J_{ij}|).
+\]
+\textbf{Open conjecture (sufficient high-temperature regime).}
+For every fixed $\kappa>0$, the family of such models with
+$\alpha(\beta)\le1-\kappa$ satisfies full AA uniformly in dimension
+and external fields, with polynomial dependence on $T,1/\epsilon$
+for fixed $\kappa$. A stronger quantitative version asks for a bound
+polynomial also in $1/\kappa$. These are conjectures here, not imported
+consequences of uniqueness or mixing.
+
+The general bounded-order version should use the sum of influences of
+one boundary spin on another conditional spin, or a suitable normalized
+interaction bound. For measured quantum Gibbs laws, a plausible
+high-temperature conjecture assumes bounded locality $k$ and bounded
+per-site sum of term norms $s$, with $\beta s<c(k)$, in a fixed product
+measurement basis. Known thermal preparation, correlation-decay, and
+separability results motivate this conjecture but do not prove it.
+The literature audit below records what these theorems actually state.
+
+The clearest proof target is therefore not ``mixing implies AA,'' but
+one of two concrete bridges: derive polynomial reveal progress under
+every pinning, or construct forward oracle access together with local
+posterior access and a dimension-free quantum hybrid error bound.
+Forests demonstrate the latter bridge even beyond a uniqueness regime.
+Finite-range loopy Ising models, including a sharp full-AA threshold
+for any such family, remain open in this investigation.
+
+Finally, no monotonicity of the full-AA property in $\beta$ has been
+proved for arbitrary Hamiltonians. The allowed set of temperatures need
+not be declared an interval without a model-specific argument. There
+are already three rigorously distinct patterns in this dossier:
+all-temperature simulation, a finite positive threshold, and simulation
+only at $\beta=0$ among fixed nonnegative inverse temperatures. The
+obstruction is computational structure becoming accessible to coherent
+queries, not a universal thermodynamic critical point.

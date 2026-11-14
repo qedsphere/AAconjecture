@@ -1,0 +1,74 @@
+\subsection{A full-AA transfer theorem from thermal likelihood tails}
+\label{tht:density}
+
+Full acceptance simulation needs less density comparison than influence
+AA. In particular, a lower density bound is unnecessary.
+
+\begin{proposition}[One-sided likelihood transfer]
+\label{tht:density-prop}
+Suppose $\nu_n$ has full-AA simulation cost $S(T,1/e)$, and
+$r_n=d\mu_n/d\nu_n$. If for fixed $p>1$ and $K<\infty$,
+$\sup_n\|r_n\|_{L^p(\nu_n)}\le K$, then $\mu_n$ has simulation cost
+\[
+ S\bigl(T,(K/\epsilon)^{p/(p-1)}\bigr).
+\]
+More generally it suffices that
+\[
+ \sup_n\mathbb E_{\nu_n}[r_n\mathbf1_{r_n>M}]
+ \le C M^{-b}\quad(M\ge1)
+\]
+for fixed $C,b>0$.
+\end{proposition}
+
+\begin{proof}
+Let $A=|D-Q|\le1$ and $q=p/(p-1)$. H\"older's inequality gives
+$\mathbb E_\mu A\le K(\mathbb E_\nu A^q)^{1/q}
+\le K(\mathbb E_\nu A)^{1/q}$.
+Choose $e=(\epsilon/K)^q$. For the tail version split at $r=M$:
+\[
+ \mathbb E_\mu A\le M\mathbb E_\nu A+C M^{-b}.
+\]
+Take $M=\max\{1,(2C/\epsilon)^{1/b}\}$ and simulate under $\nu$ to
+error $\epsilon/(2M)$. Both costs are polynomial in $T,1/\epsilon$.
+\end{proof}
+
+This yields a directly thermodynamic sufficient statistic. Write a
+Gibbs perturbation of an already simulable reference law as
+\[
+ d\mu_{n,\beta}=\frac{e^{-\beta V_n}}{Z_n(\beta)}d\nu_n,
+ \qquad Z_n(t)=\mathbb E_{\nu_n}e^{-tV_n}.
+\]
+Then
+\[
+ \log\|d\mu_{n,\beta}/d\nu_n\|_p
+ =\frac{\log Z_n(p\beta)-p\log Z_n(\beta)}p.
+ \tag{FT}
+\]
+Thus a dimension-uniform bound on this free-energy difference proves
+full AA at that temperature. Constants may depend on $\beta$ and $p$.
+For example, if the centered perturbations are uniformly sub-Gaussian
+in the needed direction,
+\[
+ \log\mathbb E_{\nu_n}e^{-t(V_n-\mathbb E_{\nu_n}V_n)}
+ \le\sigma^2t^2/2\quad\text{at }t=p\beta,
+\]
+with $\sigma$ independent of $n$, Jensen's inequality at $\beta$ gives
+$\|r_n\|_p\le\exp(p\beta^2\sigma^2/2)$. A uniformly bounded energy
+oscillation is another special case. Product fields or independent
+blocks can be absorbed into the reference law rather than charged to
+$V_n$.
+
+The boundary of (FT) is only a boundary of this sufficient method.
+Independent Ising edges can make this moment grow exponentially in $n$
+while full AA holds by the product-of-blocks theorem. Similarly, a
+bounded relative entropy alone gives no polynomial tail estimate by
+this proof. Failure of a likelihood criterion is not evidence of a
+query separation.
+
+The criterion also explains why global total-variation approximation is
+often the wrong high-temperature target. A fixed nonzero per-site
+perturbation accumulates across $n$ sites, but a $T$-query algorithm
+cannot necessarily see that accumulated difference. The posterior-local
+theorems below instead bound mismatches \emph{conditional on the full
+reference input}; the quantum hybrid estimate then costs
+$4T\sqrt{\gamma}$ rather than a union bound over all $n$ sites.

@@ -11,3 +11,21 @@
 Not held here: Turturean, *A proof of the Aaronson–Ambainis conjecture*, [2611.09773](https://arxiv.org/abs/2611.09773), the source of the uniform bound every positive result imports.
 
 The three files marked "No" are listed in `.gitignore` because their licence does not allow redistribution. Save them into this folder under the file names above and the links in the notes will resolve.
+
+## Additional sources consulted for the full-AA threshold theory
+
+Primary records checked on 2026-11-14; these PDFs are not added to this repository. See the [detailed scope audit](../notes/distributions/threshold_physics/04_literature_audit.tex).
+
+- [Spinka, *Finitary codings for spatial mixing Markov random fields*](https://arxiv.org/abs/1803.10578): forward local coding; no automatic conditional-source query access.
+- [Chayes, Crawford, Ioffe, Levit, *The Phase Diagram of the Quantum Curie–Weiss Model*](https://arxiv.org/abs/0804.1605): physical phase boundary for the collective transverse-field model.
+- [Bakshi, Liu, Moitra, Tang, *High-Temperature Gibbs States are Unentangled and Efficiently Preparable*, v2](https://arxiv.org/abs/2403.16850v2): separability and preparation, separate from unknown-input query simulation.
+- [Putterman, Zlokapa, Cotler, *When quantum thermal states look classical*, v2](https://arxiv.org/abs/2607.28536v2): locality and per-site-strength temperature scales.
+- [Chen, Chen, Yin, Zhang, *Rapid Mixing at the Uniqueness Threshold*](https://arxiv.org/abs/2411.03413): critical mixing and spectral independence.
+- [Kuwahara, Kato, Brandão, 2025 erratum](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.134.199901): limitations of the earlier CMI cluster-expansion argument.
+- [Kato, Kuwahara, v2](https://arxiv.org/abs/2504.02235v2) and [Chen, Rouzé](https://arxiv.org/abs/2504.02208): qualified quantum Markov/recovery results; their conditions are not promoted to a full-AA theorem.
+
+For the upstream Tasks 1–3 audit at commit `d5e4297`, also checked:
+
+- [Escudero Gutiérrez, *Influences of Fourier completely bounded polynomials and classical simulation of quantum algorithms*, v2](https://arxiv.org/abs/2304.06713v2): indexed fcb norm, supremum-norm domination, restrictions, and the distinction between the homogeneous bound and the historical conjecture.
+- [O'Donnell, Zhao, *Polynomial bounds for decoupling, with applications*](https://arxiv.org/abs/1512.01603): uniform-product decoupling/tail statements, not a general Gibbs MLSI junta theorem.
+- The supplied Blanc–Docter–Strassle–Tan exposition, Lemma 3.1 and Section 2.5.4: its determinant proof already gives a permutation that certifies feasibility of the stated summed transportation LP. A determinant-free proof is a different task.

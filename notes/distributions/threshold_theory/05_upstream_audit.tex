@@ -1,0 +1,208 @@
+\subsection{Latest upstream results: implications and corrections}
+\label{tht:upstream}
+
+On 14 November 2026 the shared checkout was fast-forwarded from
+\texttt{ff4afe4} to \texttt{d5e4297} of
+\href{https://github.com/qedsphere/AAconjecture}{qedsphere/AAconjecture}.
+The new material is
+\href{https://github.com/qedsphere/AAconjecture/blob/d5e429763b9f0234f5dd02c3fe03925c78b4306c/tasks-1-2-3-summary.md}
+{\emph{Tasks 1--3: results, proofs, counterexamples, and open gaps}}.
+It contains a Gibbs/DFKO influence programme, a face-constrained
+transportation problem, and a Fourier-completely-bounded (fcb) programme.
+Its project-level results and conditional reductions are not imported
+as newly verified theorems. Several referenced proof files are absent
+from this checkout. The upstream file is preserved unchanged; the
+following is our independent audit.
+
+\textbf{Subsequent upstream update.} Before publication we also pulled
+\texttt{9312412}, adding the
+\href{https://github.com/qedsphere/AAconjecture/blob/9312412/tasks-1-2-3-proof-companion.md}
+{Tasks 1--3 proof companion}. It confirms uniform Fourier-level
+additivity, corrects the block prefactor to $\delta_{\min}^{6}$, and
+distinguishes covariance operator norm from absolute row sums. The
+corrections below address the original summary; those three repairs
+are acknowledged, and the block theorem remains explicitly not
+independently revalidated in the companion. The remaining status and
+parameter-dependence questions are recorded in the companion reviews.
+
+\subsubsection{What strengthens the structural theory}
+
+\textbf{Quantifiers matter.} The handoff's Gibbs target permits a
+prefactor $c(d,\ldots)$ and variance exponent $C(d,\ldots)$ depending
+arbitrarily on degree. Even dimension-independent bounds of that form
+need not yield a polynomial in $T,1/\epsilon$. Its hypotheses also
+include bounded degree, range, and fields. They therefore do not settle
+our conjecture uniform over fields and graph size at a fixed Dobrushin
+margin. Fixed-degree influence results remain useful probes when their
+degree and structural dependence are stated explicitly.
+
+\textbf{Gibbs averaging is not coordinate restriction.} On a zero-field
+three-leaf Ising star, with center 0 and unit couplings,
+\[
+ \mathbb E[X_0\mid X_1,X_2,X_3]
+ =c_1(X_1+X_2+X_3)+c_3X_1X_2X_3,
+ \qquad
+ c_3=\frac{\tanh(3\beta)-3\tanh\beta}{4}
+     =-\frac{2\tanh^3\beta}{1+3\tanh^2\beta}.
+\]
+This is nonzero for every $\beta>0$, including the strict Dobrushin
+regime $3\tanh\beta<1$. Conditional projections and heat-bath
+evolution can therefore raise degree from one to three. This rules out
+the handoff's degree-preservation shortcut. It does not affect our
+forest theorem: that proof bounds the queries of the composed quantum
+oracle and samples edge sources conditionally, without claiming degree
+preservation under Gibbs averaging. In
+Proposition~\ref{tht:reveal-prop}, pinning substitutes known coordinates
+in $Q$; conditional means are only leaf outputs and need not be
+low-degree polynomials of the remaining coordinates.
+
+\textbf{Physical locality does not localize arbitrary query observables.}
+Under independent uniform bits in $\{0,1\}$, take $p=x_ix_j$ with $j$
+outside a prescribed neighborhood of $i$. Then
+\[
+ (p(x)-p(x^{\oplus i}))^2=x_j,
+ \qquad
+ \inf_{\ell\text{ measurable near }i}\mathbb E(x_j-\ell)^2=\tfrac14.
+\]
+This bounded degree-two example has no interactions at all. Correlation
+decay cannot justify localizing every acceptance gradient around its
+differentiation site. Geometry should control the input representation
+and its conditional access; the quantum observable may couple distant
+sites. The handoff's joint-endpoint TV estimate is also weaker than
+the full-input conditional mismatch bound and consistent adaptive
+posterior oracle required in
+Proposition~\ref{prop:threshold-local-posterior}.
+
+\subsubsection{The transportation problem: existence versus a new proof}
+
+The handoff labels the exact face-supported summed-$(b')$ LP open, but
+its feasibility already follows from the accepted determinant argument
+in the supplied
+\href{https://arxiv.org/abs/2611.11626}{Blanc--Docter--Strassle--Tan
+exposition, Lemma 3.1 and Section 2.5.4}. That argument produces a
+\emph{permutation} $\pi$ of $A$ satisfying the face constraint and,
+simultaneously for every coordinate,
+\[
+ \#\{x\in A:\pi(x)_i=x_i\}
+ \le\#\{x\in A:x^{\oplus i}\notin A\}.
+\]
+Set $M_{xy}=\mathbf1[y=\pi(x)]$. It is doubly stochastic and has the
+required face support. Multiplying these inequalities by $w_i>0$ and
+summing proves exactly the handoff's weighted LP bound. The remaining
+research problem is a \emph{determinant-free proof or construction},
+not existence or a counterexample to that LP under the imported theorem.
+Birkhoff decomposition alone does not give such a new construction;
+Hall feasibility alone does not imply the weighted cost estimate.
+No weighted Gibbs-law analogue is thereby proved.
+
+Indeed a literal Gibbs-preserving version already fails for one biased
+independent bit. Let $A=\{0,1\}$ and $T(0)=T(1)=\{1\}$. For a law
+with $\mu(0)=p\ne1/2$, face support forces any coupling with first
+marginal $\mu$ to have masses $\gamma(0,1)=p$ and
+$\gamma(1,0)=1-p$. Its second marginal is reversed, so it cannot also
+equal $\mu$. Both faces are valid. Even empty faces would force this
+swap if one retained the zero-boundary, zero-agreement-cost bound.
+This is an obstruction to that literal transport extension, while
+independent-field inputs remain full-AA positive. A nonuniform proof
+must change the coupling, the cost, or the source representation; the
+failure of this transport cannot define a temperature threshold.
+
+\subsubsection{Corrections needed before importing the other claims}
+
+\begin{enumerate}
+\item \textbf{Uniform Fourier levels have additive influences.}
+If $p=\sum_{k=0}^d p_k$ is its homogeneous Walsh decomposition, then
+with our normalized flip convention,
+\[
+ I_i^U(p)=\sum_{S\ni i}\widehat p(S)^2
+         =\sum_{k=1}^d I_i^U(p_k).
+\]
+The contrary sentence in the handoff is false under uniform input.
+What a levelwise fcb argument must still track is the norm of the
+selected level, including its ambient degree parameter. Under
+correlated laws, Walsh orthogonality need not survive.
+
+\item \textbf{The stated polynomial fcb target is already a uniform-AA
+corollary.} The primary definition satisfies
+$\|p\|_\infty\le\|p\|_{\mathrm{fcb},d}$; see
+\href{https://arxiv.org/abs/2304.06713v2}{Escudero Guti\'errez,
+Proposition 2.3}. Hence $\|p\|_{\mathrm{fcb},d}\le1$ is a stronger
+restriction than supremum boundedness and puts $p$ within the
+uniform-AA theorem imported here. The sharper degree-independent
+$\operatorname{Var}^2$ estimate, or a proof exploiting fcb directly,
+is a separate target. This supplies no correlated-Gibbs transfer.
+
+\item \textbf{Repair the mean-square comparison witness.}
+The handoff's $f=1+n^{-1}\sum_iY_i$, with independent mean-$1/2$
+signs $Y_i$, gives a squared-norm ratio tending to $9/4$; that example
+alone does not refute an arbitrary finite comparison constant. The
+intended claim is proved by the bounded affine polynomial
+$M=n^{-1}\sum_iY_i$:
+\[
+ \mathbb E_U M^2=1/n,\qquad
+ \mathbb E_\mu M^2=\tfrac14+\tfrac{3}{4n},\qquad
+ \frac{\mathbb E_\mu M^2}{\mathbb E_U M^2}=\frac{n+3}{4}.
+\]
+Independent fields themselves have full AA. This is a failure of a
+comparison method, not of simulation.
+
+\item \textbf{Do not use the reported inverse-atom prefactor.}
+The handoff's project-level two-bit influence formula has a factor
+$\delta_{\min}^{-6}$. It cannot hold with a positive prefactor uniform
+in $\delta_{\min}$: take a nearly-copy two-bit law with fair marginals
+and $p(x)=x_1$ on $\{0,1\}^2$. Its variance is $1/4$ and unnormalized
+maximum flip influence is one, while the proposed right side diverges
+as the least atom probability tends to zero. The source formula needs
+its exact proof and parameter dependence; we do not silently repair
+its exponent or rely on it. Our full-AA block theorem has its own proof.
+
+\item \textbf{Boolean degree does not imply $d^2\ge n$.}
+For the addressing function with $k$ address bits and $2^k$ data bits,
+all $n=k+2^k$ variables are relevant, while the exact degree is $d=k+1$.
+Expand it as $\sum_a\mathbf1[\text{address}=a]x_a$ to see the upper
+bound; the top coefficient involving a fixed data bit is nonzero.
+The handoff's blanket Boolean shortcut in Task 2 is therefore unavailable.
+
+\item \textbf{Critical covariance needs a separate argument.}
+On a free $b$-ary Ising tree of depth $h$,
+$\operatorname{Cov}(X_o,X_v)=\tanh(\beta)^{\operatorname{dist}(o,v)}$.
+At $\tanh\beta=1/b$, the root covariance row sum is $h+1$, not a
+dimension-uniform constant. Thus that proof route cannot establish the
+reported critical endpoint without another argument. This does not
+refute a separate influence theorem, and our forest simulation does
+not use covariance-row summability. On the square lattice the usual
+field-uniform coefficient bound is $4\tanh\beta<1$, reaching
+$\operatorname{arctanh}(1/4)$; $\beta<1/4$ is the more conservative
+linear row-norm criterion. Neither should be conflated with a
+convention-free exact physical or full-AA threshold.
+\end{enumerate}
+
+\subsubsection{Keeping the quantum target in view}
+
+Restricting attention to genuine quantum acceptance polynomials still
+does not make small correlated flip influences a full-AA obstruction.
+For example
+\[
+ Q(x)=\frac12\left(1+\frac1n\sum_i x_i\right)
+\]
+is the acceptance probability of a one-query algorithm: choose a
+uniform coordinate and accept according to its bit. In ordered
+Curie--Weiss, $\operatorname{Var}_\mu Q$ stays bounded away from zero
+while $I_i^\mu(Q)=1/(4n^2)$. Nevertheless coordinate sampling
+approximates $Q$ on every fixed input with polynomially many queries
+in inverse accuracy. Even quantum query realizability leaves the gap
+between influence failure and simulation failure intact.
+
+Tree reconstruction is another oracle-model distinction. Its hidden
+root is inferred from distant boundary spins. Our forest theorem exposes
+\emph{all} spins as query coordinates and remains valid on both sides
+of uniqueness and reconstruction at every fixed finite temperature.
+Boundary-only lower bounds do not apply to that access model.
+
+The new material sharpens the proof programme without changing the
+established full-AA temperature classifications. A general local
+high-temperature theorem still needs a degree-uniform,
+transcript-stable bridge to acceptance simulation. The candidate
+bridges remain polynomial reveal progress and local posterior access.
+The handoff's withdrawn MLSI/junta citation, unproved cumulant package,
+and unfinished determinant-free construction do not supply those bridges.
