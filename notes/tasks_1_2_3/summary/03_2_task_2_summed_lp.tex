@@ -1,0 +1,85 @@
+\subsection{\texorpdfstring{2. Task 2 --- summed-\((b')\) LP and determinant removal}{2. Task 2 --- summed-(b\textquotesingle) LP and determinant removal}}\label{task-2-summed-b-lp-and-determinant-removal}
+
+\subsubsection{2A. Exact open statement}\label{a.-exact-open-statement}
+
+For \(A\subseteq\{0,1\}^n\), a monochromatic face family \(T(x)\) satisfying \(x^S\in A\) for \textbf{every} \(S\subseteq T(x)\), and any \(w>0\), the goal is a doubly stochastic matrix \(M\) on \(A\times A\) with
+
+\[M_{xy}=0\text{ unless }y\in F(x):=\{z\in A:z_i\ne x_i\ \forall i\in T(x)\},\]
+
+and
+
+\[\sum_{x,y}M_{xy}\sum_iw_i\mathbf1[y_i=x_i]
+\le\sum_iw_i\#\{x\in A:x^i\notin A\}.\]
+
+If this is proved, then Birkhoff--von Neumann gives a decomposition into face-allowed permutations. At least one component satisfies both face condition (a) and the same \textbf{summed} condition \((b')\). This would remove the determinant step in BDST §5--6.
+
+The faceless case is elementary and does not require determinant machinery. Boolean-valued functions also permit uniform certificates because \(d^2\ge n\); symmetric functions admit a uniform-certificate route with cost controlled by Markov symmetrisation.
+
+\subsubsection{2B. Reimer/Hall: true statement versus false induction}\label{b.-reimerhall-true-statement-versus-false-induction}
+
+Reimer's butterfly property is a genuine background theorem in the BDST account, and the face condition is exactly Hall's hypothesis. The flawed proof attempt used
+
+\[|N_{0\downarrow}|\ge|S_{0,\mathrm{free}}|+|S_{1,\mathrm{forced}}|,\qquad
+|N_{1\downarrow}|\ge|S_{1,\mathrm{free}}|+|S_{0,\mathrm{forced}}|.\]
+
+\textbf{Counterexample:} \(n=1\), \(A=\{0,1\}\), \(T(0)=\varnothing\), \(T(1)=\{1\}\). Hall holds: \(F(0)=\{0,1\}\), \(F(1)=\{0\}\) and \(N(A)=\{0,1\}\). But the proposed inequality requires \(|N_{0\downarrow}|\ge2\) whereas the actual set has size 1.
+
+The two-layer overlap is essential. Distinct-projection lower bounds plus a minimal-violating-set/private-neighbour argument were proposed, but the private-neighbour step remained an assertion. \textbf{Do not quote the wings induction as a valid Reimer proof.} Random finite-instance checks cannot replace the missing proof.
+
+\subsubsection{2C. Exact remaining LP gaps}\label{c.-exact-remaining-lp-gaps}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Fiberwise Hall:} the body--fiber partition and the required Hall property are asserted, not proved. The cube/LYM explanation ``fibers partition A up to cube structure'' is undefined.
+\item
+  \textbf{Dual construction:} strong duality only restates the problem. No explicit dual-feasible \((\alpha,\beta)\) was constructed with cost at most the boundary mass \(B^w\).
+\item
+  \textbf{Cross matching:} the current layer method needs a single matching that \textbf{saturates the smaller layer}, while preserving the weighted cost bound. Full Hall does not automatically give this.
+\item
+  \textbf{Gale--Shapley projection:} a \(b\)-matching lift still needs the required projection property.
+\end{itemize}
+
+Useful identified structure:
+\[B_i(U\cup V)+B_i(U\cap V)\le B_i(U)+B_i(V),
+\qquad B_i(S)=|\{x\in S:x^i\notin S\}|,\]
+which follows by checking all 16 pointwise membership cases. This submodularity has not closed the saturation/cross-matching step.
+
+\textbf{Numerical only:} hundreds/thousands of small examples, including 720 random LP tests and 2683 monochromatic-face cases, had no failures. Those experiments are not proof of general \(M\).
+
+\subsubsection{2D. Weighted routing: failed constructive permutation, bounded optimum numerics}\label{d.-weighted-routing-failed-constructive-permutation-bounded-optimum-numerics}
+
+Face-free biased-product antipodal routing is highly instructive:
+
+\begin{itemize}
+\tightlist
+\item
+  At \(p=1/2\), the explicit swap/greedy permutation gives ratio 1 and calibrates well.
+\item
+  For \(p<1/2\), that same construction blows up:
+  \(2^{2n-2}\) at \(p=0.2\) and \(3^{2n-2}\) at \(p=0.1\).
+\item
+  In contrast, ILP-optimal permutations looked bounded in \(n\) for small \(n\), especially Hamming balls, with constants increasing as \(p\to0\) but not \(n\).
+\end{itemize}
+
+Interpretation: the obstruction is a failed \textbf{construction}, not evidence that no good permutation exists. A proof likely needs an existence/transportation argument rather than the explicit swap walk. The anomalous infeasibility at \(n=4\), \(p=0.1\), Hamming ball \(k=2\) has not been explained. Small-\(n\) ILP data never proved uniform boundedness.
+
+A claimed fibre SDR/lifting proof was invalid: fibre-wise doubly stochastic couplings do not automatically produce a single permutation of \(A\). Hence former ``product-measure determinant-free AA'' claims combining different permutations for (a) and (b) were withdrawn.
+
+\subsubsection{2E. What is established versus what is open}\label{e.-what-is-established-versus-what-is-open}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Open:} a proof or explicit counterexample to the summed-\((b')\) LP exactly as formulated above, including face-support constraints and arbitrary \(w>0\). Generic non-symmetric low-degree examples with \(d^2\ll n\) remain the key unresolved class, where earlier LP-minimal certificate families failed \((L')\) and no cheap interpolation repair was found.
+\item
+  \textbf{Face evidence to treat cautiously:} structured examples can have small measured face sizes, but this does not prove \((L')\) in general, and the older face-size experiment needs rechecking before reuse.
+\item
+  \textbf{Numerical only:} truth on small random examples.
+\item
+  \textbf{Conditional:} if such an \(M\) or a Birkhoff-decomposable transportation solution is found, a permutation satisfying both (a) and summed \((b')\) follows.
+\item
+  \textbf{Not a proof:} combining two different constructions for conditions (a) and (b'), or assuming face-free routing transfers to nonuniform \(\mu\) by crude set-mass comparisons.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

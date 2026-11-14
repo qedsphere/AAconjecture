@@ -1,0 +1,52 @@
+\subsection{4. Cross-task failed approaches --- do not repeat}\label{cross-task-failed-approaches-do-not-repeat}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Approach
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Exact failure
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``OZ Thm 3.5 with \(\rho\)'' & No such theorem. OZ Cor 3.5/3.6 are uniform-product statements using independence, Fourier structure, commuting noise, and invariance. \\
+MLSI \(\Rightarrow\) junta by replacing a parameter & Glauber semigroup hypercontractivity is not monomial/ANOVA hypercontractivity, orthogonality, commuting noise, independent Gaussian decoupling, or invariance. \\
+Degree preserved under Glauber/conditional/ANOVA & False in general; \(K_{1,3}\) raises degree 1 to 3. The 3-path is affine-preserving and not a counterexample. \\
+Gradients are \(R\)-local by correlation decay & False for \(p=x_ix_j\) with \(\operatorname{dist}(i,j)>R\): optimal local error \(1/4\), while even the GMNR gradient budget is only 2. \\
+Uniform \(L^2\) sparse truncation transfers by TV on retained support & The retained set can be controlled, but the discarded residual can be globally supported and must be handled under both measures. \\
+Block-ANOVA degree \(\le\) original degree & Conditional mappings may generate higher-degree interactions; see the star witness. \\
+Moment upper bounds give lower large-\(t\) tails & Markov supplies upper tails only. A lower moderate-deviation estimate needs cumulant/tilt or independent DFKO machinery. \\
+\(I\lesssim t^{-2}\) implies invariance error \(e^{-\Theta(t^2)}\) & Error is only polynomial in \(t\). For polynomial AA at cutoff, one needs \(\eta_0(t)\ge ct^{-A}\), not exponential decay. \\
+\(\Pr_\mu\) replaced by \(\Pr_\nu\) from event inclusion & Inclusion controls only the same measure. Cross-measure tail comparison remains unsolved. \\
+Copy-law unweighted flip form supplies heat-bath MLSI & Exact copy has zero single-site heat-bath gap. Use block-resampling dynamics instead. \\
+Far-monomial implies failure of all support-TV transfer & It refutes localization around \(i\), not direct expectation comparison on its actual small support \(\{j\}\). \\
+Different permutations for (a) and \((b)\) suffice & BDST needs one object satisfying constraints simultaneously; no such combination was established. \\
+Birkhoff alone closes \((b')\) & It only transports a face-supported doubly stochastic solution. Feasibility of that solution is the actual open problem. \\
+Wings induction for Reimer & The n=1 counterexample violates the displayed wings inequality. The overlaps require another argument. \\
+Clipping a junta preserves product AA & It can make multilinear degree unbounded. Product AA needs both bounded range and degree control of the approximant. \\
+Unbounded counterexample refutes bounded Lemma J & Range \(\Theta(\sqrt m)\) is not \([0,1]\)-bounded; clipping destroys multilinear degree. \\
+\end{longtable}
+}
+
+Other corrections to retain:
+
+\begin{itemize}
+\tightlist
+\item
+  Confusing \(\max_i\mathbb E_\tau[\phi_i]\) with \(\mathbb E_\tau[\max_i\phi_i]\) fails. Only \(\max_i\mathbb E_\tau\phi_i\le\mathbb E_\tau\max_i\phi_i\) follows in general.
+\item
+  Global variance splits as \(\operatorname{Var}_\mu(p)=\mathbb E_\tau v_\tau+\operatorname{Var}_\tau m_\tau\); buffer separation does not automatically control the latter.
+\item
+  A one-block expectation under product-of-marginals is identical to the original conditional marginal. It does not prove approximate independence between blocks.
+\item
+  A divergent animal-count/row-sum series is a failure of that counting method, not by itself a proof that the desired theorem is false.
+\item
+  Many initial AA ``repairs'' were invalid because full support/degree or boundedness was changed mid-proof.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

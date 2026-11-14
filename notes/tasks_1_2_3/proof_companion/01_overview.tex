@@ -1,0 +1,47 @@
+\subsubsection{Purpose and reading contract}\label{purpose-and-reading-contract}
+
+This document accompanies \texttt{results/tasks-1-2-3-summary.md}. It is intended to be self-contained enough for another model to audit the arguments without reading the swarm transcripts.
+
+\textbf{The summary does not consist entirely of proved theorems.} Its \texttt{{[}PROJECT{]}}, \texttt{{[}CONDITIONAL{]}}, \texttt{{[}NUMERICAL{]}}, \texttt{{[}OPEN{]}}, and withdrawn entries must not be promoted to established results. This companion gives proofs for the statements marked \textbf{Proof below} or \textbf{External theorem}, conditional proofs for explicitly named hypotheses, and a final \textbf{not proof-ready} ledger for the remainder.
+
+Four corrections emerged while preparing this document:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Dobrushin gives a covariance operator-norm bound directly through Poincaré, not the absolute row-sum bound asserted in one sentence of the summary.} Both kinds of susceptibility control prove the affine result, but they must be distinguished (Theorem 4.1).
+\item
+  \textbf{Uniform-cube influence is additive across homogeneous Fourier levels.} The nonhomogeneous-fcb pigeonhole argument is blocked by lack of fcb-norm control for the levels, not by influence nonadditivity (Section 11.2).
+\item
+  \textbf{The old ``every distribution has \(\max\operatorname{Inf}\ge\operatorname{Var}/(2n^2)\)'' statement is false.} GMNR Lemma 2.12 assumes a product or fixed-slice law, and the correlated-hybrid proof does not apply unchanged. A different full-support floor is proved in Lemma 1.1 and used to repair the Curie--Weiss small-\(n\) branch.
+\item
+  \textbf{The older \(k=2\) routing formula has \(\delta_{\min}^{6}\), not \(\delta_{\min}^{-6}\), under the summary's definition of \(\delta_{\min}\) as minimum support-atom probability.} Its full proof remains outside the independently checked part of this companion.
+\end{enumerate}
+
+No result from Keller--Klein arXiv:1911.03748 or from the withdrawn ``OZ Theorem 3.5 with \(\rho\)'' is used.
+
+\subsubsection{Notation and external ingredients}\label{notation-and-external-ingredients}
+
+For \(p:\{0,1\}^n\to\mathbb R\), write
+\[
+\operatorname{Inf}_i^\lambda(p)=\mathbb E_\lambda[(p(x)-p(x^{\oplus i}))^2].
+\]
+This is single-bit-flip influence, not block resampling. The same notation is used on \(\{\pm1\}^n\), where flipping changes the sign. Constants can therefore differ by a bounded factor \(4\) between encodings.
+
+Three external results are used as black boxes, with their scope made explicit:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Uniform AA.} The BDST/Turturean theorem in \texttt{papers/aa\_main.txt}: there is a polynomial \(S_0(v,d)>0\) such that, under uniform measure, every \([0,1]\)-valued degree-\(d\) multilinear \(p\) with variance at least \(v\) has \(\max_i\operatorname{Inf}_i\ge S_0(v,d)\). The exposition supplies the explicit form \(c_0v^8/d^{12}\). Its proof is not reproduced here.
+\item
+  \textbf{Wu Poincaré.} Wu, \emph{Poincaré and transportation inequalities for Gibbs measures under the Dobrushin uniqueness condition}, Theorem 2.1(2.4), locally \texttt{.scratch/papers/wu0611635.txt}: if \(r=\operatorname{rsp}(C)<1\), then
+  \[(1-r)\operatorname{Var}_\mu(f)\le\sum_i\mathbb E_\mu[\operatorname{Var}_{\mu_i}(f)].\]
+\item
+  \textbf{Escudero's homogeneous fcb theorem.} Escudero Gutiérrez, arXiv:2304.06713v2, Theorem 1.6: a homogeneous degree-\(d\) polynomial \(p\) with \(\|p\|_{\mathrm{fcb},d}\le1\) has \(\max_i\operatorname{Inf}_i(p)\ge\operatorname{Var}(p)^2\). The proof is in §4.2 of that paper and is not reproduced here.
+\end{itemize}
+
+GMNR Lemma 4.9 and the pointwise total-flip estimate are proved below rather than merely cited.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

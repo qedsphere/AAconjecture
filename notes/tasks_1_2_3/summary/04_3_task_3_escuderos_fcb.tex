@@ -1,0 +1,72 @@
+\subsection{3. Task 3 --- Escudero's fcb conjecture}\label{task-3-escuderos-fcb-conjecture}
+
+\subsubsection{3A. Exact target}\label{a.-exact-target}
+
+For \(p:\{-1,1\}^n\to\mathbb R\) with
+
+\begin{itemize}
+\tightlist
+\item
+  multilinear degree \(\le d\), and
+\item
+  Fourier completely bounded norm \(\|p\|_{\rm fcb}\le1\),
+\end{itemize}
+
+prove that some coordinate satisfies
+
+\[\operatorname{Inf}_i(p)\ge\operatorname{poly}(\operatorname{Var}(p)/d),\]
+
+with the polynomial independent of \(n\).
+
+\subsubsection{3B. What is established}\label{b.-what-is-established}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Homogeneous case:} if \(p\) is homogeneous degree \(d\) and \(\|p\|_{\rm fcb}\le1\), an influential variable exists with \(\operatorname{Inf}_i\ge\operatorname{Var}(p)^2\) and no \(d\)-degree loss. This is Escudero's result.
+\item
+  \textbf{Bansal--Sinha--de Wolf:} completely bounded block-multilinear forms have the influential-variable result; Escudero provides a randomness-free presentation with better constants.
+\item
+  Their relevance is fcb's same downstream implications as AA: classical simulation of suitable quantum query algorithms and related random-oracle consequences, using weaker hypothesis than ordinary \(\|p\|_\infty\) boundedness.
+\item
+  \textbf{O'Donnell--Zhao decoupling:} one-block decoupled comparisons give \(C_k=O(k^2)\) and \(D_k=k^{O(k)}\) for Rademacher inputs, and \(C_k=D_k=O(k)\) for Gaussians. These are decoupling/tail tools, not MLSI junta theorems.
+\end{itemize}
+
+\subsubsection{3C. Nonhomogeneous case: exact obstruction and routes}\label{c.-nonhomogeneous-case-exact-obstruction-and-routes}
+
+The open case remains open. Decompose \(p=\sum_kp_k\) into homogeneous parts. Pigeonhole gives one level with variance at least \(\operatorname{Var}(p)/(2d+1)\) and Escudero applies to each level, but \textbf{influence of the sum need not be the sum of influences across levels}. A viable proof needs level-uniform decoupling/Khintchine or a polarization preserving fcb norm and degree. Candidate directions, not results:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Level decomposition with stronger norm-preserving decoupling.
+\item
+  Polarization from a nonhomogeneous fcb polynomial into a homogeneous one with controlled degree and fcb norm.
+\item
+  Direct operator-space/free-probability methods avoiding levelwise reductions.
+\end{enumerate}
+
+There is currently no fcb fractional-certificate bound established by this project.
+
+\subsubsection{3D. Explicitly withdrawn fcb-error}\label{d.-explicitly-withdrawn-fcb-error}
+
+A previous citation ``Escudero Lemma 5.2: \(FC_{\rm fcb}=O(d)\)'' was fabricated and withdrawn. The word ``certificate'' occurs only incidentally in Escudero's paper and does not supply that result. Do not resurrect it or derived degree-exponent comparisons based on it.
+
+\subsubsection{3E. Related generalization observations {[}PROJECT/context{]}}\label{e.-related-generalization-observations-projectcontext}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Unique versus multi-witness search:} a single-witness search makes \(s_Q\) one bounded polynomial, so AA applies in a decision-like way; multi-witness breaks this. This explains why Yamakawa--Zhandry is not an AA counterexample.
+\item
+  \textbf{HeurP vs AvgP:} uniform AA gives the HeurP setting. AvgP for arbitrary samplable distributions cannot follow without substantially different hypotheses: independent adversarial supported laws already refute a universal ``every distribution'' formulation. This is not a route to stronger arbitrary-measure AA.
+\item
+  \textbf{Approximate degree is not enough:} \(\widetilde{\deg}(\mathrm{AND}_n)=\Theta(\sqrt n)\) but \(FC(\mathrm{AND}_n)=n\), refuting an approximate-degree shortcut to small fractional certificates or AA. If approximation must preserve variance and function behaviour essentially exactly, it collapses back to the original AA requirement.
+\item
+  \textbf{Massively parallel quantum query:} existing results have depth-dependent terms like \(t^{O(d^2)}\) for \(d\) rounds, polynomial for constant depth and quasi-polynomial for polylog depth, rather than a general polynomial simulation of QNC.
+\item
+  \textbf{Keller--Klein (arXiv:1911.03748):} later version carries a withdrawal notice because Lemma 5.3 does not support the proof. It was an elegant failed attempt, not a source of valid theorems. No result from it is used here.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

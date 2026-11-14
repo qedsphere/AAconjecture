@@ -5,3 +5,12 @@ papers/2609.35327v1.pdf
 papers/AA_Exposition.pdf
 
 .DS_Store
+
+# LaTeX build output
+notes/*.pdf
+*.aux
+*.log
+*.toc
+*.out
+*.fls
+*.fdb_latexmk

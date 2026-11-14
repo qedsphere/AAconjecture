@@ -1,0 +1,76 @@
+\subsection{\texorpdfstring{Part II --- Task 2: the summed-\((b')\) transportation LP}{Part II --- Task 2: the summed-(b\textquotesingle) transportation LP}}\label{part-ii-task-2-the-summed-b-transportation-lp}
+
+\subsubsection{10.1 Birkhoff rounding is valid, but does not prove feasibility}\label{birkhoff-rounding-is-valid-but-does-not-prove-feasibility}
+
+Recall the exact target. For a fixed \(A\) and monochromatic faces \(T(x)\), put
+\[F(x)=\{z\in A:z_i\ne x_i\ \text{for every }i\in T(x)\}.\]
+Suppose \(M=(M_{xy})_{x,y\in A}\) is doubly stochastic, \(M_{xy}=0\) whenever \(y\notin F(x)\), and
+\[\sum_{x,y}M_{xy}\sum_iw_i\mathbf1[y_i=x_i]
+\le B^w:=\sum_iw_i\#\{x\in A:x^{\oplus i}\notin A\}.\]
+
+\textbf{Lemma 10.1.} Under those assumptions, there is one permutation \(\pi:A\to A\) such that \(\pi(x)\in F(x)\) for every \(x\), and
+\[\sum_x\sum_iw_i\mathbf1[\pi(x)_i=x_i]\le B^w.\]
+
+\textbf{Proof.} Birkhoff--von Neumann writes \(M=\sum_\ell\theta_\ell P_\ell\) as a convex combination of permutation matrices. If \((P_\ell)_{xy}>0\), then \(M_{xy}>0\), so every positive entry of every \(P_\ell\) respects \(F\). Each component therefore satisfies the face constraint. The cost is linear in \(M\), hence its \(\theta\)-average is at most \(B^w\); at least one component has cost at most \(B^w\). ∎
+
+This proves only the rounding step. No explicit dual-feasible \((\alpha,\beta)\), fiberwise Hall theorem, smaller-layer saturation theorem, or Gale--Shapley projection has been supplied. Those remain the substance of the open LP.
+
+\subsubsection{10.2 Hall's condition and the false ``wings'' induction}\label{halls-condition-and-the-false-wings-induction}
+
+The face-allowed graph has a perfect matching exactly when, for every \(S\subseteq A\),
+\[\left|\bigcup_{x\in S}F(x)\right|\ge|S|.\]
+This is Hall's condition applied to \(\{(x,y):y\in F(x)\}\); it is not itself an induction proof.
+
+The proposed wings inequality fails already at \(n=1\). Take
+\[A=\{0,1\},\qquad T(0)=\varnothing,\qquad T(1)=\{1\}.\]
+Then \(F(0)=A\) and \(F(1)=\{0\}\), so Hall's condition holds. With \(S=A\) in the proposed notation, \(S_{0,\rm free}=\{0\}\) and \(S_{1,\rm forced}=\{1\}\), but the layer-\(0\) neighbourhood has size \(1\), not the required \(|S_{0,\rm free}|+|S_{1,\rm forced}|=2\). Any proof using that inequality is invalid. A distinct-projection/private-neighbour repair was only asserted and is not reproduced as a theorem.
+
+\subsubsection{10.3 Directed boundary submodularity}\label{directed-boundary-submodularity}
+
+For \(S\subseteq A\), let
+\[B_i(S)=\{x\in S:x^{\oplus i}\notin S\}.\]
+
+\textbf{Lemma 10.2.} For every \(U,V\subseteq A\),
+\[|B_i(U\cup V)|+|B_i(U\cap V)|\le|B_i(U)|+|B_i(V)|.\]
+
+\textbf{Proof.} It suffices to prove the inequality at each \(x\). Define
+\[b_S(x)=\mathbf1[x\in S,\;x^{\oplus i}\notin S].\]
+Then \(B_i(S)=\sum_xb_S(x)\). The desired pointwise inequality is
+\[b_{U\cup V}(x)+b_{U\cap V}(x)\le b_U(x)+b_V(x).\]
+There are only \(2^4\) choices of membership of \(x\) and \(x^{\oplus i}\) in \(U,V\). If \(x\notin U\cup V\), all terms on the left are zero. If \(x\) belongs to exactly one of \(U,V\), the right side is the indicator of \(x^{\oplus i}\) being absent from that set, which dominates the left side. If \(x\in U\cap V\), direct comparison of the three cases \(x^{\oplus i}\in U\cap V\), \(x^{\oplus i}\in U\triangle V\), and \(x^{\oplus i}\notin U\cup V\) gives respectively \(0\le0\), \(1=1\), and \(2=2\). Summing over \(x\) proves the lemma. ∎
+
+This structural fact does not resolve the weighted LP or its dual.
+
+\subsubsection{10.4 A doubly stochastic coupling need not be a permutation}\label{a-doubly-stochastic-coupling-need-not-be-a-permutation}
+
+On any finite \(A\) of size \(N\ge2\), the independent uniform matrix \(M_{xy}=1/N^2\) is doubly stochastic. It is a nontrivial mixture of many permutation matrices; no single deterministic \(\pi\) has joint distribution \((X,\pi(X))\) equal to \((X,Y)\) with \(Y\) independent of \(X\). Thus a fiberwise doubly stochastic coupling does not automatically furnish a fiberwise SDR. Birkhoff decomposition works only after the \textbf{global} face-supported matrix and its cost bound have been established.
+
+\subsubsection{10.5 Three elementary certificate facts (not an LP solution)}\label{three-elementary-certificate-facts-not-an-lp-solution}
+
+For completeness, the following claims from the \((L')\) discussion are elementary.
+
+\begin{itemize}
+\tightlist
+\item
+  On an adjacent bichromatic pair \(\Delta(x,y)=\{i\}\), validity gives \(\lambda_x(i)\ge|p(x)-p(y)|\ge p(x)-t\) when \(p(x)>t\ge p(y)\). Thus \((L')\) holds on edges.
+\item
+  The all-ones certificate family has cost \(n\) and satisfies \((L')\), because overlap is \(|\Delta(x,y)|\) and \(|p(x)-t|\le1\le|\Delta(x,y)|\). Thus \((L')\) costs nothing beyond the trivial bound when \(d^2\ge n\); this includes every Boolean-valued function since its degree is \(n\).
+\item
+  If \(\min_{j\in\Delta}\lambda_x(j)\ge\max_{j\in\Delta}\lambda_y(j)\), certificate validity at \(y\) gives
+  \[
+  \operatorname{overlap}(x,y)
+  \ge\Big(\min_{j\in\Delta}\lambda_x(j)\Big)\lambda_y(\Delta)
+  \ge\Big(\min_{j\in\Delta}\lambda_x(j)\Big)(p(x)-t).
+  \]
+  Since \(\lambda_y(i)\le\max_{j\in\Delta}\lambda_y(j)\le\min_{j\in\Delta}\lambda_x(j)\) for every \(i\in\Delta\), this proves \((L')\).
+\end{itemize}
+
+These facts do not construct an \(O(d^2)\)-cost family for generic nonsymmetric small \(d\).
+
+\subsubsection{10.6 Numerical routing observations are not proofs}\label{numerical-routing-observations-are-not-proofs}
+
+The constructive biased-product walk's ratios, the 720 random LP instances, 2683 face examples, and small-\(n\) ILP values are reproducible numerical observations using \texttt{scripts/exp9\_biased\_product.py} and \texttt{scripts/exp9b\_biased\_opt.py}. They are not proofs of boundedness in \(n\), feasibility of the LP, or nonexistence of a counterexample. The \(n=4,k=2,p=0.1,p=25\) infeasibility anomaly remains unexplained.
+
+The exact summed-\((b')\) LP therefore remains open.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

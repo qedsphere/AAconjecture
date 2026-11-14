@@ -1,0 +1,38 @@
+\subsection{Part III --- Task 3: Escudero's fcb conjecture}\label{part-iii-task-3-escuderos-fcb-conjecture}
+
+\subsubsection{11.1 Established external result}\label{established-external-result}
+
+Escudero Gutiérrez, arXiv:2304.06713v2, Theorem 1.6 states that if \(p\) is homogeneous of degree \(d\) and \(\|p\|_{\mathrm{fcb},d}\le1\), then
+\[\max_i\operatorname{Inf}_i(p)\ge\operatorname{Var}(p)^2.\]
+The abstract and Theorem 1.6 explicitly confirm the statement. This companion does not reproduce its noncommutative-Khintchine proof. The alternative block-multilinear completely bounded result is also stated in that paper. There is no verified ``Lemma 5.2: \(FC_{\rm fcb}=O(d)\)''; the earlier citation was fabricated and must not be used.
+
+\subsubsection{11.2 Homogeneous levels: influence does add; fcb norm is the obstruction}\label{homogeneous-levels-influence-does-add-fcb-norm-is-the-obstruction}
+
+The summary's claim that influence fails to add across homogeneous levels is \textbf{incorrect for the usual uniform-cube influence}. Let
+\[p=\sum_{k=0}^dp_k,\qquad D_ip(x)=p(x)-p(x^{\oplus i}),\]
+where \(p_k\) is homogeneous of degree \(k\). Under uniform measure, \(D_ip_k\) is homogeneous of degree \(k-1\), so terms at different levels are orthogonal. Parseval gives the exact identities
+\[
+\operatorname{Inf}_i(p)=\sum_{k=1}^d\operatorname{Inf}_i(p_k),
+\qquad
+\operatorname{Var}(p)=\sum_{k=1}^d\operatorname{Var}(p_k).
+\]
+Thus level decomposition itself is not the obstruction.
+
+The obstruction is the fcb norm of the normalized levels. Put \(B_k=\|p_k\|_{\mathrm{fcb},k}\). If \(B_k>0\), Escudero's theorem applied to \(p_k/B_k\) gives, after rescaling,
+\[\operatorname{Inf}_i(p_k)\ge B_k^{-2}\operatorname{Var}(p_k)^2\]
+for some coordinate \(i\) depending on \(k\). Therefore, choosing \(k\) with \(\operatorname{Var}(p_k)\ge\operatorname{Var}(p)/d\), there is some coordinate for which
+\[
+\operatorname{Inf}_i(p)
+\ge\operatorname{Inf}_i(p_k)
+\ge\frac{\operatorname{Var}(p)^2}{d^2B_k^2}. \tag{fcb-level}
+\]
+
+\textbf{Conditional consequence.} If every nonzero level has \(B_k\le B_d\), then the nonhomogeneous theorem follows immediately with \(\max_i\operatorname{Inf}_i(p)\ge\operatorname{Var}(p)^2/(d^2B_d^2)\). If \(B_k\le1\) for every level, the nonhomogeneous conjecture follows with no extra fcb loss. The general nonhomogeneous case remains open because no such level-norm bound has been established from \(\|p\|_{\mathrm{fcb},d}\le1\).
+
+This is the corrected statement of the level/pigeonhole route. It is not a proof of nonhomogeneous fcb.
+
+\subsubsection{11.3 Remaining tasks}\label{remaining-tasks}
+
+A viable continuation must prove a level-uniform bound on \(B_k\), a polarization preserving fcb norm and degree, or a direct operator-space argument. The summary's candidate routes are research directions, not proved reductions. There is currently no fcb fractional-certificate theorem in the project.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

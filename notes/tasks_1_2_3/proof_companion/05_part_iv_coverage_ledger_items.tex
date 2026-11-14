@@ -1,0 +1,105 @@
+\subsection{Part IV --- Coverage ledger and items that must not be presented as proved}\label{part-iv-coverage-ledger-and-items-that-must-not-be-presented-as-proved}
+
+\subsubsection{12.1 Proof status of the summary's principal claims}\label{proof-status-of-the-summarys-principal-claims}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Summary item
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status in this companion
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Curie--Weiss AA for \(\beta\le1\) and failure for \(\beta>1\) & \textbf{Proved above modulo uniform AA and standard Laplace asymptotics.} The small-\(n\) branch was repaired by Lemma 1.1; the old universal \(1/(2n^2)\) correlated-hybrid floor is not used. \\
+Finite-flatness \(\operatorname{Var}(M)=\Theta(n^{2-1/k})\) and mean-field AA & \textbf{Proved under explicitly stated Laplace regularity assumptions}, then the same external-uniform-AA assembly. Numerical constants and doubling ratios are not part of the theorem proof. \\
+Degree-one AA under Dobrushin & \textbf{Proved above} with \(\|\Sigma\|_{\rm op}\le1/[4(1-r)]\) from Wu. The absolute-row-sum variant is proved only when such a row bound is separately supplied. \\
+Degree-one consequences on trees, 1D, and 2D up to \(\beta_c\) & \textbf{External correlation-decay inputs, not reproved here.} Do not cite the absolute row bound as a consequence of Wu alone. \\
+Block flatness criterion and \(k=3\) counterexample & \textbf{Proved above.} \\
+Full \(k=2\) block-independent theorem with \(\delta_{\min}^{6}\operatorname{Var}^8/d^{12}\) & \textbf{Not proof-ready here.} The older \texttt{.ultramath/smwg6ksie/m2/proof.md} contains an argument, but its single-block routing step relies on computer enumeration/asserted special matching properties and was not independently revalidated in this audit. Keep the older \texttt{{[}PROJECT{]}} label; do not present it as an independently checked theorem from this document. \\
+Stronger law-independent \(k=2\) variant & \textbf{Conditional/unverified} because its level-\(d\) comparison was not checked. \\
+2D Ising, degree 2 at \(\beta=0.35\) & \textbf{Not independently revalidated here.} Only an older project-log claim and its coarse-graining strategy are on file. \\
+Small-\(\kappa\) AA/cluster moment comparison & \textbf{Not revalidated by the latest submissions.} The m4/m6/m7 product-bridge arguments failed at the operator-norm/full-TV steps. Do not cite those reports as a proof. The older project-log claim remains outside this companion's checked results. \\
+Exact CW mixture, slice-Lipschitz, and mean-aligned \(D\) estimates & \textbf{Proved above.} \\
+Corrected \(L^2\) influence ledger and joint endpoint TV lemma & \textbf{Proved above.} Their missing influence domination remains open. \\
+HC+CU \(\Rightarrow\) MGF/tail/AA & \textbf{Conditional proof above; HC and CU are unproved.} \\
+Exact hybrid/Taylor identity & \textbf{Proved above as an identity only.} The covariance and exponential-tail steps remain open. \\
+Q4, derivative/ANOVA variants, weak DFKO tail, simultaneous bounded junta & \textbf{Open; no proof supplied.} \\
+Independently checked BSC, Hadamard, full-TV, threshold, smoothed-copy calculations & \textbf{Proved above;} reproduction script \texttt{scripts/audit\_smwgvdmlu.py} passes. \\
+General Dobrushin AA, general product bridge, general BSC damping, universal tail no-go & \textbf{Not proved.} Latest swarm ended with zero accepted solutions. \\
+\end{longtable}
+}
+
+\subsubsection{12.2 Task 2 status}\label{task-2-status}
+
+\textbf{Proved above:} Birkhoff rounding, directed-boundary submodularity, the \(n=1\) wings counterexample, the coupling-versus-permutation distinction, and the three elementary certificate observations.
+
+\textbf{Not proved:} summed-\((b')\) feasibility or a counterexample, fiberwise Hall, an explicit dual certificate, smaller-layer saturated matching with weighted cost, Gale--Shapley projection, determinant-free generic low-degree AA, and any nonuniform face-supported Wu routing theorem. Numerical LP/ILP observations do not change that status.
+
+\subsubsection{12.3 Task 3 status}\label{task-3-status}
+
+\textbf{External theorem:} homogeneous fcb, exactly as in Escudero Theorem 1.6.
+
+\textbf{Proved above:} influence and variance add across homogeneous levels, and the conditional estimate (fcb-level).
+
+\textbf{Not proved:} any general bound \(\|p_k\|_{\mathrm{fcb},k}\le B_d\) from \(\|p\|_{\mathrm{fcb},d}\le1\), norm-preserving polarization, nonhomogeneous fcb, or an fcb fractional-certificate bound.
+
+\subsubsection{12.4 Contextual and documentary claims}\label{contextual-and-documentary-claims}
+
+The following are not proved in this companion:
+
+\begin{itemize}
+\tightlist
+\item
+  the precise 2D/tree correlation-decay estimates and their bibliographic attribution;
+\item
+  numerical asymptotics such as 1.164, 0.909, and measured doubling ratios;
+\item
+  the massively parallel query-complexity exponents quoted in the summary;
+\item
+  the completeness of the derivation of the withdrawn early \(k=2\), 2D, and small-\(\kappa\) proposals;
+\item
+  formal unique-versus-multi-witness and HeurP-versus-AvgP statements, which require their own model definitions.
+\end{itemize}
+
+The copy-law example does prove that an unrestricted ``AA for every correlated law'' statement is false. For \(\operatorname{AND}_n\), every fractional certificate at \(1^n\) must put mass at least \(1\) on each coordinate, because changing that single coordinate gives a 0-input; hence \(FC(\operatorname{AND}_n)\ge n\), and the all-ones certificate gives equality at \(n\). The standard external result \(\widetilde{\deg}(\operatorname{AND}_n)=\Theta(\sqrt n)\) is cited but not reproved, illustrating that approximate degree alone cannot bound fractional certificate cost. Other contextual comments are background, not used in any proof above.
+
+The O'Donnell--Zhao audit is documentary rather than a theorem proof: the local v1 text contains Corollaries 3.5 and 3.6 on uniform-product inputs, not an MLSI/general-measure junta theorem. Keller--Klein's withdrawal notice is likewise a source-status check; no mathematical result from that paper is used.
+
+\subsubsection{12.5 Safe instructions for another model}\label{safe-instructions-for-another-model}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Use the proved sections above without restoring rejected intermediate claims.
+\item
+  Treat uniform AA, Wu, Curie--Weiss/mean-field fluctuation theory, and Escudero's homogeneous theorem as the only external black boxes explicitly named here; check their exact hypotheses before specialization.
+\item
+  Do not label the older \(k=2\), 2D-Ising, or small-\(\kappa\) statements ``established'' without first supplying and auditing their complete proofs.
+\item
+  Do not use full-marginal TV as a necessary condition for low-degree product approximation.
+\item
+  For nonhomogeneous fcb, attack the level-norm bound in (fcb-level), not influence additivity.
+\item
+  For Curie--Weiss, use the repaired full-support floor in Lemma 1.1; do not quote the false every-distribution \(1/(2n^2)\) bound.
+\item
+  Preserve the distinction between exact low-degree tests and arbitrary-set routing. None of the conditional gadget reductions supplies the missing face-supported transportation matrix.
+\end{enumerate}
+
+\subsubsection{Verification performed}\label{verification-performed}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{python3\ scripts/verify\_proof\_companion.py}: seven finite check groups passed (full-support comparison, affine influence, thresholds, boundary submodularity, fcb level additivity, BSC damping, and junta orthogonality).
+\item
+  \texttt{python3\ scripts/audit\_smwgvdmlu.py}: passed, including the smoothed-copy and Hadamard checks.
+\item
+  Pandoc converted this Markdown file to HTML. These are consistency checks, not substitutes for the written proofs above.
+\end{itemize}
