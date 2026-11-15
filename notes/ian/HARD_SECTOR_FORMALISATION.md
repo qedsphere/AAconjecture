@@ -1,7 +1,7 @@
 # Hard-sector formalisation: split, layout and plan
 
-Written 2026-11-15 against `main` at `cc29b4b` (PR #2 merged). Nothing in this
-note is formalised yet; it records who does what so we don't collide.
+Written 2026-11-15 against `main` at `cc29b4b` (PR #2 merged). It records who does
+what so we don't collide; the Status table below tracks what is proved.
 
 ## Split
 
