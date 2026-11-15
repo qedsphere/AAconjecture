@@ -93,6 +93,7 @@ have me use it, say so.
 | 13, `ian:hard-sector-aa-equivalence` ((3) ⇒ (1)) | `not_fullAA_of_smoothSectorWitnesses` | `UnifiedAA.HardSector.Exclusion` |
 | 13, lines 8–11 ($\ell_\mu(t,Q)$ and the squared-loss minimum exist; $\ell_\mu(\cdot,Q)$ nonincreasing) | `ell`, `l1Loss`, `sqLoss`, `ell_attained`, `ell_antitone`, `ell_le_iff`, `exists_sqLoss_min` | `UnifiedAA.HardSector.Optimal` |
 | 13, proof of `ian:hard-sector-regularity` (conditional-mean leaves, calibration, Pythagoras, nested leaf partitions) | `cellMean`, `condMeanTree`, `eval_condMeanTree`, `condMeanTree_mem_depthTrees`, `expect_resid_mul_eq_zero`, `sq_pythagoras`, `exists_factor_leafPath_graft`, `exists_eval_eq_comp_leafPath`, `leafPath_condMeanTree`, `expect_condLaw` | `UnifiedAA.HardSector.Optimal` |
+| 13, `ian:hard-sector-regularity` (one calibrated predictor; $K=\lceil1/(w\gamma^2)\rceil$ form; Cauchy–Schwarz and $\E\lvert Y-m\rvert$ bounds from the proof) | `regularity`, `regularity_of_K_eq`, `expect_mul_sq_le`, `expect_abs_sub_mean_le_half`, `expect_abs_sub_mean_le_sqrt_variance` | `UnifiedAA.HardSector.Regularity` |
 
 ## Questions for you
 
