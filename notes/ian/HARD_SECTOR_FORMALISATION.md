@@ -82,7 +82,10 @@ have me use it, say so.
 
 | TeX label (`notes/ian/`) | Lean declaration | Module |
 |---|---|---|
-| none yet | | |
+| 13, `ian:hard-sector-definition` (Hard, smooth/set sectors, $\mathcal D_t$, $\mathcal F_t$, $\mu(\cdot\mid H)$) | `Hard`, `CovCondition`, `IsSmoothSector`, `IsSetSector`, `DepthTrees`, `SignTrees`, `condLaw`, `cov` | `UnifiedAA.HardSector.Basic` |
+| 13, opening paragraph ($\mathcal D_t$, $\mathcal F_t$ monotone in $t$) | `depthTrees_mono`, `signTrees_mono` | `UnifiedAA.HardSector.Basic` |
+| 13, after `ian:hard-sector-definition` ($\mathcal F_t=2\mathcal D_t-1$, covariance form, Hard antitone in $t$) | `exists_depthTree_of_signTree`, `exists_signTree_of_depthTree`, `expect_centered_mul_eq_cov`, `covCondition_iff`, `hard_of_le` | `UnifiedAA.HardSector.Basic` |
+| 13, `ian:hard-sector-definition` (set sector ⇒ smooth sector, $\mu(\cdot\mid H)\le\mu/\mu(H)$) | `isSmoothSector_of_isSetSector`, `condLaw_weight_le` | `UnifiedAA.HardSector.Basic` |
 
 ## Questions for you
 
