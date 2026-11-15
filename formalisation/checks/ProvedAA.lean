@@ -1,0 +1,12 @@
+import UnifiedAA.ProvedAA
+
+#print axioms AaronsonAmbainis.aaronson_ambainis
+#print axioms UnifiedAA.exists_aa_scalar_estimator_explicit_proved
+#print axioms UnifiedAA.exists_quantum_scalar_estimator_proved
+#print axioms UnifiedAA.exists_xor_scalar_estimator_proved
+#print axioms UnifiedAA.exists_affine_quantum_extractor_proved
+#print axioms UnifiedAA.exists_affine_xor_extractor_proved
+#print axioms UnifiedAA.accepted_entropy_exception_lt_proved
+#print axioms UnifiedAA.xor_accepted_entropy_exception_lt_proved
+#print axioms UnifiedAA.exists_sparse_quantum_extractor_proved
+#print axioms UnifiedAA.exists_sparse_xor_extractor_proved

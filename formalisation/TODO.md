@@ -47,25 +47,26 @@ not reintroduced as an axiom. Do not use placeholders to claim completion.
 
 - [x] Construct finite affine parity hashes; prove exact pair-collision
   probability `1/2^k` for k output bits (B = 2^k buckets).
-- [ ] Round the bucket count to a power of two and wire the affine family
+- [x] Round the bucket count to a power of two and wire the affine family
   into the operational decoder/verifier construction.
 - [x] Assemble scalar estimators for all B(L+1) fixed native-quantum predicates,
   selected before sampling the table, and derive aggregate failure.
 - [x] Construct and cost an oracle-query decoder/verifier algorithm, proving
   C(t,rho) = B(L+1)F(Q,t/16,rho/(4B(L+1))) + BV under `hAA` and an explicit
   pair-collision hypothesis (`exists_quantum_extractor`).
-- [ ] Extend the assembled extraction theorem to the padded XOR semantics;
+- [x] Extend the assembled extraction theorem to the padded XOR semantics;
   the XOR acceptance-polynomial and scalar-estimator bridges are already proved.
-- [ ] Prove the sparse-heavy implication tablewise, Markov exceptional set,
+- [x] Prove the sparse-heavy implication tablewise, Markov exceptional set,
   and independent repetition bound with r = ceil(log2(1/eta)).
-  Independent finite products and the exact repeated-failure formula
-  `(1 - success_probability)^r` are proved; operational/tablewise assembly
-  and logarithmic rounding remain.
+  Native and XOR operational assembly, independent repetition, and exact
+  ceiling-logarithm rounding are included in the 151-declaration audit.
 
 ## Later results, after extraction
 
-- [ ] Theorem 4.3: formal min-entropy definition, accepted-law heavy atom,
+- [x] Theorem 4.3 generic reduction: formal min-entropy definition, accepted-law heavy atom,
   soundness contradiction, and strict exceptional-oracle bound.
+- [ ] Instantiate the generic entropy theorem with concrete YZ coding
+  soundness, its asymptotic parameters, and the extraction budget inequality.
 - [ ] Seeded leftover hashing and global acceptance reweighting (PDF p. 27).
 - [ ] Gibbs Lemmas 3.1–3.9, then Theorem 3.10; keep product-resampling
   influence distinct from Boolean flip influence.

@@ -29,7 +29,7 @@ print("PASS: accepted axiom-free report format (parser fixture)")
 cases = {
     "placeholder": base.replace("propext", "sorryAx", 1),
     "extra_axiom": base.replace("propext", "UnexpectedAxiom", 1),
-    "missing_report": "\n".join(base.splitlines()[1:]),
+    "missing_report": re.sub(r"'[^']+' depends on axioms:\s*\[[^]]*\]|'[^']+' does not depend on any axioms", "", base, count=1),
 }
 for label, report in cases.items():
     path = Path("artifacts") / f"audit-negative-{label}.log"

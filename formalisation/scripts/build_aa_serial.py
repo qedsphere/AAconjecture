@@ -10,7 +10,11 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--queue", type=Path, help="Optional ordered local targets, checked between AA modules")
+parser.add_argument("--start-at", help="Resume at this AA module; Lake still validates cached dependencies")
+parser.add_argument("--max-modules", type=int, help="Bound this invocation to this many AA modules")
 args = parser.parse_args()
+if args.max_modules is not None and args.max_modules < 1:
+    parser.error("--max-modules must be positive")
 root = Path(".lake/packages/AaronsonAmbainis")
 order, active, done = [], set(), set()
 
@@ -53,8 +57,14 @@ def visit(name):
 
 visit("AaronsonAmbainis.Main")
 print(f"AA proof closure: {len(order)} modules", flush=True)
+start = 0
+if args.start_at:
+    if args.start_at not in order:
+        raise SystemExit(f"Unknown AA module: {args.start_at}")
+    start = order.index(args.start_at)
+stop = len(order) if args.max_modules is None else min(len(order), start + args.max_modules)
 checked_local = set()
-for index, name in enumerate(order, start=1):
+for index, name in enumerate(order[start:stop], start=start + 1):
     if args.queue and args.queue.exists():
         for target in args.queue.read_text().splitlines():
             target = target.strip()
@@ -67,3 +77,9 @@ for index, name in enumerate(order, start=1):
             checked_local.add(target)
     print(f"Checking {index}/{len(order)}: {name}", flush=True)
     subprocess.run(["lake", "build", name], check=True)
+    print(f"Completed {index}/{len(order)}: {name}", flush=True)
+
+if stop < len(order):
+    print(f"Bounded batch complete; next module: {order[stop]}", flush=True)
+else:
+    print("AA Main dependency closure complete", flush=True)

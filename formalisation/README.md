@@ -13,7 +13,7 @@ upstream AA statements while avoiding the aggregate `Mathlib` import:
 
 ```sh
 git -C .lake/packages/AaronsonAmbainis apply --unidiff-zero ../../../patches/aa-conjecture-imports.patch
-python3 scripts/build_serial.py --cache
+python3 scripts/build_serial.py --cache UnifiedAA
 sh scripts/check.sh
 ```
 
@@ -23,7 +23,24 @@ statement. The serial build script downloads the directly imported Mathlib
 modules and their dependencies, then builds project and vendored modules in
 dependency order. The check script also builds sequentially; avoid starting
 concurrent Lean checks.
-The full upstream `Main` still has its larger dependency graph.
+The separate full-proof check also needs the import-only proof patch:
+
+```sh
+git -C .lake/packages/AaronsonAmbainis apply --unidiff-zero ../../../patches/aa-proof-imports.patch
+sh scripts/check.sh --proved-aa
+```
+
+Apply each patch only once. `--proved-aa` checks `UnifiedAA.ProvedAA`, including
+the upstream `Main` closure and the nine corollaries with no explicit AA
+hypothesis. This full-proof run was stopped at the user's publication checkpoint after
+10 of 74 upstream modules passed. Resume at `AaronsonAmbainis.DetBij.Basic`.
+`ProvedAA.lean` and its nine corollaries have not yet been compiled or audited. The default check covers the core aggregate.
+For bounded upstream batches, `scripts/build_aa_serial.py --max-modules 3`
+prints the next module explicitly. Resume with `--start-at MODULE
+--max-modules 3`; Lake still checks each target's cached dependencies. A batch
+completion is not a completed check of `Main`.
+`python3 scripts/build_serial.py` without targets checks every local and
+vendored module, including work outside the certified-randomness aggregate.
 
 Lean is pinned to **4.33.0**. `lake-manifest.json` pins dependencies, including
 [the supplied AA formalization](https://github.com/physical-superintelligence/aaronson-ambainis/tree/2a6ceaef872ae993708950f951989134084b851a).
@@ -53,11 +70,15 @@ for independent sampling. No independence between isolation and accuracy
 events is assumed. A heavy witness may depend on the table but never on
 the independently sampled hash.
 
-The full local build and expanded axiom audit succeeded on 2026-11-15 with
-Lean 4.33.0: all 101 selected theorem reports depend only on `propext`,
-`Classical.choice`, and `Quot.sound`. This supersedes the original 13-result
-checkpoint and the intermediate 75-result checkpoint. Logs are
-`artifacts/build-complete.log` and `artifacts/axioms-complete.log`.
+The certified-randomness aggregate build and expanded axiom audit succeeded
+on 2026-11-15 with Lean 4.33.0: all 151 selected declarations depend only on
+`propext`, `Classical.choice`, and `Quot.sound`. This supersedes the original
+13-result and later 101-result audit for the covered core. The additional 50
+reports include affine bucket rounding, native/XOR operational extraction,
+tablewise and sparse amplification, accepted-law entropy, and the generic
+soundness contradiction. Logs are `artifacts/integration-core-check.log` and
+`artifacts/axioms.log`. The audit checker's placeholder, extra-axiom, and missing
+report rejection fixtures also passed (`artifacts/integration-audit-checker.log`).
 These are kernel-checked universal
 theorems, not finite experiments. This audit does not independently replay
 the Mathlib kernel environment or prove correspondence to informal prose.
@@ -120,17 +141,19 @@ reconstruction lemmas are independent of AA.
 
 ## Remaining work
 
-The next scalar dependency is instantiating the explicit AA parameter with
-the upstream proved theorem. One-round operational extraction now has a
-native-value quantum model, constructed scalar estimators, decoder/verifier
-composition, and query accounting. Its hash collision assumption remains
-to be connected to the affine family with the manuscript's bucket rounding.
-The XOR scalar bridge is proved; the assembled extractor currently uses
-native value queries. Tablewise amplification for Corollary 4.2 remains open.
+The core still takes the imported AA statement as an explicit proof parameter.
+`ProvedAA.lean` is prepared to discharge it using the pinned upstream
+proved theorem, but is not yet checked. Affine hashes, power-of-two bucket rounding, native and XOR
+extractors, verifier composition, tablewise amplification, and the sparse
+search corollary are now in the checked core aggregate.
 
-The Gibbs theorem, entropy/extraction conclusions, YZ refinements, honest
-preparation, and sparse sampling remain unformalized. See `TODO.md` for the
-dependency order and `RESEARCH.md` for exact first-checkpoint hypotheses.
+The generic accepted-output min-entropy theorem is also checked, conditional
+on an actual bounded-query classical search-soundness hypothesis and its budget
+inequality. Instantiating that hypothesis with the concrete YZ coding bounds,
+seeded leftover hashing and global acceptance reweighting remain open.
+The full Gibbs simulation, YZ refinements, honest preparation, and sparse
+sampling are not completed by this checkpoint. See `TODO.md` for the remaining
+dependencies.
 
 The manuscript snapshots are under `sources/`. The supplied TeX wrapper
 references nine unavailable section files. Statements were recovered from
@@ -149,7 +172,7 @@ preservation and the potential bound are now supplied by the modules below.
 
 Targeted verification is available through `lake build UnifiedAA.ConditionalMeans`
 and `checks/NewAxioms.lean`; these results are also included in the successful
-101-result aggregate audit.
+151-result core aggregate audit.
 
 `PolynomialRestrictions.lean` defines substitution of one Boolean variable by
 a constant, proves that substitution cannot increase multivariate total degree,
@@ -162,7 +185,8 @@ the targeted precompiled caches for `MvPolynomial.Monad` and
 the exact repetition-failure formula. `AffineHashing.lean` constructs the
 compact affine parity family (one row and offset bit per output bit) and
 proves exact collision probability `1/2^k` for distinct inputs. Bucket-count
-rounding and composition with the operational extractor remain open.
+rounding and composition with the operational extractor are proved in
+`DyadicRounding.lean`, `AffineExtraction.lean`, and `XorExtraction.lean`.
 
 ## Polynomial scalar simulation checkpoint
 
@@ -222,3 +246,19 @@ B*(L+1)*scalarQueryBudget (2*q+1) (t/16) (rho/(4*B*(L+1))) + B*V.
 
 The theorem assumes `hAA`, 0<t,rho≤1, and the stated collision and verifier
 hypotheses. It no longer assumes the scalar estimators or their accuracy.
+
+## Tablewise amplification and accepted entropy
+
+`QuantumTablewise.lean` and `XorTablewise.lean` construct one fixed estimator
+family outside an exceptional set of oracle tables, then amplify using
+independent affine hashes. `SparseAmplification.lean` supplies the sparse-heavy
+step; `LogRounding.lean` identifies the operational dyadic exponent with the
+ceiling base-two logarithm. Verifier soundness and deterministic query caps are
+included, for both query semantics.
+
+`AcceptedEntropy.lean` defines the accepted conditional law and min-entropy and
+extracts a heavy valid output from low accepted entropy. `EntropySoundness.lean`
+and `XorEntropySoundness.lean` prove the strict exceptional-oracle bound from
+`ClassicalSearchSoundness` and the extraction budget. These results are included
+in the successful 151-declaration audit. They are generic reductions, not a
+formalization of YZ's concrete coding lower bound or seeded extraction.

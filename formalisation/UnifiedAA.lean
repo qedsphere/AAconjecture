@@ -14,3 +14,17 @@ import UnifiedAA.ScalarSimulation
 import UnifiedAA.AffineHashing
 import UnifiedAA.QuantumSimulation
 import UnifiedAA.QuantumExtraction
+
+-- Completed operational certified-randomness dependency chain.
+import UnifiedAA.DyadicRounding
+import UnifiedAA.LogRounding
+import UnifiedAA.TablewiseAmplification
+import UnifiedAA.RepeatedProgram
+import UnifiedAA.AffineExtraction
+import UnifiedAA.QuantumTablewise
+import UnifiedAA.SparseAmplification
+import UnifiedAA.AcceptedEntropy
+import UnifiedAA.EntropySoundness
+import UnifiedAA.XorExtraction
+import UnifiedAA.XorTablewise
+import UnifiedAA.XorEntropySoundness

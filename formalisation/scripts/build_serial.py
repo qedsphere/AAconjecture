@@ -10,6 +10,7 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--cache", action="store_true")
+parser.add_argument("targets", nargs="*", help="Optional root modules; default: all local and vendored modules")
 args = parser.parse_args()
 
 sources = {"UnifiedAA": Path("UnifiedAA.lean")}
@@ -65,11 +66,13 @@ def visit(name):
     order.append(name)
 
 
-for name in sorted(list(sources)):
+for name in (args.targets or sorted(list(sources))):
+    if name not in sources:
+        raise SystemExit(f"Unknown target: {name}")
     visit(name)
 
 if args.cache:
-    mathlib = {imp for deps in imports.values() for imp in deps if imp.startswith("Mathlib.")}
+    mathlib = {imp for name in order for imp in imports[name] if imp.startswith("Mathlib.")}
     subprocess.run(["lake", "exe", "cache", "get", *sorted(mathlib)], check=True)
 
 for name in order:

@@ -114,3 +114,71 @@ the dedicated `formalisation/lean4-checkpoint` branch, preserving the existing
 history and research files. A separate publishing checkout is used because
 the local parent workspace has an unborn Git branch and unrelated untracked
 files. No unrelated local files need to be overwritten or committed.
+
+## Active integration audit — 2026-11-15
+
+Base commit: `cc29b4b`; working branch: `formalisation/aa-integration-audit`.
+One question: instantiate the explicit `hAA` argument in the existing scalar,
+affine extraction, sparse amplification, and accepted-entropy results with the
+pinned upstream `AaronsonAmbainis.aaronson_ambainis`, and verify the operational
+hashing dependency chain.
+
+For the scalar target, N is arbitrary, p is a real multivariate polynomial on
+N Boolean inputs, total degree is at most d with d>=1, and p takes values in
+[0,1]. For any 0<e,delta<=1 the intended conclusion is a deterministic tree
+with at most ceil(512*d^13/(e^16*delta^9)) physical queries on every input,
+and uniform input probability at most delta of absolute error exceeding e.
+The downstream corollaries retain their explicit verifier, heavy-output,
+classical-soundness, and budget hypotheses; only the AA proof argument is
+to be discharged. This does not formalise the concrete YZ coding bound.
+
+An optional `ProvedAA.lean` module is prepared; it is not claimed checked yet.
+The main aggregate now includes the previously omitted operational affine,
+tablewise, and entropy modules. The explicit audit manifest grows from 101
+to 151 selected declarations, pending a successful build and audit run.
+Original source and toolchain versions are unchanged. The AA dependency is
+copied into the working checkout; only the two tracked import-only patches
+are applied there. Shared Mathlib/dependency caches are reused. Logs are
+`artifacts/integration-local-build.log` and `artifacts/integration-scope.md`.
+
+### Core verification outcome
+
+`sh scripts/check.sh > artifacts/integration-core-check.log 2>&1` completed
+with exit status 0. All 151 selected declarations passed the exact-set axiom
+audit, with only `propext`, `Classical.choice`, and `Quot.sound`. This includes
+actual affine bucket rounding, native and XOR one-round extraction, tablewise
+and sparse amplification, and accepted-output entropy soundness. These are
+kernel-checked generic theorems with the documented `hAA`, verifier, and
+classical search-soundness hypotheses. The concrete YZ coding bound remains
+an external input. The audit-checker negative fixtures also passed; the missing
+report fixture now removes a theorem report rather than assuming the first
+log line is a report.
+
+The next step is the full upstream proof and `ProvedAA.lean` audit. No success
+of that step is yet claimed.
+
+### Publication checkpoint requested by the user
+
+The user requested pushing the current work before the full AA rebuild ended.
+The upstream modules through `AaronsonAmbainis.DetLow.Main` (10 of 74 in the
+recorded dependency order) passed. The next module is
+`AaronsonAmbainis.DetBij.Basic`; no completed check of it is claimed.
+The interrupted full driver ended without a diagnostic; the isolated retry
+of `DetLow.NonZero` passed, and bounded batches then reached module 10.
+There is no active compiler process left at publication.
+
+`ProvedAA.lean` contains nine draft corollaries instantiating the upstream
+proved theorem, but they have NOT been compiled or axiom-audited. They are
+separate from the default `UnifiedAA` aggregate, whose 151-declaration build
+and audit passed. `checks/ProvedAA.lean` is the pending ten-declaration manifest
+(the upstream theorem plus nine corollaries). No independent full kernel replay
+of Mathlib or the upstream AA environment is claimed.
+
+The permanent working checkout is
+`/Users/dehmelf/Research/AA-conjecture-integration`, branch
+`formalisation/aa-integration-audit`. The original research checkout and the
+older temporary publication checkout are retained. Reproduce the core audit
+with `sh scripts/check.sh`; resume the upstream build with
+`python3 scripts/build_aa_serial.py --start-at AaronsonAmbainis.DetBij.Basic --max-modules 3`.
+After Main is checked, compile `UnifiedAA.ProvedAA` and run its dedicated audit.
+A compact publication record is in `checks/VERIFICATION.md`.

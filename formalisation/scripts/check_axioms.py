@@ -1,6 +1,6 @@
 """Validate Lean's dependency report, not just source spelling of placeholders."""
+import argparse
 import re
-import sys
 from pathlib import Path
 
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -106,9 +106,68 @@ EXPECTED = {
     "UnifiedAA.exists_quantum_bucket_estimators",
     "UnifiedAA.exists_quantum_heavy_output_list",
     "UnifiedAA.exists_quantum_extractor",
+    "UnifiedAA.le_dyadicCapacity",
+    "UnifiedAA.dyadicCapacity_lt_twice",
+    "UnifiedAA.bucketCount_spec",
+    "UnifiedAA.dyadic_repetition_bound",
+    "UnifiedAA.dyadicExponent_eq_ceil_logb",
+    "UnifiedAA.FiniteLaw.exists_tablewise_extraction_set",
+    "UnifiedAA.FiniteLaw.repeated_success_ge",
+    "UnifiedAA.FiniteLaw.amplified_success_ge",
+    "UnifiedAA.QueryProgram.queries_firstSome_le",
+    "UnifiedAA.QueryProgram.eval_firstSome_eq_none_iff",
+    "UnifiedAA.QueryProgram.firstSome_origin",
+    "UnifiedAA.QueryProgram.queries_repeatWith_le",
+    "UnifiedAA.QueryProgram.repeatWith_none_iff",
+    "UnifiedAA.QueryProgram.repeatWith_sound",
+    "UnifiedAA.QueryProgram.repeatWith_success_ge",
+    "UnifiedAA.exists_affine_quantum_extractor",
+    "UnifiedAA.exists_quantum_tablewise_extractor",
+    "UnifiedAA.exists_affine_tablewise_extractor",
+    "UnifiedAA.exists_amplified_affine_extractor",
+    "UnifiedAA.SparseValidMass.exists_heavy",
+    "UnifiedAA.exists_sparse_quantum_extractor",
+    "UnifiedAA.acceptedWeight_nonneg",
+    "UnifiedAA.acceptedWeight_le",
+    "UnifiedAA.acceptedMass_nonneg",
+    "UnifiedAA.acceptedMass_le_one",
+    "UnifiedAA.acceptedWeight_le_mass",
+    "UnifiedAA.acceptedLaw_weight_of_valid",
+    "UnifiedAA.acceptedWeight_le_max",
+    "UnifiedAA.maxAcceptedMass_nonneg",
+    "UnifiedAA.maxAcceptedMass_le_mass",
+    "UnifiedAA.maxAcceptedMass_eq_zero_of_no_valid",
+    "UnifiedAA.exists_eq_maxAcceptedMass",
+    "UnifiedAA.maxAcceptedMass_pos_of_mass_pos",
+    "UnifiedAA.exists_valid_eq_maxAcceptedMass",
+    "UnifiedAA.exists_heavy_of_accepted_entropy_le",
+    "UnifiedAA.accepted_entropy_threshold_bounds",
+    "UnifiedAA.accepted_entropy_exception_lt",
+    "UnifiedAA.xorProb_nonneg",
+    "UnifiedAA.xorProb_sum_eq_one",
+    "UnifiedAA.xor_bucket_probability",
+    "UnifiedAA.xor_bit_probability",
+    "UnifiedAA.exists_xor_bucket_estimators",
+    "UnifiedAA.exists_xor_heavy_output_list",
+    "UnifiedAA.exists_xor_extractor",
+    "UnifiedAA.exists_affine_xor_extractor",
+    "UnifiedAA.exists_xor_tablewise_extractor",
+    "UnifiedAA.exists_affine_xor_tablewise_extractor",
+    "UnifiedAA.exists_amplified_affine_xor_extractor",
+    "UnifiedAA.exists_sparse_xor_extractor",
+    "UnifiedAA.xor_accepted_entropy_exception_lt",
 }
 
-text = Path(sys.argv[1]).read_text()
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("report", type=Path)
+parser.add_argument("--manifest", type=Path,
+                    help="Explicit Lean file listing #print axioms declarations to audit")
+args = parser.parse_args()
+if args.manifest:
+    EXPECTED = set(re.findall(r"^#print axioms (\S+)\s*$", args.manifest.read_text(), re.MULTILINE))
+    if not EXPECTED:
+        raise SystemExit("FAIL: empty audit manifest")
+text = args.report.read_text()
 reports = re.findall(r"'([^']+)' depends on axioms:\s*\[([^]]*)\]", text)
 reports += [(name, "") for name in re.findall(r"'([^']+)' does not depend on any axioms", text)]
 found = set()
