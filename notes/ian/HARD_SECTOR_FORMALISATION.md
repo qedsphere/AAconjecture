@@ -88,6 +88,9 @@ have me use it, say so.
 | 13, `ian:hard-sector-definition` (set sector ⇒ smooth sector, $\mu(\cdot\mid H)\le\mu/\mu(H)$) | `isSmoothSector_of_isSetSector`, `condLaw_weight_le` | `UnifiedAA.HardSector.Basic` |
 | 13, `ian:hard-sector-tree-closure` (sequential composition ≤ s+t, function of k trees ≤ kt, extremal ±1 tests; count $N(n,t)$ not formalised) | `graft`, `leafPath`, `ExtremalTrees`, `eval_graft`, `leafPath_graft`, `graft_depth_le_and_leavesIn`, `exists_tree_of_function`, `extremalTrees_subset_signTrees`, `covCondition_iff_extremal` | `UnifiedAA.HardSector.TreeOps` |
 | 13, `ian:hard-sector-forward` (H1-forward, per tree $D\in\mathcal D_t$: $\E_\mu\lvert Q-D\rvert\ge w(a-\gamma)$; first step $\E_\nu(Q-D)^2\ge a-\gamma$) | `forward_bound`, `sq_loss_ge_of_hard` | `UnifiedAA.HardSector.Forward` |
+| 13, `ian:hard-sector-aa-definition` ((AA) for a law family and an abstract class family $\mathcal Q_{n,T}$; condition (3)) | `AAWith`, `FullAA`, `SmoothSectorWitnesses` | `UnifiedAA.HardSector.Exclusion` |
+| 13, `ian:hard-sector-aa-exclusion` (sector exclusion under full AA) | `depth_lt_of_aa` | `UnifiedAA.HardSector.Exclusion` |
+| 13, `ian:hard-sector-aa-equivalence` ((3) ⇒ (1)) | `not_fullAA_of_smoothSectorWitnesses` | `UnifiedAA.HardSector.Exclusion` |
 
 ## Questions for you
 
