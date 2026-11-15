@@ -102,6 +102,8 @@ have me use it, say so.
 | 30, `ian:simon-law` (randomly labelled Simon law on `Fin (m·2^m) → Bool`; 𝔽₂^m = `Fin m → ZMod 2`) | `SimonGroup`, `simonCoord`, `IsSimonPair`, `simonPairs`, `simonTable`, `simonLaw`, `simonSupport`, `simonMask`, `simonTarget` | `UnifiedAA.HardSector.SimonLaw` |
 | 30, `ian:simon-promise-count` (mask uniqueness, $\lvert H_m\rvert$, uniform weight, $\rho_m$, $\Var Y$, $U(H_m)$ bound) | `isSimonPair_unique`, `simonMask_simonTable`, `card_simonSupport`, `card_simonPair_fiber`, `simonLaw_weight_of_mem`, `simonLaw_weight_of_not_mem`, `simonLaw_prob_support`, `simonLaw_expect_target`, `simonLaw_variance_target`, `uniform_prob_simonSupport` | `UnifiedAA.HardSector.SimonLaw` |
 | 30, `ian:simon-adaptive-posterior` (per transcript: compatible-labelling count, posterior uniform on $(G\setminus\{0\})\setminus E_\tau$, collisions force the mask, $\lvert\E[Y\mid\tau]-\rho_m\rvert\le e/(N-e)$, one collision step) | `simonLabel`, `simonCell`, `simonDiffs`, `simonLiveMasks`, `card_compatible_labellings`, `simon_posterior_uniform`, `simonMask_eq_of_collision`, `simon_posterior_target_bound`, `simon_cell_deviation_le`, `simon_collision_step_le`, `card_simonDiffs_le`, `card_simonLiveMasks_add`, `simonLabel_eq_iff`, `simonLabel_simonTable` | `UnifiedAA.HardSector.SimonPosterior` |
+| 30, `ian:simon-transcript-bound` (30.1) in bit-transcript form, adaptive (Lemma `ian:simon-adaptive-posterior`) | `simon_transcript_bound` | `UnifiedAA.HardSector.SimonHiding` |
+| 30, `ian:simon-bit-hiding` ($\sup_{\mathcal F_t}\lvert\Cov(Y,F)\rvert\le\eta_t$, $\sup_{\mathcal D_t}\lvert\Cov(Y,D)\rvert\le\eta_t/2$) | `simon_cov_signTree_le`, `simon_cov_depthTree_le` | `UnifiedAA.HardSector.SimonHiding` |
 
 ## Questions for you
 
