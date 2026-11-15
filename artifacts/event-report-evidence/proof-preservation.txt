@@ -1,0 +1,10 @@
+All formal statement, proof, and open-problem blocks are unchanged.
+{
+  "theorem": 16,
+  "lemma": 11,
+  "proposition": 7,
+  "corollary": 2,
+  "proof": 31,
+  "problem": 7
+}
+Section 5: Claim support and Lean verification.

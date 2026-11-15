@@ -1,0 +1,3 @@
+3.14.0
+macOS-26.1-arm64-arm-64bit-Mach-O
+pytest 9.2.0

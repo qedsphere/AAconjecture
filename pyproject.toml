@@ -1,0 +1,20 @@
+[project]
+name = "aa-conjecture"
+version = "0.1.0"
+description = "Local math and CS research workspace"
+requires-python = ">=3.11"
+dependencies = [
+    "sympy>=1.13,<2",
+    "networkx>=3,<4",
+    "z3-solver>=4.13,<5",
+    "pymupdf>=1.26,<2",
+    "pypdf>=6,<7",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[tool.pytest.ini_options]
+testpaths = ["checks"]
+pythonpath = ["."]
+addopts = "--basetemp=.pytest_cache/paper-library-tests"

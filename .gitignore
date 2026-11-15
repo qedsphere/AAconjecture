@@ -6,6 +6,11 @@ papers/AA_Exposition.pdf
 
 .DS_Store
 
+# Local Python environments and generated test caches
+.venv/
+__pycache__/
+.pytest_cache/
+
 # LaTeX build output
 /notes/**/*.pdf
 /*.pdf

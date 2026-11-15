@@ -1,0 +1,32 @@
+{
+  "pages": 50,
+  "rendered_pages": [
+    1,
+    5,
+    34,
+    35,
+    36,
+    37,
+    43,
+    44,
+    45,
+    46,
+    47,
+    50
+  ],
+  "source_sha256": "751ba404cfa6d7c3fd72b4c0419375b89ecd354ee4bd48afb010afa3c94e6c0f",
+  "pdf_sha256": "36f96a162107c8490428d35df038c9864569363f9c964084e0373c5151a27cf9",
+  "preserved_blocks": {
+    "theorem": 16,
+    "lemma": 11,
+    "proposition": 7,
+    "corollary": 2,
+    "proof": 31,
+    "problem": 7
+  },
+  "compiler": "pdfTeX 1.40.29 (TeX Live 2026)",
+  "warnings": [],
+  "event_interval": "awaiting confirmation",
+  "contributor_accounting": "provisional",
+  "publication_note": "Separate hard-sector modules on updated remote main are acknowledged; the saved 286-declaration audit remains the scoped checkpoint."
+}
