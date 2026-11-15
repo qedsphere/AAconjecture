@@ -9,3 +9,7 @@ rev = "2a6ceaef872ae993708950f951989134084b851a"
 
 [[lean_lib]]
 name = "UnifiedAA"
+
+[[lean_lib]]
+name = "QuantumQueryComplexity"
+srcDir = "vendor/quantum-query-complexity"

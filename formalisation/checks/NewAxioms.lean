@@ -1,0 +1,90 @@
+import UnifiedAA.ConditionalMeans
+import UnifiedAA.ScalarSimulation
+import UnifiedAA.AffineHashing
+import UnifiedAA.QuantumSimulation
+import UnifiedAA.QuantumExtraction
+import UnifiedAA.PolynomialRestrictions
+import UnifiedAA.UniformHashing
+import UnifiedAA.ProbabilityBounds
+import UnifiedAA.CubeConditioning
+import UnifiedAA.InfluencePotential
+
+#print axioms UnifiedAA.FiniteLaw.mse_eq_variance_add_sq
+#print axioms UnifiedAA.FiniteLaw.square_error_bad_le
+#print axioms UnifiedAA.FiniteLaw.prob_error_le_of_mse_le
+#print axioms UnifiedAA.FiniteLaw.tablewise_exception_le
+#print axioms UnifiedAA.uniform_expect_restrictBit
+#print axioms UnifiedAA.uniform_mse_branch
+#print axioms UnifiedAA.totalFlipInfluence_nonneg
+#print axioms UnifiedAA.totalFlipInfluence_drop
+#print axioms UnifiedAA.FiniteLaw.variance_le_quarter
+#print axioms UnifiedAA.DecisionTree.mse_le_of_leaf_variance
+#print axioms UnifiedAA.DecisionTree.truncated_scalar_error
+#print axioms UnifiedAA.DecisionTree.withMeans_fresh
+#print axioms UnifiedAA.DecisionTree.withMeans_queries
+#print axioms UnifiedAA.DecisionTree.withMeans_hasLeafVariance
+#print axioms UnifiedAA.DecisionTree.withMeans_error
+#print axioms UnifiedAA.restrictBit_bounded
+#print axioms UnifiedAA.totalDegree_bind₁_le
+#print axioms UnifiedAA.restrictPolynomial_degree
+#print axioms UnifiedAA.eval_restrictPolynomial
+#print axioms UnifiedAA.cubeEval_restrictPolynomial
+#print axioms UnifiedAA.restrictPolynomial_degree_le
+#print axioms UnifiedAA.cubeEval_restrictPolynomial_bounded
+#print axioms UnifiedAA.restrictPolynomialPartial_degree
+#print axioms UnifiedAA.eval_restrictPolynomialPartial
+#print axioms UnifiedAA.cubeEval_restrictPolynomialPartial
+#print axioms UnifiedAA.restrictPolynomialPartial_degree_le
+#print axioms UnifiedAA.cubeEval_restrictPolynomialPartial_bounded
+#print axioms UnifiedAA.uniform_bool_hash_collision
+#print axioms UnifiedAA.walsh_parseval
+#print axioms UnifiedAA.cubeFlipInfluence_expansion
+#print axioms UnifiedAA.totalFlipInfluence_expansion
+#print axioms UnifiedAA.totalFlipInfluence_le_degree_energy
+#print axioms UnifiedAA.polynomial_hasWalshDegree
+#print axioms UnifiedAA.totalFlipInfluence_le_degree
+#print axioms UnifiedAA.polynomial_totalFlipInfluence_le
+#print axioms UnifiedAA.cubeMean_eq_uniform_expect
+#print axioms UnifiedAA.cubeVariance_eq_uniform_variance
+#print axioms UnifiedAA.flipInfluence_eq_cubeFlipInfluence
+#print axioms UnifiedAA.cubeEval_totalFlipInfluence_le
+#print axioms UnifiedAA.DecisionTree.exists_of_influence_rule
+#print axioms UnifiedAA.DecisionTree.exists_polynomial_tree
+#print axioms UnifiedAA.DecisionTree.truncation_failure_of_cost
+#print axioms UnifiedAA.DecisionTree.exists_polynomial_estimator
+#print axioms UnifiedAA.aa_polynomial_influence_rule
+#print axioms UnifiedAA.exists_aa_scalar_estimator
+#print axioms UnifiedAA.exists_aa_scalar_estimator_explicit
+#print axioms UnifiedAA.FiniteLaw.prob_independent
+#print axioms UnifiedAA.FiniteLaw.prob_all_repetitions
+#print axioms UnifiedAA.FiniteLaw.prob_no_success
+#print axioms UnifiedAA.independent_bool_hash_collision
+#print axioms UnifiedAA.uniform_linear_hash_collision
+#print axioms UnifiedAA.uniform_affine_hash_bit_collision
+#print axioms UnifiedAA.uniform_affine_hash_collision
+#print axioms UnifiedAA.quantum_acceptance_polynomial
+#print axioms UnifiedAA.exists_quantum_scalar_estimator
+#print axioms UnifiedAA.xor_acceptance_polynomial
+#print axioms UnifiedAA.exists_xor_scalar_estimator
+#print axioms UnifiedAA.exists_quantum_predicate_estimators
+#print axioms UnifiedAA.qProb_postcomp_eq
+#print axioms UnifiedAA.quantum_bucket_probability
+#print axioms UnifiedAA.quantum_bit_probability
+#print axioms UnifiedAA.QueryProgram.eval_bind
+#print axioms UnifiedAA.QueryProgram.queries_bind
+#print axioms UnifiedAA.QueryProgram.eval_ofScalar
+#print axioms UnifiedAA.QueryProgram.queries_ofScalar
+#print axioms UnifiedAA.QueryProgram.eval_collect
+#print axioms UnifiedAA.QueryProgram.queries_collect
+#print axioms UnifiedAA.QueryProgram.eval_collectFintype
+#print axioms UnifiedAA.QueryProgram.queries_collectFintype
+#print axioms UnifiedAA.QueryProgram.queries_verifyList_le
+#print axioms UnifiedAA.QueryProgram.eval_verifyList_eq_none_iff
+#print axioms UnifiedAA.QueryProgram.verifyList_sound
+#print axioms UnifiedAA.eval_bucketDecoder
+#print axioms UnifiedAA.queries_bucketDecoder
+#print axioms UnifiedAA.queries_verifiedBucketDecoder_le
+#print axioms UnifiedAA.verifiedBucketDecoder_success
+#print axioms UnifiedAA.exists_quantum_bucket_estimators
+#print axioms UnifiedAA.exists_quantum_heavy_output_list
+#print axioms UnifiedAA.exists_quantum_extractor

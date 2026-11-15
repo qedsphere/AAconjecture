@@ -1,0 +1,8 @@
+diff --git a/AaronsonAmbainis/Conjecture.lean b/AaronsonAmbainis/Conjecture.lean
+--- a/AaronsonAmbainis/Conjecture.lean
++++ b/AaronsonAmbainis/Conjecture.lean
+@@ -1 +1,3 @@
+-import Mathlib
++import Mathlib.Algebra.MvPolynomial.Degrees
++import Mathlib.Analysis.SpecialFunctions.Pow.Real
++import Mathlib.Data.Fintype.Pi

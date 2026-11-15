@@ -1,20 +1,29 @@
 # Unified AA: Lean 4 formalization
 
-This is an **initial formalization checkpoint**, not a formalization of the
+This is a **partial formalization**, not a formalization of the
 whole paper. The probability core of heavy-output extraction is proved with
 exact real arithmetic and arbitrary finite types. No theorem uses `sorry`,
 `admit`, a project axiom, or native evaluation as a proof.
 
 ## Build
 
-Run in this directory:
+Run in this directory. On a space-constrained machine, use the recorded
+import-only patch after dependencies have been fetched; it preserves all
+upstream AA statements while avoiding the aggregate `Mathlib` import:
 
 ```sh
-lake update
-lake exe cache get
-lake build
+git -C .lake/packages/AaronsonAmbainis apply --unidiff-zero ../../../patches/aa-conjecture-imports.patch
+python3 scripts/build_serial.py --cache
 sh scripts/check.sh
 ```
+
+Apply the patch only once per dependency checkout. It affects only
+`AaronsonAmbainis/Conjecture.lean`'s imports, not the upstream proof or any
+statement. The serial build script downloads the directly imported Mathlib
+modules and their dependencies, then builds project and vendored modules in
+dependency order. The check script also builds sequentially; avoid starting
+concurrent Lean checks.
+The full upstream `Main` still has its larger dependency graph.
 
 Lean is pinned to **4.33.0**. `lake-manifest.json` pins dependencies, including
 [the supplied AA formalization](https://github.com/physical-superintelligence/aaronson-ambainis/tree/2a6ceaef872ae993708950f951989134084b851a).
@@ -44,10 +53,12 @@ for independent sampling. No independence between isolation and accuracy
 events is assumed. A heavy witness may depend on the table but never on
 the independently sampled hash.
 
-The core build and axiom audit succeeded on 2026-11-15 with Lean 4.33.0:
-13 key theorem reports (11 extraction results and two AA statement adapters)
-depend only on `propext`, `Classical.choice`, and `Quot.sound`. Logs are under
-`artifacts/`. These are kernel-checked universal
+The full local build and expanded axiom audit succeeded on 2026-11-15 with
+Lean 4.33.0: all 101 selected theorem reports depend only on `propext`,
+`Classical.choice`, and `Quot.sound`. This supersedes the original 13-result
+checkpoint and the intermediate 75-result checkpoint. Logs are
+`artifacts/build-complete.log` and `artifacts/axioms-complete.log`.
+These are kernel-checked universal
 theorems, not finite experiments. This audit does not independently replay
 the Mathlib kernel environment or prove correspondence to informal prose.
 
@@ -63,18 +74,30 @@ cost under a uniformly random Boolean table. Consequently truncating after
 K>0 queries changes the original tree's answer on probability at most
 `potential(root)/(gamma*K)`, with a deterministic worst-case cap of K.
 
-The stored summaries have not yet been proved to be conditional means of
-the target polynomial. The drift hypothesis has not yet been constructed
-from polynomial restrictions and AA. This checkpoint establishes the tree
-and truncation machinery, not the completed scalar estimator.
+`ConditionalMeans.lean` now constructs exact mean summaries.
+`InfluenceTree.lean` constructs a fresh tree from a restriction-stable
+influence rule and proves the cost bound directly by induction on unread
+coordinates. This avoids assigning a function-dependent potential to an
+unannotated tree shape.
+
+`CubeConditioning.lean` proves exact one-bit conditional-mean and squared-error
+splits. `InfluencePotential.lean` proves nonnegativity and the exact potential
+drop `Phi(f) - (Phi(f|i=0)+Phi(f|i=1))/2 = Inf_i(f)` for arbitrary real functions
+on finite Boolean cubes. `ProbabilityBounds.lean` proves variance decomposition,
+finite-law Chebyshev, and a joint-to-tablewise exceptional-set bound. These
+modules compiled under Lean 4.33.0, and their eight headline results were
+checked with `checks/NewAxioms.lean`; only standard Lean axioms appeared. The
+degree bound `Phi(p) ≤ d` and the normalization adapter are now proved in
+`PolynomialPotential.lean` and `CubeNormalization.lean`. The scalar construction
+is completed conditional on the imported AA statement, as described below.
 
 The four-person ownership and integration plan is in
 [`PARALLELISATION.md`](../PARALLELISATION.md).
 
 ## AA interface
 
-`UnifiedAA/Influence.lean` defines Boolean cube evaluation, mean, variance,
-and flip influence in the upstream normalization. It adapts
+`UnifiedAA/CubeNormalization.lean` defines Boolean cube evaluation, mean,
+variance, and flip influence in the upstream normalization. `Influence.lean` adapts
 `AaronsonAmbainis.PrintedConjecture` and derives the coarser
 epsilon^8/d^12 influence scale used in the manuscript, for epsilon≤1 and
 d≥1. Its explicit `hAA` argument is meant to be instantiated with the
@@ -91,17 +114,19 @@ lake build UnifiedAA.Influence
 The full upstream `Main` rebuild was attempted locally and stopped at this
 bounded checkpoint. Its large parallel imports strained the 16 GiB local
 machine. The imported statement module compiled; a complete local recheck
-of the upstream proof is not claimed. The extraction core does not use AA
-until the scalar estimator construction has been formalized.
+of the upstream proof is not claimed. The scalar simulator and quantum
+extractor retain the explicit `hAA` parameter; finite probability and
+reconstruction lemmas are independent of AA.
 
 ## Remaining work
 
-The next substantive dependency is §2.4's **scalar simulation construction**:
-restriction invariants, the polynomial influence-potential drop, construction
-of a fresh tree satisfying the proved drift theorem, and conditional Chebyshev
-error. A quantum query model and degree bound,
-affine hashing, verifier composition and query accounting then complete
-Theorem 4.1. Tablewise amplification completes Corollary 4.2.
+The next scalar dependency is instantiating the explicit AA parameter with
+the upstream proved theorem. One-round operational extraction now has a
+native-value quantum model, constructed scalar estimators, decoder/verifier
+composition, and query accounting. Its hash collision assumption remains
+to be connected to the affine family with the manuscript's bucket rounding.
+The XOR scalar bridge is proved; the assembled extractor currently uses
+native value queries. Tablewise amplification for Corollary 4.2 remains open.
 
 The Gibbs theorem, entropy/extraction conclusions, YZ refinements, honest
 preparation, and sparse sampling remain unformalized. See `TODO.md` for the
@@ -111,3 +136,89 @@ The manuscript snapshots are under `sources/`. The supplied TeX wrapper
 references nine unavailable section files. Statements were recovered from
 the matching PDF; page 26 was visually checked. The section sources were
 requested so future mappings can use stable theorem labels.
+
+## Recursive scalar-error checkpoint
+
+`ScalarError.lean` proves recursive leaf-variance aggregation, scalar error,
+and its combination with deterministic K-query truncation. `ConditionalMeans.lean`
+constructs exact conditional-mean summaries on any supplied tree shape and
+preserves freshness and physical query counts. `variance_le_quarter` proves
+the [0,1] variance bound for arbitrary finite laws. These results still require
+a tree shape with small terminal variances. That shape, polynomial degree
+preservation and the potential bound are now supplied by the modules below.
+
+Targeted verification is available through `lake build UnifiedAA.ConditionalMeans`
+and `checks/NewAxioms.lean`; these results are also included in the successful
+101-result aggregate audit.
+
+`PolynomialRestrictions.lean` defines substitution of one Boolean variable by
+a constant, proves that substitution cannot increase multivariate total degree,
+and proves exact pointwise correspondence with `restrictBit`. Its proof uses
+the targeted precompiled caches for `MvPolynomial.Monad` and
+`MvPolynomial.NoZeroDivisors`, with one Lean build process at a time.
+
+`UniformHashing.lean` proves the one-bit uniform-function collision probability.
+`IndependentSampling.lean` constructs independent finite products and proves
+the exact repetition-failure formula. `AffineHashing.lean` constructs the
+compact affine parity family (one row and offset bit per output bit) and
+proves exact collision probability `1/2^k` for distinct inputs. Bucket-count
+rounding and composition with the operational extractor remain open.
+
+## Polynomial scalar simulation checkpoint
+
+`FourierPotential.lean` proves Walsh orthogonality, Parseval, the exact spectral
+formula for squared-flip influence, and `Phi(f) ≤ 4d E[f²]`.
+`PolynomialPotential.lean` bridges total polynomial degree to Walsh degree and
+centers bounded functions at `1/2` to prove `Phi(p) ≤ d`.
+`CubeNormalization.lean` identifies the generic finite-law means, variances and
+influences with the original `Fin N` AA interface; the definitions moved from
+`Influence.lean` without changing their values or names.
+
+`InfluenceTree.lean` and `PolynomialSimulation.lean` construct fresh, terminating
+conditional-mean trees from an influence rule, prove expected query cost, and
+bound truncation error. `ScalarSimulation.lean` obtains that rule from
+`hAA : AaronsonAmbainis.PrintedConjecture`. For `d ≥ 1` and `0 < e,delta ≤ 1`,
+`exists_aa_scalar_estimator_explicit` gives an actual deterministic tree with
+at most `ceil(512*d^13/(e^16*delta^9))` queries and uniform-table error probability
+at most `delta`. This remains conditional on `hAA` until the upstream `Main`
+proof is imported and checked locally.
+
+## Quantum bridge
+
+`QuantumSimulation.lean` connects the polynomial estimator to actual quantum
+query algorithms. It proves the degree-2q acceptance-polynomial and [0,1]
+range interfaces for both native value queries and padded Boolean XOR queries.
+Both yield a deterministic scalar tree with budget
+`ceil(512*(2*q+1)^13/(e^16*delta^9))`, conditional on `hAA`. Fixed output
+postprocessing also supplies bucket and bit masses, and a finite family of
+predicates admits estimators chosen before sampling the table.
+
+The bridge reuses twelve source modules from
+[Troy Lee's quantum-query-complexity library](https://github.com/troyjlee/quantum-query-complexity/tree/df7f2e8199bd845a35a4200e0c74d964ec6b02b8),
+vendored with its Apache-2.0 license and provenance in
+`vendor/quantum-query-complexity/README.md`. All twelve modules compiled
+unchanged under this project's Lean 4.33.0, although upstream uses 4.35.0-rc2.
+No second toolchain or Mathlib checkout is required. The model has finite
+workspace, input-independent unitary steps, and a final measurement; these
+results do not assert a translation from arbitrary quantum programming languages.
+
+## Operational extraction
+
+`QueryProgram.lean` supplies typed Boolean-oracle programs, adaptive sequencing,
+collection of finite estimator families, and candidate verification.
+`OperationalExtraction.lean` proves the bucket decoder's exact evaluation and
+query sum, followed by at most B verifier runs.
+
+`QuantumExtraction.lean` constructs all B(L+1) bucket and bit-mass estimators
+before table sampling, supplies the simultaneous accuracy bound, and proves
+`exists_quantum_extractor`. For a q-query native-value quantum algorithm,
+a t-heavy valid witness on table mass at least rho, a hash law with collisions
+at most 1/B and B*t≥16, and a correct V-query verifier, it supplies a concrete
+classical oracle program with success at least rho/2 and query cap
+
+```
+B*(L+1)*scalarQueryBudget (2*q+1) (t/16) (rho/(4*B*(L+1))) + B*V.
+```
+
+The theorem assumes `hAA`, 0<t,rho≤1, and the stated collision and verifier
+hypotheses. It no longer assumes the scalar estimators or their accuracy.

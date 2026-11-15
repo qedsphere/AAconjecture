@@ -1,4 +1,5 @@
 import AaronsonAmbainis.Conjecture
+import UnifiedAA.CubeNormalization
 
 /-!
 # Connection to the supplied, pinned AA formalization
@@ -13,19 +14,6 @@ the same Boolean flip normalization as PrintedConjecture.
 namespace UnifiedAA
 
 open scoped BigOperators
-
-noncomputable def cubeEval {N : ℕ} (p : MvPolynomial (Fin N) ℝ)
-    (x : Fin N → Bool) : ℝ :=
-  MvPolynomial.eval (fun i => if x i then (1 : ℝ) else 0) p
-
-noncomputable def cubeMean {N : ℕ} (f : (Fin N → Bool) → ℝ) : ℝ :=
-  (∑ x, f x) / 2 ^ N
-
-noncomputable def cubeVariance {N : ℕ} (f : (Fin N → Bool) → ℝ) : ℝ :=
-  cubeMean (fun x => (f x - cubeMean f) ^ 2)
-
-noncomputable def flipInfluence {N : ℕ} (f : (Fin N → Bool) → ℝ) (i : Fin N) : ℝ :=
-  cubeMean (fun x => (f x - f (Function.update x i (!x i))) ^ 2)
 
 /-- Direct application of the upstream theorem using our named quantities. -/
 theorem polynomial_has_influential_coordinate
