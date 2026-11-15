@@ -1,0 +1,593 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,longtable,array}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{microtype}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Inf}{\operatorname{Inf}}
+\newcommand{\sech}{\operatorname{sech}}
+\newcommand{\supp}{\operatorname{supp}}
+\setlength{\emergencystretch}{2em}
+\title{Quadratic polynomial-influence AA for Gibbs laws:\\
+centered coefficients, a dimension-free bound,\\and an exact obstruction to the proposed base inequality}
+\author{Research continuation in the AAconjecture workspace}
+\date{14 November 2026}
+\begin{document}
+\maketitle
+
+\noindent\textbf{Status.}
+This report gives self-contained proofs of three results: the proposed
+base inequality (B) is false even for zero-field independent Ising pairs;
+one-sided uncentred marginal-product $L^2$ domination already fails in
+degree two; and a different, centered and variance-weighted coefficient
+argument proves polynomial-influence AA in degree at most two, with
+arbitrary finite fields, interaction arities, and coordinate supports,
+when the weighted interaction strength is at most a fixed constant below
+one. A pairwise corollary covers the full coupling-based Dobrushin region
+with a fixed margin. The all-degree problem, in particular unrestricted
+$d\ge3$, is not solved. No independent audit, novelty claim, or Lean
+formalization is asserted. Finite checks are supplementary.
+
+The requested prompt and handoff were read from \texttt{prompt/}.
+Their referenced \texttt{.ultramath/} archive is absent in this workspace,
+so its original manuscripts and verification scripts could not be read
+or run. Accordingly none of their claimed theorems is used without a
+proof here. The supplied \texttt{gibbs\_history\_aa\_corrected.pdf}
+is used to preserve the distinction between query simulation and
+physical polynomial influence; its query theorem is not an input to
+the positive theorem below. Existing source proofs are left unchanged.
+
+\section{Statement, quantifiers, and conventions}
+
+Let $n$ be arbitrary and let all coefficients in
+\[
+ H(x)=-\sum_{|A|\ge2}J_A\chi_A(x)-\sum_i h_ix_i,
+ \qquad \mu(x)=Z^{-1}e^{-\beta H(x)},\qquad
+ \chi_A(x)=\prod_{i\in A}x_i
+\]
+be finite, with $\beta\ge0$. Define
+\[
+ K=\max_i\beta\sum_{A\ni i,\,|A|\ge2}|J_A|,
+ \qquad
+ \omega=\max_i\beta\sum_{A\ni i,\,|A|\ge2}(|A|-1)|J_A|.
+\]
+Thus $K\le\omega$. The field parameter
+$\Lambda_{\rm fld}=\max_i\beta|h_i|$ is unrestricted and may grow
+with $n$. No support, hitting-set, degree-of-graph, or arity restriction
+is imposed.
+
+For a coordinate $i$, put
+\[
+ m_i=\E_\mu X_i,\quad \sigma_i^2=1-m_i^2,\quad
+ \theta_i(x_{-i})=\mu(X_i=1\mid x_{-i}),\quad
+ v_i(x_{-i})=4\theta_i(1-\theta_i).
+\]
+Here $m_i$ denotes a marginal mean, not a conditional mean. All
+$\sigma_i>0$ because the Gibbs law has full support. For
+$\partial_i p=(p(+1,x_{-i})-p(-1,x_{-i}))/2$, the conventions are
+\begin{align*}
+ \Inf_i^{\rm fl}(p)&=4\E(\partial_i p)^2,\\
+ \Inf_i^{\rm pv}(p)&=\E[v_i(\partial_i p)^2],\\
+ \Inf_i^{\rm rs2}(p)&=2\Inf_i^{\rm pv}(p).
+\end{align*}
+Consequently $\Inf_i^{\rm fl}\ge4\Inf_i^{\rm pv}
+=2\Inf_i^{\rm rs2}$. No TV/pivotal influence is used below.
+
+Define the TV Dobrushin matrix by $c_{ii}=0$ and
+\[
+ c_{ij}=\sup_{x,z:\,x_{-j}=z_{-j}}
+       |\theta_i(x_{-i})-\theta_i(z_{-i})|\quad(i\ne j),
+ \qquad r=\max_i\sum_j c_{ij}.
+\]
+This uses differences of probabilities, not twice those differences
+as in the conditional-mean convention of parts of the handoff.
+
+\begin{theorem}[Quadratic AA with arbitrary fields]
+\label{thm:main}
+Fix $K_0<\infty$, $0\le r_0<1$, and $0<v\le1$ before choosing
+$n$. For every Gibbs law above with $K\le K_0$ and $r\le r_0$,
+every real multilinear polynomial of degree at most two satisfying
+$\|p\|_{\infty,\{-1,1\}^n}\le1$ and $\Var_\mu p\ge v$ has
+a coordinate $i$ for which simultaneously
+\begin{align}
+ \Inf_i^{\rm fl}(p)&\ge
+       \frac{e^{-16K_0}(1-r_0)^6}{93312}\,v^3,
+       \label{eq:main-fl}\\
+ \Inf_i^{\rm pv}(p)&\ge
+       \frac{e^{-20K_0}(1-r_0)^6}{373248}\,v^3,
+       \label{eq:main-pv}\\
+ \Inf_i^{\rm rs2}(p)&\ge
+       \frac{e^{-20K_0}(1-r_0)^6}{186624}\,v^3.
+       \label{eq:main-rs}
+\end{align}
+All constants are independent of $n$, field strengths, and support size.
+The flip estimate is obtained directly and is slightly stronger than
+four times the displayed posterior-variance estimate.
+\end{theorem}
+
+\begin{corollary}[The requested weighted-strength regime]
+\label{cor:omega}
+For every fixed $0\le\omega_0<1$, the preceding theorem holds
+uniformly for $\omega\le\omega_0$, with $K_0=r_0=\omega_0$.
+In particular, at $\omega\le1/8$,
+\[
+ \boxed{\max_i\Inf_i^{\rm fl}(p)
+       \ge \frac{e^{-2}(7/8)^6}{93312}\,v^3.}
+\]
+This statement allows odd as well as even interaction arities and
+arbitrary finite fields. It remains true under arbitrary pinnings,
+after removing pinned coordinates.
+\end{corollary}
+
+\begin{corollary}[Pairwise Dobrushin region]
+\label{cor:dobrushin}
+For pairwise Ising Hamiltonians with arbitrary fields and signs,
+assume, uniformly in $n$,
+\[
+ \alpha:=\max_i\sum_{j\ne i}\tanh(\beta|J_{ij}|)
+       \le1-\kappa,\qquad 0<\kappa\le1.
+\]
+Then for every globally bounded real degree-at-most-two polynomial
+of variance at least $v$,
+\[
+ \max_i\Inf_i^{\rm fl}(p)
+ \ge\frac{\kappa^{14}}{93312(2-\kappa)^8}\,v^3.
+\]
+The posterior-variance lower bound is
+$\kappa^{16}v^3/[373248(2-\kappa)^{10}]$.
+The conclusion is uniform under pinnings. This is an influence theorem
+for quadratics, not a claim about every polynomial degree or every
+quantum acceptance function in the Dobrushin region.
+\end{corollary}
+
+\section{The base inequality fails: exact pair-block calculations}
+
+The default question in the prompt asks whether
+\[
+ \widehat q(\emptyset)^2\le\lambda_0^{-1}\E_\mu q^2
+ \tag{B}
+\]
+can hold with a fixed $\lambda_0>0$ for all bounded quadratics in
+zero-field high-temperature Gibbs families. The coefficient on the
+left is $\E_U q$, where $U$ is uniform, not $\E_\mu q$.
+
+Take $n=2m$, $\beta=1$, and
+\[
+ H_m(x)=-a\sum_{j=1}^m x_{2j-1}x_{2j},\qquad
+ a=\tfrac12\log(5/4)<\tfrac18.
+\]
+There are no fields, every coordinate has one incident pair term,
+and $K=\omega=a$. Put $Y_j=X_{2j-1}X_{2j}$ and
+$\rho=\tanh a=1/9$. The $Y_j$ are independent with mean $\rho$,
+while every physical one-site marginal is uniform. Indeed each pair
+has mass $(1+\rho xy)/4$ and partition function $4\cosh a$;
+the full partition function is $(4\cosh a)^m$.
+
+The globally bounded quadratic
+\[
+ q_m(x)=\frac{m^{-1}\sum_jY_j-\rho}{1+\rho}
+       =\frac9{10m}\sum_jY_j-\frac1{10}
+\]
+has exact statistics
+\begin{align}
+ \|q_m\|_\infty&=1,&\widehat q_m(\emptyset)&=-1/10,
+       &\E_\mu q_m&=0,\nonumber\\
+ \E_\mu q_m^2=\Var_\mu q_m&=\frac4{5m},&
+ \E_Uq_m^2&=\frac1{100}+\frac{81}{100m}.\label{eq:pair-stats}
+\end{align}
+Thus (B) would require $\lambda_0\le80/m$ for every $m$,
+which is impossible. This construction works at arbitrarily small
+fixed positive interaction strength: for general $0<\rho<1$ the
+same ratio is $(1-\rho^2)/(m\rho^2)$.
+
+\begin{proposition}[Sharp degree-two base constant on the pair family]
+The best constant in (B), at each fixed $m$ for this law and all
+degree-at-most-two polynomials, is
+\[
+ \lambda_m=\frac{80}{80+m}.
+\]
+The same optimum holds if one requires $\|q\|_\infty\le1$.
+\end{proposition}
+\begin{proof}
+Write $Z_j=Y_j-\rho$. The degree-two space has the decomposition
+\[
+ q=c+\sum_j b_jZ_j+R,
+\]
+where $R$ is a linear combination of single spins and products of
+spins from distinct pairs. Under the pair law, $R$ is orthogonal
+to $1,Z_1,\ldots,Z_m$: flipping both spins of any involved pair
+changes the relevant odd factor and preserves the measure.
+Also $\E_U R=0$ and $\E_U Z_j=-\rho$. Hence
+\[
+ (\E_U q)^2=(c-\rho\sum_jb_j)^2
+ \le\left(1+\frac{m\rho^2}{1-\rho^2}\right)
+       \left(c^2+(1-\rho^2)\sum_jb_j^2\right)
+ \le\left(1+\frac{m\rho^2}{1-\rho^2}\right)\E_\mu q^2.
+\]
+Equality is attained, after harmless scalar normalization, by
+\[
+ q_m^*(x)=\frac{80+m-9\sum_jY_j}{80+10m},\qquad
+ \|q_m^*\|_\infty=1.
+\]
+Its uniform coefficient is $(80+m)/(80+10m)$, its Gibbs mean is
+$80/(80+10m)$, its variance is $80m/(80+10m)^2$, and its squared
+$L^2(\mu)$ norm is $80(80+m)/(80+10m)^2$. Their ratio proves
+sharpness. Homogeneity explains why boundedness does not change
+the optimal constant.
+\end{proof}
+
+These are not AA counterexamples. For $q_m$ in
+\eqref{eq:pair-stats}, every coordinate has
+\[
+ \Inf_i^{\rm fl}=\frac{81}{25m^2},\quad
+ \Inf_i^{\rm pv}=\frac4{5m^2},\quad
+ \Inf_i^{\rm rs2}=\frac8{5m^2}.
+\]
+In particular $\Inf_i^{\rm fl}=(81/16)(\Var_\mu q_m)^2$,
+and the variance tends to zero. Fixed-$v$ quantifiers cannot be
+violated by this sequence.
+
+The same family resolves the proposed uncentred one-sided $(H_d)$
+input negatively already at $d=2$. For $f_m=m^{-1}\sum_jY_j$,
+the marginal product law is $\nu=U$ and
+\[
+ \|f_m\|_\infty=1,\qquad
+ \frac{\E_\mu f_m^2}{\E_\nu f_m^2}
+ =\frac{m+80}{81}\longrightarrow\infty.
+\]
+No $n$-uniform $A_2$ exists for the stated uncentred domination.
+The positive proof below neither assumes (B) nor transfers influences
+through this false moment comparison.
+
+\section{Self-contained analytic inputs}
+
+\subsection{Dobrushin contraction supplies the needed Poincare inequality}
+
+Let $P_i f=\E[f\mid X_{-i}]$, regarded as a function on the full
+cube, and $P=n^{-1}\sum_iP_i$. Each $P_i$ is an orthogonal
+projection in $L^2(\mu)$; $P$ is self-adjoint and positive
+semidefinite. Write
+$\delta_i(f)=\max_x|f(x)-f(x^{(i)})|$.
+For $i\ne j$, a maximal coupling of the two conditional laws of
+spin $j$ at inputs differing only in $i$ gives
+\[
+ \delta_i(P_j f)\le\delta_i(f)+c_{ji}\delta_j(f),
+ \qquad \delta_i(P_i f)=0.
+\]
+Indeed, the coupled configurations always differ in $i$, and
+additionally differ in $j$ with probability at most $c_{ji}$.
+The triangle inequality bounds their function difference by the
+displayed oscillations. Consequently
+\[
+ \sum_i\delta_i(Pf)\le
+ \left(1-\frac{1-r}{n}\right)\sum_i\delta_i(f).
+\]
+Every nonconstant eigenfunction of $P$ has positive oscillation
+seminorm, so its eigenvalue is at most $1-(1-r)/n$.
+Diagonalizing this finite self-adjoint operator proves
+\begin{equation}
+ \Var_\mu f\le C\sum_i\E\Var(f\mid X_{-i}),
+ \qquad C=\frac1{1-r}.
+ \label{eq:poincare}
+\end{equation}
+The Dirichlet form identity used here is
+$\langle f,(I-P)f\rangle=n^{-1}\sum_i\E\Var(f\mid X_{-i})$.
+This is not an application of unordered independent Efron--Stein
+to a dependent measure; the factor $C$ has just been proved.
+
+For later use, applying \eqref{eq:poincare} to a linear function
+and using total variance separately at each coordinate gives
+\begin{equation}
+ \Var_\mu\left(\sum_jt_jX_j\right)
+ \le C\sum_jt_j^2\E v_j
+ \le C\sum_jt_j^2\sigma_j^2.
+ \label{eq:weighted-cov}
+\end{equation}
+There is no assertion that the spins are independent.
+
+For the Gibbs specification, changing $x_j$ changes the local
+field at $i$ by at most $2\beta\sum_{A\ni i,j}|J_A|$.
+The derivative of $(1+\tanh z)/2$ is at most $1/2$. Therefore
+$c_{ij}\le\beta\sum_{A\ni i,j}|J_A|$, and $r\le\omega$.
+This proves the contraction hypothesis in Corollary~\ref{cor:omega}
+with the stated TV normalization.
+
+\subsection{Conditional and marginal variances are comparable without a field bound}
+
+The conditional log odds at site $i$ are
+\[
+ \ell_i(x_{-i})=2\beta h_i+
+              2\beta\sum_{A\ni i,\,|A|\ge2}J_A\chi_{A\setminus\{i\}}(x),
+\]
+and their oscillation is at most $4K$. The marginal probability
+$\bar\theta_i=\E\theta_i$ lies between the minimum and maximum
+conditional probabilities; its log odds lie in the same interval.
+The function $g(\ell)=4e^\ell/(1+e^\ell)^2$ satisfies
+$|(\log g)'(\ell)|\le1$. Hence, with $D=e^{4K}$,
+\begin{equation}
+ D^{-1}\sigma_i^2\le v_i(x_{-i})\le D\sigma_i^2
+ \quad\hbox{for every }i,x_{-i}.
+ \label{eq:variance-comparison}
+\end{equation}
+Large fields may make both sides very small, but introduce no
+field-dependent constant. This is a local conditional comparison,
+not a global density-ratio bound or an atom floor.
+
+\subsection{An elementary quadratic coefficient bound}
+
+Write
+\[
+ p(x)=a_0+\sum_i a_ix_i+\sum_{i<j}b_{ij}x_ix_j,
+ \qquad b_{ji}=b_{ij},\quad b_{ii}=0.
+\]
+Its odd part is $\sum_i a_ix_i$, of supremum norm at most one,
+so $\sum_i|a_i|\le1$. Its quadratic homogeneous part $Q$ has
+supremum norm at most two: the even part has norm at most one and
+$|a_0|=|\E_U p|\le1$.
+
+Let $A_{ij}=b_{ij}/2$ for $i\ne j$ and $A_{ii}=0$, and let
+$B(x,y)=x^TAy$. Since a multilinear polynomial on $[-1,1]^n$
+attains its extrema at vertices, polarization gives
+\[
+ B(x,y)=Q((x+y)/2)-Q((x-y)/2),\qquad
+ \|B\|_{[-1,1]^n\times[-1,1]^n}\le4.
+\]
+The following elementary proof avoids importing a quantitative
+Bohnenblust--Hille theorem. Put
+$R_i=(\sum_j|A_{ij}|^2)^{1/2}$ and
+$S_j=(\sum_i|A_{ij}|^2)^{1/2}$. Three-factor Holder gives
+\[
+ \sum_{ij}|A_{ij}|^{4/3}
+ \le\left(\sum_iR_i\right)^{2/3}
+       \left(\sum_jS_j\right)^{2/3}.
+\]
+To verify it, factor each summand as
+$(|A_{ij}|^2/R_i)^{1/3}(|A_{ij}|^2/S_j)^{1/3}
+(R_iS_j)^{1/3}$, omitting zero rows and columns.
+For independent uniform signs $\varepsilon_j$ and
+$Z=\sum_jd_j\varepsilon_j$, one has
+$\E Z^2=\sum_jd_j^2$ and $\E Z^4\le3(\sum_jd_j^2)^2$.
+Holder yields
+$\E|Z|\ge(\sum_jd_j^2)^{1/2}/\sqrt3$.
+Applying this rowwise and maximizing over $x$ gives
+\[
+ \sum_iR_i\le\sqrt3\E_\varepsilon\sum_i
+       |\sum_jA_{ij}\varepsilon_j|\le\sqrt3\|B\|\le4\sqrt3,
+\]
+and the same column bound. Thus
+\begin{equation}
+ \sum_{i<j}|b_{ij}|^{4/3}
+   =2^{1/3}\sum_{ij}|A_{ij}|^{4/3}
+   \le 8\,3^{2/3}<17.
+ \label{eq:quadratic-coeff}
+\end{equation}
+
+Now center at the actual marginal means, without identifying them
+with uniform means:
+\[
+ p=c_0+\sum_i\widetilde a_i(x_i-m_i)
+          +\sum_{i<j}b_{ij}(x_i-m_i)(x_j-m_j),\qquad
+ \widetilde a_i=a_i+\sum_jb_{ij}m_j.
+\]
+The constant $c_0$ is not generally $\E_\mu p$.
+Because $m\in[-1,1]^n$ and $b=2A$,
+\[
+ \sum_i|\widetilde a_i|
+ \le1+\sum_i|\sum_jb_{ij}m_j|
+ \le1+2\max_{x\in\{-1,1\}^n}|B(x,m)|\le9.
+\]
+Define weighted coefficients
+$u_i=\sigma_i\widetilde a_i$ and
+$w_{ij}=\sigma_i\sigma_jb_{ij}$. Since $\sigma_i\le1$,
+\begin{equation}
+ \sum_i|u_i|^{4/3}+\sum_{i<j}|w_{ij}|^{4/3}
+ \le9^{4/3}+8\,3^{2/3}<36.
+ \label{eq:weighted-coeff}
+\end{equation}
+The numerical inequality follows already from $9^4<19^3$ and
+$8^3 3^2<17^3$. No basis orthogonality under $\mu$ is assumed.
+
+\section{Proof of the quadratic theorem}
+
+The derivative has the exact centered form
+\[
+ R_i:=\partial_i p=\widetilde a_i+
+                      \sum_{j\ne i}b_{ij}(X_j-m_j).
+\]
+Using \eqref{eq:weighted-cov} gives
+\[
+ \E R_i^2\le\widetilde a_i^2+C\sum_jb_{ij}^2\sigma_j^2.
+\]
+Apply \eqref{eq:poincare}, then \eqref{eq:variance-comparison},
+and count each quadratic coefficient twice:
+\begin{align}
+ \Var_\mu p
+ &\le C\sum_i\E[v_iR_i^2]
+ \le CD\sum_i\sigma_i^2\E R_i^2\nonumber\\
+ &\le CD\sum_i u_i^2+2C^2D\sum_{i<j}w_{ij}^2
+ \le L\left(\sum_i u_i^2+\sum_{i<j}w_{ij}^2\right),
+ \qquad L=2C^2D.\label{eq:weighted-gram}
+\end{align}
+This is a weighted centered-coefficient estimate, not the false
+uncentred comparison $(H_2)$ and not the unweighted Gram assertion
+from the handoff.
+
+Let $M=\max\{|u_i|,|w_{ij}|:i<j\}$, including all linear indices.
+Equations \eqref{eq:weighted-coeff}--\eqref{eq:weighted-gram} imply
+\[
+ v\le36LM^{2/3},\qquad M^2\ge\left(\frac{v}{36L}\right)^3.
+ \tag{E1}
+\]
+If $M=|u_i|$, Jensen gives
+$\E R_i^2\ge\widetilde a_i^2\ge u_i^2$ and
+\[
+ \Inf_i^{\rm pv}\ge D^{-1}\sigma_i^2\E R_i^2
+       \ge D^{-1}u_i^2\ge D^{-2}M^2,
+ \qquad \Inf_i^{\rm fl}\ge4M^2\ge4D^{-1}M^2.
+\]
+If $M=|w_{ij}|$, condition $R_i$ on all coordinates except $j$.
+Its slope in $X_j$ is exactly $b_{ij}$, so
+\[
+ \E R_i^2\ge\E\Var(R_i\mid X_{-j})
+       =b_{ij}^2\E v_j\ge D^{-1}\sigma_j^2b_{ij}^2.
+\]
+Consequently
+\[
+ \Inf_i^{\rm pv}\ge D^{-2}w_{ij}^2,
+ \qquad
+ \Inf_i^{\rm fl}\ge4D^{-1}\sigma_j^2b_{ij}^2
+                    \ge4D^{-1}w_{ij}^2.
+\]
+Thus in both cases the same coordinate satisfies these bounds.
+Substitute (E1), $L=2D/(1-r)^2$, and $D=e^{4K}$:
+\[
+ \Inf_i^{\rm fl}\ge\frac{e^{-16K}(1-r)^6}{93312}v^3,
+ \qquad
+ \Inf_i^{\rm pv}\ge\frac{e^{-20K}(1-r)^6}{373248}v^3.
+\]
+Monotonicity in $K,r$ proves Theorem~\ref{thm:main}; the resampling
+formula follows by multiplying by two.
+
+For Corollary~\ref{cor:omega}, we already proved $K,r\le\omega$.
+Pinning shrinks each interaction support, moves singleton residuals
+to the unrestricted fields, and cannot increase $\omega$ after
+merging coefficients by the triangle inequality. Thus the same
+constant applies after pinnings. Polynomials remain bounded on the
+restricted cube and have degree at most two. No rare-event loss occurs.
+
+For Corollary~\ref{cor:dobrushin}, the exact Ising conditional formula
+implies $c_{ij}\le\tanh(\beta|J_{ij}|)$: the difference of the
+two logistic probabilities is maximized at zero residual field.
+Also for $t_j=\tanh(\beta|J_{ij}|)$ with $\sum_jt_j<1$,
+\[
+ \sum_j\beta|J_{ij}|=\sum_j\operatorname{arctanh}t_j
+       \le\operatorname{arctanh}(\sum_jt_j)
+       \le\operatorname{arctanh}(1-\kappa).
+\]
+The first inequality follows termwise from the positive power series
+for $\operatorname{arctanh}$ and
+$\sum_jt_j^{2\ell+1}\le(\sum_jt_j)^{2\ell+1}$.
+Set $r_0=1-\kappa$ and
+$K_0=\frac12\log((2-\kappa)/\kappa)$ in the theorem.
+Pinning deletes couplings and changes only fields, preserving the
+same coupling-based Dobrushin bound.
+
+\section{A necessary scope correction for zero fields and odd arity}
+
+Zero one-site fields alone do not imply $\E X_i=0$ when odd
+interactions are allowed. This matters because the handoff's
+degree-two unweighted Gram sketch uses that implication.
+On four spins, take $\beta=1$ and
+\[
+ H=-a\chi_{\{1,2,3\}}-a\chi_{\{1,2,3,4\}},\qquad
+ a=\tfrac12\log(21/20),\quad t=\tanh a=1/41.
+\]
+All fields vanish and
+$\omega=5a<1/8$, since $\log(21/20)<1/20$.
+The exact uniform-density factor is
+$(1+t\chi_{123})(1+t\chi_{1234})$, whose expectation is one.
+Since $\chi_{123}\chi_{1234}=X_4$,
+\[
+ \E_\mu X_4=t^2=1/1681\ne0.
+\]
+Take independent copies of this block and let $Z_1,\ldots,Z_m$
+be their fourth spins, with common mean $s=1/1681$. For
+$N=\binom m2$ and $p=N^{-1}\sum_{j<k}Z_jZ_k$, one has
+$\|p\|_\infty=1$, $\deg p=2$, and
+\[
+ \frac{\Var_\mu p}{\sum_S\widehat p(S)^2}
+ =1-s^4+2(m-2)s^2(1-s^2)\longrightarrow\infty.
+\]
+Indeed each pair monomial has variance $1-s^4$; two pairs sharing
+one index have covariance $s^2(1-s^2)$, and disjoint pairs have
+zero covariance. This refutes the unweighted, all-arity version
+of the handoff's zero-field degree-two Gram claim. The globally
+spin-flip-symmetric case, including zero-field pairwise Ising and
+Hamiltonians with only even interactions, is not contradicted.
+Theorem~\ref{thm:main} needs no mean-zero hypothesis and covers
+this example using \eqref{eq:weighted-gram} instead.
+
+\section{Checks, comparison with previous work, and remaining gaps}
+
+The companion \texttt{verify.py} uses the Python standard library.
+Finite Gibbs laws are represented as rational products of factors
+$1+t_A\chi_A$ and $1+u_ix_i$, which correspond exactly to
+couplings $\operatorname{arctanh}(t_A)$ and fields
+$\operatorname{arctanh}(u_i)$ at $\beta=1$.
+Moment and influence calculations use exact rational arithmetic;
+exponential bounds and fractional coefficient powers use floating
+point only in the supplementary inequality comparisons.
+It enumerates pair blocks and short cycles, checks the sharp pair
+constant and $(H_2)$ obstruction, checks the odd-arity example,
+and tests each step of the positive argument on signed interactions,
+strong biases, and pinnings. Its actual output is in
+\texttt{verification-output.txt}. These tests do not certify a
+dimension-uniform theorem; the preceding arguments do.
+
+The pair example is compatible with accepted product-block results:
+it refutes a proposed comparison, not AA. Biased products are covered
+by the new theorem with $K=r=0$; no uniform marginal atom floor is
+required. Finite fields can approach degeneracy uniformly without
+changing the bound. Exactly deterministic coordinates may be removed
+and the theorem applied to the remaining law when its stated Gibbs
+hypotheses hold. No universal assertion for arbitrary zero-mass
+interacting laws is made.
+
+The positive theorem settles degree at most two for unrestricted
+support in the prompt's $\omega\le1/8$ class. It does not establish
+uniform (WA) or CI-avg, recover (B) or $(H_2)$, prove the optimal
+variance exponent, or extend the centered-coefficient calculation to
+all degrees. At degree three, derivatives are quadratic rather than
+affine: controlling their centered moments and extracting weighted
+coefficients requires additional work, and the known pair-block
+obstructions must still be respected. The general $d\ge3$ target
+remains open in this report.
+
+The corrected Gibbs-history PDF proves a different result: its
+Theorem 4.2 approximates quantum acceptance probabilities, and its
+Section 5 explicitly does not assert polynomial-influence AA.
+Its Lemmas 2.2--2.4 distinguish complete-trajectory map independence
+from the generally dependent posterior given the final input.
+Neither that independence nor the $4T\sqrt\gamma$ hybrid bound
+is used here. We obtain physical coordinate influence directly
+from derivatives, local conditional variances, and a spectral
+contraction estimate.
+
+\appendix
+\section{Source and verification ledger}
+\begin{enumerate}
+\item \texttt{prompt/polynomial-aa-next-agent-prompt.md}: target,
+normalizations, default question (B), required scope, and the correction
+to the earlier degree-one necessity claim. No necessity claim is used.
+\item \texttt{prompt/polynomial-aa-research-handoff.md}: the pair-block
+test family, proposed coefficient route, auxiliary moment formulations,
+and previously accepted special cases. Its statements are context;
+all mathematical inputs used in this report have been re-proved.
+\item \texttt{gibbs\_history\_aa\_corrected.pdf}, especially Lemmas
+2.2--2.4, Theorem 4.2, and Section 5: scope of query simulation and
+the posterior-independence distinction. No theorem is imported from
+this PDF into the influence proof.
+\item A. Defant, M. Mastylo, A. Perez,
+\href{https://arxiv.org/abs/1707.09186}{\emph{Bohr's phenomenon for
+functions on the Boolean cube}}, arXiv:1707.09186: primary abstract
+consulted for coefficient-inequality background. No constant or theorem
+from it is imported; the required degree-two estimate is proved here.
+\item The original reviewed-literature file, derivative-route manuscript,
+replacement Gram manuscript, and scripts listed under \texttt{.ultramath/}
+were unavailable because that directory is absent. The handoff exists
+under \texttt{prompt/}, not at the requested \texttt{results/} path.
+New verification code was written only after these availability checks
+and after reading the supplied materials. No absent script is reported
+as executed.
+\end{enumerate}
+Apart from elementary finite-dimensional spectral theory, Holder,
+Cauchy--Schwarz, and conditional expectation identities, there are no
+unproved imported mathematical inputs to Theorem~\ref{thm:main}.
+This is a written proof with numerical checks, not a proof-assistant
+certificate or an independent referee review.
+\end{document}

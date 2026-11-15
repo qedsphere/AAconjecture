@@ -56,6 +56,18 @@ Theorem~\ref{thm:resolution-dynamics-arbitrary-degree} uses the
 weighted incident sum $\beta\max_i\sum_{A\ni i}(|A|-1)|J_A|$.
 It does not establish the whole stated Dobrushin regime.
 
+A subsequent derivation in
+Section~\ref{resolution-dynamics:dobrushin-attempt} improves the
+pairwise sufficient bound to $\beta\max_i\sum_j|J_{ij}|\le1/5$,
+with the same $O(T^{18}\epsilon^{-28})$ query exponents. It separates
+conditional forward branching, unconditional reverse branching, and
+posterior rejection costs. That section also proves that the
+single-update posterior support contraction used in this approach
+can fail for every random-map representation even when the
+Dobrushin coefficient is $2/5$. This is an obstruction to that proof
+step, not a counterexample to the Dobrushin simulation conjecture.
+The new derivation is separate from the earlier audited revision.
+
 For measured quantum Gibbs laws, the bounded-locality and bounded
 per-site term-norm hypothesis is now sufficient at an explicit small
 constant: Corollary~\ref{cor:quantum-clusters-full-aa} proves the
@@ -73,6 +85,15 @@ Forests demonstrate the latter bridge even beyond a uniqueness regime.
 Bounded-degree loopy Ising models now have a proved high-temperature
 regime, and explicit signed pairwise families fail at low temperature.
 A sharp boundary for those local counterexamples remains unproved.
+
+The classification extension in
+Section~\ref{sec:classification-tree-partitions} now supplies the
+forward and posterior construction on a tree of bounded-size bags.
+It proves all-finite-temperature simulation for cactus graphs,
+fixed-width strips, and bounded-treewidth graphs with bounded degree.
+The table in Section~\ref{sec:hamiltonian-classification} records
+these classes alongside exact global-code thresholds and the
+remaining sufficient-only regimes.
 
 Finally, Section~\ref{sec:resolution-nonmonotone} disproves general
 monotonicity: one extensive Hamiltonian has full AA exactly on

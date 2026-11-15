@@ -1,0 +1,12 @@
+PASS: exact cubic interpolation identity and absolute weight sum 26
+PASS: exact pair-block cubics m=1,...,4, including generator and physical influences
+  analytic m=10: old Gram ratio=10/9; expected derivative a_{0}=1/9
+  analytic m=100: old Gram ratio=20/9; expected derivative a_{0}=1/9
+  analytic m=1000: old Gram ratio=40/3; expected derivative a_{0}=1/9
+  analytic m=1000000: old Gram ratio=37040/3; expected derivative a_{0}=1/9
+PASS: 20 exact decoupled bilinear moment/L1 checks
+PASS: 69 cubic cases: products, near-degenerate fields, signed hyperedges, pinnings, odd arity, Dobrushin cycles
+PASS: 6 additional exact energy-recursion and derivative-extraction cases at degrees 1,2,4,5
+B = 1024 * 26^(3/2) = 135756.29553
+omega <= 1/8: proved cubic flip coefficient = 1.23321643004e-26 times v^4
+All finite checks passed. The analytic proof, not these tests, gives dimension uniformity.

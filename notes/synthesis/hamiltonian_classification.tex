@@ -1,0 +1,241 @@
+\section{Hamiltonian classification and temperature table}
+\label{sec:hamiltonian-classification}
+
+This table assembles the previously dispersed model results and adds
+the tree-partition consequences of
+Section~\ref{sec:classification-tree-partitions}, endpoint improvements
+for the local code constructions, and arbitrary prescribed global
+thresholds and failure windows. The new deductions are recorded on
+14 November 2026; they have explicit arguments and finite checks but
+have not received an independent audit. Positive statements retain
+the imported uniform-AA or product-alphabet completion inputs of
+their cited proofs. No claim of a complete classification or research
+priority is made.
+
+\paragraph{Conventions needed to read the table.}
+The target is polynomial classical \emph{query} simulation of every
+quantum acceptance function, with polynomial dependence on $T$ and
+$1/\epsilon$ independent of dimension. No computation-time guarantee
+is asserted. We classify families $H_n$, with a specified energy
+normalization and, for quantum systems, a specified measurement.
+Unless expressly stated otherwise, $\beta\ge0$ and all structural
+parameters are fixed as $n\to\infty$. Write
+\[
+ \Lambda=\sup_n\max_i\sum_j|J_{ij}|,\quad
+ W=\sup_n\max_i\sum_{A\ni i,\,|A|\ge2}(|A|-1)|J_A|,
+ \quad c_k=\frac{e^{-k(2+\frac12\log2)}}{32ek}.
+\]
+The symbol $J_*$ bounds each remaining pair coupling. All classical
+positive graph results allow arbitrary finite fields and coupling
+signs. ``All finite'' means every fixed $0\le\beta<\infty$, not
+a uniform assertion for $\beta_n\to\infty$. The endpoint $\infty$
+means the canonical Gibbs ground-state limit where it is included.
+``Open here'' records the scope of these notes, not a claim that no
+result exists anywhere in the literature. A sufficient endpoint is
+not called an exact critical temperature.
+
+\begingroup\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth}>{\raggedright\arraybackslash}p{0.23\textwidth}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.25\textwidth}@{}}
+\toprule
+Hamiltonian family & Proven simulation region & Proven failure & Status / justification\\
+\midrule
+\endfirsthead
+\toprule
+Hamiltonian family & Proven simulation region & Proven failure & Status / justification\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Independent components of bounded size, classical or quantum &
+$[0,\infty]$, uniformly in temperature & None &
+Complete; product-block law. Quantum measurement must factor across components.\\
+\addlinespace
+Classical fixed-species permutation-invariant models, including Curie--Weiss &
+$[0,\infty]$, including cooling schedules & None &
+Complete; Theorem~\ref{thm:species_simulation}. No query threshold at the Curie--Weiss influence transition.\\
+\addlinespace
+Ising forests; bounded feedback vertex set leaving a forest &
+All finite, with bounded $J_*$ on remaining forest & None at finite $\beta$ &
+Theorem~\ref{thm:threshold-ising-forests} and Corollary~\ref{cor:threshold-feedback-sets}.\\
+\addlinespace
+Cactus graphs, including arbitrary collections of cycles &
+All finite, bounded $J_*$ & None at finite $\beta$ &
+New: bags of size two, crossing strength $\le2J_*$; Corollary~\ref{cor:classification-easy-graphs}.\\
+\addlinespace
+Fixed-width ladders and strips; fixed-range one-dimensional chains &
+All finite, fixed width/range and bounded strengths & None at finite $\beta$ &
+New: tree of bags. Width or range growing with $n$ is excluded.\\
+\addlinespace
+Graphs with bounded treewidth \emph{and} bounded maximum degree &
+All finite, bounded $J_*$ & None at finite $\beta$ &
+New: Wood's partition theorem plus Theorem~\ref{thm:classification-bag-forest}.\\
+\addlinespace
+General tree of disjoint bounded-size bags &
+All finite with bounded interbag potential norm & None at finite $\beta$ &
+New: Theorem~\ref{thm:classification-bag-forest}; intrabag energies unrestricted.\\
+\addlinespace
+Arbitrary pairwise Ising families &
+$\beta\Lambda\le1/5$ & Some bounded-degree families fail at low temperature &
+Sufficient only; Theorem~\ref{thm:dobrushin-partial-one-fifth}. General graph geometry remains relevant.\\
+\addlinespace
+Nearest-neighbor square lattice, $|J_{ij}|\le J$ &
+$0\le\beta J\le1/20$ & Not established here for this class &
+Sufficient only; $\Lambda\le4J$. A thermodynamic critical point does not establish a query threshold.\\
+\addlinespace
+Nearest-neighbor $d$-dimensional grids, fixed $d$ &
+$\beta J\le1/(10d)$;\newline for $d=1$, all finite &
+Not established here for the grid class &
+For $d\ge2$ the displayed bound is sufficient; use $\Lambda\le2dJ$.\\
+\addlinespace
+General classical many-body interactions &
+$\beta W\le1/8$ & Some global code families fail at every $\beta>0$ &
+No arity or degree bound in the positive theorem. Global examples need not have bounded $W$.\\
+\addlinespace
+Specified bounded-degree pairwise code gadget with fields, scale $j$ &
+$\beta\Lambda\le1/5$ & $\beta j\ge t_*$;\newline $t_*\simeq0.244717$ &
+Gap remains. $K(t_*)=\log2/32$; failure endpoint added below.\\
+\addlinespace
+Specified zero-field bounded-degree signed code gadget, scale $j$ &
+$\beta\Lambda\le1/5$ & $\beta j\ge b_0$;\newline $b_0\simeq133.0951$ &
+Gap remains; sufficient failure bound $\simeq133.0951$. Endpoint added below.\\
+\addlinespace
+Global character-code penalty, rescaled to $\beta_c>0$ &
+$[0,\beta_c)$ & $[\beta_c,\infty]$ &
+Exact threshold; Section~\ref{qm:model-and-theorem} and energy rescaling below.\\
+\addlinespace
+Fixed global soft-code Hamiltonian $H_{n,L}$, $L>0$ &
+$\{0\}$ on the finite $\beta$ axis & Every finite $\beta>0$ &
+Exact finite-temperature set; Theorem~\ref{threshold:soft-code-theorem}. Unbounded interaction order.\\
+\addlinespace
+Global three-level code construction with $0<a<b$ &
+$[0,a)\cup(b,\infty]$ & $[a,b]$ &
+Exact disconnected set; prescribed-window extension below.\\
+\addlinespace
+Permutation-invariant noncommuting quantum families with fixed species &
+$[0,\infty]$, including cooling schedules & None &
+Common product measurement basis within each species; Corollary~\ref{cor:quantum_species}.\\
+\addlinespace
+General noncommuting $k$-local quantum Hamiltonians &
+$\beta\Lambda_q\le c_k$ & No universal classification here &
+Incident term norm includes one-site terms. Binary product POVMs; Corollary~\ref{cor:quantum-clusters-full-aa}.\\
+\end{longtable}
+\endgroup
+
+Here $b_0=12289\log2/64$, and the quantum incident norm is
+$\Lambda_q=\sup_n\max_i\sum_{A\ni i}\|h_A\|$.
+
+Classical diagonal Hamiltonians measured in their diagonal product
+basis inherit the corresponding classical rows. A noncommuting
+Hamiltonian on a tree or strip does not automatically inherit the
+classical all-finite-temperature result. For the independent quantum
+component row, tensor factorization of the Gibbs state and a product
+measurement produce independent blocks of bounded size; this proves
+that row directly from Theorem~\ref{thm:threshold-block-products}.
+
+\subsection{Including the boundary in two local failure regimes}
+\label{sec:classification-local-endpoints}
+
+For the pairwise code family of Theorem~\ref{res:pairwise-theorem}, let
+\[
+ K(t)=\frac12\bigl(4\log\cosh(2t)-\log\cosh(4t)\bigr).
+\]
+It is strictly increasing for $t>0$, starts at zero, and is unbounded.
+Thus $K(t_*)=\log2/32$ has one positive solution. The existing proof
+gives, without a strict-temperature assumption,
+\[
+ \delta_n\le\frac1n\exp\bigl((\log2-32K(\beta j))n\bigr).
+\]
+At equality $K(\beta j)=\log2/32$, this is $\delta_n\le1/n\to0$.
+The same query lower bound
+\[
+ \mathbb E|D-P|\ge(1-\delta_n)
+       \left[\frac{1-2^{3t-m/2}}2-\frac18\right]
+\]
+therefore still forces $t=\Omega(\log n)$ at constant error.
+Exponential convergence was stronger than necessary. Consequently
+the sufficient failure condition may be strengthened from $>$ to
+$\ge$, with $t_*\simeq0.2447170446$. This is not a proof that $t_*$
+is the exact simulation threshold.
+
+Likewise, Theorem~\ref{res:zero-field-theorem} supplies
+\[
+ \delta_n\le\frac1{2n}
+  \exp\bigl(((1+6C)\log2-64\beta j)n\bigr),\qquad C=2048.
+\]
+At $\beta j=(1+6C)\log2/64$, the upper bound is $1/(2n)$,
+and the same lower-bound argument applies. The zero-field sufficient
+failure condition also includes its endpoint. Both constructions
+retain bounded degree and incident strength, and every auxiliary
+spin remains queryable. Neither is an asserted lower bound for
+all Ising models with those degree and strength bounds.
+
+\subsection{Prescribing a global threshold or a failure window}
+\label{sec:classification-prescribed-window}
+
+The value of an exact threshold cannot be discussed without energy
+normalization. If the character-code penalty Hamiltonian from
+Section~\ref{qm:model-and-theorem} is divided by $\beta_c>0$,
+its effective inverse temperature is $\beta/\beta_c$. Its exact
+simulation region becomes $[0,\beta_c)$ and its failure region
+$[\beta_c,\infty]$. The ground-state limit is the uniform code law,
+so the same one-query separation persists at $\infty$.
+
+More generally, choose any fixed $0<a<b<\infty$, let $\mathcal C_n$
+be the size-$n$ character code, and distinguish its all-plus word
+$c_0$. Define
+\[
+ H_n(x)=\begin{cases}
+ 0,&x=c_0,\\
+ (\log n)/b,&x\in\mathcal C_n\setminus\{c_0\},\\
+ (n\log2)/a,&x\notin\mathcal C_n.
+ \end{cases}
+ \tag{CW1}
+\]
+This has the exact simulation set
+\[
+ \boxed{[0,a)\ \cup\ (b,\infty]},\qquad
+ \text{and exact failure set }[a,b].
+ \tag{CW2}
+\]
+To verify this, use the exact partition function
+\[
+ Z_n=1+(n-1)n^{-\beta/b}+(2^n-n)2^{-\beta n/a}.
+\]
+For fixed $\beta<a$, the bulk dominates exponentially, and the
+Gibbs law is within $C_\beta/n$ of uniform after enlarging the
+constant to cover finitely many small $n$. Uniform simulation at
+error $\epsilon/2$ suffices when this distance is at most
+$\epsilon/2$; otherwise querying all $n\le2C_\beta/\epsilon$
+spins suffices. For $a\le\beta\le b$, the law dominates uniform
+code measure with weight
+$n^{1-\beta/b}/Z_n$, tending to one for $a\le\beta<b$ and
+to $1/2$ at $\beta=b$. The existing code query lower bound applies.
+For $\beta>b$, the mass outside $c_0$ is at most
+$C_\beta n^{-(\beta/b-1)}$. Outputting $Q(c_0)$ or reading the
+whole input, according to whether this bound is at most $\epsilon$,
+uses polynomially many queries. At $\infty$ the input is $c_0$
+deterministically. This repeats the original nonmonotone proof with
+two independent energy scales, and supplies the exact endpoints.
+It is a global-interaction construction, not a bounded-locality example.
+
+\subsection{A practical order of classification}
+
+For a proposed family, first fix normalization, the input measurement,
+and whether temperature is fixed or dimension dependent. Then check
+independent bounded components and fixed-species symmetry; these can
+settle every temperature immediately. Next seek a tree-partition
+into bounded-size bags, possibly after reading a bounded exceptional
+set. For remaining classical families compute $\Lambda$ or $W$,
+and for quantum families compute locality $k$ and $\Lambda_q$.
+These quantities supply positive regions, not negative conclusions
+outside those regions. To claim failure, exhibit an actual quantum
+acceptance function and a classical query lower bound with all
+physical coordinates accessible. To claim an exact threshold, close
+the remaining interval and check its endpoints.
+
+Bounded-degree graphs with bounded treewidth are now classified at
+all finite temperatures by the new argument. Natural next targets
+include bounded-treewidth graphs with unbounded degree outside the
+already covered cases, general ferromagnetic graphs, and concrete
+two-dimensional lattices. The full Dobrushin extension remains a
+sufficient-region conjecture, not a proposed universal sharp threshold.

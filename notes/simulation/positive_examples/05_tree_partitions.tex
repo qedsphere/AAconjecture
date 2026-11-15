@@ -1,0 +1,198 @@
+\subsection{Trees of bounded-size bags: strips, cactus graphs, and bounded treewidth}
+\label{sec:classification-tree-partitions}
+
+This is a new deduction for the classification table, recorded on
+14 November 2026. It extends the binary forest construction to finite
+state spaces. Its simulation input is the product-alphabet theorem in
+Section~\ref{sec:resolution-product-alphabets}; it is separate from
+the earlier audited revision and makes no priority claim.
+
+\begin{theorem}[Simulation on a tree of bounded-size bags]
+\label{thm:classification-bag-forest}
+Partition the physical spins into known disjoint bags $B_v$, each
+containing at most $b$ spins, indexed by the vertices of a forest $F$.
+Suppose the classical Hamiltonian has the form
+\[
+ H(x)=\sum_v V_v(x_{B_v})+
+       \sum_{uv\in E(F)}\Phi_{uv}(x_{B_u},x_{B_v}),\qquad
+ |\Phi_{uv}(s,t)|\le B.
+ \tag{BF1}
+\]
+The finite intrabag potentials $V_v$ are unrestricted. For fixed $b$
+and fixed $\beta B<\infty$, the Gibbs family has full acceptance
+simulation uniformly in the number of bags, their degrees, and all
+intrabag potentials. The result is hereditary under pinnings.
+
+More explicitly, put $\rho=1-e^{-4\beta B}$, and take $L=1$ if
+$\rho=0$; otherwise set
+\[
+ L=\max\left\{1,\left\lceil
+       \frac{2\log(8T/\epsilon)}{\log(1/\rho)}\right\rceil\right\}.
+\]
+For $T\ge1$ and $0<\epsilon<1$, a valid physical-spin query bound is
+\[
+ O\!\left(b((L+1)T)^6\epsilon^{-15}\right).
+ \tag{BF2}
+\]
+There is no assertion of efficient computation or a uniform
+zero-temperature bound.
+\end{theorem}
+
+\begin{proof}
+Root the forest and regard each bag state as a single symbol in
+$\Omega_v=\{-1,1\}^{B_v}$. Summing over descendant bags gives
+\[
+ \mu(x)=\prod_{r\text{ root}}\pi_r(x_{B_r})
+             \prod_{e=(u,v)}K_e(x_{B_u},x_{B_v}),\qquad
+ K_e(s,t)=\frac{w_v(t)e^{-\beta\Phi_e(s,t)}}{Z_e(s)},
+ \tag{BF3}
+\]
+where $w_v(t)>0$ includes all descendant partition functions and
+$V_v$. For any two parent states $s,s'$, (BF1) gives
+\[
+ e^{-4\beta B}\le\frac{K_e(s,t)}{K_e(s',t)}
+                         \le e^{4\beta B}.
+ \tag{BF4}
+\]
+Indeed the ratio of unnormalized weights is in
+$[e^{-2\beta B},e^{2\beta B}]$, and the ratio of normalizers is
+in the same interval. The factors $w_v(t)$ cancel, which is why
+arbitrary fields and intrabag energies cause no loss.
+
+Define the common part of the rows by
+\[
+ m_e(t)=\min_sK_e(s,t),\quad q_e=\sum_t m_e(t),\quad
+ R_e(s,t)=\frac{K_e(s,t)-m_e(t)}{1-q_e}.
+\]
+When $q_e=1$, simply use a parent-independent update. Otherwise,
+independently sample an edge source symbol consisting of
+\[
+ C_e\sim\operatorname{Bernoulli}(1-q_e),\quad
+ Y_e\sim m_e/q_e,\quad
+ (A_{e,s})_{s\in\Omega_u},\qquad A_{e,s}\sim R_e(s,\cdot),
+ \tag{BF5}
+\]
+with all entries independent. Its output on parent state $s$ is
+$Y_e$ if $C_e=0$ and $A_{e,s}$ if $C_e=1$.
+Choose root states independently with laws $\pi_r$.
+All these sources form a product law on finite alphabets. A source
+query returns the whole symbol, including its table; its potentially
+large computational representation is immaterial to the query model.
+This constructs exactly (BF3).
+
+Conditioned on the entire physical configuration $X=x$, source
+symbols remain independent across edges and roots: each edge has
+just its own constraint that the output on $x_{B_u}$ equals
+$x_{B_v}$. Its posterior requires only those two bag states. In
+particular,
+\[
+ \Pr(C_e=1\mid X=x)
+ =1-\frac{m_e(x_{B_v})}{K_e(x_{B_u},x_{B_v})}
+ \le1-e^{-4\beta B}=\rho<1.
+ \tag{BF6}
+\]
+This posterior is explicit. On $C_e=0$, fix $Y_e=x_{B_v}$ and
+leave the residual table at its prior law. On $C_e=1$, fix the
+selected table entry $A_{e,x_{B_u}}=x_{B_v}$, leaving $Y_e$ and
+all other table entries at their prior laws. Select these two cases
+with their posterior probabilities. Impossible cases have zero
+probability and need not be sampled. A root posterior is its observed
+bag state. Thus each adaptive source request costs at most $2b$
+physical queries; cache its answer.
+
+To evaluate an output bag, follow its unique ancestor path for at
+most $L$ edges. Stop at the first reset $C_e=0$ or at a root, then
+apply the already read tables downwards. If neither occurs, return
+a fixed bag state. This is a deterministic map on the whole product
+alphabet and uses at most $L+1$ source queries. It yields a coherent
+physical-bit oracle with at most $2(L+1)$ source queries by computing
+and uncomputing the bag state. Given $X=x$, it can err only if all
+$L$ edges on the inspected path have $C_e=1$. The path is fixed by
+the forest, and posterior edge independence and (BF6) give
+\[
+ \Pr[F_L(Z)_i\ne x_i\mid X=x]\le\rho^L.
+\]
+Apply product-alphabet simulation at mean error $\epsilon/2$ to
+$Q\circ F_L$, and supply its source answers with the local posterior
+above. The extra hybrid error is at most
+$4T\rho^{L/2}\le\epsilon/2$. Multiplying the source query bound
+by $2b$ gives (BF2). Fix all auxiliary randomness by averaging.
+
+After pinning, restrict each bag alphabet to the consistent states,
+retaining singleton alphabets for fully pinned bags. The same
+forest factorization and cross-potential bound hold, so the argument
+is uniform under pinnings.
+\end{proof}
+
+\begin{corollary}[Classical Ising consequences]
+\label{cor:classification-easy-graphs}
+For pairwise Ising interactions with $|J_{ij}|\le J_*$, arbitrary
+signs, and arbitrary finite fields, each of the following classes
+has full AA at every fixed $\beta J_*<\infty$:
+\begin{enumerate}
+\item Fixed-width strips and ladders. On a nearest-neighbor strip
+of width $w$, use columns as bags: $b=w$, $B\le wJ_*$.
+For a periodic longitudinal direction, fold the cycle of columns
+into a path of paired columns: $b\le2w$, $B\le2wJ_*$.
+\item One-dimensional finite-range models with fixed range $R$.
+For an open chain, consecutive groups of $R$ spins give $b=R$ and
+$B\le R^2J_*$. Periodic chains may again be folded with a constant
+factor increase. This also covers bounded-strength higher-order
+terms of fixed spatial range, provided the total absolute strength
+crossing each bag boundary is uniformly bounded.
+\item Cactus graphs, with no degree bound and arbitrarily many
+cycles of arbitrary lengths: $b\le2$, $B\le2J_*$.
+\item Graphs with uniformly bounded treewidth and maximum degree.
+\end{enumerate}
+The bounds are uniform after pinnings. The strip width, range,
+treewidth, and maximum degree in their respective assertions must
+be independent of system size.
+\end{corollary}
+
+\begin{proof}
+For a pairwise Hamiltonian on any tree-partition, use
+$\Phi_{uv}(s,t)=-\sum_{i\in B_u,j\in B_v}J_{ij}s_it_j$;
+its norm is bounded by the sum of crossing absolute couplings.
+This proves the first two assertions using the indicated partitions.
+
+For the third, a cactus has only edges and simple cycles as its
+biconnected blocks. Root its block-cut structure. A bridge creates
+a singleton child bag. For a cycle attached at an already assigned
+vertex $v_0$, write its other vertices in cyclic order
+$v_1,\ldots,v_{\ell-1}$ and create successive bags
+$\{v_1,v_{\ell-1}\},\{v_2,v_{\ell-2}\},\ldots$, ending with
+a singleton when needed. The first new bag attaches to the bag
+containing $v_0$; subsequent bags form a path. Each interface carries
+at most two original edges. Recursively attach all remaining blocks
+at the bags containing their articulation vertices. Bags are disjoint,
+have size at most two, and their quotient is a forest. This proves
+the claimed constants, including for many disconnected components.
+
+For the fourth, the graph-theoretic input is that bounded treewidth
+and bounded maximum degree imply bounded tree-partition width;
+see \href{https://arxiv.org/abs/math/0602507}{Wood, \emph{On
+Tree-Partition-Width}, Theorem 1}. In particular, a width
+$b=O((\operatorname{tw}(G)+1)\Delta(G))$ partition exists. Every
+interface has at most $b\Delta(G)$ edges, so take
+$B=b\Delta(G)J_*$. Apply Theorem~\ref{thm:classification-bag-forest}.
+This imports a graph partition theorem, not a quantum simulation
+theorem. Computation of the partition is free in our model.
+\end{proof}
+
+One may also query a fixed number $r$ of exceptional spins first,
+if their deletion leaves one of these classes. Interactions with
+queried spins become fields, giving an additional cost of $r$,
+just as in the feedback-set corollary. Couplings incident only
+through this exceptional set need not obey the remaining-edge bound.
+
+These conclusions do not classify unbounded-width two-dimensional
+grids, all bounded-treewidth graphs without degree control, arbitrary
+dimension-dependent cooling schedules, or general noncommuting
+quantum Hamiltonians on the same graphs. Locally diagonal classical
+Hamiltonians are included when measured in their diagonal product
+basis. A general quantum measurement law need not have (BF3).
+
+The finite checks in \path{../checks/tree_partition_checks.py}
+verify kernel reconstruction, posterior factorization on a small
+bag tree, and the cactus partition construction. They supplement,
+rather than replace, the argument above.

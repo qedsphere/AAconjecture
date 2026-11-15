@@ -1,0 +1,614 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,array}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{microtype}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Inf}{\operatorname{Inf}}
+\newcommand{\R}{\mathbb R}
+\setlength{\emergencystretch}{2em}
+\title{Degree-three polynomial influence for Gibbs measures:\\
+expected derivatives bypass the centered-Gram obstruction}
+\author{Research continuation in the AAconjecture workspace}
+\date{14 November 2026}
+\begin{document}
+\maketitle
+
+\noindent\textbf{Status.} A self-contained argument below proves a
+dimension-independent $c\,v^4$ lower bound on physical flip influence
+for globally bounded real polynomials of degree at most three. The
+Hamiltonians have arbitrary finite fields, arbitrary interaction
+arities, and unrestricted coordinate support. The hypotheses are a
+fixed TV Dobrushin margin and a fixed bound on incident interaction
+strength; in particular, every fixed weighted-strength regime
+$\omega\le\omega_0<1$ is covered. A final corollary, using the precisely
+stated scalar Boolean Bohnenblust--Hille theorem, extends the method
+to each fixed degree. This answers the handoff's weaker
+$n$-independent-$S(v,d)$ formulation, but does not give a bound
+polynomial jointly in $d$ and $1/v$, or a sharp inverse-temperature
+threshold. Finite computations supplement the proofs. No independent
+audit, novelty claim, or formal verification is asserted.
+
+The prompt and handoff were read from \texttt{prompt/}; the requested
+\texttt{.ultramath/} archive is absent. Its unavailable manuscripts and
+scripts are not inputs to this proof. The earlier quadratic report is
+preserved. The corrected Gibbs-history PDF is used to keep query
+simulation distinct from physical polynomial influence; its simulation
+theorem is not used here.
+
+\section{Precise statement and conventions}
+
+For arbitrary $n\ge1$, let
+\[
+ H(x)=-\sum_{|A|\ge2}J_A\prod_{i\in A}x_i-\sum_i h_ix_i,
+ \qquad \mu(x)=Z^{-1}e^{-\beta H(x)},\qquad x\in\{-1,1\}^n,
+\]
+with finite real coefficients and $\beta\ge0$. Set
+\[
+ K=\max_i\beta\sum_{A\ni i,\ |A|\ge2}|J_A|,
+ \qquad \omega=\max_i\beta\sum_{A\ni i,\ |A|\ge2}(|A|-1)|J_A|.
+\]
+Here $K$ bounds interactions, not fields. No bound is imposed on
+$\max_i\beta|h_i|$, the arities, or the support of the polynomial.
+Put
+\[
+ \theta_i=\mu(X_i=1\mid X_{-i}),\quad
+ v_i=4\theta_i(1-\theta_i),\quad
+ m_i=\E X_i,\quad \sigma_i^2=1-m_i^2.
+\]
+Full support implies $\sigma_i>0$. Define $c_{ii}=0$ and
+\[
+ c_{ij}=\sup_{x,z:\,x_{-j}=z_{-j}}
+ |\theta_i(x_{-i})-\theta_i(z_{-i})|,
+ \qquad r=\max_i\sum_j c_{ij}.
+\]
+This is the total-variation/probability convention, not the
+conditional-mean convention, which has an extra factor two.
+For the multilinear derivative
+$\partial_i p=(p(+1,x_{-i})-p(-1,x_{-i}))/2$, use exactly
+\[
+ \Inf_i^{\rm fl}=4\E(\partial_i p)^2,\qquad
+ \Inf_i^{\rm pv}=\E[v_i(\partial_i p)^2],\qquad
+ \Inf_i^{\rm rs2}=2\Inf_i^{\rm pv}.
+\]
+Thus $\Inf_i^{\rm fl}\ge4\Inf_i^{\rm pv}=2\Inf_i^{\rm rs2}$.
+All derivatives and expectations below use the same original law
+$\mu$; differentiation never differentiates the measure.
+
+\begin{theorem}[Cubic influence bound]\label{thm:cubic}
+Fix $K_0<\infty$, $0\le r_0<1$, and $0<v\le1$ before choosing
+$n$. Let $\mu$ be any law above with $K\le K_0$, $r\le r_0$.
+Define the universal numerical constant
+\[
+ B=1024\,26^{3/2}.
+\]
+Every real multilinear $p$ with $\deg p\le3$,
+$\|p\|_{\infty,\{-1,1\}^n}\le1$, and $\Var_\mu p\ge v$ has
+a coordinate $i$ satisfying simultaneously
+\begin{align}
+ \Inf_i^{\rm fl}(p)&\ge
+ \frac{e^{-40K_0}(1-r_0)^{12}}{324B^4}\,v^4,
+ \label{eq:mainfl}\\
+ \Inf_i^{\rm pv}(p)&\ge
+ \frac{e^{-44K_0}(1-r_0)^{12}}{1296B^4}\,v^4,
+ \label{eq:mainpv}\\
+ \Inf_i^{\rm rs2}(p)&\ge
+ \frac{e^{-44K_0}(1-r_0)^{12}}{648B^4}\,v^4.
+ \label{eq:mainrs}
+\end{align}
+The constants do not depend on $n$, field strengths, or support size.
+They are deliberately conservative, not claimed optimal.
+\end{theorem}
+
+\begin{corollary}[Weighted strength and pinnings]\label{cor:omega}
+For every fixed $0\le\omega_0<1$, the theorem holds uniformly when
+$\omega\le\omega_0$, with $K_0=r_0=\omega_0$. In particular,
+\[
+ \boxed{\omega\le\tfrac18\quad\Longrightarrow\quad
+ \max_i\Inf_i^{\rm fl}(p)\ge
+ \frac{e^{-5}(7/8)^{12}}{324(1024\,26^{3/2})^4}\,v^4.}
+\]
+The same bound holds after any pinning, provided the restricted
+polynomial has variance at least $v$ under the pinned law.
+\end{corollary}
+
+\begin{corollary}[Pairwise coupling-based Dobrushin region]\label{cor:pairwise}
+For pairwise Ising Hamiltonians with arbitrary signs and finite fields,
+assume $\max_i\sum_j\tanh(\beta|J_{ij}|)\le1-\kappa$ for fixed
+$0<\kappa\le1$. Then
+\[
+ \max_i\Inf_i^{\rm fl}(p)\ge
+ \frac{\kappa^{32}}{324B^4(2-\kappa)^{20}}\,v^4.
+\]
+The simultaneous posterior-variance bound is
+$\kappa^{34}v^4/[1296B^4(2-\kappa)^{22}]$.
+Both statements are uniform under pinnings.
+\end{corollary}
+
+\section{The genuine roadblock in the old route}
+
+Ordinary centered Taylor coefficients do not give a uniform upper
+Gram bound for cubics. To see this with exact constants, take an
+independent uniform spin $X_0$ and $m$ independent Ising pairs,
+\[
+ H=-a\sum_{j=1}^m X_{2j-1}X_{2j},\quad
+ a=\tfrac12\log(5/4)<\tfrac18,\quad
+ Y_j=X_{2j-1}X_{2j},\quad \rho=\tanh a=\tfrac19.
+\]
+Here $K=\omega=a$, $r=\rho$, all fields vanish, and all one-site
+means vanish. For the globally bounded cubic
+\[
+ p_m=X_0\frac1m\sum_{j=1}^mY_j
+\]
+one has
+\[
+ \E p_m=0,\quad
+ \Var p_m=\rho^2+\frac{1-\rho^2}{m},\quad
+ \sum_{S\ne\emptyset}\widehat p_m(S)^2=\frac1m.
+\]
+The ratio is $m\rho^2+1-\rho^2\to\infty$. Centering by marginal
+means changes nothing. Consequently, extending the quadratic proof
+by asserting a uniform Gram bound for those centered coefficients
+would be invalid, even with variance bounded below.
+
+This is not an influence counterexample:
+\[
+ \Inf_0^{\rm fl}(p_m)=4\left(\rho^2+\frac{1-\rho^2}{m}\right),
+ \qquad \Inf_{2j-1}^{\rm fl}(p_m)=\Inf_{2j}^{\rm fl}(p_m)=\frac4{m^2}.
+\]
+The coordinate $0$ already has large influence. The new coefficients
+detect it through $\E\partial_0p_m=\rho$, which ordinary centered
+linear coefficients miss. Thus the obstruction is bypassed below,
+not assumed away.
+
+\section{Two local estimates, proved without field restrictions}
+
+\begin{lemma}[Dobrushin Poincare estimate]\label{lem:poincare}
+If $r<1$ and $C=(1-r)^{-1}$, then every function on the cube satisfies
+\[
+ \Var_\mu f\le C\sum_i\E\Var(f\mid X_{-i})
+ =C\sum_i\E[v_i(\partial_i f)^2].
+\]
+In particular, for affine $f=c+\sum_i t_ix_i$,
+\[
+ \Var_\mu f\le C\sum_i\sigma_i^2t_i^2.
+\]
+\end{lemma}
+\begin{proof}
+Write $P_i f=\E[f\mid X_{-i}]$ and $P=n^{-1}\sum_iP_i$.
+These are operators on $L^2(\mu)$; $P_i$ are orthogonal projections,
+so $P$ is self-adjoint and positive semidefinite. For
+$\delta_i(f)=\max_x|f(x)-f(x^{(i)})|$, coupling the two conditional
+laws of spin $j$ at inputs differing at $i$ gives
+\[
+ \delta_i(P_j f)\le\delta_i(f)+c_{ji}\delta_j(f)\quad(i\ne j),
+ \qquad \delta_i(P_i f)=0.
+\]
+Indeed the coupled configurations differ at $i$, and additionally
+at $j$ with probability at most $c_{ji}$. Summing yields
+\[
+ \sum_i\delta_i(Pf)\le
+ \left(1-\frac{1-r}{n}\right)\sum_i\delta_i(f).
+\]
+Every nonconstant eigenfunction has positive oscillation seminorm;
+its eigenvalue is at most $1-(1-r)/n$. The Dirichlet identity
+$\langle f,(I-P)f\rangle=n^{-1}\sum_i\E\Var(f\mid X_{-i})$
+and finite-dimensional diagonalization give the claimed inequality.
+For affine $f$, use $\E v_i\le\Var X_i=\sigma_i^2$, by total variance.
+\end{proof}
+
+\begin{lemma}[Local variance comparison]\label{lem:local}
+With $D=e^{4K}$, for every boundary configuration,
+\[
+ D^{-1}\sigma_i^2\le v_i(x_{-i})\le D\sigma_i^2.
+ \tag{LC}
+\]
+Consequently, for every multilinear $f$ and every $i$,
+\begin{align}
+ \Var f&\le CD\sum_i\sigma_i^2\E(\partial_i f)^2,
+ \label{eq:upper}\\
+ \E f^2&\ge D^{-1}\sigma_i^2\E(\partial_i f)^2.
+ \label{eq:lower}
+\end{align}
+\end{lemma}
+\begin{proof}
+The conditional log odds
+$\ell_i=2\beta h_i+2\beta\sum_{A\ni i}J_A\chi_{A\setminus i}$
+have oscillation at most $4K$. The marginal probability
+$\bar\theta_i=\E\theta_i$ lies between the extreme conditional
+probabilities, so its log odds lie in the same interval. For
+$g(\ell)=4e^\ell/(1+e^\ell)^2$, one has $|(\log g)'|\le1$.
+Since $g(\ell_i)=v_i$ and $g(\operatorname{logit}\bar\theta_i)
+=\sigma_i^2$, (LC) follows. The upper estimate follows from
+Lemma~\ref{lem:poincare}; the lower follows from
+$\E f^2\ge\E\Var(f\mid X_{-i})$ and (LC).
+\end{proof}
+
+For the Gibbs specification, flipping $x_j$ changes the local field
+at $i$ by at most $2\beta\sum_{A\ni i,j}|J_A|$. The derivative of
+$(1+\tanh u)/2$ is at most $1/2$, so
+\[
+ c_{ij}\le\beta\sum_{A\ni i,j}|J_A|,\qquad r\le\omega,
+ \qquad K\le\omega.
+ \tag{DS}
+\]
+No independence, global density ratio, or uniform conditional atom
+floor is asserted or needed.
+
+\section{Expected derivatives and their generating polynomial}
+
+For a subset $S$, let $\partial_S=\prod_{i\in S}\partial_i$,
+$\sigma_S=\prod_{i\in S}\sigma_i$, and define
+\[
+ a_S=\sigma_S\E_\mu\partial_Sp,\qquad
+ a_\emptyset=\E_\mu p.
+\]
+For degree two these coincide with the weighted centered coefficients
+used in the earlier report. For degree three, the linear coefficient
+includes covariances: generally
+$\E\partial_i p\ne(\partial_i p)(m)$.
+
+\begin{lemma}[Upper energy estimate for cubics]\label{lem:energy}
+If $\deg p\le3$, then
+\begin{align}
+ \Var_\mu p
+ &\le CD\sum_{|S|=1}a_S^2
+       +2C^2D^2\sum_{|S|=2}a_S^2
+       +6C^3D^2\sum_{|S|=3}a_S^2\nonumber\\
+ &\le L\sum_{1\le|S|\le3}a_S^2,
+ \qquad L=6C^3D^2.\label{eq:energy}
+\end{align}
+\end{lemma}
+\begin{proof}
+Apply \eqref{eq:upper} to $p$, and write
+$\E(\partial_i p)^2=(\E\partial_i p)^2+\Var(\partial_i p)$.
+Apply \eqref{eq:upper} again to each derivative. The second derivative
+$\partial_{ij}p$ is affine, so the last assertion of
+Lemma~\ref{lem:poincare} gives
+\[
+ \E(\partial_{ij}p)^2\le(\E\partial_{ij}p)^2+
+ C\sum_{k\notin\{i,j\}}\sigma_k^2(\partial_{ijk}p)^2.
+\]
+The third derivatives are constants. Substitution proves the first
+line: each two-element subset occurs in two orders, and each triple
+in six. Repeated indices contribute zero by multilinearity.
+Finally $C,D\ge1$, so every coefficient is at most $L$.
+\end{proof}
+
+\begin{lemma}[A bounded generating polynomial]\label{lem:generator}
+If $\deg p\le3$ and $\|p\|_\infty\le1$, the polynomial
+\[
+ g(z)=\E_\mu[p(X_1+\sigma_1z_1,\ldots,X_n+\sigma_nz_n)]
+      =\sum_{|S|\le3}a_Sz^S
+\]
+is multilinear and satisfies $\|g\|_{\infty,[-1,1]^n}\le26$.
+\end{lemma}
+\begin{proof}
+The exact multilinear Taylor expansion at each $X$ proves the
+coefficient identity; expectation is under the fixed original law.
+Multilinearity also extends $|p|\le1$ to the whole cube $[-1,1]^n$.
+For $y\in[-2,2]^n$, set $h(t)=p(ty/2)$. This has degree at most
+three and $|h(t)|\le1$ on $[-1,1]$. Lagrange interpolation at
+$-1,-1/2,1/2,1$ gives
+\[
+ h(2)=-\tfrac52h(-1)+6h(-1/2)-10h(1/2)+\tfrac{15}2h(1).
+\]
+The absolute weights sum to $26$, so $|p(y)|\le26$.
+Since $X+\sigma z\in[-2,2]^n$, averaging proves the bound.
+\end{proof}
+
+\section{A self-contained cubic coefficient inequality}
+
+\begin{lemma}[Elementary scalar coefficient estimate]\label{lem:bh}
+For every real multilinear polynomial $g(z)=\sum_{|S|\le3}a_Sz^S$
+of norm at most $G$ on $[-1,1]^n$,
+\[
+ \sum_{1\le|S|\le3}|a_S|^{3/2}\le1024\,G^{3/2}.
+ \label{eq:bh}\tag{CB}
+\]
+\end{lemma}
+\begin{proof}
+The case $G=0$ is immediate. Write $g=a_\emptyset+Q_1+Q_2+Q_3$
+into homogeneous parts. Its odd part $O=Q_1+Q_3$ has norm at most
+$G$, and
+\[
+ Q_3(z)=\tfrac43 O(z)-\tfrac83 O(z/2),\qquad Q_1=O-Q_3.
+\]
+Thus $\|Q_3\|\le4G$, $\|Q_1\|\le5G$. The even part gives
+$\|Q_2\|\le2G$, because $|a_\emptyset|=|g(0)|\le G$.
+In particular $\sum_{|S|=1}|a_S|\le5G$.
+
+We supply the required array inequalities and moment estimates.
+For a matrix $A$, let $R_i=(\sum_j A_{ij}^2)^{1/2}$ and
+$S_j=(\sum_i A_{ij}^2)^{1/2}$. Three-factor Holder applied to
+\[
+ |A_{ij}|^{4/3}=
+ (|A_{ij}|^2/R_i)^{1/3}(|A_{ij}|^2/S_j)^{1/3}(R_iS_j)^{1/3}
+\]
+gives
+\[
+ \left(\sum_{ij}|A_{ij}|^{4/3}\right)^{3/4}
+ \le\left(\sum_iR_i\right)^{1/2}
+      \left(\sum_jS_j\right)^{1/2}.\tag{M2}
+\]
+Zero slices can be removed. For a three-index array, put
+$R_i=(\sum_{jk}A_{ijk}^2)^{1/2}$, with $S_j,T_k$ defined analogously.
+Four-factor Holder, using the factorization
+\[
+ |A_{ijk}|^{3/2}=
+ (|A_{ijk}|^2/R_i)^{1/4}
+ (|A_{ijk}|^2/S_j)^{1/4}
+ (|A_{ijk}|^2/T_k)^{1/4}(R_iS_jT_k)^{1/4},
+\]
+gives
+\[
+ \left(\sum_{ijk}|A_{ijk}|^{3/2}\right)^{2/3}
+ \le\left(\sum_iR_i\sum_jS_j\sum_kT_k\right)^{1/3}.\tag{M3}
+\]
+
+For a linear form $Z$ in independent uniform signs,
+$\E Z^4\le3(\E Z^2)^2$; expanding the fourth power proves this.
+For a bilinear form $Z=\sum_{jk}b_{jk}\varepsilon_j\eta_k$ in two
+independent sign groups,
+\[
+ \E Z^4\le9\left(\sum_{jk}b_{jk}^2\right)^2.
+\]
+Indeed, condition first on $\varepsilon$ and apply the linear
+fourth-moment bound; expand the resulting square of a sum of squared
+linear forms and apply Cauchy--Schwarz and the same bound once more.
+Holder in the form
+$\E Z^2\le(\E|Z|)^{2/3}(\E Z^4)^{1/3}$ therefore gives
+$\|Z\|_2\le\sqrt3\|Z\|_1$ in the linear case and
+$\|Z\|_2\le3\|Z\|_1$ in the bilinear case.
+
+For $B(x,y)=\sum A_{ij}x_iy_j$, apply the linear estimate rowwise:
+\[
+ \sum_iR_i\le\sqrt3\E_y\sum_i|\sum_jA_{ij}y_j|
+ \le\sqrt3\|B\|_\infty.
+\]
+The same holds for columns. Thus (M2) gives
+$\|A\|_{4/3}\le\sqrt3\|B\|_\infty$.
+For $T(x,y,z)=\sum A_{ijk}x_iy_jz_k$, the bilinear estimate likewise
+gives $\sum_iR_i\le3\|T\|_\infty$ in each of the three directions;
+(M3) gives $\|A\|_{3/2}\le3\|T\|_\infty$.
+
+For $Q_2$, set $A_{ij}=a_{\{i,j\}}/2$ off the diagonal and zero
+on it. Polarization gives
+$B(x,y)=Q_2((x+y)/2)-Q_2((x-y)/2)$, hence $\|B\|\le4G$.
+Therefore the quadratic coefficient vector has $\ell^{4/3}$ norm
+at most $2^{1/4}4\sqrt3G$. Its $\ell^{3/2}$ norm is no larger, so
+\[
+ \sum_{|S|=2}|a_S|^{3/2}
+ \le(2^{1/4}4\sqrt3G)^{3/2}<24G^{3/2}.
+\]
+The last strict inequality is equivalent to $2^3<3^2$.
+
+For $Q_3$, set $A_{ijk}=a_{\{i,j,k\}}/6$ for distinct indices,
+zero otherwise. The symmetric trilinear form has diagonal $Q_3$,
+and polarization gives
+\[
+ T(x,y,z)=\frac1{2^3\,3!}
+ \sum_{\varepsilon\in\{-1,1\}^3}
+ \varepsilon_1\varepsilon_2\varepsilon_3
+ Q_3(\varepsilon_1x+\varepsilon_2y+\varepsilon_3z).
+\]
+Homogeneity bounds its norm by $(3^3/3!)\|Q_3\|\le18G$.
+Consequently
+\[
+ \sum_{|S|=3}|a_S|^{3/2}
+ =\sqrt6\sum_{ijk}|A_{ijk}|^{3/2}
+ \le\sqrt6(54G)^{3/2}=972G^{3/2}.
+\]
+The linear contribution is at most $(5G)^{3/2}<12G^{3/2}$.
+Adding the three estimates gives less than $1008G^{3/2}$, which
+implies the stated, slightly looser $1024G^{3/2}$ bound.
+\end{proof}
+
+\section{Extracting a physical influential coordinate}
+
+Apply Lemmas~\ref{lem:generator}--\ref{lem:bh} to obtain
+\[
+ \sum_{1\le|S|\le3}|a_S|^{3/2}\le B.
+\]
+Let $M=\max_{1\le|S|\le3}|a_S|$. The variance assumption and
+Lemma~\ref{lem:energy} imply
+\[
+ v\le L\sum_{S\ne\emptyset}a_S^2
+ \le LB M^{1/2},\qquad
+ M^2\ge\left(\frac{v}{LB}\right)^4.\tag{E}
+\]
+Choose a maximizing $S$, of size $k\in\{1,2,3\}$, and any $i\in S$.
+Iterate \eqref{eq:lower} on $\partial_i p$ over the distinct
+coordinates in $S\setminus\{i\}$. All expectations remain under $\mu$.
+Then Jensen yields
+\[
+ \E(\partial_i p)^2
+ \ge D^{-(k-1)}\sigma_{S\setminus i}^2\E(\partial_Sp)^2
+ \ge D^{-(k-1)}\sigma_{S\setminus i}^2(\E\partial_Sp)^2.
+\]
+Since $\sigma_i^2\le1$, the same coordinate satisfies
+\[
+ \Inf_i^{\rm fl}\ge4D^{-(k-1)}a_S^2\ge4D^{-2}M^2,
+ \qquad
+ \Inf_i^{\rm pv}\ge D^{-k}a_S^2\ge D^{-3}M^2.
+\]
+For the second inequality also use
+$\Inf_i^{\rm pv}\ge D^{-1}\sigma_i^2\E(\partial_i p)^2$.
+Substituting (E) and $L=6C^3D^2$ proves
+\[
+ \Inf_i^{\rm fl}\ge\frac{D^{-10}C^{-12}}{324B^4}v^4,
+ \qquad \Inf_i^{\rm pv}\ge\frac{D^{-11}C^{-12}}{1296B^4}v^4.
+\]
+Since $D=e^{4K}$, $C=(1-r)^{-1}$, monotonicity in $K,r$ proves
+Theorem~\ref{thm:cubic}, including the resampling conversion.
+
+Equation (DS) proves Corollary~\ref{cor:omega}. Pinning restricts
+the set of boundary configurations, so its TV matrix is bounded
+entrywise by the original matrix on the remaining coordinates.
+Interaction supports shrink; after combining identical residual
+terms by the triangle inequality, neither $K$ nor $\omega$ increases.
+Residual singleton terms become unrestricted fields. Thus the
+theorem itself is stable under pinnings, with the variance hypothesis
+checked under the resulting law.
+
+For Corollary~\ref{cor:pairwise}, the exact conditional logistic
+formula gives $c_{ij}\le\tanh(\beta|J_{ij}|)$. If
+$t_j=\tanh(\beta|J_{ij}|)$ and $\sum_jt_j<1$, the positive power
+series of $\operatorname{arctanh}$ gives
+\[
+ \sum_j\beta|J_{ij}|=\sum_j\operatorname{arctanh}t_j
+ \le\operatorname{arctanh}\Big(\sum_jt_j\Big)
+ \le\tfrac12\log\frac{2-\kappa}{\kappa}.
+\]
+Substitute this bound for $K$ and $r\le1-\kappa$ in the theorem.
+
+\section{A fixed-degree corollary and its precise limitation}
+
+The cubic proof already supplies all its scalar coefficient estimates.
+For completeness, there is a direct generalization using one imported
+theorem. Defant--Mastylo--Perez, \emph{On the Fourier spectrum of
+functions on Boolean cubes}, arXiv:1706.03670v1, equation (2) and
+Theorem 1.1, state that for every integer $d\ge1$ there is a finite
+$b_d$, independent of $n$, such that every real multilinear polynomial
+$g$ of degree at most $d$ satisfies
+\[
+ \left(\sum_{|S|\le d}|\widehat g(S)|^{q_d}\right)^{1/q_d}
+ \le b_d\|g\|_{\infty,\{-1,1\}^n},\qquad
+ q_d=\frac{2d}{d+1}.
+ \tag{BH}
+\]
+Here these are ordinary uniform Walsh coefficients of $g$, not
+coefficients of $p$ in a presumed orthogonal Gibbs basis. This is the
+only imported analytic theorem needed for the following corollary;
+it is not needed for the cubic theorem.
+
+\begin{corollary}[Every fixed degree]\label{cor:general}
+Fix $d\ge1$, $v>0$, $K_0<\infty$ and $r_0<1$ before $n$. Under the
+same Gibbs assumptions, write
+\[
+ C_0=(1-r_0)^{-1},\quad D_0=e^{4K_0},\quad
+ L_d=d!C_0^dD_0^{d-1},\quad
+ B_d=(b_dT_d(2))^{q_d},
+\]
+where $T_d$ is the Chebyshev polynomial. Every bounded real $p$ of
+degree at most $d$ and variance at least $v$ has a coordinate satisfying
+\[
+ \Inf_i^{\rm fl}(p)\ge
+ 4D_0^{-(d-1)}\left(\frac{v}{L_d B_d}\right)^{d+1},\qquad
+ \Inf_i^{\rm pv}(p)\ge
+ D_0^{-d}\left(\frac{v}{L_d B_d}\right)^{d+1}.
+\]
+In particular the $n$-independent function requested in the prompt
+exists uniformly for every fixed $\omega_0<1$.
+\end{corollary}
+\begin{proof}
+Iterate \eqref{eq:upper} and
+$\E f^2=(\E f)^2+\Var f$, using the affine bound at the last
+step. For $k<d$ the resulting coefficient of
+$\sum_{|S|=k}a_S^2$ is $k!C^kD^k$; at $k=d$ it is
+$d!C^dD^{d-1}$. Each is at most $L_d$, including $d=1$.
+Thus $\Var p\le L_d\sum_{S\ne\emptyset}a_S^2$.
+
+The same generator has norm at most $T_d(2)$. Here is an elementary
+verification: interpolate any degree-at-most-$d$ polynomial $h$
+bounded by one on $[-1,1]$ at $t_j=\cos(j\pi/d)$, $0\le j\le d$.
+The Lagrange weights at $2$ have signs $(-1)^j$. Since
+$T_d(t_j)=(-1)^j$, their absolute sum is $T_d(2)$, and hence
+$|h(2)|\le T_d(2)$. Apply this to $h(t)=p(ty/2)$ as before.
+Applying (BH) to this real multilinear generator proves
+$\sum_{S\ne\emptyset}|a_S|^{q_d}\le B_d$.
+
+Since $2-q_d=2/(d+1)$, if $M=\max_{S\ne\emptyset}|a_S|$ then
+$v\le L_dB_dM^{2/(d+1)}$, so
+$M^2\ge(v/(L_dB_d))^{d+1}$. The identical derivative extraction
+on a maximizing subset of size at most $d$ gives the two bounds.
+\end{proof}
+
+This corollary resolves the literal fixed-degree, dimension-free
+target stated in the prompt and handoff. It must not be advertised
+as a bound $(v/d)^{O(1)}$ with an absolute exponent. Its variance
+exponent is $d+1$, and $L_d$ contains $d!$ while
+$T_d(2)=((2+\sqrt3)^d+(2-\sqrt3)^d)/2$ grows exponentially.
+The method therefore leaves the stronger joint-polynomial target
+open. This quantitative loss is the remaining roadblock in this
+method, after the cubic centered-Gram roadblock has been bypassed.
+
+\section{Checks, scope, and what remains open}
+
+For the pair-block cubic above, all $\sigma_i=1$, and its generator is
+exactly
+\[
+ g_m(z)=\rho z_0+\frac1m\sum_{j=1}^m z_0z_{2j-1}z_{2j}.
+\]
+Its norm is $1+\rho$, and its expected-derivative energy is
+$\rho^2+1/m$, rather than $1/m$. This explains explicitly why the
+new energy estimate survives the old obstruction. It does not imply
+the false base inequality (B) or uncentered marginal-product moment
+domination from the earlier reports.
+
+The hypotheses allow biased product laws ($K=r=0$), arbitrarily
+large finite fields, and zero-field odd-arity interactions whose
+one-site means need not vanish. Neither Boolean-valuedness nor
+bounded support is used. Exactly deterministic product coordinates
+can be removed before application. The general theorem is stated
+for full-support Gibbs laws, and does not silently assert a Dobrushin
+specification on boundaries of probability zero.
+
+The companion \texttt{verify.py} uses Python's standard library and
+the existing quadratic script's finite-cube helpers. Rational Gibbs
+weights $\prod_A(1+t_A\chi_A)\prod_i(1+u_ix_i)$ represent exactly
+$\beta J_A=\operatorname{arctanh}t_A$ and
+$\beta h_i=\operatorname{arctanh}u_i$. Moments, derivatives, TV
+coefficients, weighted squared coefficients, and the successive
+Poincare/energy/extraction inequalities are checked rationally.
+In particular $D=e^{4K}$ is computed as the exact rational maximum
+$\max_i\prod_{A\ni i}((1+|t_A|)/(1-|t_A|))^2$.
+Only fractional powers, displayed decimals, and the supplementary
+weighted-generator evaluations use floating point. The script also
+checks the generating-polynomial identity with rational shifts,
+the interpolation formula, the exact pair-block cubic, signed
+hyperedges, strong biases, pinnings, and small higher-degree cases
+for the energy recurrence. Recorded output accompanies the source.
+None of these finite tests proves a dimension-uniform statement.
+
+The inverse-temperature condition is sufficient, not necessary:
+if $W=\max_i\sum_{A\ni i}(|A|-1)|J_A|>0$, this proof applies
+for $\beta W\le\omega_0<1$. If $W=0$ the law is product and all
+finite $\beta$ are covered. No universal sharp $\beta$ threshold,
+optimal influence exponent, all-temperature theorem, or new
+efficient classical-simulation runtime is obtained here.
+The supplied \texttt{gibbs\_history\_aa\_corrected.pdf}, Theorem 4.2
+and Section 5, treats query simulation separately; its complete-history
+independence must not be mistaken for conditional independence given
+the final input. No such independence is used above.
+
+\appendix
+\section{Source and dependency ledger}
+\begin{enumerate}
+\item \path{prompt/polynomial-aa-next-agent-prompt.md};\\
+\path{prompt/polynomial-aa-research-handoff.md}:\\
+problem, conventions,
+counterexample tests and proof standards. Their old status statements
+are not assumed as mathematical inputs. Their referenced
+\texttt{.ultramath/} sources are unavailable in this workspace.
+\item \texttt{results/quadratic\_gibbs\_centered/report.tex}:
+preceding quadratic argument, local estimates, and obstructions.
+The analytic facts needed for this new cubic theorem are re-proved
+above. Its \texttt{verify.py} supplies only finite enumeration helpers.
+\item \texttt{gibbs\_history\_aa\_corrected.pdf}, particularly
+Theorem 4.2 and Section 5: scope of the separate query result.
+No theorem from it is imported into the influence proof.
+\item A. Defant, M. Mastylo and A. Perez,
+\emph{On the Fourier spectrum of functions on Boolean cubes},
+\href{https://arxiv.org/pdf/1706.03670}{arXiv:1706.03670v1},
+equation (2), p.~2, and Theorem 1.1, p.~3: scalar Boolean
+Bohnenblust--Hille inequality (BH). Its exact real-valued,
+degree-at-most-$d$, dimension-free statement was checked in the
+primary paper. It is used only in Corollary~\ref{cor:general}.
+The cubic coefficient lemma is proved independently above.
+\end{enumerate}
+\end{document}

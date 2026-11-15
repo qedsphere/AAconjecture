@@ -1,0 +1,265 @@
+\subsection{A partial Dobrushin extension and a limitation of single-update contraction}
+\label{resolution-dynamics:dobrushin-attempt}
+
+This section records a new derivation on 14 November 2026. It is not
+part of the previously audited revision described above. The full
+Dobrushin extension remains conjectural. The positive result below
+improves the pairwise sufficient constant from $1/8$ to $1/5$ by
+separating three estimates that the earlier proof bounded by the same
+number. It inherits the product-alphabet completion input of
+Section~\ref{sec:resolution-product-alphabets}.
+
+\begin{theorem}[An improved pairwise sufficient region]
+\label{thm:dobrushin-partial-one-fifth}
+Let
+\[
+ \mu(x)\propto\exp\left(\beta\sum_{ij}J_{ij}x_ix_j
+                         +\beta\sum_i h_ix_i\right),\qquad
+ K=\beta\max_i\sum_j|J_{ij}|\le\frac15.
+\]
+For finite parameters, $T\ge1$, and $0<\epsilon<1$, every $T$-query quantum acceptance function
+has a deterministic classical simulator of mean absolute error
+$\epsilon$ using $O(T^{18}\epsilon^{-28})$ individual-spin queries.
+The implied constant is absolute. There is no degree bound or field
+bound, and the conclusion holds uniformly after arbitrary pinnings.
+This is a query bound, not a computation-time bound.
+\end{theorem}
+
+\paragraph{A Taylor representation of the update.}
+Write one site's conditional mean as
+$m(\eta)=\tanh(b+u(\eta))$, where
+$u(\eta)=\sum_j a_j\eta_j$ and $k=\sum_j|a_j|\le1/5$.
+Here $b=\beta h_i$, $a_j=\beta J_{ij}$, and lower-case $k$ in this
+proof is an incident strength, not an interaction order. Put
+\[
+ r=\tanh b,\qquad
+ \tanh(b+z)=r+\sum_{\ell\ge1}c_\ell z^\ell,\qquad
+ A=\sum_{\ell\ge1}|c_\ell|k^\ell,\quad
+ C=\sum_{\ell\ge1}\ell|c_\ell|k^\ell.
+\]
+Absolute coefficient majorization by $\tan z$ and the addition
+formula for $\tanh$ give
+\[
+ A\le\frac{(1-r^2)\tan k}{1-|r|\tan k},\qquad
+ C\le\frac{k(1-r^2)}{(\cos k-|r|\sin k)^2}.             \tag{DT1}
+\]
+Indeed, the majorant for $\tanh z$ is $\tan z$; expand
+$(1+r\tanh z)^{-1}$ geometrically and differentiate its positive
+majorant for the second bound. These series converge absolutely in
+the stated range. Since $\tan k<1/3$, the first bound implies
+$|r|+A\le1$: after canceling $1-|r|$, the required inequality is
+$(1+2|r|)\tan k\le1$.
+
+Choose a constant map $+1$ or $-1$ with probabilities
+$(1+r-A)/2$ and $(1-r-A)/2$. With probability
+$|c_\ell|k^\ell$, choose $\ell$ indices independently with
+probabilities $|a_j|/k$ and return
+\[
+ M(\eta)=\operatorname{sign}(c_\ell)
+             \prod_{v=1}^\ell\bigl(\operatorname{sign}(a_{j_v})\eta_{j_v}\bigr).
+\]
+For $k=0$ use the constant update directly. The pointwise mean is
+exactly $m(\eta)$, so this is an exact heat-bath map. Repeated indices
+cancel in pairs. Write $S(M)$ for the resulting parity support and
+let $L=\ell$ for this construction, with $L=0$ on the initial constant
+choices. Then $|S(M)|\le L$.
+
+The auxiliary description uses unbounded $\ell$, but the actual
+source symbol is only the signed parity map after cancellation.
+There are finitely many such maps on each finite neighborhood.
+Merge all descriptions of the same map, including constant maps.
+Thus the source alphabet is finite, as required by the existing
+product-alphabet theorem. The variable $L$ is used only to upper-bound
+costs, and is not part of an oracle answer.
+
+\paragraph{Three distinct dependency estimates.}
+First, for every fixed neighbor assignment and output $y\in\{-1,1\}$,
+\[
+ \mathbb E[|S(M)|\mid M(\eta)=y]
+ \le \mathbb E[L\mid M(\eta)=y]
+ =\frac{C+y u\,\operatorname{sech}^2(b+u)}{1+y\tanh(b+u)}.
+                                                               \tag{DT2}
+\]
+To verify the equality, use
+$\mathbf1_{M=y}=(1+yM)/2$ and
+$\mathbb E[LM(\eta)]=\sum_\ell\ell c_\ell u^\ell
+=u\operatorname{sech}^2(b+u)$.
+This signed term is the improvement over bounding the numerator
+by the entire unconditioned support cost.
+
+Set $t=yu$, $R=y\tanh b$, and
+$A_k=2k/(\cos k-\sin k)^2$. The first term in (DT2) obeys
+\[
+ \frac{C}{1+y\tanh(b+u)}\le A_k e^{-2t}.              \tag{DT3}
+\]
+For completeness, after applying (DT1) the numerator factor is
+\[
+ \frac{1-R^2}{1+\tanh(\operatorname{arctanh}R+t)}
+ =(1-R)(\cosh t+R\sinh t)e^{-t}.
+\]
+The derivative of $(1-R)(\cosh t+R\sinh t)$ in $R$ is
+$-\cosh t+(1-2R)\sinh t<0$ for $|t|\le1/5$ and $-1\le R\le1$.
+For $t\ge0$ use $3\tanh(1/5)<1$; for $t<0$ use
+$|\sinh t|<\cosh t$. Its supremum is therefore its value at
+$R=-1$, namely $2e^{-t}$. Also
+$(\cos k-|R|\sin k)^2\ge(\cos k-\sin k)^2$, proving (DT3).
+
+The second term in (DT2) is $t(1-y\tanh(b+u))$. If $t<0$, drop
+this nonpositive term. If $t\ge0$, bound it by $2t$ and use convexity
+of $A_ke^{-2t}+2t$ on $[0,k]$. Consequently
+\[
+ \mathbb E[|S(M)|\mid\eta,y]
+ \le\max\{A_ke^{2k},\ A_k,\ A_ke^{-2k}+2k\}
+ \le \rho:=\frac23 e^{2/5}<1.                       \tag{DT4}
+\]
+Here $1-\sin(2k)\ge1-2k$ and $k\le1/5$ bound the first two
+terms by $(2/3)e^{2/5}$ and $2/3$. For the third, use
+\[
+ A_ke^{-2k}+2k
+ \le\frac{2k}{(1-2k)(1+2k)}+2k
+ \le\frac{92}{105}<\rho.
+\]
+The expression in the middle is increasing on $[0,1/5]$.
+The strict inequality $e^{2/5}<3/2$ follows, for example, from
+$\log(3/2)>2/5$ by strict convexity of $1/(1+s)$ and integration
+over $0\le s\le1/2$.
+
+Second, an unconditioned map has expected support
+\[
+ \mathbb E|S(M)|\le C
+ \le\frac{k}{1-\sin(2k)}\le\frac13=:q.              \tag{DT5}
+\]
+Third, if a map is proposed repeatedly until it produces a specified
+output $y$ on fixed neighbors, the expected sum of proposed support
+sizes is
+\[
+ \frac{\mathbb E|S(M)|}{p(y\mid\eta)}
+ \le\frac{2C}{1+y m(\eta)}
+ \le2 A_ke^{2k}\le\frac43e^{2/5}<2.                \tag{DT6}
+\]
+This last quantity need not be less than one. It bounds the number
+of roots supplied to the reverse exploration, not its branching rate.
+
+\paragraph{Transfer through the existing history construction.}
+Use the proper-color heat-bath schedule of
+Section~\ref{resolution-dynamics:arbitrary-degree}, with the finite
+map symbols just constructed. Conditional on a complete stationary
+history, distinct forward maps are independent. Equation (DT4)
+therefore gives, after $s_0$ whole sweeps,
+\[
+ \Pr[F(Z)_i\ne x_i\mid X=x]\le\rho^{s_0},\qquad
+ \mathbb E[\text{forward exploration size}\mid X=x]
+ \le(1-\rho)^{-1}.
+\]
+Both follow by the same decreasing-time path expansion as before;
+complete-history conditioning is averaged only after applying the
+uniform local bound. Capping a forward evaluation after $B$ nodes
+adds at most $1/[B(1-\rho)]$ to its conditional error.
+
+For posterior source access, generate the stationary history backwards
+with fresh reverse maps. Each new forward-symbol request needs its
+output-history spin and the neighbor-history spins used by rejection
+proposals. Conditional on the complete history, (DT6) gives at most
+three expected roots per request, including the output spin. For
+$s$ adaptive source requests, their expected total is at most $3s$.
+In the actual lazy reverse exploration, a fresh reverse map has its
+unconditioned law, and (DT5) bounds its expected children by $q=1/3$.
+The queue argument from (POST) consequently bounds expected physical
+history work, conditional on each $x$, by
+\[
+ \frac{3s}{1-q}\le\frac92s.                         \tag{DT7}
+\]
+This again uses complete-history conditioning for rejection costs
+and the exposed-information filtration for reverse exploration;
+the two conditionings are not interchanged.
+
+Choose $\delta=\epsilon^2/(288T^2)$,
+$s_0=\lceil\log(1/\delta)/\log(1/\rho)\rceil$, and
+$B=\lceil[\delta(1-\rho)]^{-1}\rceil$.
+The conditional coupling error is at most $2\delta$, so the quantum
+hybrid error is at most $\epsilon/3$. One coherent output query
+uses at most $2B$ source queries. Product-alphabet simulation at error
+$\epsilon/3$ therefore uses
+$s=O((BT)^6\epsilon^{-15})=O(T^{18}\epsilon^{-27})$
+source queries. Cap posterior work at
+$\lceil27s/(2\epsilon)\rceil$; (DT7) and Markov's inequality bound
+its failure probability by $\epsilon/3$ on each input. The three
+errors sum to $\epsilon$, and fixing all randomness by averaging
+gives the asserted deterministic tree. Pinning removes edges and
+changes only fields, so the same estimates apply. This proves
+Theorem~\ref{thm:dobrushin-partial-one-fifth}.
+
+\paragraph{Why this is not the full Dobrushin theorem.}
+The desired condition is
+$\alpha=\max_i\sum_j\tanh(\beta|J_{ij}|)\le1-\kappa$.
+There is a representation-independent obstruction to deriving it
+by requiring (DT4) with some constant below one at every single-site
+update and every observed output.
+
+\begin{proposition}[A lower bound on posterior support]
+\label{prop:dobrushin-posterior-obstruction}
+Let $M$ be any random deterministic map, sampled independently of
+the neighbor assignment, with $\Pr[M(\eta)=+1]=p(\eta)$.
+Let $S(M)$ contain every coordinate on which the realized map depends.
+Then
+\[
+ \mathbb E[|S(M)|\mid M(\eta)=+1]
+ \ge\sum_j\left(1-\frac{p(\eta^{(j)})}{p(\eta)}\right)_+.
+                                                               \tag{DT8}
+\]
+\end{proposition}
+\begin{proof}
+For each $j$,
+$\Pr[M(\eta)=+1,M(\eta^{(j)})=-1]
+\ge(p(\eta)-p(\eta^{(j)}))_+$.
+On this event the map depends on $j$. Divide by $p(\eta)$ and sum.
+\end{proof}
+
+As an exact example, take a cycle with dimensionless edge strength
+$a=\beta J=\tfrac12\log(3/2)$ and field
+$b=\beta h=-\log8$ at every site. Its coupling-based Dobrushin
+bound is $2\tanh a=2/5$. At neighbors $\eta=(+1,+1)$,
+\[
+ p(\eta)=\frac9{265},\qquad
+ p(\eta^{(j)})=\frac1{65},\qquad
+ \mathbb E[|S(M)|\mid\eta,+1]\ge\frac{128}{117}>1.   \tag{DT9}
+\]
+Thus even a fixed Dobrushin margin $3/5$ does not imply
+single-update posterior support contraction, for any choice of
+input-independent random maps. This does not contradict full AA
+and does not refute the conjecture. In particular, it leaves open
+block updates, multi-step estimates, weighted exploration bounds,
+adaptive evaluation methods not controlled by full map support,
+and direct reveal-progress arguments.
+
+\paragraph{What can be said about a threshold in $\beta$.}
+For a family with $\Lambda=\sup_n\max_i\sum_j|J_{ij}|<\infty$,
+the present conclusion is the sufficient region
+$\beta\Lambda\le1/5$. If $\Lambda=0$, the laws are product and
+all inverse temperatures are covered. The Dobrushin conjecture would
+instead cover every $\beta$ with a fixed uniform margin in
+\[
+ \sup_n\max_i\sum_j\tanh(\beta|J_{ij}|)<1.
+\]
+For maximum degree $D>1$ and equal nonzero edge magnitude $J$,
+the corresponding candidate sufficient boundary is
+$\operatorname{arctanh}(1/D)/J$, whereas this section proves
+$\beta\le1/(5DJ)$. Neither number is established as a necessary
+boundary for simulation. Forests, for example, remain simulable at
+every fixed finite temperature, even beyond their Dobrushin bound.
+No universal exact simulation threshold is obtained here.
+
+Sampling the Gibbs law is a separate problem. For example,
+\href{https://arxiv.org/abs/2111.04044}{Liu--Yin, \emph{Parallelize
+Single-Site Dynamics up to Dobrushin Criterion}}, gives parallel
+sampling results; that does not itself supply the conditional-source
+oracle needed above for a particular unknown input. The remaining
+research target is such an oracle or a polynomial reveal-progress
+argument throughout the full Dobrushin region.
+
+\paragraph{Verification scope.}
+The algebraic estimates and the transfer argument are given explicitly
+above. The accompanying script \path{../checks/dobrushin_update_checks.py}
+checks finite Taylor-map examples with high-precision arithmetic and
+the exact rational obstruction. These checks are supplementary, not
+a proof of the dimension-uniform theorem or an independent review.

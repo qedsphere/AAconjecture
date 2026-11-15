@@ -1,0 +1,13 @@
+PASS: exact pair-block statistics and sharp (B) extremizers, m=1,...,5
+  analytic m=10: lambda_B=8/9, H2 ratio=10/9
+  analytic m=100: lambda_B=4/9, H2 ratio=20/9
+  analytic m=1000: lambda_B=2/27, H2 ratio=40/3
+  analytic m=1000000: lambda_B=1/12501, H2 ratio=37040/3
+PASS: cycle n=3, exact Gram solve; best lambda_B=0.995207679980
+PASS: cycle n=4, exact Gram solve; best lambda_B=0.993620430953
+PASS: cycle n=5, exact Gram solve; best lambda_B=0.992038236845
+PASS: cycle n=6, exact Gram solve; best lambda_B=0.990461073549
+PASS: zero-field odd-arity example; E[X4]=1/1681; amplified Gram formula exact
+PASS: 98 quadratic cases with products, arbitrary fields, signed higher arity, pinnings, and Dobrushin cycles
+omega <= 1/8: proved flip coefficient is 6.50911367868e-07 times v^3
+All finite checks passed. No independent audit or proof-assistant certification is claimed.

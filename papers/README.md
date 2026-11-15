@@ -17,6 +17,7 @@ The three files marked "No" are listed in `.gitignore` because their licence doe
 Primary records checked on 2026-11-14; these PDFs are not added to this repository. See the [detailed scope audit](../notes/synthesis/physical_models/04_literature_audit.tex).
 
 - [Spinka, *Finitary codings for spatial mixing Markov random fields*](https://arxiv.org/abs/1803.10578): forward local coding; no automatic conditional-source query access.
+- [Wood, *On Tree-Partition-Width*, Theorem 1](https://arxiv.org/abs/math/0602507): bounded treewidth and maximum degree imply bounded tree-partition width. The new [bag-forest simulation proof](../notes/simulation/positive_examples/05_tree_partitions.tex) uses this graph theorem to obtain an all-finite-temperature query-simulation result; the simulation deduction is not a claim of Wood's paper.
 - [Chayes, Crawford, Ioffe, Levit, *The Phase Diagram of the Quantum Curie–Weiss Model*](https://arxiv.org/abs/0804.1605): physical phase boundary for the collective transverse-field model.
 - [Bakshi, Liu, Moitra, Tang, *High-Temperature Gibbs States are Unentangled and Efficiently Preparable*, v2](https://arxiv.org/abs/2403.16850v2): separability and preparation, separate from unknown-input query simulation.
 - [Putterman, Zlokapa, Cotler, *When quantum thermal states look classical*, v2](https://arxiv.org/abs/2607.28536v2): locality and per-site-strength temperature scales.
