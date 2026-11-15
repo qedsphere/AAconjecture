@@ -1,0 +1,11 @@
+name = "unifiedAA"
+version = "0.1.0"
+defaultTargets = ["UnifiedAA"]
+
+[[require]]
+name = "AaronsonAmbainis"
+git = "https://github.com/physical-superintelligence/aaronson-ambainis.git"
+rev = "2a6ceaef872ae993708950f951989134084b851a"
+
+[[lean_lib]]
+name = "UnifiedAA"
