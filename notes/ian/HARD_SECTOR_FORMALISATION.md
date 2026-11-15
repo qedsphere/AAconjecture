@@ -101,6 +101,7 @@ have me use it, say so.
 | 15, `ian:hard-sector-resource-equivalence` (FullAA ⇔ 𝖱(μ), smooth and set) | `ResourceProperty`, `fullAA_iff_resourceProperty`, `quantum_fullAA_iff_resourceProperty` | `UnifiedAA.HardSector.Quantifiers` |
 | 30, `ian:simon-law` (randomly labelled Simon law on `Fin (m·2^m) → Bool`; 𝔽₂^m = `Fin m → ZMod 2`) | `SimonGroup`, `simonCoord`, `IsSimonPair`, `simonPairs`, `simonTable`, `simonLaw`, `simonSupport`, `simonMask`, `simonTarget` | `UnifiedAA.HardSector.SimonLaw` |
 | 30, `ian:simon-promise-count` (mask uniqueness, $\lvert H_m\rvert$, uniform weight, $\rho_m$, $\Var Y$, $U(H_m)$ bound) | `isSimonPair_unique`, `simonMask_simonTable`, `card_simonSupport`, `card_simonPair_fiber`, `simonLaw_weight_of_mem`, `simonLaw_weight_of_not_mem`, `simonLaw_prob_support`, `simonLaw_expect_target`, `simonLaw_variance_target`, `uniform_prob_simonSupport` | `UnifiedAA.HardSector.SimonLaw` |
+| 30, `ian:simon-adaptive-posterior` (per transcript: compatible-labelling count, posterior uniform on $(G\setminus\{0\})\setminus E_\tau$, collisions force the mask, $\lvert\E[Y\mid\tau]-\rho_m\rvert\le e/(N-e)$, one collision step) | `simonLabel`, `simonCell`, `simonDiffs`, `simonLiveMasks`, `card_compatible_labellings`, `simon_posterior_uniform`, `simonMask_eq_of_collision`, `simon_posterior_target_bound`, `simon_cell_deviation_le`, `simon_collision_step_le`, `card_simonDiffs_le`, `card_simonLiveMasks_add`, `simonLabel_eq_iff`, `simonLabel_simonTable` | `UnifiedAA.HardSector.SimonPosterior` |
 
 ## Questions for you
 
