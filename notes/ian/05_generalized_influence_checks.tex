@@ -1,0 +1,199 @@
+\subsection{Curie--Weiss and character-code checks}
+\label{ian:generalized-influence-checks}
+
+Status: proved conditionally on (UAA) for the full Curie--Weiss
+generalized-AA assertion. The magnetisation reveal calculation and
+the character-code refutation are unconditional.
+
+\begin{proposition}[Ordered Curie--Weiss]
+\label{ian:cw-generalized-check}
+Assuming (UAA), all positive-probability pinnings of all zero-field
+Curie--Weiss laws satisfy \(\Gamma^{\mathrm{rand}}\), with the universal
+constants of Theorem~\ref{ian:exchangeable-gamma}. For every fixed
+\(\beta>1\), the zero-field family fails the Local alternative as a
+standalone influence theorem.
+\end{proposition}
+
+\begin{proof}
+Curie--Weiss laws are exchangeable, and their pinnings remain
+exchangeable. Apply Theorem~\ref{ian:exchangeable-gamma}.
+
+For the failure of a standalone Local theorem, use
+\(M=n^{-1}\sum_i x_i\). The results in
+\path{influence/curie_weiss/02_low_temperature_failure_above_criticality.tex},
+Section~\ref{cw:low-temperature-failure-for-every-fixed-beta1}, give
+\[
+ \deg M=1,\qquad |M|\le1,\qquad
+ I_i(M)=n^{-2},\qquad
+ v_n:=\Var(M)\longrightarrow m_\beta^2>0.
+\]
+Hence, for example with \(v=m_\beta^2/2\), every proposed positive
+dimension-independent Local lower bound fails for sufficiently large
+\(n\).
+
+The identities recorded in
+\path{synthesis/threshold_theory/06_generalized_influence.tex},
+Section~\ref{tht:generalized-influence}, give exactly
+\[
+ \E[M\mid X_i]=v_nX_i,\qquad
+ \Var(\E[M\mid X_i])=v_n^2.
+\]
+For every nonempty \(S\) and every \(i\in S\), the tower property and
+conditional Jensen imply
+\[
+ \Var(\E[M\mid X_S])
+ \ge\Var(\E[M\mid X_i])=v_n^2.
+\]
+Thus the magnetisation witness has Global gain at least \(v^2\)
+whenever its variance is at least \(v\), even for a single uniformly
+random queried coordinate.
+
+This is consistent with the physical-update obstruction in
+Proposition~\ref{tht:local-update-obstruction} in the same file: observing
+a coordinate and changing a bounded number of physical spins are
+different operations.
+\end{proof}
+
+\begin{proposition}[Direct failure for the character-code law]
+\label{ian:character-code-generalized-failure}
+Fix any \(\beta\ge1\). The character-code family
+\(\{\mu_{\beta,n}:n=2^m,\ m\ge2\text{ even}\}\) satisfies neither
+\(\Gamma^{\mathrm{rand}}\) nor \(\Gamma^{\mathrm{set}}\).
+The same is true of its pinning closure.
+\end{proposition}
+
+\begin{proof}
+Use the notation and exact mixture identity from
+\path{obstructions/character_code/02_exact_mixture_identity_transition_width.tex},
+Section~\ref{qm:exact-mixture-identity-and-transition-width}:
+\[
+ \mu_{\beta,n}=(1-w)U_n+wU_{C_n},\qquad w\ge1/2
+ \quad(\beta\ge1).
+\]
+Let \(P\) be the globally bounded quadratic witness from
+\path{obstructions/character_code/04_globally_bounded_quadratic_witness.tex},
+Section~\ref{qm:a-globally-bounded-quadratic-witness}, and set \(f=2P-1\).
+The calculations there give
+\[
+ |f|\le1,\qquad \deg f\le2,
+\]
+\[
+ \Var_{\mu_{\beta,n}}f
+ =(1-1/n)\left[w+\frac{2(1-w)}n\right]\ge3/8,
+ \qquad
+ I_z^{\mu_{\beta,n}}(f)=\frac{4(1-1/n)}{n^2}.
+ \tag{17}\label{ian:code-local-bound}
+\]
+We prove that bounded-size coordinate sets also have vanishing reveal
+gain.
+
+Fix any \(S\) of size \(s\). Introduce the latent mixture label
+\(\Theta\), so that \(X\mid\Theta=0\) is uniform on the cube and
+\(X\mid\Theta=1\) is uniform on the code. The two component means of
+\(f\) are equal:
+\[
+ \E_{U_n}f=\E_{U_{C_n}}f=-n^{-1/2}.
+\]
+Writing \(G_\nu(f,S)=\Var_\nu(\E_\nu[f\mid X_S])\), the tower property
+and total variance therefore give
+\[
+ \begin{split}
+ G_{\mu_{\beta,n}}(f,S)
+ &\le\Var\bigl(\E[f\mid X_S,\Theta]\bigr)\\
+ &=(1-w)G_{U_n}(f,S)+wG_{U_{C_n}}(f,S).
+ \end{split}
+ \tag{18}\label{ian:code-component-reveal}
+\]
+Equality of the component means removes a possible between-component
+variance term.
+
+The uniform-cube variance calculation in
+Section~\ref{qm:a-globally-bounded-quadratic-witness} of the witness
+file gives
+\[
+ G_{U_n}(f,S)\le\Var_{U_n}f
+ =\frac{2(1-1/n)}n\le\frac2n.
+ \tag{19}\label{ian:code-uniform-reveal}
+\]
+
+For the code component, write \(X=c_a\) with \(a\) uniform in
+\(\mathbb F_2^m\), and let \(F(a)=(-1)^{h(a)}\).
+Then \(f(c_a)=-F(a)\). Revealing \(X_S\) conditions \(a\) onto a
+nonempty affine subspace whose codimension \(r\) is at most \(s\).
+The affine-subspace bound proved in
+\path{obstructions/character_code/06_one_quantum_query_versus_logarithmically.tex},
+Section~\ref{qm:one-quantum-query-versus-logarithmically-many-classical-queries},
+states
+\[
+ \left|\E[F(a)\mid X_S]\right|
+ \le2^{r-m/2}\le\frac{2^s}{\sqrt n}.
+\]
+Consequently,
+\[
+ G_{U_{C_n}}(f,S)
+ \le\E_{U_{C_n}}\bigl(\E[f\mid X_S]\bigr)^2
+ \le\frac{4^s}{n}.
+ \tag{20}\label{ian:code-code-reveal}
+\]
+Combining
+\eqref{ian:code-component-reveal}--\eqref{ian:code-code-reveal} yields
+the bound, uniform over all fixed sets \(S\),
+\[
+ \boxed{\displaystyle
+ G_{\mu_{\beta,n}}(f,S)\le\frac{2+4^{|S|}}n.}
+ \tag{21}\label{ian:code-reveal-upper}
+\]
+
+Now consider any proposed six positive generalized-AA constants.
+Take
+\[
+ d=2,\qquad v_0=3/8,\qquad
+ \ell_0=\left\lceil B_G(2/v_0)^{K_G}\right\rceil .
+\]
+Choose an allowed \(n=2^m\), with \(m\) even, so large that
+\[
+ n>\max\left\{
+ \ell_0,\
+ \frac{2}{\sqrt{c_L(v_0/2)^{C_L}}},\
+ \frac{2+4^{\ell_0}}{c_G(v_0/2)^{C_G}}
+ \right\}.
+\]
+Equation~\eqref{ian:code-local-bound} defeats the Local alternative,
+while \eqref{ian:code-reveal-upper} defeats the Global alternative
+for every \(S\) of size at most \(\ell_0\). It therefore also defeats
+the average over uniformly random \(\ell_0\)-subsets. The variance
+hypothesis remains valid by \eqref{ian:code-local-bound}.
+This refutes both variants for every proposed choice of constants.
+
+The pinning closure contains these unpinned laws, so the same
+counterexamples refute both variants on that closure.
+\end{proof}
+
+\begin{remark}[Pinning closure and consistency with the bridge]
+\label{ian:character-code-pinning}
+The unpinned character-code Gibbs family should not be assumed
+pinning-closed. A pinning conditions the hidden character index on
+linear equations and changes the mixture weight.
+
+More explicitly, pin \(s\) coordinates to an assignment consistent
+with the code, and let \(r\) be the rank of its linear equations on
+\(a\). The residual law is a mixture of the uniform residual cube
+and the pushforward of the uniform law on the corresponding affine
+subspace of hidden indices, with code-component weight
+\[
+ \widetilde w
+ =\frac{w2^{-r}}{(1-w)2^{-s}+w2^{-r}}.
+\]
+If the assignment is inconsistent with the code, the residual law
+is uniform. Thus the class of all positive-probability pinnings is
+the appropriate class for applying Theorem~\ref{ian:bridge}.
+
+The one-query function \(P\) has no dimension-independent classical
+simulation bound at error \(1/8\), by
+Section~\ref{qm:one-quantum-query-versus-logarithmically-many-classical-queries}
+of the query-separation file cited above. If its pinning closure
+satisfied either generalized-AA hypothesis, the bridge would imply
+such a simulation already on the unpinned members.
+Proposition~\ref{ian:character-code-generalized-failure} verifies the
+necessary failure directly, using the same quadratic witness.
+\end{remark}

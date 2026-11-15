@@ -1,0 +1,231 @@
+\subsection{Linear query barriers for canonical spectral sampling primitives}
+\label{ian:spectral-posterior-barriers}
+
+Status: proved barriers for two specified primitives. In the spectrally
+small, delocalized Hadamard family, uniformly sampling one canonical
+Hubbard--Stratonovich field coordinate, even to a fixed small total
+variation error, requires linearly many input queries. The same holds
+for one heat-bath update. These are representation-specific lower
+bounds, not a failure of full AA or a universal obstruction to
+Proposition~\ref{prop:threshold-local-posterior}.
+
+\begin{lemma}[An adaptive sampler's correlation budget]
+\label{ian:adaptive-correlation-budget}
+Let \(V_1,\ldots,V_N\) be independent fair spins, put
+\[
+ S=\sum_jV_j,\qquad Z=S/\sqrt N,
+\]
+and let an adaptive randomized query procedure output \(B\in\{-1,1\}\).
+If \(\tau\) is its number of distinct queried coordinates, then
+\[
+ |\E[BS]|\le\sqrt{\E\tau}.
+ \tag{ian-CB}
+\]
+Suppose a target output mean is \(m(v)\), and the procedure satisfies
+\[
+ \left|\E[B\mid V=v]-m(v)\right|\le2\eta
+ \qquad\text{for every }v.
+\]
+Writing \(r=\E[Z\,m(V)]\), it follows that
+\[
+ \E\tau\ge N(r-2\eta)_+^2.
+ \tag{ian-CBL}
+\]
+Here \(a_+=\max\{a,0\}\). In particular, every worst-case query bound
+must be at least this expectation.
+\end{lemma}
+
+\begin{proof}
+Expose all private randomness, which is independent of \(V\), and
+include it in the transcript. Conditional on the final transcript,
+the unqueried spins remain independent and fair. Hence
+\[
+ \E[S\mid\text{transcript}]
+ =M:=\sum_{\text{queried }j}V_j.
+\]
+The revealed-spin sum is a martingale whose successive fresh increments
+have conditional mean zero and square one. Since there are at most
+\(N\) distinct queries, stopped martingale orthogonality gives
+\(\E M^2=\E\tau\). Therefore
+\[
+ |\E BS|=|\E BM|\le\sqrt{\E M^2}=\sqrt{\E\tau}.
+\]
+The pointwise approximation assumption and \(\E|S|\le\sqrt N\) give
+\[
+ \E BS\ge \E[S\,m(V)]-2\eta\E|S|
+ \ge\sqrt N(r-2\eta).
+\]
+Combine this with (ian-CB). Repeated queries can be removed by caching.
+\end{proof}
+
+Fix a Walsh Hadamard matrix with first row all \(+1\), and write
+\[
+ O=H/\sqrt N,\qquad
+ R=\begin{pmatrix}0&O\\O^\top&0\end{pmatrix},\qquad
+ K=\lambda R,\qquad 0<\lambda\le1/8.
+ \tag{ian-HS-family}
+\]
+Thus \(\|K\|_{\mathrm{op}}=\lambda\), and every nonzero entry has
+magnitude \(\lambda/\sqrt N\).
+
+\begin{proposition}[One canonical Gaussian posterior coordinate costs linearly]
+\label{ian:hs-posterior-linear-lower-bound}
+Use the positive definite diagonal completion
+\[
+ A=2\lambda I+K.
+\]
+In the Hubbard--Stratonovich joint representation of \(\mu_{K,h}\),
+\[
+ Y\mid X=x\sim\mathcal N(Ax,A).
+ \tag{ian-GP}
+\]
+Suppose an oracle procedure, given \(x=(u,v)\), returns a sample whose
+law is within total variation \(\eta\) of the conditional law of
+\(Y_{u_1}\), for every input \(x\). If
+\[
+ \eta\le\frac18\sqrt{\frac{\lambda}{\pi}},
+\]
+then its worst-case spin-query count is at least
+\[
+ \frac{\lambda N}{4\pi}.
+ \tag{ian-GPL}
+\]
+The same lower bound holds if it is asked only for the posterior bit
+\(\mathbf1_{\{Y_{u_1}\ge2\lambda\}}\).
+\end{proposition}
+
+\begin{proof}
+The eigenvalues of \(A\) are \(\lambda\) and \(3\lambda\), so it is
+positive definite. Completing the square in the HS joint density
+proves (ian-GP), for every field \(h\).
+
+Restrict attention to inputs with \(u=(1,\ldots,1)\), and give those
+fixed spins to the procedure for free. Average the remaining inputs
+over independent fair \(V_j\). This averaging law is an adversarial
+test of pointwise correctness; it need not be the Gibbs marginal.
+By the first row of \(O\),
+\[
+ Y_{u_1}\mid(u,v)
+ \sim\mathcal N\left(
+ 2\lambda+\lambda\frac{\sum_jv_j}{\sqrt N},\,2\lambda\right).
+\]
+Consequently the target mean of the sign bit
+\(B=2\mathbf1_{\{Y_{u_1}\ge2\lambda\}}-1\) is
+\[
+ m(v)=2\Phi(bZ)-1,\qquad b=\sqrt{\lambda/2},
+\]
+where \(\Phi\) is the standard Gaussian distribution function.
+Total variation error \(\eta\) changes this bit's mean by at most
+\(2\eta\).
+
+For \(t\ge0\),
+\[
+ 2\Phi(t)-1
+ =\sqrt{\frac2\pi}\int_0^t e^{-s^2/2}\,ds
+ \ge\sqrt{\frac2\pi}\left(t-\frac{t^3}{6}\right).
+\]
+Oddness therefore gives, for every real \(z\),
+\[
+ z\bigl(2\Phi(bz)-1\bigr)
+ \ge\sqrt{\frac2\pi}
+       \left(bz^2-\frac{b^3z^4}{6}\right).
+\]
+Since \(\E Z^2=1\) and \(\E Z^4=3-2/N\le3\),
+\[
+ r:=\E[Zm(V)]
+ \ge\sqrt{\frac2\pi}b(1-b^2/2)
+ =\sqrt{\frac{\lambda}{\pi}}(1-\lambda/4).
+\]
+For the stated range of \(\lambda,\eta\),
+\[
+ r-2\eta\ge\frac12\sqrt{\frac{\lambda}{\pi}}.
+\]
+Lemma~\ref{ian:adaptive-correlation-budget} now gives
+\(\E\tau\ge\lambda N/(4\pi)\). Thresholding a sample of the real
+coordinate gives the same bit, so the bound applies to either task.
+\end{proof}
+
+This proves more than the observation that the posterior mean depends
+on all spins: even one coarse posterior bit has a linear query
+requirement at an error threshold depending only on the fixed
+temperature. Thus the canonical coordinate oracle cannot satisfy a
+dimension-independent \(b(1)\) in the conditional-access requirement
+of Proposition~\ref{prop:threshold-local-posterior}.
+
+There is also a separate source-law issue. In this representation,
+\(X\mid Y\) is a product law, but the marginal law of \(Y\) is
+\[
+ \nu(dy)\propto
+ e^{-y^\top A^{-1}y/2}\prod_i2\cosh(h_i+y_i)\,dy,
+\]
+which is not generally a product law. Product conditional spins do not
+make the full latent source independent. The lower bound above holds
+even if a suitable AA theorem for that latent source were granted.
+
+The conclusion concerns the displayed physical-field coordinates, or
+their displayed threshold bits. It does not quantify over all
+reparameterizations, encodings, or alternative couplings. In
+particular, after pinning all \(u\)'s, the remaining physical Ising law
+is itself a product law; one can abandon the original HS representation
+and simulate that law directly.
+
+\begin{proposition}[Uniform heat-bath access also costs linearly]
+\label{ian:heatbath-linear-lower-bound}
+For (ian-HS-family) at zero field, suppose an oracle procedure samples
+the heat-bath output at \(u_1\), with total variation error at most
+\(\eta\) for every neighbor assignment. If \(\eta\le\lambda/8\), its
+worst-case number of spin queries is at least
+\[
+ \frac{\lambda^2N}{4}.
+ \tag{ian-HBL}
+\]
+More generally, its expected number of distinct queries under fair
+independent neighbor spins is at least
+\[
+ N\bigl(\lambda(1-\lambda^2)-2\eta\bigr)_+^2.
+\]
+\end{proposition}
+
+\begin{proof}
+The heat-bath output mean is
+\[
+ m(v)=\tanh\left(\lambda\frac{\sum_jv_j}{\sqrt N}\right)
+      =\tanh(\lambda Z).
+\]
+For \(t\ge0\),
+\[
+ \tanh t\ge t-\frac{t^3}{3}.
+\]
+Indeed, the derivative of
+\(\tanh t-t+t^3/3\) is \(t^2-\tanh^2t\ge0\).
+Oddness and the fourth-moment calculation above imply
+\[
+ \E[Z\tanh(\lambda Z)]
+ \ge\lambda-\frac{\lambda^3}{3}\E Z^4
+ \ge\lambda(1-\lambda^2).
+\]
+Apply Lemma~\ref{ian:adaptive-correlation-budget}. When
+\(\lambda\le1/8\) and \(\eta\le\lambda/8\), the expression inside the
+positive part is at least \(\lambda/2\).
+\end{proof}
+
+In particular, no exact heat-bath evaluation procedure can have
+uniformly bounded expected neighbor-query cost in this family.
+An input-independent random update map, evaluated using its selected
+parents, is such a procedure. Hence the subcritical expected-parent
+estimates used in
+\texttt{high\_temperature/classical/05\_arbitrary\_degree.tex},
+Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, cannot follow
+from a small spectral norm alone.
+
+This limitation is specific to the elementary update task. For
+example, a star with central couplings \(\lambda/\sqrt N\) also has
+operator norm \(\lambda\), and its central heat-bath task has exactly
+the same lower bound. Nevertheless, the entire star family has
+hereditary full AA by
+\texttt{simulation/positive\_examples/03\_ising\_forests.tex},
+Theorem~\ref{thm:threshold-ising-forests}.
+Thus expensive uniform heat-bath access is compatible with a different
+successful local-posterior representation. No universal impossibility
+statement for forward maps plus posterior access follows from these
+barriers.

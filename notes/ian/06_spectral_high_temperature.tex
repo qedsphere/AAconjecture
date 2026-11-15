@@ -1,0 +1,518 @@
+\subsection{Spectral high temperature: partial positive results and the remaining gap}
+\label{ian:spectral-high-temperature}
+
+Status: partial. Hereditary full AA for the entire spectral high-temperature class, including quenched SK at fixed sufficiently small positive temperature, is not established here. We prove hereditary simulation for every one-query acceptance function throughout that class, and hereditary full AA under an additional dimension-independent Frobenius bound. We also exclude the proposed Hadamard forrelation statistic, including its bounded polynomial amplifications, as an obstruction. The all-query positive theorem uses the uniform-AA import; the other results below do not.
+
+Write
+\[
+ K=\beta J,\qquad
+ \mu_{K,h}(x)=Z^{-1}\exp\left(\frac12x^\top Kx+h^\top x\right),
+ \qquad K=K^\top,\quad K_{ii}=0.
+\]
+Throughout, full AA has the acceptance-simulation meaning of
+Section~\ref{tht:target}. Computation and preprocessing are unrestricted.
+
+\begin{proposition}[Pinning closure and precise non-coverage of SK]
+\label{ian:spectral-pinning-and-noncoverage}
+Pinning coordinates outside \(S\) to \(z\) produces the Ising law with
+interaction matrix \(K_{SS}\) and field
+\[
+ h'_S=h_S+K_{S,S^c}z.
+\]
+Consequently, both conditions
+\[
+ \|K\|_{\mathrm{op}}\le c,\qquad \|K\|_{\mathrm F}\le B
+\]
+are preserved by pinning, with unchanged bounds.
+
+For the Gaussian SK normalization
+\(J_{ij}=g_{ij}/\sqrt n\), \(i<j\), the hypothesis of
+Theorem~\ref{thm:resolution-dynamics-arbitrary-degree} fails eventually
+almost surely at every fixed \(\beta>0\). Its maximal admissible inverse
+temperature is
+\[
+ \frac{1}{8\max_i\sum_j|J_{ij}|}
+ =\frac{1+o(1)}{8\sqrt{2/\pi}\sqrt n}
+ \qquad\text{almost surely}.
+\]
+In contrast, since \(\|J\|_{\mathrm{op}}\to2\) almost surely (F\"uredi--Koml\'os; Bai--Yin; from literature, unverified), every fixed \(0<\beta<c/2\) satisfies \(\beta\|J\|_{\mathrm{op}}\le c\) eventually almost surely.
+\end{proposition}
+
+\begin{proof}
+Expanding the Hamiltonian after pinning gives the displayed field.
+A principal submatrix is an orthogonal compression, so its operator
+norm cannot increase; its squared Frobenius norm is a sub-sum of that
+of the original matrix.
+
+For SK, put
+\[
+ R_i=\sum_j|J_{ij}|,\qquad \gamma=\sqrt{2/\pi}.
+\]
+Then \(\E R_i=\gamma(n-1)/\sqrt n\). As a function of its independent
+Gaussian row entries, \(R_i\) is \(1\)-Lipschitz. Gaussian concentration
+and a union bound give
+\[
+ \Pr\left[
+ \max_i\left|R_i-\frac{\gamma(n-1)}{\sqrt n}\right|
+ >\sqrt{6\log n}\right]\le 2n^{-2}.
+\]
+Borel--Cantelli yields
+\[
+ \max_iR_i=\gamma\sqrt n+O(\sqrt{\log n})
+ \qquad\text{almost surely}.
+\]
+The pair-interaction hypothesis in
+\texttt{high\_temperature/classical/05\_arbitrary\_degree.tex},
+Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, is exactly
+\(\beta\max_iR_i\le1/8\), proving the assertion.
+Its convention \(\beta h_i\) instead of \(h_i\) is immaterial for
+\(\beta>0\), since fields are arbitrary; at \(\beta=0\) the law is a
+product law.
+\end{proof}
+
+Thus the existing weighted-interaction theorem does not cover fixed
+positive-temperature SK. This non-coverage is a limitation of that
+sufficient condition, not an AA lower bound.
+
+\begin{lemma}[A hereditary spectral variance inequality]
+\label{ian:spectral-poincare}
+Suppose \(\|K\|_{\mathrm{op}}\le c<1/2\), and set
+\(C_c=(1-2c)^{-1}\). For every real function \(f\),
+\[
+ \Var_{\mu_{K,h}}f
+ \le C_c\sum_i
+       \E_{\mu_{K,h}}\Var(f\mid X_{-i})
+ \le C_c\sum_i I_i^{\mu_{K,h}}(f).
+ \tag{ian-SP}
+\]
+The same constant works after every pinning and for every finite field.
+In particular,
+\[
+ \Cov_{\mu_{K,h}}(X)\preceq C_c I.
+\]
+\end{lemma}
+
+\begin{proof}
+Choose \(\delta>0\) with \(2c+\delta<1\), and put
+\[
+ A=K+(c+\delta)I,\qquad \kappa=\|A\|_{\mathrm{op}}\le2c+\delta<1.
+\]
+Adding this diagonal changes the Hamiltonian only by a constant.
+The Hubbard--Stratonovich joint law has latent marginal
+\[
+ \nu(dy)\propto
+ \exp\left(-\frac12y^\top A^{-1}y\right)
+ \prod_i2\cosh(h_i+y_i)\,dy,
+\]
+and \(X\mid Y=y\) has independent coordinates with means
+\(\tanh(h_i+y_i)\). Denote this product law by \(P_y\).
+The negative log density \(V\) of \(\nu\) satisfies
+\[
+ \nabla^2V(y)
+ =A^{-1}-\diag\bigl(\sech^2(h_i+y_i)\bigr)
+ \succeq(\kappa^{-1}-1)I.
+\]
+Hence
+\[
+ \Var_\nu g\le\frac{\kappa}{1-\kappa}\E_\nu\|\nabla g\|_2^2.
+ \tag{ian-LP}
+\]
+For completeness, the strong-convexity variance bound follows from the
+Langevin semigroup \(P_t\) with generator
+\(\Delta-\nabla V\cdot\nabla\). Its flow Jacobian contracts by
+\(e^{-\rho t}\) when \(\nabla^2V\succeq\rho I\), giving
+\[
+ \E_\nu\|\nabla P_tg\|^2
+ \le e^{-2\rho t}\E_\nu\|\nabla g\|^2.
+\]
+Integration by parts and convergence to equilibrium yield
+\[
+ \Var_\nu g
+ =2\int_0^\infty\E_\nu\|\nabla P_tg\|^2\,dt
+ \le\rho^{-1}\E_\nu\|\nabla g\|^2.
+\]
+Here \(V\) has bounded Hessian and is strongly convex, so these identities
+apply directly to smooth bounded Lipschitz \(g\); truncation gives the
+usual extension.
+
+Apply (ian-LP) to \(g(y)=\E_{P_y}f\). Differentiating gives
+\[
+ \partial_i g(y)=\Cov_{P_y}(f,X_i).
+\]
+The normalized centered coordinates under \(P_y\) are orthonormal.
+Bessel's inequality, together with \(\Var_{P_y}X_i\le1\), gives
+\[
+ \sum_i\Cov_{P_y}(f,X_i)^2
+ \le \Var_{P_y}f.
+\]
+Writing \(R=\E_\nu\Var_{P_y}f\), total variance therefore gives
+\[
+ \Var_\mu f=R+\Var_\nu g
+ \le \frac{R}{1-\kappa}.
+\]
+Product variance tensorization and conditional total variance imply
+\[
+ R
+ \le\sum_i\E\Var(f(X)\mid Y,X_{-i})
+ \le\sum_i\E_\mu\Var(f(X)\mid X_{-i}).
+\]
+Letting \(\delta\downarrow0\) proves the first inequality in (ian-SP).
+Since
+\[
+ \Var(f\mid X_{-i})
+ =\Var(X_i\mid X_{-i})(D_if)^2\le(D_if)^2,
+\]
+the second follows. Apply it to linear functions to obtain the covariance
+bound. Pinning closure was proved above.
+\end{proof}
+
+The covariance conclusion excludes a particular kind of two-component
+structure, including after pinning. If an event has probability \(p\),
+and the two conditional mean vectors are \(m_1,m_0\), then total
+covariance gives
+\[
+ p(1-p)\|m_1-m_0\|_2^2\le C_c.
+\]
+Thus a balanced split cannot have conditional mean vectors separated
+by order \(\sqrt n\). This does not exclude labels whose two conditional
+laws have matching first moments.
+
+\begin{theorem}[Hereditary AA for one quantum query]
+\label{ian:one-query-spectral}
+Under \(\|K\|_{\mathrm{op}}\le c<1/2\), every one-query quantum acceptance
+function has a deterministic simulator of mean absolute error at most
+\(\epsilon\), using at most
+\[
+ \min\left\{n,\left\lceil\frac{16C_c}{\epsilon^2}\right\rceil\right\}
+\]
+spin queries. The bound is uniform over \(K,h,n\), all pinnings, and
+queryable auxiliary spins satisfying the same bound on the full
+interaction matrix.
+\end{theorem}
+
+\begin{proof}
+After purifying the algorithm and diagonalizing the response register
+of its single oracle call, its state immediately after that call is
+\[
+ \psi_x=\psi_0+\sum_i x_i\psi_i.
+\]
+The vectors \(\psi_0,\psi_1,\ldots,\psi_n\) are mutually orthogonal and
+their squared norms sum to one. The vector \(\psi_0\) includes the
+oracle-invariant response subspace. There is an effect \(0\preceq E\preceq I\)
+such that \(Q(x)=\langle\psi_x,E\psi_x\rangle\).
+Put
+\[
+ p_i=\|\psi_i\|^2,\qquad a_i=\langle\psi_i,E\psi_i\rangle.
+\]
+These quantities are known before any input query, and
+\(0\le a_i\le p_i\), \(\sum_i p_i\le1\).
+
+Let \(S\) contain the \(k\) largest \(p_i\)'s. Unless all coordinates
+have been included,
+\[
+ p_*:=\max_{i\notin S}p_i\le\frac1{k+1}.
+\]
+For every input,
+\[
+ D_iQ(x)=2\Re\langle\psi_i,E\psi_x\rangle-2x_i a_i.
+\]
+Orthogonality and \(\|E\|\le1\) give
+\[
+ \begin{split}
+ \sum_{i\notin S}(D_iQ(x))^2
+ &\le8\sum_{i\notin S}|\langle\psi_i,E\psi_x\rangle|^2
+       +8\sum_{i\notin S}a_i^2\\
+ &\le8p_*\|E\psi_x\|^2+8p_*\sum_i p_i
+ \le16p_*.
+ \end{split}
+\]
+After querying \(X_S\), apply Lemma~\ref{ian:spectral-poincare} on every
+conditional law:
+\[
+ \Var(Q\mid X_S)\le\frac{16C_c}{k+1}.
+\]
+Output \(D=\E[Q\mid X_S]\). Then
+\[
+ \E|Q-D|
+ \le\sqrt{\E\Var(Q\mid X_S)}
+ \le4\sqrt{\frac{C_c}{k+1}}.
+\]
+The stated choice of \(k\), or reading the entire input, proves the
+claim. The same argument begins on any pinned law.
+\end{proof}
+
+This proof replaces posterior access by direct revelation of the
+algorithm's largest input-independent query weights. It excludes every
+one-query full-AA obstruction in the spectral class, not merely the
+specific Hadamard witness.
+
+\begin{lemma}[Centered quadratic exponential moments]
+\label{ian:centered-quadratic-moment}
+Let \(\xi_i\) be independent centered random variables satisfying
+\(\E e^{s\xi_i}\le e^{s^2/2}\) for all real \(s\).
+For a symmetric zero-diagonal matrix \(K\), put
+\(F=\frac12\xi^\top K\xi\). Whenever
+\(2|t|\|K\|_{\mathrm{op}}<1\),
+\[
+ \E e^{tF}
+ \le
+ \exp\left(
+ \frac{t^2\|K\|_{\mathrm F}^2}
+      {1-4t^2\|K\|_{\mathrm{op}}^2}
+ \right).
+ \tag{ian-QM}
+\]
+\end{lemma}
+
+\begin{proof}
+Independently choose a random subset \(S\) by fair coin flips, and let
+\[
+ C_S=\xi_S^\top K_{S,S^c}\xi_{S^c}.
+\]
+Conditional on \(\xi\), \(\E_S C_S=F/2\), so Jensen gives
+\[
+ \E e^{tF}\le\E_S\E_\xi e^{2tC_S}.
+\]
+Fix \(S\) and write \(M=K_{S,S^c}\). Conditioning on \(\xi_S\), applying
+the assumed linear moment bound, and then introducing a standard
+Gaussian vector \(G\), gives
+\[
+ \begin{split}
+ \E e^{2t\xi_S^\top M\xi_{S^c}}
+ &\le\E_{\xi_S}e^{2t^2\|M^\top\xi_S\|^2}\\
+ &=\E_{\xi_S,G}e^{2t\xi_S^\top MG}\\
+ &\le\E_G e^{2t^2\|MG\|^2}
+ =\det(I-4t^2M^\top M)^{-1/2}.
+ \end{split}
+\]
+Using \(-\log(1-u)\le u/(1-u_{\max})\),
+\[
+ \log\E e^{2tC_S}
+ \le\frac{2t^2\|M\|_{\mathrm F}^2}
+          {1-4t^2\|K\|_{\mathrm{op}}^2}
+ \le\frac{t^2\|K\|_{\mathrm F}^2}
+          {1-4t^2\|K\|_{\mathrm{op}}^2}.
+\]
+Here \(\|M\|_{\mathrm{op}}\le\|K\|_{\mathrm{op}}\), and symmetry gives
+\(2\|M\|_{\mathrm F}^2\le\|K\|_{\mathrm F}^2\).
+The bound is independent of \(S\).
+\end{proof}
+
+\begin{theorem}[Hereditary full AA with a fixed Frobenius budget]
+\label{ian:frobenius-full-aa}
+Assume the uniform-AA import, in the simulation form \(s_U(T,e)=\operatorname{poly}(T,1/e)\) used in \texttt{foundations/transfers/01\_posterior\_access.tex} (Proposition~\ref{prop:threshold-local-posterior}) and derived from the inequality of Section~\ref{ht:conventions-and-imported-uniform-theorem}, through the product simulation theorem \texttt{simulation/positive\_examples/02\_arbitrary\_blocks.tex}, Theorem~\ref{thm:threshold-block-products}.
+For every fixed finite \(B\), the class
+\[
+ \|K\|_{\mathrm{op}}\le\frac18,\qquad
+ \|K\|_{\mathrm F}\le B,\qquad h\in\R^n
+ \tag{ian-FB}
+\]
+has hereditary full AA, uniformly over \(n,K,h\).
+
+More precisely, let
+\(s_{\mathrm{prod}}(T,\eta)=S_B(T,\eta;1)\) be the arbitrary-product
+query bound from that theorem. A valid bound here is
+\[
+ s_{\mathrm{prod}}\left(
+ T,\epsilon^2e^{-16B^2/3}\right).
+ \tag{ian-FQ}
+\]
+For fixed \(B\), this is a polynomial in \(T,1/\epsilon\), independent
+of dimension and fields.
+\end{theorem}
+
+\begin{proof}
+The map \(m\mapsto\tanh(h+Km)\) is a strict Euclidean contraction of
+\([-1,1]^n\). Let \(m\in(-1,1)^n\) be its unique fixed point, and let
+\(P_m\) be the product-spin law with means \(m_i\). Thus
+\[
+ \operatorname{arctanh}(m)=h+Km.
+\]
+Writing \(\xi=X-m\), direct comparison of the two densities gives
+\[
+ \frac{d\mu_{K,h}}{dP_m}(x)
+ =\frac{e^{F(x)}}{\E_{P_m}e^F},
+ \qquad F(x)=\frac12(x-m)^\top K(x-m).
+ \tag{ian-centered-density}
+\]
+The centered product spins satisfy
+\(\E e^{s\xi_i}\le e^{s^2/2}\): the second derivative of their log
+moment-generating function is a tilted spin variance, at most one.
+Also \(\E_{P_m}F=0\), because \(K\) has zero diagonal.
+Consequently \(\E_{P_m}e^F\ge1\).
+
+Apply Lemma~\ref{ian:centered-quadratic-moment} at \(t=2\).
+Under (ian-FB),
+\[
+ \E_{P_m}e^{2F}
+ \le\exp\left(\frac{4B^2}{1-16/64}\right)
+ =e^{16B^2/3}.
+\]
+For \(r=d\mu/dP_m\), this proves
+\[
+ \|r\|_{L^2(P_m)}\le e^{8B^2/3}=:M_B.
+\]
+Use product AA to obtain \(D\in[0,1]\) with
+\[
+ \E_{P_m}|D-Q|\le\eta,
+ \qquad \eta=\epsilon^2M_B^{-2}.
+\]
+Cauchy--Schwarz and \(|D-Q|^2\le|D-Q|\) give
+\[
+ \E_\mu|D-Q|
+ \le M_B\bigl(\E_{P_m}|D-Q|^2\bigr)^{1/2}
+ \le M_B\sqrt\eta=\epsilon.
+\]
+The simulator directly queries the physical input, so its query count
+is unchanged. Pinning preserves both matrix bounds; its arbitrarily
+large induced fields are handled by recomputing the fixed point.
+\end{proof}
+
+Here bounded density moments relative to a suitable product law replace
+local posterior access entirely. No latent field is sampled.
+
+In particular, fixed-rank spectral families satisfy this theorem:
+if \(\rank K\le r\) and \(\|K\|_{\mathrm{op}}\le1/8\), then
+\(\|K\|_{\mathrm F}\le\sqrt r/8\). The Frobenius restriction is only
+sufficient. For example, arbitrarily many independent weak edges violate
+a fixed Frobenius budget while retaining full AA by
+Theorem~\ref{thm:threshold-block-products}.
+
+This theorem does not include fixed-temperature SK:
+\[
+ \|J\|_{\mathrm F}^2=\frac2n\sum_{i<j}g_{ij}^2,
+ \qquad
+ \frac{\|J\|_{\mathrm F}^2}{n}\longrightarrow1
+ \quad\text{in probability}.
+\]
+The last assertion follows immediately from its mean and variance.
+Thus the density-transfer cost above is exponential in order
+\(\beta^2n\), rather than dimension independent.
+
+\begin{proposition}[Hadamard forrelation concentrates under every pinning]
+\label{ian:hadamard-concentration}
+Let \(O\) be any real orthogonal \(N\times N\) matrix, and define
+\[
+ R=\begin{pmatrix}0&O\\O^\top&0\end{pmatrix},
+ \qquad K=\lambda R,\qquad |\lambda|\le c<1/2.
+\]
+For \(x=(u,v)\in\{-1,1\}^{2N}\), put
+\[
+ \phi(u,v)=\frac{u^\top Ov}{N},
+ \qquad Q(u,v)=\frac{1+\phi(u,v)}2.
+\]
+Then \(Q\) is a one-query acceptance function and, for every field and
+every pinning,
+\[
+ \Var(\phi)\le\frac{2C_c}{N},
+ \qquad
+ \Var(Q)\le\frac{C_c}{2N}.
+ \tag{ian-FC}
+\]
+These inequalities also hold with additional queryable auxiliary spins
+if the full interaction matrix has operator norm at most \(c\).
+
+Consequently the zero-query output \(D=\E Q\), computed for the specified
+law and pinning, has error at most \(\sqrt{C_c/(2N)}\).
+\end{proposition}
+
+\begin{proof}
+Orthogonality gives \(|\phi|\le1\), \(R=R^\top\), and \(R^2=I\).
+A phase query prepares
+\[
+ \psi_x=\frac1{\sqrt{2N}}\sum_{i=1}^{2N}x_i|i\rangle.
+\]
+Measuring the projection \((I+R)/2\) accepts with probability
+\[
+ \left\langle\psi_x,\frac{I+R}{2}\psi_x\right\rangle
+ =\frac12+\frac{x^\top Rx}{4N}=Q(x).
+\]
+Moreover,
+\[
+ D_{u_i}\phi=\frac{(Ov)_i}{N},\qquad
+ D_{v_j}\phi=\frac{(O^\top u)_j}{N},
+\]
+and therefore, pointwise on the entire cube,
+\[
+ \sum_i(D_i\phi)^2
+ =\frac{\|Ov\|^2+\|O^\top u\|^2}{N^2}
+ =\frac2N.
+\]
+After pinning, the sum over unpinned coordinates can only decrease.
+Auxiliary-spin derivatives vanish. Apply
+Lemma~\ref{ian:spectral-poincare}; the mean absolute error assertion
+follows from Cauchy--Schwarz.
+\end{proof}
+
+In particular,
+\[
+ \Pr\bigl[|\phi-\E\phi|\ge t\bigr]\le\frac{2C_c}{Nt^2}
+\]
+uniformly under pinnings. Such pinnings cannot create two components
+with appreciable mass and a constant separation in this statistic.
+
+\begin{corollary}[Polynomial amplifications of the statistic are simulable]
+\label{ian:hadamard-polynomial-simulation}
+In the preceding setting, let \(p:[-1,1]\to[0,1]\) be a polynomial of
+degree \(d\ge1\). The function \(p(\phi)\) has a deterministic simulator
+of mean error at most \(\epsilon\), using
+\[
+ O(C_c d^4\epsilon^{-2})
+\]
+visible-spin queries, uniformly in fields, pinnings, and dimension.
+No quantum-realizability assumption on \(p(\phi)\) is needed.
+\end{corollary}
+
+\begin{proof}
+Markov's polynomial inequality gives \(\|p'\|_\infty\le d^2\).
+Using two independent copies to express variance,
+\[
+ \Var(p(\phi))\le d^4\Var(\phi)\le\frac{2C_cd^4}{N}.
+\]
+If \(N\ge2C_cd^4/\epsilon^2\), output \(\E p(\phi)\) without querying.
+Otherwise read the at most \(2N\) unpinned visible spins and evaluate the
+function exactly.
+\end{proof}
+
+For the normalized Walsh Hadamard matrix, \(O_{ij}=\pm N^{-1/2}\),
+this is exactly the proposed spectral geometry:
+\[
+ \|R\|_{\mathrm{op}}=1,\qquad
+ \max_i\sum_j|R_{ij}|=\sqrt N,\qquad
+ \|\lambda R\|_{\mathrm F}^2=2\lambda^2N.
+\]
+Thus the forrelation calculation applies precisely where the existing
+absolute-row-sum theorem ceases to apply. It rules out this statistic
+and its polynomial amplifications, rather than proving full AA for
+every acceptance function under the Hadamard law.
+
+Replacing the law by a mixture of the \(+\lambda R\) and
+\(-\lambda R\) laws changes the problem. The formal sign-spin
+implementation
+\[
+ \exp\bigl(\lambda s\,u^\top Ov\bigr)
+\]
+has cubic interactions \(s u_i v_j\), so it is not the requested
+pairwise Hamiltonian. Also, when \(s\) is queryable, querying it and
+outputting \(\E[Q\mid s]\) simulates this particular witness to
+\(O_c(N^{-1/2})\) error, by (ian-FC) applied within each sign component.
+No pairwise auxiliary-spin realization preserving a separation is
+constructed here.
+
+\textbf{The remaining step.}
+The spectral variance inequality does not supply polynomial reveal
+progress for arbitrary multi-query acceptance functions. The one-query
+proof uses orthogonal vectors with input-independent weights \(p_i\);
+later quantum query states depend on the unknown input, and that
+argument does not extend as written.
+
+Precisely, what remains is a derivation, from a small spectral norm
+alone, of the quantities \(K(T,1/a)\) and \(g(T,a)\) in
+Proposition~\ref{tht:reveal-prop}, uniformly over all fields and pinnings,
+with polynomial bounds. Alternatively, one needs a different
+representation satisfying
+Proposition~\ref{prop:threshold-local-posterior}, or a genuine
+multi-query counterexample. The next subsection proves that canonical
+Gaussian-coordinate posterior access and uniform local heat-bath
+access cannot provide the required dimension-independent primitive.
+It does not rule out other representations.

@@ -1,0 +1,237 @@
+\subsection{Generalized influence implies hereditary full AA}
+\label{ian:generalized-influence-bridge}
+
+Status: proved.
+
+Throughout, \(D_i f=(f(x_{-i},1)-f(x_{-i},-1))/2\),
+\(I_i^\mu(f)=\E_\mu(D_i f)^2\), and
+\[
+ \mathcal I_\mu(f)=\sum_i I_i^\mu(f).
+\]
+All polynomial bounds on functions are bounds on the entire cube.
+
+\begin{definition}[Generalized AA]
+\label{ian:gamma-definition}
+Let \(\Lambda\) be a class of laws on finite cubes. We say that
+\(\Gamma^{\mathrm{rand}}(\Lambda)\) holds if there are constants
+\[
+ c_L,C_L,c_G,C_G,B_G,K_G>0
+\]
+such that the following assertion holds for every \(n,d\ge1\), every
+\(\mu\in\Lambda\) on \(\{-1,1\}^n\), every \(v\in(0,1]\), and every
+multilinear \(f:\{-1,1\}^n\to[-1,1]\) of degree at most \(d\) with
+\(\Var_\mu f\ge v\). At least one of the following holds:
+\[
+ \max_i I_i^\mu(f)\ge c_L(v/d)^{C_L};
+\]
+or, with
+\[
+ \ell=\min\{n,\lceil B_G(d/v)^{K_G}\rceil\},
+\]
+a uniformly random \(\ell\)-subset \(S\), independent of \(X\sim\mu\),
+satisfies
+\[
+ \E_S\Var_\mu\bigl(\E_\mu[f\mid X_S]\bigr)
+ \ge c_G(v/d)^{C_G}.
+\]
+The assertion \(\Gamma^{\mathrm{set}}(\Lambda)\) replaces the second
+alternative by the existence of a fixed \(S\subseteq[n]\), with
+\(|S|\le\ell\), satisfying the same lower bound without \(\E_S\).
+All six constants are chosen before \(\mu,n,d,v,f\).
+\end{definition}
+
+\begin{lemma}[Potentials under arbitrary input laws]
+\label{ian:query-potentials}
+For every law \(\mu\) on \(\{-1,1\}^n\) and every multilinear
+\(f:\{-1,1\}^n\to[-1,1]\) of degree at most \(d\ge1\),
+\[
+ \sum_i(D_i f(x))^2\le2d^2\le4d^2
+ \quad\text{for every }x,
+ \qquad
+ \mathcal I_\mu(f)\le4d^2.
+\]
+For every \(A\subseteq[n]\) and every \(j\notin A\),
+\[
+ \E_{X_A} I_j^{\mu\mid X_A}(f\mid X_A)=I_j^\mu(f).
+\]
+Here and below expectations over pinnings omit zero-probability
+assignments and coordinates are relabelled when necessary. Consequently,
+\[
+ \E_{X_A}\mathcal I_{\mu\mid X_A}(f\mid X_A)
+ =\mathcal I_\mu(f)-\sum_{i\in A}I_i^\mu(f),
+ \tag{1}\label{ian:influence-decrement}
+\]
+and
+\[
+ \E_{X_A}\Var_{\mu\mid X_A}(f\mid X_A)
+ =\Var_\mu f-\Var_\mu\bigl(\E_\mu[f\mid X_A]\bigr).
+ \tag{2}\label{ian:variance-decrement}
+\]
+Thus both potentials are supermartingales along an adaptive sequence
+of coordinate queries.
+\end{lemma}
+
+\begin{proof}
+Fix \(x\), write \(a_i=x_iD_i f(x)\), and fix \(A\subseteq[n]\).
+Independently flip each coordinate in \(A\) with probability \(t\),
+leaving all other coordinates equal to \(x\), and let
+\[
+ h_A(t)=\E f(X(t)).
+\]
+This polynomial has degree at most \(d\), is bounded in absolute value
+by one on \([0,1]\), and satisfies
+\[
+ h_A'(0)=\sum_{i\in A}\bigl(f(x^i)-f(x)\bigr)
+        =-2\sum_{i\in A}a_i.
+\]
+Markov brothers' inequality on \([0,1]\) gives
+\(\lvert\sum_{i\in A}a_i\rvert\le d^2\).
+Apply this to the positive and negative \(a_i\)'s separately. Since
+\(|D_i f|\le1\),
+\[
+ \sum_i(D_i f(x))^2
+ \le\sum_i|D_i f(x)|
+ =\sum_i|a_i|\le2d^2.
+\]
+Integration proves the total-influence bound.
+
+For comparison, Girish Lemma~2.11, p.~9, gives the coarser constant
+\(4d^2\) directly. Under
+\(g(y)=(1+f(2y-1))/2\), its unnormalised flip difference has square
+\((D_i f)^2\), so that constant translates to \(4d^2\) here as well.
+
+For \(j\notin A\), differentiation commutes with restriction:
+\[
+ D_j(f\mid X_A)=(D_j f)\mid X_A.
+\]
+The tower property, applied to its square, proves the influence
+identity without any independence assumption. Summing over
+\(j\notin A\) proves \eqref{ian:influence-decrement}.
+The law of total variance proves
+\eqref{ian:variance-decrement}. These identities apply conditionally
+at every positive-probability transcript of an adaptive tree.
+\end{proof}
+
+\begin{theorem}[Theorem A: the bridge]
+\label{ian:bridge}
+Suppose that \(\Lambda\) is pinning-closed and that either
+\(\Gamma^{\mathrm{rand}}(\Lambda)\) or
+\(\Gamma^{\mathrm{set}}(\Lambda)\) holds. Then \(\Lambda\) has hereditary
+full AA: full AA in the sense of
+\path{synthesis/threshold_theory/01_target_and_conclusions.tex},
+Section~\ref{tht:target}, uniformly over all members of \(\Lambda\) and hence over all their positive-probability pinnings, as described after Proposition~\ref{tht:reveal-prop}. (For \(\varepsilon\ge1\) the constant output \(1/2\) suffices.)
+
+More generally, let \(\mu\in\Lambda\), let
+\(Q:\{-1,1\}^n\to[0,1]\) be a multilinear polynomial of degree at most
+\(d\ge1\), and let \(0<\varepsilon<1\). Put
+\[
+ a=\varepsilon^2/4,\qquad
+ \alpha=c_L(a/d)^{C_L},\qquad
+ \gamma=c_G(a/d)^{C_G},\qquad
+ L=\lceil B_G(d/a)^{K_G}\rceil .
+\]
+There is a deterministic tree with outputs in \([0,1]\), mean absolute
+error at most \(\varepsilon\) under \(\mu\), and depth at most
+\[
+ \left\lceil
+ \frac{2}{\varepsilon}
+ \left(\frac{4d^2}{\alpha}+\frac{L}{\gamma}\right)
+ \right\rceil.
+ \tag{3}\label{ian:bridge-depth}
+\]
+\end{theorem}
+
+\begin{proof}
+First build a tree without a prescribed depth cutoff. At a
+positive-probability transcript, let \(\nu\) be the residual law and
+\(q\) the restricted polynomial. If there are no remaining coordinates,
+or if \(\Var_\nu q<a\), stop and output \(\E_\nu q\).
+Otherwise use the generalized-AA hypothesis with variance parameter
+\(a\). Pinning closure makes this application legitimate.
+
+If some remaining coordinate has \(I_i^\nu(q)\ge\alpha\), query one
+such coordinate. Call this a Local step. If no such coordinate exists,
+use a Global step: query a fixed set of at most \(L\) remaining
+coordinates whose reveal gain is at least \(\gamma\).
+For \(\Gamma^{\mathrm{set}}\), this is the asserted set.
+For \(\Gamma^{\mathrm{rand}}\), the average over sets is at least
+\(\gamma\), so at least one fixed set has that gain. Choose such a set
+at each node. This derandomises the random-set alternative before any
+input is queried.
+
+Every active step queries at least one new coordinate. In particular,
+a Global set cannot be empty because its reveal gain is positive.
+The tree therefore terminates after at most \(n\) queries on every
+input. No assumption about a zero-coordinate residual law is needed.
+
+Let \(N_L,N_G\) count the Local and Global steps, and let \(K\) be the
+total number of queries. By
+\eqref{ian:influence-decrement}, each Local step decreases expected
+total influence by at least \(\alpha\), and every Global step has
+nonnegative expected influence decrement. Telescoping gives
+\[
+ \alpha\,\E N_L\le\mathcal I_\mu(Q)\le4d^2.
+\]
+By \eqref{ian:variance-decrement}, every Global step decreases expected
+conditional variance by at least \(\gamma\), and Local steps have
+nonnegative expected variance decrement. Hence
+\[
+ \gamma\,\E N_G\le\Var_\mu Q\le1.
+\]
+These are finite telescoping sums: the unrestricted tree has depth
+at most \(n\). Since \(K\le N_L+LN_G\),
+\[
+ \E K\le H:=\frac{4d^2}{\alpha}+\frac{L}{\gamma}.
+ \tag{4}\label{ian:expected-query-bound}
+\]
+
+Write \(D_*\) for the terminal output. Every terminal leaf has
+conditional variance at most \(a\), so conditional Cauchy--Schwarz
+gives
+\[
+ \E_\mu|Q-D_*|\le\sqrt a=\varepsilon/2.
+\]
+Now truncate after
+\(m=\lceil2H/\varepsilon\rceil\) queries. At an unfinished cutoff leaf,
+output its conditional expectation of \(Q\). Both the original and
+truncated outputs lie in \([0,1]\), and they agree unless \(K>m\).
+Thus, by Markov's inequality,
+\[
+ \E_\mu|Q-D|
+ \le\E_\mu|Q-D_*|+\Pr(K>m)
+ \le\varepsilon/2+H/m\le\varepsilon.
+\]
+This proves \eqref{ian:bridge-depth}.
+
+A \(T\)-query quantum acceptance function is globally in \([0,1]\)
+and has degree at most \(2T\), as used in Girish Theorem~4.13, p.~21.
+For an explicit polynomial majorant, set \(z=1/\varepsilon\) and
+\(b=2T+1\). The preceding depth is at most
+\[
+ P(T,z)=1+2z\left[
+ \frac{4b^2}{c_L}(4bz^2)^{\lceil C_L\rceil}
+ +\frac{1+B_G(4bz^2)^{\lceil K_G\rceil}}{c_G}
+       (4bz^2)^{\lceil C_G\rceil}
+ \right].
+\]
+Its constants depend only on the six generalized-AA constants.
+The same argument starts from any positive-probability pinning of
+any member of \(\Lambda\), proving the hereditary assertion.
+\end{proof}
+
+\begin{remark}[Relation to the existing reveal criterion]
+\label{ian:bridge-versus-reveal}
+Proposition~\ref{tht:reveal-prop} in
+\path{foundations/transfers/02_reveal_progress.tex}
+assumes polynomial reveal progress. The new implication here derives
+simulation from a disjunction that also permits influence progress.
+
+The Local alternative need not supply immediate reveal progress:
+under the uniform two-spin law,
+\(Q=(1+x_1x_2)/2\) has \(I_1(Q)=I_2(Q)=1/4\), whereas either singleton
+has zero reveal gain. A Local query is charged to total influence;
+a Global step is charged to conditional variance. This is the additional
+amortisation needed to adapt the recursion of AA14 Theorem~3.3,
+as presented in Girish Theorem~4.13, p.~21. The bridge is therefore
+not a direct application of Proposition~\ref{tht:reveal-prop}.
+\end{remark}

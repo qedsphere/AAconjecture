@@ -1,0 +1,26 @@
+\subsection{The research program}\label{ian:program}
+
+Status: statement of a program; nothing is proved in this subsection. It restates, in the conventions of this repository, the outline written in Ian's notes (\texttt{mathathon-aa-gibbs-1}--\texttt{5}). Later subsections of this section map it to existing results and push the open items.
+
+\paragraph{Question.} Girish--Mittal--Nehoran--Raz (arXiv:2609.35327, Thms 3.3, 4.3 and 4.14) show that both the influence form of AA and acceptance simulation transfer between the uniform cube, fixed-bias products and fixed-density slices. The program asks for which further input laws \(\mu=(\mu_n)\), above all Gibbs laws \(\mu_{n,\beta}\propto e^{-\beta H_n}\), each statement transfers, how the overhead depends on the parameters of \(\mu\), and where and why transfer fails.
+
+\paragraph{Conventions and translation.} The outline worked on \(\{0,1\}^n\) with \(f\in[0,1]\) and flip influence \(\mathrm{Inf}_i(f)=\E(f(X)-f(X^{\oplus i}))^2\). Setting \(g=2f-1\) on \(\{-1,1\}^n\) gives the conventions used here: \(|g|\le1\) on the whole cube, \(I_i^\mu(g)=\E_\mu(D_ig)^2=\mathrm{Inf}_i(f)\) and \(\Var_\mu g=4\Var_\mu f\). Two statements are tracked separately:
+\begin{itemize}
+\item \emph{influence AA} for \(\mu\): there are \(c,A,B>0\) with \(\max_iI_i^{\mu_n}(f)\ge c\Var_{\mu_n}(f)^A/d^B\) for all \(n\), all \(d\) and all globally bounded \(f\) of degree at most \(d\);
+\item \emph{full AA} (acceptance simulation) for \(\mu\), as in Section~\ref{tht:target}: every \(T\)-query quantum acceptance function has a deterministic classical tree \(D\) with \(\E_{\mu_n}|D-Q|\le\varepsilon\) and depth \(\mathrm{poly}(T,1/\varepsilon)\), independent of \(n\). \emph{Hereditary} full AA asks for this uniformly over all positive-probability pinnings.
+\end{itemize}
+The outline called these \(\mathrm{AA}(\mu)\) and \(\mathrm{folklore}(\mu)\). All positive statements are relative to the uniform-cube theorem imported in Section~\ref{ht:conventions-and-imported-uniform-theorem}.
+
+\paragraph{Items.} The labels follow the outline.
+\begin{enumerate}
+\item[F4] \emph{Pinning closure.} A class is pinning-closed if every positive-probability pinning of a member is again a member, with parameter bounds that survive the pinnings used.
+\item[F5] \emph{Generalized AA.} For \(\Var_\mu f\ge v\), either some \(I_i^\mu(f)\ge\mathrm{poly}(v/d)\) (local), or querying a set \(S\) of size \(\mathrm{poly}(d/v)\) gives \(\Var_\mu(\E[f\mid X_S])\ge\mathrm{poly}(v/d)\) (global). Variants: \(S\) arbitrary, \(S\) uniformly random, or an adaptive transcript.
+\item[L1--L4] Supporting statements: a pointwise \(O(d^2)\) total-influence bound for every law; the tower identity for influences under pinning; generalized AA plus pinning closure implies hereditary full AA (L3); generalized AA reduces to ordinary AA on products (L4).
+\item[L5] Influence AA fails for zero-field Curie--Weiss at every fixed \(\beta>1\).
+\item[L6] Full AA transfers to exchangeable laws.
+\item[P0b, P0\('\), P1] Constant-size blocks; Curie--Weiss at \(\beta\le1\); Curie--Weiss at \(\beta>1\), Potts and multi-species mean-field laws, exchangeable mixtures.
+\item[P2] Bounded-degree Ising at high temperature.
+\item[P3] Spin glasses (Sherrington--Kirkpatrick) and computational-basis measurements of quantum Gibbs states.
+\item[O1--O3] Obstructions: laws where full AA fails (forrelation or Simon-type mixtures as candidates); laws where influence AA fails but full AA holds; a hidden-latent-label dichotomy for full AA.
+\item[Q1--Q4] Quantitative: overhead maps from the uniform bound, a parameter ledger, polynomiality through phase transitions, and explicit extremal functions.
+\end{enumerate}
