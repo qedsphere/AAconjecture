@@ -1,0 +1,204 @@
+\subsection{Fixed hidden-parameter label classes and the inverse question}
+\label{ian:inverse-hidden-parameter}
+Status: proved, on the original hard sector only and by an elementary counting argument: no fixed family of labels with \(\ln|\mathfrak C_m|+L_m\le2^{m/2}\) explains every hard one-query acceptance on the character law (Proposition~\ref{ian:inverse-hp-family-negative}, Remark~\ref{ian:inverse-hp-family-scope}); so a hidden-parameter inverse into a fixed small label family fails there. Refuted: the inverse into low-dimensional linear-character labels (Proposition~\ref{ian:inverse-hp-linear-character}); the same proposition shows that the repository's quadratic character instance is fully explained by the single hidden, anti-atom, one-query-readable quadratic bit \(h(A)\), which supports a hidden-label inverse with a nonlinear label. Reconstruction, numerically supported but not proved: versions of the inverse that may pass to a polynomial refinement of the sector are degenerate (Remark~\ref{ian:inverse-hp-refinement-degenerate}), which is why Definition~\ref{ian:inverse-hp-assertion} is posed on the original sector. Restatements of repository results: Lemmas~\ref{ian:inverse-hp-readable-obstruction} and~\ref{ian:inverse-hp-universality}; the failure of polynomial-feature classes (Remark~\ref{ian:inverse-hp-feature-classes}) is an instance of Lemma~\ref{ian:hidden-label-prediction-exclusions}, independent of the acceptance. The Forrelation and Maiorana--McFarland branch labels satisfy the four label requirements (Propositions~\ref{ian:inverse-hp-forrelation-branch} and~\ref{ian:inverse-hp-mm-branch}), but each equals a threshold of the acceptance up to vanishing probability and is not derived from hardness, so these are formal certificates, not instances of an inverse. Open: the natural inverse question, in which the label may be chosen after \(Q\) and its hiding, anti-atom, explanation and readout properties must be forced by hardness and the quantum structure (Remark~\ref{ian:inverse-hp-contribution}).
+
+\begin{definition}[A fixed-class inverse assertion on the original sector]
+\label{ian:inverse-hp-assertion}
+Fix a generating experiment \(X=\operatorname{Enc}_N(\Theta,U)\) with law \(\mu_N\), and a class \(\mathfrak L_N\) of finite-valued labels \(\lambda\), each a function of the generating data \((\Theta,U)\). The class is specified from \(\mu_N\) alone, before the acceptance \(Q\) is chosen, and does not depend on \(Q\); a symmetry group, if used, is a symmetry of \(\mu_N\) only, and no invariance of \(Q\in\mathcal Q_{N,T}\) is assumed. Use the coordinate oracle and decoder conventions of Definition~\ref{ian:robust-compilation-conventions}, and fix \(\delta_*=2^{-24}\). Write \(\varepsilon=1/r\), where \(r\) is the accuracy parameter of a witness of \eqref{ian:hard-sector-polynomial-property} in Remark~\ref{ian:hard-sector-polynomial-quantifiers}.
+
+A proposed inverse into \(\mathfrak L_N\) asks for fixed polynomials \(P,S\), independent of \(N\) and \(Q\), such that whenever \(w\nu\le\mu_N\), \(\operatorname{Hard}(Q,\nu;t,a,a/4)\), and \(w,a,t,T,r\) obey the quantifier constraints of \eqref{ian:hard-sector-polynomial-property}, some \(\lambda\in\mathfrak L_N\) satisfies, under the sector law \(\nu\) itself:
+\[
+ \begin{aligned}
+ &\text{(i)}\quad \Var_\nu\bigl(\E_\nu[F\mid\lambda]\bigr)\le\kappa_N(t)\Var_\nu F\quad(F\in\mathcal F_t),\ \text{with specified }\kappa_N(t)\to0\text{ along the witnesses};\\
+ &\text{(ii)}\quad \text{the components }\nu(\cdot\mid\lambda)\text{ satisfy \eqref{ian:phase-label-anti-atom}};\\
+ &\text{(iii)}\quad \Var_\nu\bigl(\E_\nu[Q\mid\lambda]\bigr)\ge\Var_\nu Q/P(T+\varepsilon^{-1});\\
+ &\text{(iv)}\quad \lambda\text{ has at most }P(T+\varepsilon^{-1})\text{ bits and a quantum decoder with at most }S(T)\text{ queries and error at most }\delta_* .
+ \end{aligned}
+ \tag{37.1}\label{ian:inverse-hp-requirements}
+\]
+Condition (i) is \eqref{ian:hidden-label-contraction} under \(\nu\) at the hardness depth. No refinement of \(\nu\) is permitted; Remark~\ref{ian:inverse-hp-refinement-degenerate} explains why.
+
+The class must be restricted: if the encoding is injective, the class of all one-bit functions of \(\Theta\) contains every threshold of every acceptance, and fixing it before \(Q\) imposes no structure.
+\end{definition}
+
+\begin{lemma}[Classical readability excludes hiding]
+\label{ian:inverse-hp-readable-obstruction}
+If a label \(\lambda(X)\) is exactly computed by a depth-\(s\) coordinate tree on the support of a law \(\nu\), and \(t\ge s\), then either \(\lambda\) is \(\nu\)-almost surely constant, in which case it explains no variance, or its least coefficient in \eqref{ian:hidden-label-contraction} at depth \(t\) is one.
+\end{lemma}
+
+\begin{proof}
+This is the decoder form of Lemma~\ref{ian:hidden-label-prediction-exclusions}: a nonconstant label observable obtainable by a depth-\(t\) tree has coefficient one. Concretely, the indicator \(F\) of a label value of positive variance is a depth-\(s\) test with \(\Var(\E[F\mid\lambda])=\Var F>0\).
+\end{proof}
+
+\begin{definition}[Polynomial-evaluation laws]
+\label{ian:inverse-hp-polynomial-law}
+Fix \(d\ge1\). For \(m\ge d\) let \(\mathcal P_{m,d}\) be the multilinear \(\mathbb F_2\)-polynomials in \(m\) variables of degree at most \(d\), with \(D_{m,d}=\sum_{j\le d}\binom mj\) and \(N_{m,d}=|\mathcal P_{m,d}|=2^{D_{m,d}}\). Draw \(A\) uniformly from \(\mathbb F_2^m\) and put
+\[
+ X_A(p)=(-1)^{p(A)}\quad(p\in\mathcal P_{m,d}),\qquad
+ \mu_{m,d}=\mathcal L(X_A).
+ \tag{37.2}
+\]
+The linear coordinates \(p_z(a)=z\cdot a\) form a copy of the character code \(c_A\), so the support has \(K_m=2^m\) points. Translations of \(A\) preserve \(\mu_{m,d}\) and permute coordinates. With \(s_m=\lfloor m/8\rfloor\), the class \(\mathfrak J_{m,d}\) consists of the labels \(\lambda(A)=g(p_1(A),\ldots,p_s(A))\) with \(s\le s_m\), \(p_i\in\mathcal P_{m,d}\), and \(g\) arbitrary with at most \(s_m\) output bits.
+\end{definition}
+
+\begin{lemma}[One-query universality]
+\label{ian:inverse-hp-universality}
+For every \(h:\mathbb F_2^m\to[0,1]\) there is \(Q_h\in\mathcal Q_{N,1}\), with \(N\) the number of physical coordinates (\(N=2^m\) or \(N=N_{m,d}\)), defined on the whole cube, with \(Q_h(c_a)=h(a)\) on the character law and \(Q_h(X_a)=h(a)\) on \(\mu_{m,d}\). Every finite-valued function of \(A\) is exactly read by one quantum query.
+\end{lemma}
+
+\begin{proof}
+On the linear coordinates take \(Q_h=P_h\) of Corollary~\ref{ian:adaptive-character-spectral-targets}; this is the Sylvester case of Proposition~\ref{ian:hadamard-one-query}, whose circuit outputs \(a\) exactly, and it has the amplitude form required by Lemma~\ref{ian:pac-polynomial-sos}. This is the Bernstein--Vazirani readout (from literature: E.~Bernstein and U.~Vazirani, \emph{Quantum Complexity Theory}, SIAM J.\ Comput.\ \textbf{26}(5) (1997), 1411--1473). Input-independent postprocessing is free in the query model; an arbitrary \(h\) need not have an efficient gate implementation.
+\end{proof}
+
+\begin{proposition}[The linear-character inverse fails; the quadratic bit explains the instance]
+\label{ian:inverse-hp-linear-character}
+On the character law \(U_{C_n}\), \(n=2^m\), \(m\ge16\) even, let
+\[
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2,\qquad
+ Q=Q_h,\qquad t_m=\lfloor m/4\rfloor .
+ \tag{37.3}\label{ian:inverse-hp-quadratic-target}
+\]
+This is the instance of Proposition~\ref{ian:hard-sector-character-instance}, Proposition~\ref{ian:pac-character-check} and Corollary~\ref{ian:adaptive-character-quadratic-benchmark}. By \eqref{ian:pac-bv-hardness}, \(\Var Q=(1-1/n)/4\) and \(\operatorname{Hard}(Q,U_{C_n};t_m,1/8,1/32)\).
+\begin{enumerate}
+\item For a rank-\(r\) linear map \(L\), every label \(g(LA)\) satisfies
+\[
+ \frac{\Var(\E[Q\mid g(LA)])}{\Var Q}\le\frac{2^r-1}{n-1},
+ \tag{37.4}\label{ian:inverse-hp-linear-ratio}
+\]
+and if \(r\le t_m\) and \(g(LA)\) is nonconstant it fails (i) of \eqref{ian:inverse-hp-requirements}. So no inverse into labels of polynomially many linear characters exists.
+\item The single bit \(h(A)\) satisfies all of \eqref{ian:inverse-hp-requirements}: \(\Var(\E[Q\mid h])=\Var Q\); its fibres are uniform of sizes \((n\pm\sqrt n)/2\); it is read by one query; and
+\[
+ \kappa_h(t)\le\frac{(2^t-1)^2}{n-1}\qquad(t\ge0),
+ \tag{37.5}\label{ian:inverse-hp-quadratic-hiding}
+\]
+which tends to zero at \(t=t_m\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For (1), conditioning on \(LA\) projects onto the \(2^r-1\) nonzero characters in the row space of \(L\), each of squared coefficient \(|\widehat h(z)|^2=1/(4n)\) (the computation in Corollary~\ref{ian:adaptive-character-quadratic-benchmark}). Hence \(\Var(\E[Q\mid LA])=(2^r-1)/(4n)\), coarsening to \(g(LA)\) can only decrease it, and division by \(\Var Q\) gives \eqref{ian:inverse-hp-linear-ratio}. If \(r\le t_m\), then \(r\) queries recover \(LA\), and Lemma~\ref{ian:inverse-hp-readable-obstruction} applies.
+
+For (2), \(Q=h(A)\) on the sector, so explanation is complete. The fibre sizes are the bent-function weights. Readout is Lemma~\ref{ian:inverse-hp-universality}. For hiding, fix \(F\in\mathcal F_t\). Its leaves condition \(A\) to affine subspaces of codimension at most \(t\), so Lemma~\ref{ian:adaptive-character-affine-leaf} gives \(|\E[h\mid\text{leaf}]-\E h|\le(2^t-1)/(2\sqrt n)\) and therefore \(|\Cov(F,h)|\le\E|F-\E F|\,(2^t-1)/(2\sqrt n)\le\sqrt{\Var F}\,(2^t-1)/(2\sqrt n)\). Since \(h\) is binary, \(\Var(\E[F\mid h])=\Cov(F,h)^2/\Var h\) with \(\Var h=(1-1/n)/4\), which gives \eqref{ian:inverse-hp-quadratic-hiding}.
+\end{proof}
+
+The failed step is the passage from low physical degree to low-dimensional Fourier support in \(A\): by Lemma~\ref{ian:inverse-hp-universality} every function of \(A\) has physical degree two. The instance refutes only the linear-character class; the hidden label it actually has is nonlinear.
+
+\begin{remark}[Refinement-stable versions are degenerate]
+\label{ian:inverse-hp-refinement-degenerate}
+This remark is reconstruction, supported numerically and not proved. Suppose (i)--(iii) of \eqref{ian:inverse-hp-requirements} were required only on some refinement \(\nu'\le R\nu\) with \(R\) polynomial, a clause that is natural for latent labels. On the character law let \(q(a)=Q(c_a)\) be any Boolean target and choose \(\lambda_0\in\{h,1-h\}\), with \(h\) from \eqref{ian:inverse-hp-quadratic-target}, so that \(\Pr[\lambda_0(A)=q(A)]\ge1/2\). The law \(\nu'=U_{C_n}(\cdot\mid\lambda_0=q)\) reweights by a function of \(X\), satisfies \(\nu'\le2\nu\), and under it \(\lambda_0=Q\), so \(\lambda_0\) explains all of \(\Var_{\nu'}Q\) whenever that is positive; it is one bit, read by one query, with fibres typically of order \(n\). Thus every target would be explained by a fixed hidden bent bit as soon as \(\lambda_0\) remains hidden under \(\nu'\), and the refinement clause would make the assertion trivially true for any class containing \(h\). Hiding under \(\nu'\) is not proved. In small exact computations at fixed \(t\), the hiding coefficient of \(\lambda_0\) under \(\nu'\) falls about fourfold for each increase of \(m\) by two (for \(t=2\): about \(0.22\), \(0.06\), \(0.018\) at \(m=8,10,12\)), consistent with the \(2^{-m}\) scale of \eqref{ian:inverse-hp-quadratic-hiding}.
+\end{remark}
+
+\begin{remark}[Polynomial-feature classes fail for a reason independent of \(Q\)]
+\label{ian:inverse-hp-feature-classes}
+Each label in \(\mathfrak J_{m,d}\) is a function of at most \(s_m=\lfloor m/8\rfloor\) physical spins \(X_A(p_i)\). By Lemma~\ref{ian:hidden-label-prediction-exclusions} (equivalently Lemma~\ref{ian:inverse-hp-readable-obstruction}), every nonconstant label in the class fails (i) of \eqref{ian:inverse-hp-requirements} at every depth \(t\ge s_m\), and the constant label fails (iii). This holds whatever the acceptance is, so it does not refute any natural inverse; it only shows that \(\mathfrak J_{m,d}\) is not a candidate class.
+
+Hard targets nevertheless exist at that depth. For a fixed \(\{-1,1\}\)-valued test \(f\) on the \(K\) support points of a uniform law and a uniformly random balanced Boolean target \(h\),
+\[
+ \Pr_h\bigl\{|\Cov(h(A),f(A))|>\gamma\bigr\}\le2(K+1)e^{-2K\gamma^2},
+ \tag{37.6}\label{ian:inverse-hp-single-test-tail}
+\]
+which is the single-test bound in the proof of Lemma~\ref{ian:hadamard-random-balanced}. Union-bounding over the at most \(N_{m,d}^{\,2^t-1}2^{2^t}\) extremal trees of Lemma~\ref{ian:hard-sector-tree-closure} at \(\gamma=1/32\) gives failure probability at most \(2(K_m+1)\exp((D_{m,d}+1)2^t\ln2-K_m/512)\), which tends to zero for \(t=\lfloor m/4\rfloor\) and fixed \(d\). So \(\mu_{m,d}\) carries Boolean one-query targets \(Q_m=Q_h\) with \(\operatorname{Hard}(Q_m,\mu_{m,d};\lfloor m/4\rfloor,1/8,1/32)\), and this family satisfies \eqref{ian:hard-sector-polynomial-property} with \(T=1\), \(r=16\), \(w=1\), \(a=1/8\), \(K=p=q=1\).
+\end{remark}
+
+\begin{proposition}[No fixed small family explains every hard target]
+\label{ian:inverse-hp-family-negative}
+On the character law \(U_{C_n}\), \(n=2^m\), let \(\mathfrak C_m\) be any family of labels \(\lambda(X)\), fixed before the target, each with at most \(L_m\) values, such that
+\[
+ \ln|\mathfrak C_m|+L_m\le2^{m/2}.
+ \tag{37.7}\label{ian:inverse-hp-family-size}
+\]
+For all sufficiently large \(m\) there is a balanced Boolean one-query acceptance \(Q_m\) with \(\operatorname{Hard}(Q_m,U_{C_n};\lfloor m/4\rfloor,1/8,1/32)\) such that
+\[
+ \sup_{\lambda\in\mathfrak C_m}\frac{\Var(\E[Q_m\mid\lambda])}{\Var Q_m}\le2\cdot2^{-m/8}.
+ \tag{37.8}
+\]
+\end{proposition}
+
+\begin{proof}
+Let \(\eta=n^{-1/8}\) and choose \(h\) uniformly among balanced Boolean functions of \(A\), with \(Q_m=Q_h\) from Lemma~\ref{ian:inverse-hp-universality}. Apply \eqref{ian:inverse-hp-single-test-tail} at \(\gamma=\eta\) to every extremal depth-\(\lfloor m/4\rfloor\) tree and to every test \(b(\lambda)\) with \(\lambda\in\mathfrak C_m\) and \(b\) valued in \(\{-1,1\}\), of which there are at most \(|\mathfrak C_m|2^{L_m}\). The failure probability is at most
+\[
+ 2(n+1)\bigl(n^{2^t-1}2^{2^t}+|\mathfrak C_m|2^{L_m}\bigr)e^{-2n^{3/4}},
+ \qquad t=\lfloor m/4\rfloor,
+ \tag{37.9}
+\]
+which tends to zero by \eqref{ian:inverse-hp-family-size}. Fix a target outside the failure event. Since \(\eta<1/32\) for large \(m\) and \(\Var Q_m=1/4\), the hardness assertion holds. Choosing \(b\) as the sign of \(\E[Q_m-1/2\mid\lambda]\) gives \(\E|\E[Q_m-1/2\mid\lambda]|\le\eta\); as that conditional mean has absolute value at most \(1/2\), \(\Var(\E[Q_m\mid\lambda])\le\eta/2\). Divide by \(1/4\).
+\end{proof}
+
+\begin{remark}[Scope of the counting result]
+\label{ian:inverse-hp-family-scope}
+The argument is elementary: Bernstein--Vazirani readout with free postprocessing realizes every function of \(A\) as a one-query acceptance, and a random truth table is both hard and uncorrelated with any fixed small set of tests. It is the method of Lemma~\ref{ian:hadamard-random-balanced} with the tests \(b(\lambda)\) added; no literature priority is claimed.
+
+The family may contain nonlinear labels that satisfy (i), (ii) and (iv) of \eqref{ian:inverse-hp-requirements}. For instance, labels with at most \(\lfloor m/8\rfloor\) output bits, each a polynomial of degree at most \(d\) in \(A\), form a family with \(\ln|\mathfrak C_m|\le\ln(\lfloor m/8\rfloor+1)+\lfloor m/8\rfloor D_{m,d}\ln2\) and \(L_m\le2^{m/8}\); for \(d\ge2\) it contains the quadratic bit \(h\) of \eqref{ian:inverse-hp-quadratic-target}, which is hidden by \eqref{ian:inverse-hp-quadratic-hiding}. Yet no member explains a non-negligible fraction of the selected target.
+
+The statement is on the original sector only. It does not exclude labels chosen after \(Q\), and it says nothing about refinements, where Remark~\ref{ian:inverse-hp-refinement-degenerate} indicates the opposite behaviour.
+\end{remark}
+
+\begin{proposition}[The Forrelation generating branch]
+\label{ian:inverse-hp-forrelation-branch}
+For the experiment of Definition~\ref{ian:forrelation-input-law} and its acceptance \(Q_F=(1+\Phi)/2\), with \(c_M,v_M\) as in Lemma~\ref{ian:forrelation-flatness} and \(t_M=\lfloor M^{1/8}\rfloor\), the branch bit \(B\) satisfies
+\[
+ \kappa_B(t_M)\le\tanh^2\!\Bigl(\frac{t_M^2}{2\sqrt M}\Bigr)\to0,\qquad
+ H_\infty(\rho_b)\ge M\ln2,\qquad
+ \frac{\Var(\E[Q_F\mid B])}{\Var Q_F}\ge1-12\pi^2M^{-1/3}.
+ \tag{37.10}
+\]
+For \(M=2^m\), \(m\ge128\), a decoder with \(R_F=\lceil8\pi^2\ln(4/\delta_*)\rceil\) queries recovers \(B\) with error at most \(\delta_*\). The sector has weight one and is hard with \(a=1/64\), \(\gamma=1/256\) at \(t_M\). Moreover
+\[
+ \Pr\bigl[B\ne\mathbf1\{Q_F\ge1/2+c_M/4\}\bigr]\le16\pi^2v_M\le48\pi^2M^{-1/3}\to0.
+ \tag{37.11}\label{ian:inverse-hp-forrelation-threshold}
+\]
+\end{proposition}
+
+\begin{proof}
+Hiding, \(v_M\le3M^{-1/3}\) with \(\Var(\E[Q_F\mid B])=c_M^2/16\ge1/(4\pi^2)\), and the hard sector are Lemma~\ref{ian:forrelation-adaptive-hiding}, Lemma~\ref{ian:forrelation-flatness} and Theorem~\ref{ian:forrelation-hard-sector}; total variance gives the ratio. The \(f\)-block is uniform in either branch, giving the entropy bound. With \(Y=\E[Q_F\mid B]=1/2+c_MB/2\), Chebyshev gives \(|Q_F-Y|\le c_M/8\) outside probability \(64v_M/c_M^2\le16\pi^2v_M\), using \(c_M\ge2/\pi\); on that event \(Q_F\) is at distance at least \(c_M/8\) from \(1/2+c_M/4\), proving \eqref{ian:inverse-hp-forrelation-threshold}. For readout, repeat the circuit of Proposition~\ref{ian:forrelation-one-query} \(R_F\) times and threshold the empirical acceptance frequency at \(1/2+c_M/4\); Hoeffding's inequality bounds the total error by \(16\pi^2v_M+2e^{-R_F/(8\pi^2)}\le\delta_*\) for \(m\ge128\).
+\end{proof}
+
+\begin{proposition}[The Maiorana--McFarland generating branch]
+\label{ian:inverse-hp-mm-branch}
+For the experiment of Remark~\ref{ian:forrelation-permutation-overlap}, with \(D=2^k\), \(M=D^2\), and \(Q_P=(1+\Phi)/2\), the branch bit \(B\) satisfies
+\[
+ \Var Q_P=\frac1{16}+\frac1{8D},\qquad
+ \frac{\Var(\E[Q_P\mid B])}{\Var Q_P}=\frac1{1+2/D},\qquad
+ H_\infty(\mathcal L(X\mid B=b))\ge D\ln2,\qquad
+ \kappa_B(t)\le\Delta_k(t):=\min\Bigl\{1,\frac{2^t\lfloor t^2/4\rfloor}{D}\Bigr\}.
+ \tag{37.12}
+\]
+At \(t_k=\lfloor k/2\rfloor\), \(\Delta_k(t_k)\to0\); for \(k\ge64\), \(\operatorname{Hard}(Q_P,\mu_P;t_k,1/64,1/256)\), and a decoder with \(R_P=\lceil32\ln(4/\delta_*)\rceil\) queries recovers \(B\) with error at most \(\delta_*\). Moreover \(B=\mathbf1\{Q_P=1\}\) except with probability \(2^{-D-1}\).
+\end{proposition}
+
+\begin{proof}
+In branch one \(\Phi=1\); in branch zero \(\Phi=D^{-1}\sum_vZ_v\) with independent uniform signs \(Z_v\). Hence \(Y=\E[Q_P\mid B]=(1+B)/2\), \(\E(Q_P-Y)^2=1/(8D)\), and \(Q_P=1\) in branch zero only when every \(Z_v=1\), which gives the last assertion. The visible values \(f(0,v)=s(v)\) are uniform in both branches, giving the entropy bound.
+
+For hiding, fix a depth-\(t\) adaptive tree. A root-to-leaf path \(\tau\) queries \(f\) in a set \(V_\tau\) of columns and \(g\) in a set \(U_\tau\) of rows, with \(|V_\tau|+|U_\tau|\le t\); call it incident if \(\pi(V_\tau)\cap U_\tau\ne\varnothing\). For each fixed path,
+\[
+ \Pr_\pi\{\pi(V_\tau)\cap U_\tau\ne\varnothing\}\le\frac{|V_\tau||U_\tau|}{D}\le\frac{\lfloor t^2/4\rfloor}{D},
+ \tag{37.13}
+\]
+and there are at most \(2^t\) paths, so an incident path is reached with probability at most \(\Delta_k(t)\) in either branch. For fixed \(\pi\) and a nonincident path, the answers along it are determined by \(\pi\) and the values \(s(v)\) (\(v\in V_\tau\)) and \(s'(q)\) (\(q\in U_\tau\)). These values are independent uniform signs in both branches: in branch one \(s'(q)=s(\pi^{-1}(q))\) with \(\pi^{-1}(q)\notin V_\tau\). The path therefore has the same probability in the two branches, and the transcript laws satisfy \(\|P_1-P_0\|_{\rm TV}\le\Delta_k(t)\). Under the balanced prior,
+\[
+ \Var\bigl(\E[2B-1\mid\tau]\bigr)=\frac12\sum_\tau\frac{(P_1(\tau)-P_0(\tau))^2}{P_1(\tau)+P_0(\tau)}\le\|P_1-P_0\|_{\rm TV}\le\Delta_k(t),
+ \tag{37.14}
+\]
+and Cauchy--Schwarz gives the contraction bound for every tree output. Consequently \(|\Cov(Q_P,F)|\le\frac14\sqrt{\Delta_k(t)}+(8D)^{-1/2}\) for \(F\in\mathcal F_t\), which is below \(1/256\) at \(t_k\) for \(k\ge64\), while \(\Var Q_P>1/64\).
+
+For readout, repeat the one-query circuit and threshold the empirical acceptance frequency at \(3/4\). Except on probability at most \(8/D\), \(|Q_P-Y|\le1/8\), so the error is at most \(8/D+2e^{-R_P/32}\le\delta_*\) for \(k\ge64\). The depth \(t_k\) is logarithmic in \(M\) and cannot be raised past \(k+2\) by the attack in Remark~\ref{ian:forrelation-permutation-overlap}; still \(t_k\to\infty\) with \(T=1\) and weight one.
+\end{proof}
+
+\begin{remark}[What the branch certificates do and do not show]
+\label{ian:inverse-hp-branch-scope}
+The branch classes \(\{B,1-B\}\) are fixed before the acceptance, and no invariance of \(Q\) is used, so the requirements on the class and (i)--(iv) of \eqref{ian:inverse-hp-requirements} hold. They hold only formally. By \eqref{ian:inverse-hp-forrelation-threshold}, \(B\) agrees with the threshold label \(\mathbf1\{Q_F\ge1/2+c_M/4\}\) except on probability at most \(16\pi^2v_M\to0\), and in the Maiorana--McFarland case \(B=\mathbf1\{Q_P=1\}\) except on probability \(2^{-D-1}\). So each certificate is, up to vanishing probability, a threshold of the acceptance itself. Neither proof uses the hardness of \(Q\) or its membership in \(\mathcal Q_{N,T}\) to produce the label; the explanation comes from branch flatness. These are direct certificates for the two named acceptances, not an inverse for arbitrary \(Q\).
+
+The branch explanation for Forrelation was already proved in Proposition~\ref{ian:forrelation-explaining-decomposition}, with the meaning discussed in Remark~\ref{ian:forrelation-label-meaning}; the addition here is the explicit small-error decoder for \(B\) alone. No common component simulation bound \eqref{ian:phase-label-component-bound} is claimed. The two Gaussian branches and the interference mechanism are from literature: S.~Aaronson and A.~Ambainis, \emph{Forrelation: A Problem That Optimally Separates Quantum from Classical Computing}, STOC 2015, 307--316, arXiv:1411.5729, Section~4 and Proposition~6; the hiding depths and constants above are repository results.
+\end{remark}
+
+\begin{remark}[Permutation structure differs from branch structure]
+\label{ian:inverse-hp-permutation}
+For the Maiorana--McFarland acceptance, \(\E[Q_P\mid\pi]=3/4\), so every label depending only on the shared permutation explains zero variance on the original sector. The full permutation also fails hiding: the depth-two observable \(f(e_j,v)f(0,v)=(-1)^{\pi(v)_j}\) is a nonconstant permutation-measurable test.
+\end{remark}
+
+\begin{remark}[Contribution and the remaining inverse question]
+\label{ian:inverse-hp-contribution}
+The new content is modest. Definition~\ref{ian:inverse-hp-assertion} fixes a precise original-sector formulation, and Remark~\ref{ian:inverse-hp-refinement-degenerate} indicates, without proof, why refinement-stable formulations are degenerate. Proposition~\ref{ian:inverse-hp-family-negative} is an elementary counting result showing that no fixed small label family works on the original sector. Proposition~\ref{ian:inverse-hp-linear-character} records that the repository's abelian instance refutes only the linear-character class and is in fact explained by a hidden nonlinear bit. Lemmas~\ref{ian:inverse-hp-readable-obstruction} and~\ref{ian:inverse-hp-universality} and Remark~\ref{ian:inverse-hp-feature-classes} restate Lemma~\ref{ian:hidden-label-prediction-exclusions}, Corollary~\ref{ian:adaptive-character-spectral-targets} and Proposition~\ref{ian:hadamard-one-query}. The branch propositions add explicit decoders for labels that are, up to vanishing probability, thresholds of the acceptance.
+
+None of this settles the natural inverse question: whether, for every hard \(Q\in\mathcal Q_{N,T}\) on a sector of polynomial weight, some label, possibly chosen after \(Q\), satisfies (i)--(iv) of \eqref{ian:inverse-hp-requirements}, with those properties derived from hardness and the quantum structure rather than read off a known branch or threshold. The quadratic bit \(h(A)\) is an example of the desired conclusion on one instance. The local Gibbs form of the question is Remark~\ref{ian:hidden-label-local-open-problem-replacement}, and Proposition~\ref{ian:hidden-label-fixed-decomposition-obstruction} remains the relevant obstruction for prescribed decompositions.
+\end{remark}
