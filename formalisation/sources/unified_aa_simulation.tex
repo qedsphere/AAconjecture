@@ -1,0 +1,101 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=1in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{fontspec,unicode-math}
+\setmainfont{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}[Scale=MatchLowercase]
+\setmathfont{TeX Gyre Pagella Math}
+\usepackage{microtype,xcolor,booktabs,enumitem,fancyhdr,titlesec,xurl,array,tabularx,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\definecolor{Ink}{HTML}{17384B}\definecolor{Link}{HTML}{176078}\definecolor{Accent}{HTML}{7A3E14}
+\usepackage[colorlinks=true,linkcolor=Link,urlcolor=Link,citecolor=Link,bookmarksnumbered=true]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4.5pt plus 1pt}
+\setlength{\emergencystretch}{2em}\setlength{\tabcolsep}{4pt}
+\setlist{topsep=3pt,itemsep=2pt,parsep=1pt,leftmargin=*}
+\setcounter{tocdepth}{2}
+\titleformat{\section}{\Large\bfseries\color{Ink}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{Ink}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{Ink}}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{16pt}{7pt}
+\titlespacing*{\subsection}{0pt}{12pt}{4pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\sffamily Classical simulation of quantum queries}
+\fancyhead[R]{\small\sffamily AA, Gibbs histories, and certified randomness}
+\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0.3pt}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{problem}[theorem]{Open problem}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\E}{\mathbb E}\newcommand{\Prb}{\mathbb P}
+\newcommand{\mc}{\mathcal}\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator{\Inf}{Inf}\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\TV}{TV}\DeclareMathOperator{\FC}{FC}
+\DeclareMathOperator{\poly}{poly}\DeclareMathOperator{\CAdv}{CAdv}
+\newcommand{\tagX}[1]{\stepcounter{equation}\tag{#1}}
+\newcommand{\dd}{\mathrm d}\newcommand{\set}[1]{\left\{#1\right\}}
+\title{\textbf{Classical Simulation of Quantum Queries}\\[5pt]
+{\Large Aaronson--Ambainis, Gibbs Histories, and Certified Randomness}}
+\author{AA research team}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\begin{abstract}
+\noindent
+We present two query-bounded classical reductions arising from the Aaronson--Ambainis (AA) connection between quantum acceptance probabilities and bounded polynomials. After an expository account of the influential-variable proof and of scalar simulation and bit fixing, we first extend mean quantum-query simulation beyond product input laws. For every finite-parameter classical Gibbs Hamiltonian with weighted interaction strength $\omega\leq1/8$, we give a deterministic classical simulator for any $T$-query quantum acceptance function, using $O(T^{18}e^{-28})$ physical spin queries and achieving mean absolute error at most $e$ under the Gibbs law. Exact sparse update maps, stationary histories, lazy posterior sampling, a product-alphabet adversary argument, and a recursive hybrid estimate form its proof; arbitrary fields, dimension, interaction arity, and positive-probability pinnings are admitted. Second, we give a direct hashing reduction from a heavy valid quantum output to a classical search solver using scalar AA estimates. This yields accepted-output min-entropy bounds, a modular alternative to Yamakawa--Zhandry's threshold/frequency extraction, sparse-output sampling, and, for the unchanged Yamakawa--Zhandry relation, a retuned classical soundness analysis giving entropy $\Omega(\lambda/\log\lambda)$ under the stated acceptance and exceptional-oracle hypotheses. A separate honest-preparation refinement uses $n_{\rm c}$ queries in one parallel layer, where $n_{\rm c}$ is the YZ code length, not the number of Gibbs spins. We compare all reductions with prior work and identify their limitations. The Gibbs result is a mean query-simulation theorem, not polynomial-influence AA for Gibbs measures; the entropy result does not use the Gibbs theorem; and all running-time, quantum-side-information, and unqualified optimality claims are outside our scope.
+\end{abstract}
+\tableofcontents
+\clearpage
+
+\section{Introduction}\label{sec:introduction}
+Quantum query algorithms draw a sharp line between unstructured decision problems and structured search problems. For a total Boolean function, quantum and deterministic query complexities are polynomially related. Relative to a random oracle, however, quantum search can be exponentially easier than classical search. The Aaronson--Ambainis (AA) influential-variable theorem explains a corresponding limitation for decision problems: a bounded degree-$d$ polynomial with substantial variance has an influential coordinate, with a bound polynomial in variance and inverse degree. Its original quantum-query acceptance consequence supplies deterministic classical estimates on most uniformly random inputs \cite{AA14,Tur26,BDST26}.
+
+The two research branches in this paper ask different questions about that classical-simulation interface.
+\begin{itemize}
+\item \textbf{Can the input law be correlated?} We represent high-temperature Gibbs configurations by exact histories on an independent tape of signed-parity or constant update maps. Quantum queries can then be answered first on this product source and transferred back to physical spins with explicit error and work bounds.
+\item \textbf{What useful output information can scalar simulation recover?} Even when classical search is exponentially hard, scalar AA estimates can reconstruct a valid output whenever one has nonnegligible probability. Hashing makes this extraction explicit and turns a low-entropy hypothesis into a classical-search contradiction.
+\end{itemize}
+The branches meet methodologically but do not imply one another. No theorem below uses the Gibbs simulator to prove certified randomness, and no Gibbs lemma depends on hashing.
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=9mm and 11mm,
+box/.style={draw=Link,rounded corners,align=center,inner sep=5pt,text width=46mm,font=\small},
+arr/.style={-{Latex[length=2mm]},draw=Link,thick}]
+\node[box] (aa) {Previous work:\\influence bound $\Rightarrow$ scalar simulation};
+\node[box,below left=10mm and -14mm of aa] (gibbs) {Independent tape\\and product-alphabet AA};
+\node[box,below right=10mm and -14mm of aa] (hash) {Scalar predicate and bucket-mass\\estimation};
+\node[box,below=of gibbs] (hist) {Exact Gibbs histories\\and lazy posterior access};
+\node[box,below=of hash] (entropy) {Heavy-output extraction\\$\Rightarrow$ entropy contradiction};
+\node[box,below=of hist] (gq) {$O(T^{18}e^{-28})$ spin queries\\at $\omega\leq1/8$};
+\node[box,below=of entropy] (yz) {YZ refinements and\\honest-preparation improvements};
+\draw[arr] (aa)--(gibbs); \draw[arr] (aa)--(hash);
+\draw[arr] (gibbs)--(hist); \draw[arr] (hash)--(entropy);
+\draw[arr] (hist)--(gq); \draw[arr] (entropy)--(yz);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Contributions and claim status}
+Sections~\ref{sec:background} reviews previous work. It includes a guided sketch of the influential-variable proof, rather than presenting that proof as an event contribution. Turturean's original manuscript reports stronger exponents than the BDST exposition used for our displayed scalar bound \cite{Tur26,BDST26}. Turturean also states that Theorem~1.1 and Corollary~1.2 of that work were checked by the Lean kernel. \textbf{No analogous formalization of the assembled results in this paper is asserted.}
+
+Our Gibbs contribution is stated precisely in Theorem~\ref{main}. Its constant is dimension-free under $\omega\leq1/8$ and computation is free. It is neither efficient sampling, a full-Dobrushin theorem, nor a polynomial-influence theorem for bounded polynomials on Gibbs measures. Product-alphabet influences below are coordinate-resampling influences, distinct from uniform Boolean flip influence.
+
+Our certified-randomness contributions are Theorems~\ref{heavy}--\ref{sparse}. Yamakawa--Zhandry (YZ) proved the AA-to-entropy route \textbf{conditionally on the AA simulation conjecture} \cite[Theorem 8.4 and Conjecture 8.1]{YZ24}; the 2026 influence proofs supply that hypothesis, which is now a theorem. Our extraction is an alternative factorization through explicit bucket predicates, with explicit exponents, and our coding and honest-preparation refinements are separate inputs. It is not the first use of AA in this setting. Independent work has proved security of the same YZ protocol unconditionally against $o(\log\lambda)$ adaptive quantum queries and against subexponentially many adaptive quantum queries \cite{KRT26,CKMRSST26}. We do not claim to remove an assumption that those works did not already avoid, nor a uniform improvement over their adversary classes. Quantitative comparisons are upper-bound comparisons under one common scalar simulation bound, not optimality claims. Additional comparison and sampling analyses appear in the appendices to keep the main line readable.
+
+\input{results/unified_aa_sections/background}
+\input{results/unified_aa_sections/gibbs_intro}
+\input{results/unified_aa_sections/gibbs_core}
+\input{results/unified_aa_sections/certified_core}
+\input{results/unified_aa_sections/connections}
+\input{results/unified_aa_sections/open_conclusion}
+\input{results/unified_aa_sections/references}
+\appendix
+\input{results/unified_aa_sections/certified_appendices}
+\input{results/unified_aa_sections/verification_appendix}
+\end{document}
