@@ -33,23 +33,6 @@ yours**, i.e. the unified-manuscript plan in `PARALLELISATION.md` and
   `#print axioms` shows only `propext`, `Classical.choice`, `Quot.sound`;
   no file outside `HardSector/` and this note touched.
 
-## Heads-up: 7 modules don't build on `main`
-
-Checked 2026-11-15 at `8851943` with the pinned toolchain and manifest (Lean
-4.33.0, mathlib `db584cd`), each module built on its own:
-
-| Module | First error |
-|---|---|
-| `WalshConvolution` | l.44 `rewrite` pattern not found; l.159 unknown identifier `abs_add` |
-| `WeightedPinning` | l.21 unsolved goals; l.46 `rewrite` pattern not found |
-| `RestrictionRisk` | l.35 unsolved goals |
-| `GibbsHistory` | l.9 unsolved goals |
-| `ParityUpdate`, `MeanRestriction`, `BiasedRestriction` | import one of the above |
-
-The other 39 build. `abs_add` being unknown suggests these were written against
-a different Mathlib than the pinned one. Until they build, my modules don't
-import them (so I define my own conditional law and characters).
-
 ## What I use from your code
 
 Please keep these signatures stable, or tell me before changing them:
@@ -58,7 +41,7 @@ Please keep these signatures stable, or tell me before changing them:
 - `DecisionTree`, `eval`, `depth`, `queries` (`DecisionTree.lean`).
 - `QAlg` and its acceptance probability (vendored `Quantum/Algorithm.lean`) to
   realise the class $\mathcal Q_{n,T}$.
-- Once they build: `walsh` (`WalshConvolution.lean`), `conditionOn` (`ParityUpdate.lean`).
+- `walsh` (`WalshConvolution.lean`) and `conditionOn` (`ParityUpdate.lean`) once your current fixes land.
 - Later, for files 36 and 38: your Gibbs law / pinning definitions (segments 8
   and 10). I wait for those rather than define competing ones.
 
@@ -105,4 +88,3 @@ have me use it, say so.
 
 1. OK with the 22–23 split above?
 2. `withMeans`: should I write my own μ-general version, or will you generalise yours?
-3. Can you fix or re-pin the 7 broken modules above? I need `walsh` for the character sectors (17, 33, 34).
