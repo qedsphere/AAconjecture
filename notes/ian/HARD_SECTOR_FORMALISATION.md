@@ -91,6 +91,8 @@ have me use it, say so.
 | 13, `ian:hard-sector-aa-definition` ((AA) for a law family and an abstract class family $\mathcal Q_{n,T}$; condition (3)) | `AAWith`, `FullAA`, `SmoothSectorWitnesses` | `UnifiedAA.HardSector.Exclusion` |
 | 13, `ian:hard-sector-aa-exclusion` (sector exclusion under full AA) | `depth_lt_of_aa` | `UnifiedAA.HardSector.Exclusion` |
 | 13, `ian:hard-sector-aa-equivalence` ((3) ⇒ (1)) | `not_fullAA_of_smoothSectorWitnesses` | `UnifiedAA.HardSector.Exclusion` |
+| 13, lines 8–11 ($\ell_\mu(t,Q)$ and the squared-loss minimum exist; $\ell_\mu(\cdot,Q)$ nonincreasing) | `ell`, `l1Loss`, `sqLoss`, `ell_attained`, `ell_antitone`, `ell_le_iff`, `exists_sqLoss_min` | `UnifiedAA.HardSector.Optimal` |
+| 13, proof of `ian:hard-sector-regularity` (conditional-mean leaves, calibration, Pythagoras, nested leaf partitions) | `cellMean`, `condMeanTree`, `eval_condMeanTree`, `condMeanTree_mem_depthTrees`, `expect_resid_mul_eq_zero`, `sq_pythagoras`, `exists_factor_leafPath_graft`, `exists_eval_eq_comp_leafPath`, `leafPath_condMeanTree`, `expect_condLaw` | `UnifiedAA.HardSector.Optimal` |
 
 ## Questions for you
 
