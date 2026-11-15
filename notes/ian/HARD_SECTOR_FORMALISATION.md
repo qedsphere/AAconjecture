@@ -21,33 +21,44 @@ yours**, i.e. the unified-manuscript plan in `PARALLELISATION.md` and
 
 - No branches: everything goes straight to `main`, in small commits that only
   add files under my folders.
-- Code: `formalisation/HardSector/`, namespace `HardSector`, as a **separate
-  `lean_lib`**. It imports `UnifiedAA` and the vendored
-  `QuantumQueryComplexity` read-only.
-- I do not edit any existing module, `UnifiedAA.lean`, `checks/Axioms.lean`,
-  `scripts/`, dependency pins or `lake-manifest.json`. My own axiom audit lives
-  under `formalisation/HardSector/checks/`.
-- **One request:** add this stanza to `lakefile.toml` (your file), so my
-  modules build without touching the aggregate:
+- Code: new files only, in `formalisation/UnifiedAA/HardSector/`, modules
+  `UnifiedAA.HardSector.*`, namespace `UnifiedAA.HardSector`. They sit inside
+  your `UnifiedAA` lib, so `lake build UnifiedAA.HardSector.<Module>` works with
+  **no lakefile change**. Nothing imports them from `UnifiedAA.lean`, so your
+  default `lake build` is unaffected. Hook them into the aggregate whenever you like.
+- I do not edit any existing module, `UnifiedAA.lean`, `checks/`, `scripts/`,
+  `lakefile.toml`, dependency pins or `lake-manifest.json`.
+- Every commit passes a gate first: module builds; no `sorry` / `admit` /
+  `axiom` / `native_decide`; statements unchanged from the reviewed skeleton;
+  `#print axioms` shows only `propext`, `Classical.choice`, `Quot.sound`;
+  no file outside `HardSector/` and this note touched.
 
-  ```toml
-  [[lean_lib]]
-  name = "HardSector"
-  ```
+## Heads-up: 7 modules don't build on `main`
 
-Same rules as your plan: Lean 4.33.0, no `sorry` / `admit` / `axiom` /
-`native_decide`, literature inputs stated as explicit hypotheses, one bounded
-result per PR with the note's label, hypotheses and audit output.
+Checked 2026-11-15 at `8851943` with the pinned toolchain and manifest (Lean
+4.33.0, mathlib `db584cd`), each module built on its own:
+
+| Module | First error |
+|---|---|
+| `WalshConvolution` | l.44 `rewrite` pattern not found; l.159 unknown identifier `abs_add` |
+| `WeightedPinning` | l.21 unsolved goals; l.46 `rewrite` pattern not found |
+| `RestrictionRisk` | l.35 unsolved goals |
+| `GibbsHistory` | l.9 unsolved goals |
+| `ParityUpdate`, `MeanRestriction`, `BiasedRestriction` | import one of the above |
+
+The other 39 build. `abs_add` being unknown suggests these were written against
+a different Mathlib than the pinned one. Until they build, my modules don't
+import them (so I define my own conditional law and characters).
 
 ## What I use from your code
 
 Please keep these signatures stable, or tell me before changing them:
 
-- `FiniteLaw` (`FiniteProbability.lean`) and `conditionOn` (`ParityUpdate.lean`).
+- `FiniteLaw` (`FiniteProbability.lean`), `variance` (`ProbabilityBounds.lean`).
 - `DecisionTree`, `eval`, `depth`, `queries` (`DecisionTree.lean`).
-- `walsh` (`WalshConvolution.lean`) for the character-based sectors.
 - `QAlg` and its acceptance probability (vendored `Quantum/Algorithm.lean`) to
   realise the class $\mathcal Q_{n,T}$.
+- Once they build: `walsh` (`WalshConvolution.lean`), `conditionOn` (`ParityUpdate.lean`).
 - Later, for files 36 and 38: your Gibbs law / pinning definitions (segments 8
   and 10). I wait for those rather than define competing ones.
 
@@ -84,8 +95,14 @@ have me use it, say so.
    certificates (32, literature theorems as hypotheses), then the thermal files
    (36, 38) once your Gibbs modules land.
 
+## Status (updated by each commit)
+
+| TeX label (`notes/ian/`) | Lean declaration | Module |
+|---|---|---|
+| none yet | | |
+
 ## Questions for you
 
 1. OK with the 22–23 split above?
-2. OK to add the `HardSector` lean_lib stanza?
-3. `withMeans`: should I write my own μ-general version, or will you generalise yours?
+2. `withMeans`: should I write my own μ-general version, or will you generalise yours?
+3. Can you fix or re-pin the 7 broken modules above? I need `walsh` for the character sectors (17, 33, 34).
