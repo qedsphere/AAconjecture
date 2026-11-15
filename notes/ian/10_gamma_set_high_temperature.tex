@@ -1,0 +1,211 @@
+\subsection{Partial fixed-set Gamma results at weighted high temperature}
+\label{ian:gamma-set-high-temperature}
+
+Status: partial. Throughout the full stated weighted high-temperature
+region, the Local alternative holds uniformly for degree-one
+polynomials. It also holds quantitatively for polynomials with bounded
+Fourier coefficient mass. Assuming (UAA), all degrees are covered
+under an additional dimension-independent total-interaction budget.
+The unrestricted row-sum-only Gamma assertion remains unresolved here.
+
+Here (UAA) is the uniform theorem imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}.
+
+Write
+\[
+ \mu(x)\propto
+ \exp\left(\beta\sum_{|A|\ge2}J_Ax^A+\beta\sum_i h_ix_i\right),
+ \qquad
+ \omega=\beta\max_i\sum_{\substack{A\ni i\\|A|\ge2}}
+                  (|A|-1)|J_A|\le\frac18.
+\]
+Parameters are finite, \(\beta\ge0\), and fields are arbitrary.
+
+\begin{lemma}[A hereditary variance inequality]
+\label{ian:weighted-dobrushin-poincare}
+For every real function \(g\),
+\[
+ \Var_\mu g
+ \le\frac1{1-\omega}
+       \sum_i\E_\mu\Var(g\mid X_{-i})
+ \le\frac1{1-\omega}\sum_iI_i^\mu(g).
+ \tag{HTP}
+\]
+The same bound holds after every positive-probability pinning.
+\end{lemma}
+
+\begin{proof}
+For \(i\ne j\), set
+\[
+ C_{ij}=\beta\sum_{A\ni i,j}|J_A|,\qquad C_{ii}=0.
+\]
+Changing boundary spin \(j\) changes the conditional law at \(i\)
+in total variation by at most \(C_{ij}\): the conditional
+plus-probability is \((1+\tanh u)/2\), whose derivative has absolute
+value at most \(1/2\). The matrix \(C\) is symmetric and has row and
+column sums at most \(\omega\).
+
+Let \(P\) be random-scan heat bath. Couple its transitions from two
+states differing only at \(j\), using the same update site and a
+maximal coupling at that site. Updating \(j\) removes the disagreement;
+updating \(i\ne j\) creates an additional disagreement with probability
+at most \(C_{ij}\). Hence the expected Hamming distance is at most
+\[
+ q:=1-\frac{1-\omega}{n}.
+\]
+Joining adjacent-state couplings along Hamming paths gives contraction
+by \(q\) in Hamming Wasserstein distance. Consequently
+\[
+ \operatorname{Lip}(Pg)\le q\,\operatorname{Lip}(g).
+\]
+For every nonconstant eigenfunction of the finite reversible kernel
+\(P\), this implies that its eigenvalue has absolute value at most
+\(q\). Thus the spectral gap is at least \((1-\omega)/n\).
+The finite-state spectral variance inequality and
+\[
+ \langle g,(I-P)g\rangle_\mu
+ =\frac1n\sum_i\E_\mu\Var(g\mid X_{-i})
+\]
+prove the first inequality in (HTP). The second follows from
+\[
+ \Var(g\mid X_{-i})
+ =\Var(X_i\mid X_{-i})(D_ig)^2\le(D_ig)^2.
+\]
+
+Pinning reduces interaction supports. After merging equal residual
+interactions, the triangle inequality shows that the weighted row
+bound cannot increase. Newly created singleton terms are absorbed
+into the fields. The same proof therefore applies after pinning.
+\end{proof}
+
+\begin{proposition}[Linear polynomials and bounded coefficient mass]
+\label{ian:weighted-linear-aa}
+Every globally bounded linear polynomial with
+\(\Var_\mu f\ge v\) satisfies
+\[
+ \max_iI_i^\mu(f)\ge(1-\omega)^2v^2
+ \ge\frac{49}{64}v^2.
+\]
+This assertion is uniform after pinning.
+
+More generally, write the ordinary cube expansion as
+\[
+ f(x)=\sum_A\widehat f(A)x^A,\qquad
+ M(f)=\sum_{A\ne\varnothing}|A|\,|\widehat f(A)|.
+\]
+If \(\Var_\mu f\ge v>0\), then
+\[
+ \max_iI_i^\mu(f)
+ \ge\frac{(1-\omega)^2v^2}{M(f)^2}.
+ \tag{HTC}
+\]
+In particular, if
+\(\sum_A|\widehat f(A)|\le A_0d^q\), with \(q\ge0\), then
+\[
+ \max_iI_i^\mu(f)
+ \ge\frac{49}{64A_0^2}(v/d)^{2q+2}.
+\]
+These assertions do not require (UAA).
+\end{proposition}
+
+\begin{proof}
+Put \(I_*=\max_iI_i^\mu(f)\). Expanding one derivative and applying
+Cauchy--Schwarz gives
+\[
+ \begin{split}
+ I_i^\mu(f)
+ &=\sum_{A\ni i}\widehat f(A)
+       \E_\mu[(D_if)X^{A\setminus\{i\}}]\\
+ &\le\sqrt{I_i^\mu(f)}
+       \sum_{A\ni i}|\widehat f(A)|.
+ \end{split}
+\]
+Therefore
+\[
+ \sum_iI_i^\mu(f)\le\sqrt{I_*}\,M(f).
+\]
+Combining this with (HTP) proves (HTC).
+
+For \(f=a_0+\sum_i a_ix_i\), global boundedness implies
+\[
+ |a_0|+\sum_i|a_i|\le1,
+\]
+so \(M(f)\le1\). This proves the linear assertion. Restrictions
+remain globally bounded and linear, so it is hereditary.
+
+For the final assertion,
+\(M(f)\le d\sum_A|\widehat f(A)|\le A_0d^{q+1}\);
+use \(v\le1\) in (HTC).
+\end{proof}
+
+\begin{proposition}[All degrees with a total-interaction budget]
+\label{ian:interaction-budget-aa}
+Assume (UAA). Suppose, in addition, that
+\[
+ \beta\sum_{|A|\ge2}|J_A|\le B
+\]
+for a fixed dimension-independent \(B\).
+Then every admissible polynomial satisfies
+\[
+ \max_iI_i^\mu(f)
+ \ge\kappa_1e^{-26B}(v/d)^{12},
+\]
+where \(\kappa_1\) is defined in
+Lemma~\ref{ian:block-resampling-aa}.
+Consequently this subclass satisfies
+\(\Gamma^{\mathrm{set}}\), and indeed
+\(\Gamma^{\mathrm{rand}}\), through the Local alternative alone,
+uniformly after pinning. No field bound or bias floor is needed.
+\end{proposition}
+
+\begin{proof}
+Let
+\[
+ \nu(x)\propto e^{\beta\sum_i h_ix_i}
+\]
+be the corresponding product law, and put
+\(W(x)=\beta\sum_{|A|\ge2}J_Ax^A\).
+Since \(|W|\le B\),
+\[
+ e^{-2B}\le\frac{d\mu}{d\nu}\le e^{2B}.
+\]
+Thus
+\[
+ v\le\Var_\mu f
+ \le\E_\mu(f-\E_\nu f)^2
+ \le e^{2B}\Var_\nu f,
+ \qquad
+ I_i^\mu(f)\ge e^{-2B}I_i^\nu(f).
+\]
+Corollary~\ref{ian:two-spin-blocks}, applied to the arbitrary-bias
+product \(\nu\), yields
+\[
+ \max_iI_i^\mu(f)
+ \ge e^{-2B}\kappa_1
+          \left(\frac{e^{-2B}v}{d}\right)^{12}
+ =\kappa_1e^{-26B}(v/d)^{12}.
+\]
+
+Pinning cannot increase the total absolute mass of residual
+interactions of size at least two: merge equal residual supports
+using the triangle inequality and absorb singleton terms into the
+fields. The same constant therefore works after pinning.
+\end{proof}
+
+\paragraph{Remaining scope.}
+The weighted row bound does not supply a dimension-independent total
+budget: arbitrarily many disjoint edges can satisfy the row bound
+while their total interaction mass diverges. Nor does global
+boundedness supply a dimension-independent polynomial bound on
+\(M(f)\). For example, with \(H\) the \(n\times n\) Sylvester Hadamard matrix, \(f(x)=x^\top Hx/(2n^{3/2})\) satisfies \(|f|\le1/2\) on the whole cube because \(\|H\|_{\mathrm{op}}=\sqrt n\), while its off-diagonal coefficients have total absolute value \(n(n-1)/(2n^{3/2})\), of order \(\sqrt n\).
+
+The star counterexample in Proposition~\ref{ian:forest-addressing}
+has weighted row sum \(r\theta\), so it leaves the present region
+as \(r\) grows. It therefore does not refute Gamma here.
+
+The acceptance-simulation theorem in
+\path{high_temperature/classical/05_arbitrary_degree.tex},
+Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, remains valid
+throughout the stated region. Proposition~\ref{ian:gamma-set-not-necessary}
+shows why that simulation conclusion alone cannot establish fixed-set
+Gamma. A proof or counterexample for arbitrary bounded low-degree
+polynomials under the sole hypothesis \(\omega\le1/8\) remains needed.

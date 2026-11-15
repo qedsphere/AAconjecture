@@ -1,0 +1,186 @@
+\subsection{Random sets, products, and failure of necessity}
+\label{ian:gamma-set-products-and-necessity}
+
+Status: proved. The counterexamples and the product implication below are unconditional. The hereditary full-AA assertions use the cited repository simulation results.
+
+Here (UAA) is the uniform theorem imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}. For a class \(\mathcal A\) of laws, \(\operatorname{Pin}\mathcal A\) denotes its pinning closure: all residual laws obtained from members of \(\mathcal A\) by positive-probability pinnings, including the empty pinning.
+
+Write
+\[
+ G_\mu(f,S):=\Var_\mu\bigl(\E_\mu[f\mid X_S]\bigr).
+\]
+
+\begin{proposition}[Random sets are not necessary]
+\label{ian:triple-random-set-failure}
+Let \(\mu_m\) be the product of \(m\) independent blocks, each uniform
+on \(\{(+,+,+),(-,-,-)\}\), and put
+\[
+ f(x)=M_3(x_1,x_2,x_3)
+ :=\frac{x_1+x_2+x_3-x_1x_2x_3}{2}.
+\]
+This witness defeats \(\Gamma^{\mathrm{rand}}\) for every proposed
+choice of constants. Nevertheless, it has a singleton revealing all
+its variance, and the pinning closure of \(\{\mu_m:m\ge1\}\) has
+hereditary full AA.
+\end{proposition}
+
+\begin{proof}
+The polynomial \(M_3\) is Boolean on the entire cube and has degree
+three. On the support of \(\mu_m\),
+\[
+ f=X_1=X_2=X_3,\qquad \Var_{\mu_m}f=1.
+\]
+For \(\{i,j,k\}=\{1,2,3\}\),
+\[
+ D_iM_3=\frac{1-x_jx_k}{2},
+\]
+which vanishes on that support. All other derivatives also vanish.
+Thus every flip influence is zero.
+
+Fix any proposed six positive constants and use \(d=3,v=1\). Put
+\[
+ L=\left\lceil B_G3^{K_G}\right\rceil.
+\]
+For \(3m>L\), a uniformly random \(L\)-set satisfies
+\[
+ \E_S G_{\mu_m}(f,S)
+ =\Pr[S\cap\{1,2,3\}\ne\varnothing]
+ \le \frac{L}{m}.
+\]
+Indeed, hitting the first block reveals \(f\) exactly, while missing it
+reveals nothing about \(f\). Choosing
+\[
+ m>\max\{L,\;L\,3^{C_G}/c_G\}
+\]
+defeats the Global alternative as well.
+
+In contrast,
+\[
+ G_{\mu_m}(f,\{1\})=1.
+\]
+Consequently this witness satisfies the fixed-set Global alternative,
+for example with
+\(c_G=C_G=B_G=K_G=1\), for every admissible degree bound and variance
+parameter. This is a witness-level statement; it does not assert
+\(\Gamma^{\mathrm{set}}\) for the whole class.
+
+A positive-probability pinning leaves a product of blocks of size at
+most three, some deterministic. The hereditary full-AA conclusion
+therefore follows from
+\path{simulation/positive_examples/02_arbitrary_blocks.tex},
+Theorem~\ref{thm:threshold-block-products}.
+\end{proof}
+
+\begin{proposition}[L4: Global implies Local on products]
+\label{ian:product-global-to-local}
+Let \(\mu=\bigotimes_i\mu_i\), where
+\(p_i=\mu_i(+1)\in[0,1]\). If \(G_\mu(f,S)\ge\gamma>0\), then
+\[
+ \max_i I_i^\mu(f)\ge\frac{\gamma}{|S|}.
+\]
+More precisely, the same lower bound holds for the maximum
+heat-bath influence
+\[
+ H_i^\mu(f):=\E_\mu\Var(f\mid X_{-i})
+            =4p_i(1-p_i)I_i^\mu(f).
+\]
+Hence \(\Gamma^{\mathrm{set}}\) on a product class implies ordinary
+flip-influence AA, without a bias floor.
+\end{proposition}
+
+\begin{proof}
+Use the globally defined extension
+\[
+ g(x_S)=\E_{Y_{-S}\sim\mu_{-S}}f(x_S,Y_{-S}).
+\]
+For \(i\in S\), differentiation commutes with this integration.
+Product Efron--Stein and Jensen give
+\[
+ \begin{split}
+ \gamma
+ &\le\Var_{\mu_S}g
+ \le\sum_{i\in S}4p_i(1-p_i)\E_{\mu_S}(D_ig)^2\\
+ &\le\sum_{i\in S}H_i^\mu(f)
+ \le\sum_{i\in S}I_i^\mu(f).
+ \end{split}
+\]
+This proves both claims.
+
+For the constants in Definition~\ref{ian:gamma-definition}, write
+\(x=d/v\ge1\). The Global alternative implies
+\[
+ \max_i I_i^\mu(f)
+ \ge\frac{c_G}{B_G+1}(v/d)^{C_G+K_G},
+\]
+because \(|S|\le\lceil B_Gx^{K_G}\rceil\le(B_G+1)x^{K_G}\).
+Thus ordinary AA holds with
+\[
+ c=\min\{c_L,c_G/(B_G+1)\},\qquad
+ C=\max\{C_L,C_G+K_G\}.
+\]
+
+No bias floor entered this argument, including at deterministic
+coordinates. A floor is needed for the reverse comparison
+\[
+ H_i^\mu(f)\ge4a(1-a)I_i^\mu(f)
+ \quad\text{when }p_i\in[a,1-a].
+\]
+In particular, this comparison converts the original Local branch,
+which is stated using flip influence, into a heat-bath lower bound.
+There is no uniform reverse comparison for arbitrary biases.
+\end{proof}
+
+\begin{proposition}[Hereditary full AA does not imply fixed-set Gamma]
+\label{ian:gamma-set-not-necessary}
+Let
+\[
+ \mathcal C=\operatorname{Pin}\{\mu_m:m\ge1\}
+\]
+be the pinning closure from
+Proposition~\ref{ian:triple-random-set-failure}.
+Then \(\mathcal C\) has hereditary full AA but fails
+\(\Gamma^{\mathrm{set}}\).
+
+The failure persists if the polynomial witnesses in Gamma are
+restricted to quantum acceptance functions.
+\end{proposition}
+
+\begin{proof}
+The hereditary full-AA assertion follows from
+Theorem~\ref{thm:threshold-block-products}. Alternatively,
+\path{foundations/product_alphabets.tex},
+Corollary~\ref{cor:resolution-product-alphabet-aa}, applies to the
+independent block symbols. A physical query can be implemented using
+two coherent symbol queries, and a classical symbol query costs at
+most three physical queries. This gives a uniform
+\(O(T^6e^{-15})\) physical-query bound, also after pinning.
+
+Proposition~\ref{ian:hard-block-addressing} below constructs, on
+\(\mu_{r+2^r}\), Boolean polynomials \(f_r\) satisfying
+\[
+ \deg f_r\le3(r+1),\qquad
+ \Var f_r=1,\qquad
+ I_i(f_r)=0\quad\text{for every }i,
+\]
+and
+\[
+ G(f_r,S)\le |S|\,2^{-r}
+ \quad\text{for every fixed }S.
+\]
+These bounds defeat every proposed set of Gamma constants.
+
+Furthermore,
+\[
+ Q_r=\frac{1+f_r}{2}
+\]
+is an acceptance function of a deterministic algorithm: read the
+three spins in each of the \(r\) address blocks, then the three spins
+in the selected data block. It uses \(3(r+1)\) queries.
+For \(Q_r\), the variance is \(1/4\), all influences remain zero,
+and the reveal bound is divided by four. Thus the same asymptotic
+contradiction applies to acceptance functions themselves.
+
+The obstruction is therefore present even without the distinction
+between bounded polynomials and acceptance functions. A short
+adaptive tree need not supply a polynomial-size fixed revealing set.
+\end{proof}

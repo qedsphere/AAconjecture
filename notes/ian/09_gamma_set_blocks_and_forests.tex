@@ -1,0 +1,375 @@
+\subsection{The block-size boundary and forest counterexamples}
+\label{ian:gamma-set-blocks-and-forests}
+
+Status: proved. Assuming (UAA), bounded block products satisfy
+\(\Gamma^{\mathrm{set}}\) for block size at most two. They fail it
+for every block-size bound at least three. Ising forests fail it for
+every positive fixed finite edge-strength bound. Both failures are
+unconditional.
+
+Here (UAA) is the uniform theorem imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}.
+
+Let \(\Lambda_{\mathrm{blk}}(k)\) be the class of all products of arbitrary laws on disjoint coordinate blocks of size at most \(k\); zero atoms are allowed and block laws may depend on \(n\). This class is pinning-closed: conditioning
+on a coordinate assignment conditions each block separately, leaving
+independent residual blocks of size at most \(k\). Zero-mass
+assignments are omitted.
+
+For an independent block \(B\), define its resampling energy by
+\[
+ \mathcal E_B^\mu(f)
+ :=\E_\mu\Var(f\mid X_{-B})
+ =\frac12\E\bigl(f(X)-f(X_{-B},X'_B)\bigr)^2,
+\]
+where \(X'_B\) is an independent copy of the block.
+
+\begin{lemma}[Block resampling AA without an atom floor]
+\label{ian:block-resampling-aa}
+Assume (UAA), and fix \(k\ge1\). There is an explicit
+\(\kappa_k>0\) such that every admissible degree-\(d\) polynomial on
+every \(\mu\in\Lambda_{\mathrm{blk}}(k)\) satisfies
+\[
+ \Var_\mu f\ge v
+ \quad\Longrightarrow\quad
+ \max_B\mathcal E_B^\mu(f)\ge\kappa_k(v/d)^{12}.
+\]
+One choice is
+\[
+ \begin{split}
+ c_0&=\min\{1,c_{\mathrm{AA}}\},\\
+ A_k&=\min\left\{a\in\mathbb N:
+ a\ge32,\quad128(k+a+1)^6\,2^{-a}\le c_0\right\},\\
+ M_k&=k+A_k+1,\qquad
+ \kappa_k=\frac{c_0}{16M_k^6}.
+ \end{split}
+\]
+\end{lemma}
+
+\begin{proof}
+Put \(x=d/v\), \(b=k+\lceil A_kx\rceil\), and
+\(\eta=2^{k-b}\). For each block law \(\pi_B\), construct a law
+\(\pi'_B\), with probabilities having denominator \(2^b\), such that
+\[
+ \pi'_B\ge(1-\eta)\pi_B.
+\]
+Indeed, give each atom \(u\) the count
+\(\lceil(1-\eta)2^b\pi_B(u)\rceil\).
+The sum of these counts is at most
+\((1-\eta)2^b+2^k=2^b\); distribute the remaining counts arbitrarily.
+Thus
+\[
+ \pi'_B=(1-\eta)\pi_B+\eta r_B
+\]
+for a probability law \(r_B\), with no assumption on zero atoms.
+
+Let
+\[
+ \mu_t=\bigotimes_B\bigl((1-t)\pi_B+tr_B\bigr),
+ \qquad 0\le t\le1.
+\]
+Both
+\[
+ V(t)=\Var_{\mu_t}f,\qquad
+ J_B(t)=\mathcal E_B^{\mu_t}(f)
+\]
+are polynomials of degree at most \(2d\), bounded between zero and
+one on \([0,1]\). For \(J_B\), expand
+\[
+ J_B(t)=\E_{\mu_t}f^2
+ -\E_{(\mu_t)_{-B}}
+       \left(\E_{(\mu_t)_B}f\right)^2.
+\]
+Each pair of monomials involves at most \(2d\) block occurrences,
+counting the two integrations over \(B\) separately.
+Markov brothers' inequality therefore gives
+\[
+ |V(\eta)-V(0)|,\quad |J_B(\eta)-J_B(0)|
+ \le \varepsilon_*:=8d^2\eta.
+\]
+
+Write \(\mu'=\mu_\eta\), and set
+\[
+ q_*=\frac{c_0v^{5/2}}{16d^6b^6}.
+\]
+Since \(b\le M_kx\) and \(\eta\le2^{-A_kx}\),
+\[
+ \frac{\varepsilon_*}{v}
+ \le8x^2\,2^{-A_kx}\le\frac12,
+\]
+and
+\[
+ \frac{\varepsilon_*}{q_*}
+ \le\frac{128M_k^6}{c_0}x^{14}2^{-A_kx}\le1.
+\]
+Here \(x^{14}2^{-A_kx}\) decreases for \(x\ge1\), and the defining
+inequality for \(A_k\) applies.
+
+Generate every \(\pi'_B\) exactly from \(b\) independent fair bits.
+The composition \(H=f\circ T\) is globally bounded by one, has degree
+at most \(db\), and has uniform variance at least \(v/2\).
+Consequently (UAA) supplies a source bit \(j\), belonging to some
+block \(B\), with
+\[
+ I_j^U(H)
+ \ge\frac{c_0(v/2)^{5/2}}{d^6b^6}
+ \ge2q_*.
+\]
+A source-bit influence is a conditional variance. Revealing all
+other source bits in its block can only decrease expected conditional
+variance, so
+\[
+ I_j^U(H)
+ \le\E\Var(H\mid Z_{-B})
+ =\mathcal E_B^{\mu'}(f).
+\]
+Transferring back gives
+\[
+ \mathcal E_B^\mu(f)\ge2q_*-\varepsilon_*\ge q_*.
+\]
+Finally,
+\[
+ q_*\ge\frac{c_0}{16M_k^6}\frac{v^{17/2}}{d^{12}}
+ \ge\kappa_k(v/d)^{12}.
+\]
+\end{proof}
+
+\begin{corollary}[Positive result through block size two]
+\label{ian:two-spin-blocks}
+Assuming (UAA), arbitrary coordinate-bias products satisfy
+\[
+ \max_iI_i^\mu(f)\ge\kappa_1(v/d)^{12},
+\]
+including deterministic coordinates. Products of arbitrary laws on
+blocks of size at most two satisfy
+\[
+ \max_iI_i^\mu(f)\ge\frac{\kappa_2}{8}(v/d)^{12}.
+\]
+Thus both classes satisfy \(\Gamma^{\mathrm{set}}\) through the Local
+alternative alone.
+\end{corollary}
+
+\begin{proof}
+For a singleton block,
+\[
+ \mathcal E_{\{i\}}^\mu(f)
+ =4p_i(1-p_i)I_i^\mu(f)\le I_i^\mu(f).
+\]
+
+For a block \(B\) of size at most two, fix all outside coordinates
+and write the resulting function as \(h\). For any block states
+\(u,w\),
+\[
+ (h(u)-h(w))^2
+ \le4\sum_{i\in B}
+       \bigl((D_ih(u))^2+(D_ih(w))^2\bigr).
+ \tag{*}
+\]
+For adjacent states this is immediate. For opposite corners of a
+square, telescope along each of the two length-two paths, apply
+Cauchy--Schwarz on each path, and average the resulting inequalities.
+This proves (*).
+
+Integrating over independent block states and the outside coordinates
+yields
+\[
+ \mathcal E_B^\mu(f)\le4\sum_{i\in B}I_i^\mu(f).
+\]
+Lemma~\ref{ian:block-resampling-aa} now proves both assertions.
+No atom floor is used.
+\end{proof}
+
+\begin{remark}[Why size two escapes the size-three obstruction]
+\label{ian:two-versus-three}
+Two states of a block of size at most two are joined by a path of length at most two, and every edge of such a path touches one of its endpoints. Every derivative in (*) is therefore evaluated at a support state. In a block of size three, opposite corners are joined only through a middle edge whose endpoints may both have zero mass; the example of Proposition~\ref{ian:triple-random-set-failure} hides its variance exactly there.
+\end{remark}
+
+\begin{lemma}[Fixed-set reveal bound for addressing]
+\label{ian:addressing-reveal}
+Let independent components carry independent fair logical signs
+\[
+ A_1,\ldots,A_r,\qquad (Z_u)_{u\in\{-1,1\}^r}.
+\]
+Each logical sign is a measurable function of its own component.
+Define
+\[
+ \operatorname{Addr}_r(A,Z)
+ =\sum_{u\in\{-1,1\}^r}
+       Z_u\prod_{j=1}^r\frac{1+u_jA_j}{2}.
+\]
+This function is Boolean and has variance one.
+
+If a fixed physical coordinate set \(S\) touches \(s\) address
+components and \(q\) data components, then
+\[
+ G(\operatorname{Addr}_r,S)
+ \le q\,2^{s-2r}
+ \le |S|\,2^{-r}.
+\]
+\end{lemma}
+
+\begin{proof}
+Reveal the entire components touched by \(S\); this can only increase
+the reveal gain. Their additional information beyond their logical
+signs does not affect the conditional expectation, by component
+independence.
+
+Let \(I\subseteq[r]\) be the touched address indices and
+\(D\subseteq\{-1,1\}^r\) the touched data indices. The conditional mean
+after this larger revelation is
+\[
+ 2^{-(r-s)}
+ \sum_{\substack{u\in D\\u|_I=A|_I}}Z_u.
+\]
+The revealed data signs are independent and centered. Each
+\(u\in D\) is compatible with the revealed address signs with
+probability \(2^{-s}\). The variance of this conditional mean is
+therefore exactly
+\[
+ q\,2^{-s}2^{-2(r-s)}=q\,2^{s-2r}.
+\]
+Use \(s\le r\) and \(q\le|S|\).
+\end{proof}
+
+\begin{proposition}[Failure from block size three onward]
+\label{ian:hard-block-addressing}
+For every fixed \(k\ge3\),
+\(\Gamma^{\mathrm{set}}(\Lambda_{\mathrm{blk}}(k))\) is false.
+It already fails on products of uniform
+\(\{(+,+,+),(-,-,-)\}\) blocks.
+\end{proposition}
+
+\begin{proof}
+Take \(r+2^r\) independent three-spin blocks of this type. Label
+\(r\) of them as address blocks and the others by
+\(u\in\{-1,1\}^r\) as data blocks. In each block use its majority
+\(M_3\) as the logical sign, and compose these signs with
+\(\operatorname{Addr}_r\). Call the resulting physical polynomial
+\(f_r\). It is multilinear and Boolean on the entire physical cube,
+with
+\[
+ n_r=3(r+2^r),\qquad
+ d_r:=3(r+1)\ge\deg f_r,\qquad
+ \Var f_r=1.
+\]
+
+For a physical coordinate \(i\) in logical block \(B\), the
+multilinear chain rule gives
+\[
+ D_if_r
+ =(D_B\operatorname{Addr}_r)(\text{other logical signs})\,D_iM_3.
+\]
+The last factor vanishes on the block support. Thus
+\[
+ I_i(f_r)=0\quad\text{for every }i.
+\]
+Lemma~\ref{ian:addressing-reveal} gives, simultaneously for every
+fixed physical set,
+\[
+ G(f_r,S)\le |S|\,2^{-r}.
+\]
+
+Fix any proposed Gamma constants and set \(v=1,d=d_r\). Let
+\[
+ L_r=\left\lceil B_Gd_r^{K_G}\right\rceil.
+\]
+For sufficiently large \(r\), \(n_r>L_r\) and
+\[
+ L_r2^{-r}<c_Gd_r^{-C_G}.
+\]
+Every allowed set fails the Global alternative, while every influence
+is zero. This disproves Gamma for block size three, and hence for
+every \(k\ge3\).
+\end{proof}
+
+\paragraph{Why block resampling does not finish the proposed route.}
+Lemma~\ref{ian:block-resampling-aa} supplies a block with large
+resampling energy, but that energy is not the variance revealed by
+observing the block. Already \(f=Z_1Z_2\) has resampling energy one
+in each block and zero singleton reveal gain.
+The addressing construction makes the fixed-set obstruction
+exponential in the degree.
+
+The product-alphabet certificate and completion results in
+\path{foundations/product_alphabets.tex},
+Lemma~\ref{lem:resolution-alphabet-certificates} and
+Corollary~\ref{cor:resolution-product-alphabet-aa}, are consistent
+with this counterexample: they give adaptive simulation, which does
+not require a small fixed revealing set.
+
+\begin{proposition}[Failure for Ising forests at every positive edge bound]
+\label{ian:forest-addressing}
+Fix \(0<\Theta=\beta J_{\mathrm{edge}}<\infty\).
+The class of finite Ising forests with
+\(|\beta J_{uv}|\le\Theta\), including arbitrary fields, fails
+\(\Gamma^{\mathrm{set}}\). Zero fields and ferromagnetic couplings
+already suffice.
+
+For \(\Theta=0\), the class is a product class and satisfies Gamma
+under (UAA).
+\end{proposition}
+
+\begin{proof}
+Fix \(0<\theta\le\Theta\). For each odd \(r\ge3\), take
+\(r+2^r\) disjoint stars, each with \(r\) leaves, zero fields, and
+coupling \(\beta J=\theta\) on every edge.
+
+For one star, its center \(C\) is fair, and conditional on \(C\)
+the leaves are independent with
+\[
+ \Pr[X_i=C\mid C]=p:=\frac{1+\tanh\theta}{2}.
+\]
+Let \(M_r\) be the majority of its \(r\) leaves, represented by its
+multilinear polynomial. It is Boolean on the entire cube, has degree
+at most \(r\), and is fair by spin-flip symmetry.
+Use these independent logical majorities as the address and data
+signs in \(\operatorname{Addr}_r\), obtaining \(f_r\). Then
+\[
+ n_r=(r+1)(r+2^r),\qquad
+ d_r:=r(r+1)\ge\deg f_r,\qquad
+ |f_r|=1,\qquad \Var f_r=1.
+\]
+
+The polynomial does not depend on the centers, so their influences
+are zero. For a leaf \(i\), write \(L_i\) for the set of leaves of its star;
+\[
+ D_iM_r=\mathbf1\left\{\sum_{j\in L_i\setminus\{i\}}X_j=0\right\}.
+\]
+Since the logical derivative of addressing has absolute value at
+most one,
+\[
+ \begin{split}
+ I_i(f_r)
+ &\le\Pr\left[\sum_{j\in L_i\setminus\{i\}}X_j=0\right]\\
+ &=\binom{r-1}{(r-1)/2}
+        [p(1-p)]^{(r-1)/2}\\
+ &\le(\operatorname{sech}\theta)^{r-1}.
+ \end{split}
+\]
+The equality holds after conditioning on either center sign.
+
+For any fixed physical set \(S\), reveal the full stars it touches.
+Lemma~\ref{ian:addressing-reveal} then gives
+\[
+ G(f_r,S)\le |S|\,2^{-r}.
+\]
+For any proposed constants, put
+\(L_r=\lceil B_Gd_r^{K_G}\rceil\).
+Along sufficiently large odd \(r\),
+\[
+ (\operatorname{sech}\theta)^{r-1}<c_Ld_r^{-C_L},
+ \qquad
+ L_r2^{-r}<c_Gd_r^{-C_G},
+ \qquad n_r>L_r.
+\]
+With \(v=1,d=d_r\), both alternatives fail.
+
+Pinning preserves the forest class by deleting pinned vertices and
+adding fields, without increasing the edge bound. Its hereditary
+full-AA property is nevertheless supplied by
+\path{simulation/positive_examples/03_ising_forests.tex},
+Theorem~\ref{thm:threshold-ising-forests}.
+Thus fixed-set Gamma does not explain that positive simulation
+theorem.
+
+When \(\Theta=0\), the spins are independent, and
+Corollary~\ref{ian:two-spin-blocks} applies.
+\end{proof}
