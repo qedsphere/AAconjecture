@@ -1,0 +1,564 @@
+\subsection{Explicit hard sectors in the repo's counterexamples}
+\label{ian:hard-sector-instances}
+
+Status: proved for the listed instances, including covariance bounds with access to all physical spins and a domination repair for the soft-code law.
+
+Throughout, \(m\ge2\) is even, \(n=2^m\), and
+\[
+ c_a(z)=(-1)^{a\cdot z},\qquad
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2,
+ \qquad r=\frac{1-n^{-1/2}}2.
+\]
+The acceptance function is
+\[
+ P(x)=\sum_{a:h(a)=1}\widehat x(a)^2,\qquad
+ \widehat x(a)=\frac1n\sum_zx_zc_a(z).
+\]
+It belongs to \([0,1]\) on the entire cube and is the acceptance
+probability of one quantum query, by
+Sections~\ref{qm:a-globally-bounded-quadratic-witness} and
+\ref{qm:one-quantum-query-versus-logarithmically-many-classical-queries}.
+In gadget models \(P\) uses only the visible spins, while classical
+tests may query every physical spin.
+
+\begin{lemma}[Covariance from the character-orbit calculation]
+\label{ian:hard-sector-orbit-covariance}
+Suppose a law admits a representation
+\[
+ X=\sigma c_A\eta,
+\]
+where \(A\) is uniform on \(\mathbb F_2^m\) and independent of side
+information \(W\), and \(\sigma,\eta\) are determined by \(W\).
+Suppose further that, after \(W\) is fixed, every depth-\(t\)
+physical-spin test can be simulated using at most \(kt\) linear
+queries to \(A\). Then
+\[
+ \E P=r,\qquad
+ |\Cov(P,F)|\le
+ c_{m,kt}:=\frac{2^{kt}-1}{2\sqrt n}
+ \quad(F\in\mathcal F_t).
+\]
+If \(\eta\) always has fewer than \(n/32\) negative coordinates, then
+\[
+ \Var P\ge\left(\frac{97}{128}\right)^2r(1-r).
+\]
+Consequently, if in addition \(\eta\) always has fewer than \(n/32\) negative coordinates, then for \(n\ge16\) and \(kt\le m/2-2\),
+\[
+ \operatorname{Hard}\left(
+ P,\mathcal L(\text{all physical spins});
+ t,\frac{17}{128},\frac18\right).
+\]
+\end{lemma}
+
+\begin{proof}
+Fix \(W\), and put \(p_b=\widehat\eta(b)^2\). Parseval gives
+\(\sum_bp_b=1\), and a change of Fourier index gives the exact formula
+\[
+ P(\sigma c_A\eta)=\sum_bp_bh(A+b).
+\]
+Thus its mean over \(A\) is \(r\). For every nonzero Walsh frequency
+\(s\), the Fourier coefficient of \(h\) has magnitude
+\(1/(2\sqrt n)\), by the bent-function calculation in
+Section~\ref{qm:one-quantum-query-versus-logarithmically-many-classical-queries}.
+Convolution by \((p_b)\) multiplies this coefficient by
+\(\sum_bp_b(-1)^{s\cdot b}\), whose absolute value is at most one.
+
+A leaf of a depth-\(kt\) linear-query tree conditions \(A\) onto an
+affine subspace of codimension at most \(kt\). Its conditional mean
+therefore satisfies
+\[
+ \left|\E[P-r\mid\text{leaf},W]\right|
+ \le\frac{2^{kt}-1}{2\sqrt n}.
+\]
+Multiply by the leaf output in \([-1,1]\), sum over leaves, and average
+over \(W\).
+
+For the variance assertion,
+\[
+ p_0=\widehat\eta(0)^2\ge(15/16)^2=225/256.
+\]
+Write, as a function of uniform \(A\),
+\[
+ P=p_0h(A)+(1-p_0)R(A),
+\]
+where \(0\le R\le1\) and \(\E R=r\). Hence
+\(\Var R\le r(1-r)\), and the reverse triangle inequality in \(L^2\)
+gives
+\[
+ \sqrt{\Var(P\mid W)}
+ \ge(2p_0-1)\sqrt{r(1-r)}
+ \ge\frac{97}{128}\sqrt{r(1-r)}.
+\]
+The conditional mean is always \(r\), so averaging proves the bound.
+For \(n\ge16\),
+\[
+ \left(\frac{97}{128}\right)^2r(1-r)
+ \ge\frac{141135}{1048576}>\frac{17}{128},
+ \qquad c_{m,kt}\le\frac18.
+\]
+Finally \(1/8<17/128\).
+\end{proof}
+
+This lemma obtains the covariance condition directly from the proof
+of Lemma~\ref{res:orbit-lemma} in
+\path{obstructions/local_codes/01_character_orbit_lemma.tex}.
+An \(L^1\) approximation lower bound alone would not justify that
+condition.
+
+\begin{proposition}[The character code and arbitrary mixture weights]
+\label{ian:hard-sector-character-instance}
+Let \(n\ge16\) and \(t\le m/2-2\). Then
+\[
+ \operatorname{Hard}\left(P,U_{C_n};t,\frac3{16},\frac18\right).
+\]
+For the character-code Hamiltonian
+\[
+ E_n(x)=\Delta_n\mathbf1_{\{x\notin C_n\}},\qquad
+ \Delta_n=\log(1+2^n/n),
+\]
+the set \(H=C_n\) has exact weight
+\[
+ p_{\beta,n}
+ =\frac{n}{n+(2^n-n)e^{-\beta\Delta_n}}
+ =w_{\beta,n}+(1-w_{\beta,n})\delta_n,
+ \qquad \delta_n=n2^{-n},
+\]
+where
+\[
+ w_{\beta,n}
+ =\frac{\delta_n(e^{\beta\Delta_n}-1)}
+        {1+\delta_n(e^{\beta\Delta_n}-1)}.
+\]
+For every \(\beta>0\),
+\[
+ F_H-F
+ =\frac1\beta\log\left(
+ 1+\frac{2^n-n}{n}e^{-\beta\Delta_n}\right).
+\]
+At \(\beta\ge1\), \(p_{\beta,n}\ge1/2\), so this gap is at most
+\(\beta^{-1}\log2\).
+
+More generally, under
+\[
+ \mu_n=(1-w_n)U_n+w_nU_{C_n},
+\]
+the same set sector has weight
+\[
+ p_n=w_n+(1-w_n)\delta_n.
+\]
+Assuming uniform-input AA, this family has full AA exactly when
+\[
+ \exists a,C>0\quad
+ m\le Cw_n^{-a}\quad\text{at every index with }w_n>0.
+\]
+\end{proposition}
+
+\begin{proof}
+On the code \(P(c_A)=h(A)\), so
+\[
+ \Var_{U_C}P=r(1-r)=\frac{1-1/n}{4}\ge\frac3{16}.
+\]
+Lemma~\ref{ian:hard-sector-orbit-covariance}, with \(\eta\equiv1\)
+and \(k=1\), supplies the covariance bound. Every Gibbs codeword has
+the same weight, hence conditioning on \(C_n\) gives \(U_{C_n}\).
+Summing the two energy levels proves the mass and free-energy formulas.
+The exact mixture identity and \(w_{1,n}=1/2\) are
+Section~\ref{qm:exact-mixture-identity-and-transition-width}.
+
+For arbitrary mixture weights, conditioning on the code again gives
+\(U_C\), with the displayed actual mass. The full-AA equivalence is
+Theorem~\ref{threshold:weight-criterion} in
+\path{obstructions/noisy_codes/04_energy_entropy_and_schedules.tex};
+its sufficiency uses uniform-input AA, while its necessity uses the
+one-query lower bound.
+\end{proof}
+
+A mixture alone has no specified temperature or free energy. If
+\(0\le w_n<1\) is realized at a specified \(\beta>0\) by a two-level
+energy, one may take
+\[
+ \Delta_n=\frac1\beta
+ \log\left(1+\frac{w_n}{(1-w_n)\delta_n}\right).
+\]
+Its code-sector gap is exactly \(\beta^{-1}\log(1/p_n)\).
+The case \(w_n=1\) is a limiting code-supported law. In particular,
+the mixture weight must not be substituted for the actual set mass
+in the free-energy identity.
+
+\begin{proposition}[The nonmonotone sector]
+\label{ian:hard-sector-nonmonotone-instance}
+For the Hamiltonian in
+Section~\ref{sec:resolution-nonmonotone}, let
+\[
+ H=C_n\setminus\{c_0\}.
+\]
+For \(n\ge16\) and \(t\le m/2-2\),
+\[
+ \operatorname{Hard}\left(
+ P,\mu_{\beta,n}(\cdot\mid H);
+ t,\frac29,\frac5{24}\right)
+ \qquad(\beta>0).
+\]
+Its exact mass and gap are
+\[
+ \begin{split}
+ Z_n&=1+(n-1)n^{-\beta/2}+(2^n-n)2^{-\beta n},\\
+ p_H&=\frac{(n-1)n^{-\beta/2}}{Z_n},\\
+ F_H-F
+ &=\frac1\beta\log\left(
+ 1+\frac{1+(2^n-n)2^{-\beta n}}
+          {(n-1)n^{-\beta/2}}\right).
+ \end{split}
+\]
+\end{proposition}
+
+\begin{proof}
+The conditional law on \(H\) is uniform. Its acceptance mean is
+\[
+ r_H=\frac{nr}{n-1}
+ =\frac{\sqrt n}{2(\sqrt n+1)},
+\]
+so \(r_H(1-r_H)\ge2/9\).
+
+For a depth-\(t\) test \(F\), write \(F_0=F(c_0)\). Since
+\(P(c_0)=0\), direct subtraction of this atom gives
+\[
+ \Cov_{U_H}(P,F)
+ =\frac n{n-1}\Cov_{U_C}(P,F)
+ +\frac{nr}{(n-1)^2}\bigl(F_0-\E_{U_C}F\bigr).
+\]
+Consequently,
+\[
+ |\Cov_{U_H}(P,F)|
+ \le\frac n{n-1}c_{m,t}+\frac n{(n-1)^2}
+ \le\frac{46}{225}<\frac5{24}<\frac29.
+\]
+The partition formulas follow by summing the three energy levels.
+\end{proof}
+
+The same repo proof also supplies the smooth sector \(U_C\), with
+certified weight \(n^{1-\beta/2}/Z_n\), on the intermediate band.
+The set sector above removes the exceptional ground-state atom.
+
+For this fixed \(H\), at fixed \(\beta>0\),
+\[
+ F_H-F=
+ \begin{cases}
+ \displaystyle
+ \frac{(1-\beta)n\log2-(1-\beta/2)\log n+o(1)}{\beta},
+       &0<\beta<1,\\[2mm]
+ o(1),&1\le\beta<2,\\
+ \frac12\log2+o(1),&\beta=2,\\
+ \displaystyle\frac{\beta/2-1}{\beta}\log n+o(1),
+       &\beta>2.
+ \end{cases}
+\]
+Thus \([1,2]\) is exactly the fixed-temperature band on which this
+hard sector has a dimension-uniform free-energy gap. Its hidden signal
+remains hard on the conditional law outside the band, but its mass
+vanishes. Assuming uniform-input AA,
+Section~\ref{sec:resolution-nonmonotone} proves full AA outside the
+band and failure throughout the band, including both endpoints.
+This is a hard free-energy band, with no monotonicity in inverse
+temperature.
+
+\begin{proposition}[Noisy and soft character codes]
+\label{ian:hard-sector-soft-instance}
+Let \(0<\rho<1\), and let \(\nu_{n,\rho}\) be the noisy signed-character
+law of Theorem~\ref{threshold:noisy-query-theorem}. Whenever
+\[
+ \frac{2^t}{\sqrt n}\le\frac{\rho^4}{16},
+\]
+one has
+\[
+ \operatorname{Hard}\left(
+ P,\nu_{n,\rho};
+ t,\frac{3\rho^4}{16},\frac{\rho^4}{16}\right).
+\]
+
+Now fix \(\beta,L>0\), set
+\[
+ M=2n,\qquad \rho=\tanh(\beta L),\qquad
+ S_L(x)=\sum_{v\in\{\pm c_a\}}e^{Lx\cdot v},
+ \qquad \mu(x)=\frac{S_L(x)^\beta}{Z},
+\]
+and define
+\[
+ G=\left\{x:\exists v\ \forall w\ne v,\
+ x\cdot v-x\cdot w\ge\rho n/2\right\}.
+\]
+Put
+\[
+ \begin{split}
+ u_n&=(M-1)e^{-L\rho n/2},\\
+ b_n&=(M-1)e^{-\rho^2n/16},\\
+ e_n&=(M-1)\left[
+ \beta2^{(\beta-1)_+}e^{-L\rho n/2}
+ +e^{-\beta L\rho n/2}
+ +M^{(\beta-1)_+}e^{-\rho^2n/16}\right],\\
+ \tau_n&=\frac{e_n}{1-e_n}.
+ \end{split}
+\]
+For every such \(n,t\) satisfying
+\[
+ u_n\le1,\qquad e_n<1,\qquad
+ b_n+2\tau_n\le\rho^4/160,\qquad
+ 2^t/\sqrt n\le\rho^4/16,
+\]
+the set \(G\) satisfies
+\[
+ \operatorname{Hard}\left(
+ P,\mu(\cdot\mid G);
+ t,\frac{\rho^4}{8},\frac{\rho^4}{16}\right),
+ \qquad \mu(G)\ge1-b_n-\tau_n.
+\]
+Its exact gap and a certified upper bound are
+\[
+ F_G-F
+ =\frac1\beta\log
+ \frac{\sum_xS_L(x)^\beta}{\sum_{x\in G}S_L(x)^\beta}
+ \le\frac1\beta\log\frac1{1-b_n-\tau_n}.
+\]
+For each fixed \(\beta,L>0\), the displayed conditions hold for all
+sufficiently large admissible \(n\), with a depth threshold
+\(t=m/2-O_{\beta,L}(1)\).
+\end{proposition}
+
+\begin{proof}
+In the noisy model, condition on the global sign and the entire
+independent noise vector. Every visible query then uses one linear
+query to uniform \(A\). Lemma~\ref{ian:hard-sector-orbit-covariance}
+gives covariance at most \(\rho^4/32\), hence at most the stated
+\(\rho^4/16\). The exact repo variance formula is
+\[
+ \Var_{\nu_{n,\rho}}P
+ =r(1-r)\left[\rho^4+\frac{2(1-\rho^4)}n\right]
+ \ge\frac{3\rho^4}{16}.
+\]
+
+For the soft model, the proof of
+Theorem~\ref{threshold:soft-code-theorem} in
+\path{obstructions/noisy_codes/03_fixed_hamiltonian_all_temperatures.tex}
+defines
+\[
+ B(x)=\sum_ve^{\beta Lx\cdot v},\qquad
+ R(x)=\frac{S_L(x)^\beta}{B(x)},\qquad
+ q(x)=\frac{B(x)}{M[2\cosh(\beta L)]^n}.
+\]
+Here \(q=\nu_{n,\rho}\), and its explicit estimates give
+\[
+ q(G^c)\le b_n,\qquad
+ \E_q|R-1|\le e_n,\qquad
+ \|\mu-q\|_{\rm TV}\le\tau_n.
+\]
+The bound for \(e_n\) follows there from \(u_n\le1\). Hence
+\[
+ \mu(G^c)\le b_n+\tau_n,\qquad
+ \|\mu(\cdot\mid G)-q\|_{\rm TV}\le b_n+2\tau_n.
+\]
+
+For laws \(\lambda,\lambda'\) at TV distance \(d\), a bounded
+\(P\in[0,1]\) satisfies
+\[
+ |\Var_\lambda P-\Var_{\lambda'}P|\le d.
+\]
+Indeed, use
+\(\Var_\lambda P=\min_{c\in[0,1]}\E_\lambda(P-c)^2\).
+For \(F\in[-1,1]\), expansion of the two covariances gives
+\[
+ |\Cov_\lambda(P,F)-\Cov_{\lambda'}(P,F)|\le5d:
+\]
+the product expectation changes by at most \(2d\), the mean of \(P\)
+by at most \(d\), and the mean of \(F\) by at most \(2d\).
+Taking \(d=b_n+2\tau_n\) therefore gives
+\[
+ \Var_{\mu(\cdot\mid G)}P
+ \ge\frac{3\rho^4}{16}-\frac{\rho^4}{160}
+ >\frac{\rho^4}{8},
+\]
+and
+\[
+ |\Cov_{\mu(\cdot\mid G)}(P,F)|
+ \le\frac{\rho^4}{32}+5\frac{\rho^4}{160}
+ =\frac{\rho^4}{16}.
+\]
+The partition identity and gap estimate follow directly.
+\end{proof}
+
+There is also an explicit smooth-sector certificate, which does not
+follow from TV comparison alone. The same repo proof gives the
+pointwise bounds
+\[
+ r_-:=M^{\min\{\beta-1,0\}}\le R(x)
+ \le M^{\max\{\beta-1,0\}},
+ \qquad
+ \mu(x)=q(x)\frac{R(x)}{\E_qR}.
+\]
+Thus
+\[
+ \mu\ge\frac{r_-}{\E_qR}\,q
+ \ge\frac{r_-}{1+e_n}\,q.
+\]
+Whenever \(u_n\le1\), \(e_n<1\) and \(2^t/\sqrt n\le\rho^4/16\), the noisy law is consequently a smooth hard sector with certified
+weight \(r_-/(1+e_n)\), and
+\[
+ \frac1\beta D_\infty(q\|\mu)
+ \le\frac{\log(1+e_n)+(1-\beta)_+\log(2n)}{\beta}.
+\]
+At \(\beta=1\), \(\mu=q\) exactly. For \(0<\beta<1\) this certificate
+has a polynomial loss in \(n\); the preceding set-sector argument
+instead gives mass tending to one. The needed domination estimate
+is therefore available from the repo's pointwise power bounds, even
+though its stated comparison theorem is in TV distance.
+
+\begin{proposition}[Local families, including every auxiliary and reference spin]
+\label{ian:hard-sector-local-instances}
+Let
+\[
+ G_C=\{x:\operatorname{dist}(x,C_n)<n/32\},\qquad
+ G_\pm=\{x:\operatorname{dist}(x,\{\pm c_a\})<n/32\}.
+\]
+The following sectors have
+\[
+ \operatorname{Hard}\left(
+ P,\mu_\beta(\cdot\mid H);
+ t,\frac{17}{128},\frac18\right)
+\]
+for \(n\ge16\) and \(kt\le m/2-2\), whenever their displayed
+\(\delta_n<1\). Their actual weights satisfy
+\[
+ p_H=\frac{Z_H}{Z}\ge1-\delta_n,\qquad
+ 0\le F_H-F\le\frac1\beta\log\frac1{1-\delta_n}.
+\]
+
+For the dense three-local family
+\[
+ E(X)=-\frac Jn\sum_{z,w}X_zX_wX_{z+w},
+\]
+take \(H=G_C\), \(k=1\), and
+\[
+ \delta_n=\frac1n
+ \exp\bigl((\log2-\beta J/16)n\bigr).
+\]
+This tends to zero if \(\beta J>16\log2\).
+
+For the sparse three-local family of
+Theorem~\ref{res:sparse-theorem}, take \(H=G_C\), \(k=1\), and
+\[
+ \delta_n=\frac1n
+ \exp\bigl((\log2-32\beta\kappa)n\bigr).
+\]
+This tends to zero if \(\beta\kappa>\log2/32\).
+
+For the all-spin pairwise family of
+Theorem~\ref{res:pairwise-theorem}, take
+\[
+ H=\{(X,S):X\in G_C\},\qquad k=3,
+\]
+and
+\[
+ \delta_n=\frac1n
+ \exp\bigl((\log2-32K(\beta j))n\bigr),
+ \qquad
+ K(s)=\tfrac12\bigl(4\log\cosh(2s)-\log\cosh(4s)\bigr).
+\]
+This tends to zero if \(K(\beta j)>\log2/32\).
+
+For the zero-field family of
+Theorem~\ref{res:zero-field-theorem}, take
+\[
+ H=\{(X,S,R):X\in G_\pm\},\qquad k=3,
+\]
+and, with \(C=2048\),
+\[
+ \delta_n=\frac1{2n}
+ \exp\bigl(((1+6C)\log2-64\beta j)n\bigr).
+\]
+This tends to zero if
+\(\beta j>(1+6C)\log2/64\).
+\end{proposition}
+
+\begin{proof}
+The mass estimates are the repo's respective energy-gap estimates in
+\path{obstructions/local_codes/02_dense_three_local.tex},
+\path{obstructions/local_codes/03_bounded_degree_sparsification.tex},
+\path{obstructions/local_codes/04_pairwise_all_spins.tex}, and
+\path{obstructions/local_codes/05_zero_field_pairwise.tex}.
+
+On \(G_C\), the nearest character is unique. Character invariance
+makes its label \(A\) uniform and independent of the residual noise
+\(\eta=Xc_A\), conditional on the good event. The noise has fewer than
+\(n/32\) negative coordinates.
+
+In the pairwise model, conditional on \(X\), all auxiliary spins are
+independent and each kernel depends on at most three visible spins,
+by Lemma~\ref{res:gadget}. Realize these kernels using independent
+uniform seeds. Fixing the seeds and \(\eta\) preserves uniformity of
+\(A\). An auxiliary answer can then be computed using at most three
+linear queries to \(A\).
+
+In the zero-field model, the exact \((X,R)\) marginal is invariant
+under \(X\mapsto Xc_b\) with \(R\) fixed. Conditional on the good
+event, write uniquely
+\[
+ X=(-1)^Bc_A\eta.
+\]
+The signed character balls are disjoint, and \(A\) is uniform and
+independent of \((B,\eta,R)\). Granting the entire reference vector
+uses no queries to \(A\); fixing the independent auxiliary seeds
+again makes every auxiliary answer computable with at most three
+linear queries. These are exactly the all-spin reductions established
+in the cited repo proofs.
+
+Apply Lemma~\ref{ian:hard-sector-orbit-covariance} to each conditional
+law. Its constants give dispersion \(17/128\), covariance at most
+\(1/8\), and a positive difference \(1/128\). The mass and gap
+statements follow from the partition identity.
+\end{proof}
+
+For clarity, the partition sums in this proposition are over all
+physical spins. In the pairwise model, if \(E^{\rm pair}\) denotes
+the sum of its thermal gadgets, they are
+\[
+ Z_H^{\rm pair}
+ =\sum_{\substack{X\in G_C\\S}}e^{-\beta E^{\rm pair}(X,S)},
+ \qquad
+ Z^{\rm pair}=\sum_{X,S}e^{-\beta E^{\rm pair}(X,S)}.
+\]
+Writing \(M=|\mathcal E_n|\), the exact gadget identity gives
+\[
+ Z_H^{\rm pair}
+ =e^{4Mc(\beta j)}
+ \sum_{X\in G_C}
+ \exp\left(K(\beta j)\sum_{(z,w)\in\mathcal E_n}
+ X_zX_wX_{z+w}\right),
+\]
+with the same formula over all \(X\) for \(Z^{\rm pair}\).
+The prefactor cancels in their ratio because the auxiliaries have
+actually been summed.
+
+For the zero-field energy \(E^{(0)}\) of the repo,
+\[
+ Z_H^{(0)}
+ =\sum_{\substack{X\in G_\pm\\S,R}}
+ e^{-\beta E^{(0)}(X,S,R)},\qquad
+ Z^{(0)}=\sum_{X,S,R}e^{-\beta E^{(0)}(X,S,R)}.
+\]
+Equivalently,
+\[
+ Z_H^{(0)}
+ =e^{4Mc(\beta j)}
+ \sum_{\substack{X\in G_\pm\\R}}
+ \exp\left(
+ K(\beta j)\sum_{e=(z,w)}r_eX_zX_wX_{z+w}
+ +\beta j\sum_{\{v,v'\}\in E(R_n)}r_vr_{v'}\right).
+\]
+Again the denominator uses every \(X,R\). No visible-spin partition
+function may be substituted while discarding its auxiliary or
+reference multiplicities.
+
+All these sectors are hard in the variance--covariance sense of
+Definition~\ref{ian:hard-sector-definition}. Their simulation
+obstructions therefore follow from
+Proposition~\ref{ian:hard-sector-forward}, and fit the asymptotic
+characterizations of Theorem~\ref{ian:hard-sector-aa-equivalence} and Corollary~\ref{ian:hard-sector-resource-equivalence}.

@@ -1,0 +1,295 @@
+\subsection{Sampling, Glauber mixing, and acceptance simulation}
+\label{ian:hard-sector-sampling}
+
+Status: proved in the stated computation models; the Curie--Weiss full-AA assertion is conditional on uniform-input AA, and its mixing estimate is imported from literature.
+
+A uniform exact sampler here is a probabilistic Turing machine using
+independent fair bits, halting almost surely, whose output has exactly
+the specified law and whose expected running time is polynomial in
+the number of output spins. A fixed real parameter \(\beta\) is
+efficiently computable if certified dyadic approximations with error
+at most \(2^{-b}\) can be computed in time polynomial in \(b\).
+An approximate sampler has deterministic polynomial running time
+in \(n,\log(1/\delta)\) and output TV error at most \(\delta\).
+
+\begin{theorem}[Efficient exact sampling of the character-code Gibbs law]
+\label{ian:hard-sector-character-sampler}
+For every fixed efficiently computable finite \(\beta\ge1\), the
+character-code Gibbs family of Section~\ref{qm:model-and-theorem}, extended by the uniform law at dimensions not of the form \(2^m\) with \(m\) even, has a uniform efficient exact
+sampler. It also has an approximate sampler with running time
+\(\operatorname{poly}_\beta(n,\log(1/\delta))\).
+Nevertheless, it fails full AA at every such \(\beta\).
+\end{theorem}
+
+\begin{proof}
+For \(n=2^m\), \(m\) even, use the exact identity
+\[
+ \mu_{\beta,n}=(1-w_{\beta,n})U_n+w_{\beta,n}U_{C_n},
+\]
+where
+\[
+ \delta_n=n2^{-n},\qquad
+ \Delta_n=\log(1+2^n/n),\qquad
+ w_{\beta,n}
+ =\frac{\delta_n(e^{\beta\Delta_n}-1)}
+        {1+\delta_n(e^{\beta\Delta_n}-1)}.
+\]
+This is Section~\ref{qm:exact-mixture-identity-and-transition-width};
+in particular \(w_{1,n}=1/2\) exactly.
+
+First sample a Bernoulli variable with parameter \(w_{\beta,n}\).
+On outcome zero output \(n\) independent fair signs. On outcome one,
+sample \(A\) using \(m\) fair bits and output
+\[
+ (c_A)_z=(-1)^{A\cdot z}\qquad(z\in\mathbb F_2^m).
+\]
+The latter computation takes \(O(nm)\) elementary bit operations.
+
+For completeness, the Bernoulli step can be exact despite an
+irrational weight. Elementary certified arithmetic computes an
+approximation to \(w_{\beta,n}\) with error \(2^{-b}\) in time
+\(\operatorname{poly}_\beta(n+b)\). Indeed, the integers \(2^n,n\)
+have \(O(n)\) bits, \(\Delta_n=O(n)\), and a fixed-\(\beta\)
+exponential has \(O_\beta(n)\) integer bits. Polynomial-time
+precision access to \(\beta\), together with range reduction for
+logarithms and exponentials, suffices.
+
+Generate the binary expansion of a uniform \(U\in[0,1]\) one bit at
+a time. At stage \(b\), its known prefix locates it in an interval
+of length \(2^{-b}\). Compute a certified interval for the weight
+with radius \(2^{-(b+2)}\). Stop once the two intervals are disjoint,
+and return \(\mathbf1_{\{U<w_{\beta,n}\}}\).
+If \(B\) is the stopping stage, failure to stop by stage \(b\)
+implies that \(U\) lies within \(2\cdot2^{-b}\) of the true weight.
+Thus
+\[
+ \Pr(B>b)\le\min\{1,4\cdot2^{-b}\}.
+\]
+The algorithm halts almost surely and returns an exact Bernoulli
+sample. Since each stage costs at most a fixed polynomial in \(n+b\),
+\[
+ \E[\text{running time}]
+ \le\sum_{b\ge1}\Pr(B\ge b)\,
+       \operatorname{poly}_\beta(n+b)
+ =\operatorname{poly}_\beta(n).
+\]
+
+For a bounded-time approximation, truncate after
+\[
+ b_*=\left\lceil\log_2(8/\delta)\right\rceil
+\]
+stages and use any fixed branch if unresolved. Coupling to the exact
+procedure bounds TV error by
+\(4\cdot2^{-b_*}\le\delta/2\).
+All remaining operations are exact and have polynomial cost.
+
+Finally,
+Section~\ref{qm:one-quantum-query-versus-logarithmically-many-classical-queries}
+proves failure of full AA for this same law at every fixed
+\(\beta\ge1\). The sampler does not determine the hidden label of an
+unknown input supplied to the query algorithm.
+\end{proof}
+
+\begin{proposition}[Curie--Weiss: full AA with exponentially slow Glauber mixing]
+\label{ian:hard-sector-curie-weiss-sampling}
+Assume uniform-input AA. For every fixed \(\beta>1\), the laws
+\[
+ \pi_{\beta,n}(x)
+ \propto\exp\left(\frac{\beta}{2n}
+                    \left(\sum_i x_i\right)^2\right)
+\]
+have full AA, while discrete-time random-site heat-bath Glauber
+dynamics satisfies
+\[
+ t_{\rm mix}(1/4)\ge e^{c_\beta n}
+ \qquad(n\ge n_0(\beta))
+\]
+for some \(c_\beta>0\).
+\end{proposition}
+
+\begin{proof}
+These laws are permutation invariant, so the full-AA assertion is
+Section~\ref{exch:heading-2} in
+\path{simulation/exchangeable_inputs/01_theorem.tex}, with precisely
+its uniform-input AA assumption.
+
+The mixing assertion is an external import from
+Ding--Lubetzky--Peres, Theorem 3, for ordinary random-site heat-bath
+dynamics. Their normalization is
+\[
+ \exp\left(\frac{\beta}{n}\sum_{i<j}x_ix_j\right),
+\]
+which differs from ours by a constant factor in the unnormalized
+weight, since \((\sum_i x_i)^2=n+2\sum_{i<j}x_ix_j\).
+Their update rule (uniform random site, heat-bath resampling) and worst-initial-state TV mixing convention agree with ours. Theorem 3 assumes only \(\delta^2n\to\infty\), which holds for fixed \(\delta=\beta-1>0\); since \(g(x)=\tanh(\beta x-\operatorname{artanh}x)\), its exponent \(\tfrac12\int_0^\zeta\log\frac{1+g}{1-g}\,dx\) equals \(I_\beta\), with \(\zeta=m_\beta\).
+% Literature source: [Ding--Lubetzky--Peres, Theorem 3](https://arxiv.org/abs/0806.1906).
+
+More explicitly, let \(m_\beta\in(0,1)\) solve
+\(m_\beta=\tanh(\beta m_\beta)\), and put
+\[
+ I_\beta=\int_0^{m_\beta}
+             \bigl(\beta x-\operatorname{artanh}x\bigr)\,dx>0.
+\]
+The imported theorem gives
+\(t_{\rm mix}(1/4)=\Theta_\beta(n e^{nI_\beta})\).
+It therefore permits the explicit exponent
+\(c_\beta=I_\beta/2\), after increasing \(n_0(\beta)\).
+No mixing assertion is being deduced from the repo's simulation
+theorem.
+\end{proof}
+
+The preceding two examples establish that efficient sampling is not
+sufficient, and polynomial Glauber mixing is not necessary, for full
+AA. To obtain both directions for both notions, two additional
+arguments are required.
+
+\begin{proposition}[Polynomial Glauber mixing is not sufficient]
+\label{ian:hard-sector-padded-fast-mixing}
+There is an efficiently exactly samplable family with polynomial
+random-site heat-bath mixing time that fails full AA.
+\end{proposition}
+
+\begin{proof}
+Fix \(\beta=1\). Let \(d=2^m\), with \(m\) even, and put \(N=2^d\).
+On \(N\) spins define
+\[
+ \Pi_N=\mu_{1,d}\otimes U_{N-d},
+\]
+where the first factor is the character-code law on \(d\) spins.
+At other dimensions use the uniform law. These dimensions and the
+code block are computably recognizable. The preceding sampler,
+followed by independent fair padding, runs in expected
+\(\operatorname{poly}(N)\) time.
+
+The one-query witness on the code block still requires
+\(\Omega(\log d)\) classical queries at error \(1/8\).
+Indeed, fixing every padding spin reduces any classical tree to a
+tree on the code block of no larger depth; average the repo lower
+bound over the independent padding. Since \(d\to\infty\), no fixed
+full-AA polynomial at \(T=1,\varepsilon=1/8\) can suffice.
+
+We verify mixing rather than inferring it from samplability.
+For any Gibbs law \(\lambda\) on \(N\) spins with dimensionless
+energy oscillation \(W\), let \(P_\lambda\) be random-site heat-bath
+dynamics. Relative to \(U_N\), write its minimum and maximum density
+as \(r_{\min},r_{\max}\); then
+\[
+ \frac{r_{\max}}{r_{\min}}=e^W.
+\]
+For neighboring configurations \(x,y\), its stationary edge flow is
+\[
+ \lambda(x)P_\lambda(x,y)
+ =\frac1N\frac{\lambda(x)\lambda(y)}{\lambda(x)+\lambda(y)}
+ \ge r_{\min}\frac{U_N(x)}{2N}.
+\]
+Its Dirichlet form therefore dominates \(r_{\min}\) times the uniform
+heat-bath Dirichlet form, while
+\[
+ \Var_\lambda f\le r_{\max}\Var_{U_N}f.
+\]
+Uniform heat-bath has spectral gap \(1/N\), hence
+\[
+ \operatorname{gap}(P_\lambda)\ge\frac{e^{-W}}N.
+\]
+Heat-bath is an average of conditional-expectation projections, so
+its spectrum is nonnegative. The elementary \(L^2\)-to-TV bound,
+together with \(\lambda_{\min}\ge e^{-W}2^{-N}\), gives
+\[
+ t_{\rm mix}(1/4)
+ \le\left\lceil
+ Ne^W\bigl(N\log2+W+\log4\bigr)\right\rceil.
+\]
+
+For \(\Pi_N\),
+\[
+ W=\Delta_d=\log(1+2^d/d)\le d\log2=\log N.
+\]
+Consequently
+\[
+ t_{\rm mix}(1/4)
+ \le\left\lceil
+ N^2\bigl(N\log2+\log N+\log4\bigr)\right\rceil.
+\]
+Thus ordinary single-spin Glauber mixing is polynomial in the
+physical dimension \(N\), despite failure of full AA. Its transition
+probabilities also have polynomial-time precision access.
+\end{proof}
+
+\begin{proposition}[Efficient samplability is not necessary in the unrestricted query model]
+\label{ian:hard-sector-sampling-not-necessary}
+There is a uniformly computable full-support family of laws with full
+AA that has no uniform exact sampler of expected polynomial running
+time.
+\end{proposition}
+
+\begin{proof}
+Enumerate triples \((M,c,k)\), where \(M\) is a fair-bit probabilistic
+Turing machine and \(c,k\) are positive integers, repeating every
+triple infinitely often. Associate the \(n\)-th triple to length \(n\).
+Set
+\[
+ L_n=\left\lceil8cn^k\right\rceil.
+\]
+By exhaustive enumeration of all random bit strings of length \(L_n\),
+compute the probability that \(M(1^n)\) has completed an \(n\)-bit
+output by time \(L_n\) with first bit \(b\), for \(b=0,1\).
+Their sum is at most one. Choose \(b_n\) with this probability at most
+\(1/2\), breaking ties deterministically, and set
+\(z_n=b_n0^{n-1}\). This defines a computable sequence.
+
+Now define, identifying bits with signs,
+\[
+ \lambda_n=(1-2^{-n})\delta_{z_n}+2^{-n}U_n.
+\]
+Every atom has positive computable probability.
+
+For every \(Q:\Omega_n\to[0,1]\), if
+\(\varepsilon\ge2^{-n}\), output the constant \(Q(z_n)\).
+Otherwise read the entire input and output \(Q\) exactly. In the
+second case \(n<\log_2(1/\varepsilon)\). Thus this family has full AA,
+even for arbitrary bounded targets, with unrestricted preprocessing
+as stipulated in the query model.
+
+Suppose \(M\) exactly sampled \(\lambda_n\) with expected running time
+at most \(cn^k\) for all sufficiently large \(n\). A sufficiently late
+occurrence of its triple has that property. Markov's inequality gives
+\(\Pr(\text{running time}>L_n)\le1/8\). Exact sampling requires
+\[
+ \Pr(\text{first output bit}=b_n)
+ =1-2^{-n-1}.
+\]
+Therefore
+\[
+ \Pr(\text{completed by }L_n
+       \text{ with first bit }b_n)
+ \ge\frac78-2^{-n-1}>\frac12,
+\]
+contradicting the definition of \(b_n\).
+
+This argument excludes every expected-polynomial uniform exact
+sampler. The family can also be written as a computable Gibbs law
+at \(\beta=1\), using \(E_n(x)=-\log\lambda_n(x)\).
+No polynomial-time energy-evaluation promise is asserted.
+\end{proof}
+
+\begin{corollary}[The logical separation]
+\label{ian:hard-sector-sampling-separation}
+In the repo's unrestricted query model, and assuming uniform-input
+AA for the Curie--Weiss implication, neither efficient exact
+samplability nor polynomial random-site heat-bath Glauber mixing is
+necessary or sufficient for full AA.
+
+Efficient samplability is not sufficient by
+Theorem~\ref{ian:hard-sector-character-sampler}, and is not necessary
+by Proposition~\ref{ian:hard-sector-sampling-not-necessary}.
+Polynomial Glauber mixing is not sufficient by
+Proposition~\ref{ian:hard-sector-padded-fast-mixing}, and is not
+necessary by Proposition~\ref{ian:hard-sector-curie-weiss-sampling}.
+Only the last implication uses uniform-input AA.
+
+If one additionally restricts to polynomial-time evaluable Gibbs
+Hamiltonians with polynomial-time precision access, the diagonal
+non-samplability construction does not establish necessity failure
+inside that narrower class. The other three separations above retain
+their stated effective models.
+\end{corollary}
