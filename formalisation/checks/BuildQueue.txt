@@ -1,0 +1,20 @@
+# Ordered local targets; dependencies must precede their consumers.
+UnifiedAA.TablewiseAmplification
+UnifiedAA.RepeatedProgram
+UnifiedAA.OperationalExtraction
+UnifiedAA.QuantumExtraction
+UnifiedAA.AffineExtraction
+UnifiedAA.QuantumTablewise
+UnifiedAA.SparseAmplification
+UnifiedAA.AcceptedEntropy
+UnifiedAA.EntropySoundness
+UnifiedAA.XorExtraction
+UnifiedAA.XorTablewise
+UnifiedAA.XorEntropySoundness
+UnifiedAA.GibbsResampling
+UnifiedAA.LogRounding
+UnifiedAA.WeightedPinning
+UnifiedAA.RestrictionRisk
+UnifiedAA.GibbsHistory
+UnifiedAA.MeanRestriction
+UnifiedAA.WalshConvolution

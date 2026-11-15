@@ -19,25 +19,48 @@ not reintroduced as an axiom. Do not use placeholders to claim completion.
 - [x] Define deterministic Boolean-oracle trees, physical query cost, depth,
   truncation, finite potential telescoping, and uniform-table fairness for
   fresh coordinates; prove the uniform truncation-failure bound.
-- [ ] Construct the tree whose stored summaries are exact conditional means
-  of the target polynomial and verify its drift hypothesis.
-- [ ] Define restrictions and prove boundedness/degree preservation.
-- [ ] Prove the Boolean flip-influence potential identity under restriction,
-  Phi(p) - E_b Phi(p|i=b) = Inf_i(p), and Phi(p) ≤ d for [0,1] functions.
-- [ ] Use imported AA to construct the influence-guided tree. Bound expected
-  depth, then prove deterministic truncation and conditional Chebyshev error.
-- [ ] Connect a quantum query algorithm's acceptance function to a degree-2Q
-  polynomial. Keep this as an explicit hypothesis until that model is proved.
+- [x] Construct exact conditional-mean summaries for any given fresh tree,
+  preserving its coordinates and physical query counts.
+- [x] Construct the polynomial tree from a restriction-stable influence rule;
+  prove termination, freshness and the potential-based expected cost.
+- [x] Define Boolean-function and multivariate-polynomial restrictions; prove
+  one-bit and simultaneous partial-assignment pointwise correspondence and
+  boundedness/total-degree preservation.
+- [x] Prove the Boolean flip-influence potential identity under restriction,
+  Phi(f) - E_b Phi(f|i=b) = Inf_i(f), for arbitrary finite Boolean cubes.
+- [x] Prove Phi(p) ≤ d for degree-d [0,1] polynomials, and bridge the new
+  generic finite-cube normalization to `Influence.lean`'s `Fin N` interface.
+- [x] Prove one-coordinate conditional means, exact squared-error splitting,
+  finite-law variance decomposition, Chebyshev, and tablewise Markov bounds.
+- [x] Apply the squared-error split recursively to a fresh decision tree with
+  exact conditional-mean leaves and aggregate the leaf-variance error.
+- [x] Use the imported AA statement as an explicit parameter to construct the
+  influence-guided tree, then prove deterministic truncation and Chebyshev error
+  with query cap ceil(512*d^13/(e^16*delta^9)).
+- [ ] Instantiate the explicit AA parameter with the upstream proved theorem
+  from `AaronsonAmbainis.Main`; check its full dependency graph locally.
+- [x] Connect native-value and padded Boolean XOR quantum query algorithms to
+  degree-2Q acceptance polynomials with [0,1] range; construct scalar estimators
+  under `hAA`, using the vendored operational quantum polynomial method.
 
 ## Complete Theorem 4.1 and Corollary 4.2
 
-- [ ] Instantiate the collision hypothesis by a uniform finite affine hash.
-- [ ] Assemble scalar estimators for all B(L+1) predicates, selected before
-  sampling the table, and derive the existing aggregate failure hypothesis.
-- [ ] Construct and cost an oracle-query decoder/verifier algorithm, proving
-  C(t,rho) = B(L+1)F(Q,t/16,rho/(4B(L+1))) + BV.
+- [x] Construct finite affine parity hashes; prove exact pair-collision
+  probability `1/2^k` for k output bits (B = 2^k buckets).
+- [ ] Round the bucket count to a power of two and wire the affine family
+  into the operational decoder/verifier construction.
+- [x] Assemble scalar estimators for all B(L+1) fixed native-quantum predicates,
+  selected before sampling the table, and derive aggregate failure.
+- [x] Construct and cost an oracle-query decoder/verifier algorithm, proving
+  C(t,rho) = B(L+1)F(Q,t/16,rho/(4B(L+1))) + BV under `hAA` and an explicit
+  pair-collision hypothesis (`exists_quantum_extractor`).
+- [ ] Extend the assembled extraction theorem to the padded XOR semantics;
+  the XOR acceptance-polynomial and scalar-estimator bridges are already proved.
 - [ ] Prove the sparse-heavy implication tablewise, Markov exceptional set,
   and independent repetition bound with r = ceil(log2(1/eta)).
+  Independent finite products and the exact repeated-failure formula
+  `(1 - success_probability)^r` are proved; operational/tablewise assembly
+  and logarithmic rounding remain.
 
 ## Later results, after extraction
 

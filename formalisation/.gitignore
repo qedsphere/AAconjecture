@@ -1,3 +1,4 @@
 .lake/
-vendor/
+vendor/*
+!vendor/quantum-query-complexity/
 artifacts/

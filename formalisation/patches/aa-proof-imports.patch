@@ -1,0 +1,57 @@
+diff --git a/AaronsonAmbainis/Defs.lean b/AaronsonAmbainis/Defs.lean
+index c2b55d0..38a9bd1 100644
+--- a/AaronsonAmbainis/Defs.lean
++++ b/AaronsonAmbainis/Defs.lean
+@@ -1 +1,30 @@
+-import Mathlib
++import Mathlib.Algebra.MvPolynomial.CommRing
++import Mathlib.Algebra.MvPolynomial.Degrees
++import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
++import Mathlib.Algebra.Order.Chebyshev
++import Mathlib.Analysis.LocallyConvex.Separation
++import Mathlib.Analysis.Real.Pi.Bounds
++import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
++import Mathlib.Analysis.SpecialFunctions.Pow.Real
++import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
++import Mathlib.Analysis.SpecialFunctions.Trigonometric.Chebyshev.Extremal
++import Mathlib.Data.Finset.Powerset
++import Mathlib.Data.Fintype.Pi
++import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
++import Mathlib.LinearAlgebra.Matrix.Gershgorin
++import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
++import Mathlib.Tactic.Choose
++import Mathlib.Tactic.Convert
++import Mathlib.Tactic.Ext
++import Mathlib.Tactic.FieldSimp
++import Mathlib.Tactic.FinCases
++import Mathlib.Tactic.FunProp
++import Mathlib.Tactic.GCongr
++import Mathlib.Tactic.Linarith
++import Mathlib.Tactic.LinearCombination
++import Mathlib.Tactic.NormNum
++import Mathlib.Tactic.Positivity
++import Mathlib.Tactic.Push
++import Mathlib.Tactic.Ring
++import Mathlib.Tactic.SplitIfs
++import Mathlib.Tactic.Tauto
+diff --git a/AaronsonAmbainis/Level/Integral.lean b/AaronsonAmbainis/Level/Integral.lean
+index f4b688a..4d32776 100644
+--- a/AaronsonAmbainis/Level/Integral.lean
++++ b/AaronsonAmbainis/Level/Integral.lean
+@@ -1 +1 @@
+-import Mathlib
++import AaronsonAmbainis.Defs
+diff --git a/AaronsonAmbainis/Level/Median.lean b/AaronsonAmbainis/Level/Median.lean
+index d5f3ff4..7ef8796 100644
+--- a/AaronsonAmbainis/Level/Median.lean
++++ b/AaronsonAmbainis/Level/Median.lean
+@@ -1 +1 @@
+-import Mathlib
++import AaronsonAmbainis.Defs
+diff --git a/AaronsonAmbainis/TwoSided/CauchySchwarz.lean b/AaronsonAmbainis/TwoSided/CauchySchwarz.lean
+index 0300362..4b40082 100644
+--- a/AaronsonAmbainis/TwoSided/CauchySchwarz.lean
++++ b/AaronsonAmbainis/TwoSided/CauchySchwarz.lean
+@@ -1 +1 @@
+-import Mathlib
++import AaronsonAmbainis.Defs
