@@ -1,0 +1,118 @@
+\subsection{Hard sectors and approximation loss}
+\label{ian:hard-sector-definitions-forward}
+
+Status: proved; all statements in this subsection hold for arbitrary bounded real-valued functions, without quantum realizability.
+
+Let \(n\ge1\), let \(\Omega_n=\{-1,1\}^n\), and let
+\(Q:\Omega_n\to[0,1]\).
+For an integer \(t\ge0\), let \(\mathcal D_t\) denote the deterministic
+coordinate decision trees of worst-case depth at most \(t\), with leaf
+outputs in \([0,1]\), and put
+\[
+ \ell_\mu(t,Q)=\min_{D\in\mathcal D_t}\E_\mu|D-Q|.
+\]
+The minimum exists: there are finitely many tree structures and coordinate
+labellings of bounded depth, and each associated space of leaf outputs
+is compact.
+
+Write \(\mathcal F_t\) for the corresponding trees with leaf outputs in
+\([-1,1]\).
+
+\begin{definition}[Hard laws and sectors]
+\label{ian:hard-sector-definition}
+For a probability law \(\nu\), put \(m_\nu=\E_\nu Q\).
+For \(0<\gamma<a\le1/4\), the assertion
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) means
+\[
+ \Var_\nu Q\ge a,
+ \qquad
+ \left|\E_\nu[(Q-m_\nu)F]\right|\le\gamma
+ \quad\text{for every }F\in\mathcal F_t.
+\]
+A smooth sector of weight \(w\in(0,1]\) is such a law satisfying
+\[
+ w\nu(x)\le\mu(x)\qquad(x\in\Omega_n).
+\]
+A set sector of weight \(w\) is a set \(H\subseteq\Omega_n\) with
+\(\mu(H)\ge w\) for which the conditional law \(\mu(\cdot\mid H)\)
+is hard with the specified parameters.
+Every set sector is a smooth sector of the same weight.
+\end{definition}
+
+\begin{lemma}[Aggregation and extremal tests]
+\label{ian:hard-sector-tree-closure}
+The following assertions hold for every \(n\ge1\) and integer \(t\ge0\).
+
+First, any function of the outputs of \(k\) depth-\(t\) trees is
+computable by a tree of depth at most \(kt\), provided the resulting
+leaf outputs belong to the desired output range.
+
+Second, for any law \(\nu\), checking
+\[
+ \left|\E_\nu[(Q-m_\nu)F]\right|\le\gamma
+ \qquad(F\in\mathcal F_t)
+\]
+is equivalent to checking only trees with leaf outputs in
+\(\{-1,1\}\).
+The number of these Boolean-valued tests is at most
+\[
+ N(n,t)=n^{2^t-1}2^{2^t}.
+\]
+\end{lemma}
+
+\begin{proof}
+Run the \(k\) trees consecutively and then apply the prescribed function
+to their outputs. Each run uses at most \(t\) queries. Previously
+queried coordinates can be remembered.
+
+For the second assertion, fix a query structure and let \(A_v\) be its
+leaf events. If its leaf outputs are \(f_v\in[-1,1]\), then
+\[
+ \E_\nu[(Q-m_\nu)F]
+ =\sum_v f_v\,\E_\nu[(Q-m_\nu)\mathbf1_{A_v}].
+\]
+The maximum absolute value over the cube of leaf assignments is attained
+at an assignment with every \(f_v\in\{-1,1\}\).
+Thus the Boolean-valued tests suffice.
+
+A tree of depth at most \(t\) can be padded to the complete binary tree
+of depth \(t\), using repeated queries if necessary. Its \(2^t-1\)
+internal vertices each have at most \(n\) coordinate labels, and its
+\(2^t\) leaves each have two output labels. This proves the count.
+\end{proof}
+
+\begin{proposition}[H1-forward]
+\label{ian:hard-sector-forward}
+For every \(n,\mu,Q,t,w,a,\gamma,\nu\) satisfying
+Definition~\ref{ian:hard-sector-definition},
+\[
+ \nu\le\mu/w,\qquad
+ \operatorname{Hard}(Q,\nu;t,a,\gamma)
+ \quad\Longrightarrow\quad
+ \ell_\mu(t,Q)\ge w(a-\gamma).
+\]
+\end{proposition}
+
+\begin{proof}
+Fix \(D\in\mathcal D_t\), and write \(m=\E_\nu Q\).
+The tree \(F=2D-1\) belongs to \(\mathcal F_t\), so
+\[
+ 2\Cov_\nu(Q,D)=\E_\nu[(Q-m)(2D-1)]\le\gamma.
+\]
+Consequently,
+\[
+ \E_\nu(Q-D)^2
+ =\Var_\nu Q+\E_\nu(D-m)^2-2\Cov_\nu(Q,D)
+ \ge a-\gamma.
+\]
+Because \(Q,D\in[0,1]\), one has \(|Q-D|\ge(Q-D)^2\).
+Pointwise domination therefore gives
+\[
+ \E_\mu|Q-D|
+ \ge w\E_\nu|Q-D|
+ \ge w(a-\gamma).
+\]
+Taking the minimum over \(D\) proves the assertion. This is the
+chosen-sense hard-law input needed by
+Lemma~\ref{threshold:hard-component}.
+\end{proof}

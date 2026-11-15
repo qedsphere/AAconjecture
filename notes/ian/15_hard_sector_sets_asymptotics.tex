@@ -1,0 +1,500 @@
+\subsection{Set extraction, rounding, and full-AA quantifiers}
+\label{ian:hard-sector-sets-asymptotics}
+
+Status: polynomial set extraction for arbitrary atomic laws, an explicit rounding criterion, and the smooth and set full-AA characterizations are proved; the literal common-exponent H1 assertion remains unresolved.
+
+Corollary~\ref{ian:hard-sector-explicit} already produces a set sector
+for every atomic input law. It therefore proves the independent-exponent
+polynomial version of H1-set without an atom-size hypothesis.
+The next two results describe the proposed rounding route separately:
+rounding a supplied smooth sector can require an atom-size hypothesis,
+even though direct extraction from approximation failure does not.
+
+\begin{lemma}[Rounding a smooth sector under an atom-size bound]
+\label{ian:hard-sector-rounding}
+Let \(n\ge1\), \(t\ge1\), \(Q:\Omega_n\to[0,1]\), and let \(\mu,\nu\)
+be probability laws satisfying
+\[
+ \nu\le\mu/w,\qquad 0<w\le1.
+\]
+Put
+\[
+ N=N(n,t)=n^{2^t-1}2^{2^t},\qquad J=3+2N,\qquad
+ \alpha=\max_x\mu(x).
+\]
+For every \(0<\delta\le1/2\), if
+\[
+ \alpha\le\frac{\delta^2w^2}{\log(4J)},
+\]
+there exists \(H\subseteq\Omega_n\) with
+\[
+ \mu(H)\ge(1-\delta)w\ge w/2
+\]
+such that, writing \(\lambda=\mu(\cdot\mid H)\),
+\[
+ \Var_\lambda Q\ge\Var_\nu Q-12\delta
+\]
+and
+\[
+ |\Cov_\lambda(Q,F)|
+ \le|\Cov_\nu(Q,F)|+12\delta
+ \qquad(F\in\mathcal F_t).
+\]
+Consequently, if
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) and
+\[
+ 0<\gamma+12\delta<a-12\delta,
+\]
+then
+\[
+ \operatorname{Hard}
+ (Q,\lambda;t,a-12\delta,\gamma+12\delta).
+\]
+\end{lemma}
+
+\begin{proof}
+For every \(x\) with \(\mu(x)>0\), independently select \(x\) with
+probability
+\[
+ r_x=\frac{w\nu(x)}{\mu(x)}\in[0,1].
+\]
+Points of zero \(\mu\)-mass are omitted. Let \(B_x\) be the selection
+indicator, and put \(H=\{x:B_x=1\}\).
+
+Choose a list containing every Boolean-valued depth-\(t\) test, with
+at most \(N\) members. Consider the following collection of functions:
+\[
+ 1,\quad Q,\quad Q^2,\quad F,\quad QF
+ \quad\text{for each test }F\text{ in the list}.
+\]
+There are at most \(J\) functions, all bounded in absolute value by one.
+For each such \(f\), define
+\[
+ Z_f=\sum_x\mu(x)B_xf(x).
+\]
+Then
+\[
+ \E Z_f=w\E_\nu f.
+\]
+
+We use the following form of Hoeffding's inequality: if independent
+random variables have range lengths \(b_x\), their centered sum satisfies
+\[
+ \Pr\left(\left|\sum_x(Y_x-\E Y_x)\right|>u\right)
+ \le2\exp\left(-\frac{2u^2}{\sum_xb_x^2}\right).
+\]
+Here the range length of \(\mu(x)B_xf(x)\) is at most \(\mu(x)\), and
+\[
+ \sum_x\mu(x)^2\le\alpha.
+\]
+Therefore
+\[
+ \Pr\bigl(|Z_f-w\E_\nu f|>\delta w\bigr)
+ \le2\exp(-2\delta^2w^2/\alpha).
+\]
+A union bound gives failure probability at most
+\[
+ 2J\exp(-2\delta^2w^2/\alpha)
+ \le 2J(4J)^{-2}
+ =\frac1{8J}<1.
+\]
+Fix a realization for which all these inequalities hold.
+
+Let \(s=\mu(H)=Z_1\). Then
+\[
+ (1-\delta)w\le s\le(1+\delta)w.
+\]
+For every listed function \(f\),
+\[
+ \begin{aligned}
+ |\E_\lambda f-\E_\nu f|
+ &=\left|\frac{Z_f}{s}-\E_\nu f\right|\\
+ &\le\frac{|Z_f-w\E_\nu f|+|w-s|\,|\E_\nu f|}{s}\\
+ &\le\frac{2\delta}{1-\delta}\le4\delta.
+ \end{aligned}
+\]
+Writing \(m_\lambda=\E_\lambda Q\) and \(m_\nu=\E_\nu Q\), we obtain
+\[
+ \begin{aligned}
+ |\Var_\lambda Q-\Var_\nu Q|
+ &\le|\E_\lambda Q^2-\E_\nu Q^2|
+       +|m_\lambda^2-m_\nu^2|\\
+ &\le4\delta+2|m_\lambda-m_\nu|
+ \le12\delta.
+ \end{aligned}
+\]
+For every Boolean-valued test in the list,
+\[
+ \begin{aligned}
+ |\Cov_\lambda(Q,F)-\Cov_\nu(Q,F)|
+ &\le|\E_\lambda QF-\E_\nu QF|
+       +|m_\lambda\E_\lambda F-m_\nu\E_\nu F|\\
+ &\le4\delta+|m_\lambda-m_\nu|
+       +|\E_\lambda F-\E_\nu F|\\
+ &\le12\delta.
+ \end{aligned}
+\]
+For \(F\in\mathcal F_t\) with leaf events \(A_v\) and leaf values \(f_v\in[-1,1]\), the difference \(\Cov_\lambda(Q,F)-\Cov_\nu(Q,F)=\sum_vf_v[\Cov_\lambda(Q,\mathbf1_{A_v})-\Cov_\nu(Q,\mathbf1_{A_v})]\) is linear in \((f_v)\); as in the proof of Lemma~\ref{ian:hard-sector-tree-closure}, its absolute value is maximized at a \(\{-1,1\}\)-valued assignment, which is a listed test. Hence \(|\Cov_\lambda(Q,F)-\Cov_\nu(Q,F)|\le12\delta\) for every \(F\in\mathcal F_t\). This exact extremal reduction accounts for all
+real leaf values; a leaf-value net is unnecessary.
+\end{proof}
+
+For example, if \(0<\eta\le1/4\) and the input smooth sector satisfies
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\eta a/4),
+\]
+take \(\delta=\eta a/96\). The explicit sufficient condition
+\[
+ \max_x\mu(x)
+ \le\frac{\eta^2a^2w^2}{9216\log(4J)}
+\]
+then yields a set of mass at least \(w/2\) satisfying
+\[
+ \operatorname{Hard}(Q,\mu(\cdot\mid H);t,a/2,\eta a/2).
+\]
+Indeed, the variance loss is at most \(\eta a/8\), and the covariance
+bound is at most \(3\eta a/8\).
+
+\begin{proposition}[An atomic obstruction to general smooth-to-set rounding]
+\label{ian:hard-sector-rounding-counterexample}
+There exist \(\mu,Q,\nu\) on \(\Omega_2\) such that
+\[
+ \nu\le2\mu,\qquad
+ \operatorname{Hard}(Q,\nu;1,1/4,1/64),
+\]
+but no positive-mass conditional-set law has both positive variance and
+depth-one covariance bounded by \(1/64\).
+\end{proposition}
+
+\begin{proof}
+Index the four points by
+\[
+ x^{(1)}=(1,1),\quad x^{(2)}=(1,-1),\quad
+ x^{(3)}=(-1,1),\quad x^{(4)}=(-1,-1).
+\]
+Set
+\[
+ (\mu_1,\mu_2,\mu_3,\mu_4)
+ =\left(\frac12,\frac14,\frac18,\frac18\right),
+ \qquad Q(x)=\frac{1+x_1x_2}{2},
+\]
+and let \(\nu\) be uniform on the four points.
+Then \(\nu\le2\mu\), \(\Var_\nu Q=1/4\), and
+\[
+ \Cov_\nu(Q,x_1)=\Cov_\nu(Q,x_2)=0.
+\]
+Every depth-one test is an affine function of one coordinate, so the
+claimed smooth hardness follows.
+
+A set has positive conditional variance precisely when it contains
+both a point with \(Q=0\) and a point with \(Q=1\).
+For each of the nine such subsets, compute the maximum absolute
+coordinate covariance under its conditional law. The results are
+\[
+\begin{array}{c|c}
+ H\text{, specified by point indices}
+ &\max_{i=1,2}|\Cov_{\mu(\cdot\mid H)}(Q,x_i)|\\ \hline
+ 12&4/9\\
+ 13&8/25\\
+ 24&4/9\\
+ 34&1/2\\
+ 123&16/49\\
+ 124&16/49\\
+ 134&2/9\\
+ 234&1/4\\
+ 1234&7/32
+\end{array}
+\]
+For completeness, each entry follows from
+\[
+ \Cov_\lambda(Q,x_i)
+ =p(1-p)\left(
+ \E_\lambda[x_i\mid Q=1]-\E_\lambda[x_i\mid Q=0]\right),
+ \qquad p=\lambda(Q=1).
+\]
+Every entry is at least \(7/32>1/64\). This rules out every
+positive-variance set law.
+\end{proof}
+
+This example obstructs rounding an arbitrary supplied smooth sector
+while retaining its covariance tolerance. It does not refute extraction
+from approximation failure: this \(Q\) is computed exactly with two
+classical queries.
+
+We now give the asymptotic characterization. For \(n,T\ge1\), let
+\(\mathcal Q_{n,T}\) denote the acceptance functions of quantum algorithms
+using at most \(T\) coordinate queries. In the sense of
+Section~\ref{tht:target} of
+\path{synthesis/threshold_theory/01_target_and_conclusions.tex},
+full AA for a family \(\symbf{\mu}=(\mu_n)_{n\ge1}\) is equivalent to
+\[
+ \begin{gathered}
+ \exists A_0,B_0\ge1\quad
+ \forall n,T\ge1\quad\forall\varepsilon\in(0,1)\quad
+ \forall Q\in\mathcal Q_{n,T}:\\
+ \ell_{\mu_n}\!\left(
+ \left\lceil A_0(T+\varepsilon^{-1})^{B_0}\right\rceil,Q
+ \right)\le\varepsilon.
+ \end{gathered}
+ \tag{AA}\label{ian:hard-sector-aa-definition}
+\]
+The constants may depend on the family and its fixed model parameters,
+and are chosen before \(n,T,\varepsilon,Q\). This matches Section~\ref{tht:target}: a polynomial \(P\) of degree \(B_0\ge1\) with absolute coefficient sum \(A_0\) satisfies \(P(T,1/\varepsilon)\le A_0(T+\varepsilon^{-1})^{B_0}\) when \(T+\varepsilon^{-1}\ge1\); conversely \(\lceil A_0(T+\varepsilon^{-1})^{B_0}\rceil\le(A_0+1)(T+\varepsilon^{-1})^{\lceil B_0\rceil}\); errors \(\varepsilon\ge1\) are trivial.
+
+\begin{theorem}[Full-AA failure and polynomially weighted hard sectors]
+\label{ian:hard-sector-aa-equivalence}
+For every family \(\symbf{\mu}\), the following are equivalent.
+
+\begin{enumerate}
+\item Full AA fails.
+
+\item For every \(A,B\ge1\), there exist integers \(n,T\ge1\),
+a real \(r>8\), a function \(Q\in\mathcal Q_{n,T}\), and a set
+\(H\subseteq\Omega_n\) such that, with
+\[
+ t=\left\lceil A(T+r)^B\right\rceil+1,
+\]
+one has
+\[
+ \mu_n(H)\ge\frac1{64r^3},
+ \qquad
+ \operatorname{Hard}\left(
+ Q,\mu_n(\cdot\mid H);
+ t,\frac1{4r^2},\frac1{16r^2}\right).
+\]
+
+\item For every \(A,B\ge1\), there exist integers \(n,T\ge1\),
+a real \(r>8\), a function \(Q\in\mathcal Q_{n,T}\), and a probability
+law \(\nu\) such that, with the same definition of \(t\),
+\[
+ \nu\le64r^3\mu_n,
+ \qquad
+ \operatorname{Hard}\left(
+ Q,\nu;t,\frac1{4r^2},\frac1{16r^2}\right).
+\]
+\end{enumerate}
+
+In particular, the inverse-weight bound \(64r^3\) and inverse-dispersion
+parameter \(4r^2\) are fixed before the polynomial budget \(A(T+r)^B\)
+is chosen. Hardness holds at a depth strictly exceeding that budget.
+\end{theorem}
+
+\begin{proof}
+First, failure of full AA supplies counterexamples with
+\(\varepsilon\in(0,1/8)\) against every proposed pair of polynomial
+constants. To justify the restricted error range, suppose instead that
+some \(A_0,B_0\) worked for every \(\varepsilon\in(0,1/8)\).
+For arbitrary \(\varepsilon\in(0,1)\), use
+\(\varepsilon'=\min\{\varepsilon,1/16\}\). Then
+\[
+ \varepsilon'\le\varepsilon,\qquad
+ T+(\varepsilon')^{-1}\le16(T+\varepsilon^{-1}),
+\]
+so full AA would follow with constants \(16^{B_0}A_0,B_0\).
+
+Assume (1), and fix \(A,B\ge1\). Apply full-AA failure with
+\[
+ A'=16385(A+2),\qquad B'=B+7.
+\]
+There exist \(n,T\ge1\), \(0<\varepsilon<1/8\), and
+\(Q\in\mathcal Q_{n,T}\) such that
+\[
+ \ell_{\mu_n}\!\left(
+ \left\lceil A'(T+\varepsilon^{-1})^{B'}\right\rceil,Q
+ \right)>\varepsilon.
+\]
+Put \(r=\varepsilon^{-1}>8\), \(R=T+r\), and
+\[
+ t=\lceil AR^B\rceil+1.
+\]
+Since \(R\ge1\),
+\[
+ t\le(A+2)R^B,\qquad
+ \lceil16384r^7\rceil\le16385r^7.
+\]
+Consequently,
+\[
+ \lceil16384r^7\rceil t
+ \le16385(A+2)R^{B+7}
+ \le\left\lceil A'R^{B'}\right\rceil.
+\]
+Monotonicity of approximation loss in the allowed depth gives
+\[
+ \ell_{\mu_n}(\lceil16384r^7\rceil t,Q)>1/r.
+\]
+Apply Corollary~\ref{ian:hard-sector-explicit} with
+\(\eta=1/4\). Since
+\(256\varepsilon^{-7}\eta^{-3}=16384r^7\), it gives
+\[
+ \mu_n(H)\ge\frac1{64r^3},
+ \qquad
+ \operatorname{Hard}\left(
+ Q,\mu_n(\cdot\mid H);
+ t,\frac1{4r^2},\frac1{16r^2}\right).
+\]
+This proves (2).
+
+The implication (2) to (3) follows from
+\[
+ \mu_n(\cdot\mid H)\le\mu_n/\mu_n(H)\le64r^3\mu_n.
+\]
+
+Finally, assume (3) and suppose full AA holds with constants
+\(A_0,B_0\). In (3), choose the budget constants
+\[
+ A=A_0\,684^{B_0}+1,\qquad B=5B_0.
+\]
+Take the resulting witness and put
+\[
+ e=\frac3{2048r^5}.
+\]
+The forward bound gives
+\[
+ \ell_{\mu_n}(t,Q)
+ \ge\frac1{64r^3}
+       \left(\frac1{4r^2}-\frac1{16r^2}\right)
+ =\frac3{1024r^5}=2e.
+\]
+On the other hand,
+\[
+ T+e^{-1}
+ =T+\frac{2048}{3}r^5
+ \le684(T+r)^5.
+\]
+Full AA supplies an approximator with error at most \(e\) and depth at
+most
+\[
+ \left\lceil A_0(T+e^{-1})^{B_0}\right\rceil
+ \le\left\lceil A_0\,684^{B_0}(T+r)^{5B_0}\right\rceil
+ <t.
+\]
+This contradicts the preceding lower bound.
+Thus (3) implies (1).
+\end{proof}
+
+\begin{remark}[An equivalent formulation using unspecified polynomials]
+\label{ian:hard-sector-polynomial-quantifiers}
+For either smooth sectors or set sectors, failure of full AA is
+equivalent to the following assertion:
+\[
+ \begin{gathered}
+ \exists K,p,q\ge1\quad\forall A,B\ge1\quad
+ \exists n,T\ge1,\ r>8,\ Q\in\mathcal Q_{n,T},\
+ t\in\N,\ w\in(0,1],\ a\in(0,1/4]:\\
+ t>\left\lceil A(T+r)^B\right\rceil,\qquad
+ w^{-1}\le Kr^p,\qquad a^{-1}\le Kr^q,
+ \end{gathered}
+ \tag{P}\label{ian:hard-sector-polynomial-property}
+\]
+together with the existence of a law \(\nu\), a smooth (resp.\ set) sector of \(\mu_n\) of weight \(w\), satisfying
+\(\operatorname{Hard}(Q,\nu;t,a,a/4)\).
+
+The canonical witnesses in
+Theorem~\ref{ian:hard-sector-aa-equivalence} establish
+\eqref{ian:hard-sector-polynomial-property} with
+\(K=64,p=3,q=2\).
+
+Conversely, suppose \eqref{ian:hard-sector-polynomial-property} holds
+and full AA has constants \(A_0,B_0\). Let \(s=p+q\) and choose
+\[
+ A=A_0(1+8K^2/3)^{B_0}+1,\qquad B=sB_0.
+\]
+For its witness, set \(e=3r^{-s}/(8K^2)\).
+Then
+\[
+ \ell_{\mu_n}(t,Q)\ge\frac34wa
+ \ge\frac3{4K^2}r^{-s}=2e,
+\]
+whereas
+\[
+ T+e^{-1}
+ \le(1+8K^2/3)(T+r)^s.
+\]
+Full AA gives error at most \(e\) using fewer than \(t\) queries,
+a contradiction. This proves the equivalence and makes explicit why
+the polynomial bounds must be fixed before the budget quantifiers.
+\end{remark}
+
+\begin{corollary}[The resource-sensitive sector formulation]
+\label{ian:hard-sector-resource-equivalence}
+Fix either the smooth or the set interpretation of sectors.
+For a family \(\symbf{\mu}\), let
+\(\mathsf R(\symbf{\mu})\) mean
+\[
+ \begin{gathered}
+ \forall b>0\quad\exists A_b,B_b\ge1\quad
+ \forall n,T\ge1\quad\forall Q\in\mathcal Q_{n,T}\quad
+ \forall a\in(0,1/4]\quad\forall w\in(0,1]\quad
+ \forall t\in\N:\\
+ t\ge\left\lceil A_b(2+T+a^{-1})^{B_b}\right\rceil
+ \quad\Longrightarrow\quad
+ \text{every }(w,t,a,a/4)\text{-hard sector has }
+ w<(2+T+a^{-1})^{-b}.
+ \end{gathered}
+\]
+Then full AA holds if and only if
+\(\mathsf R(\symbf{\mu})\) holds.
+This equivalence applies to arbitrary atomic families in both
+interpretations.
+\end{corollary}
+
+\begin{proof}
+Assume full AA with constants \(A_0,B_0\), and fix \(b>0\).
+Set
+\[
+ A_b=A_0\,4^{B_0}+1,\qquad B_b=(b+1)B_0.
+\]
+Suppose a sector contradicts the conclusion, and write
+\[
+ z=2+T+a^{-1},\qquad e=\frac38az^{-b}.
+\]
+Its weight satisfies \(w\ge z^{-b}\), so the forward bound gives
+\[
+ \ell_{\mu_n}(t,Q)\ge\frac34wa\ge\frac34az^{-b}=2e.
+\]
+But
+\[
+ T+e^{-1}
+ =T+\frac83a^{-1}z^b
+ \le\frac{11}{3}z^{b+1}<4z^{b+1}.
+\]
+Full AA therefore supplies an error-\(e\) approximator at depth at most
+\[
+ \left\lceil A_0\,4^{B_0}z^{(b+1)B_0}\right\rceil
+ \le t,
+\]
+a contradiction. Hence \(\mathsf R\) holds.
+
+For the converse, suppose full AA fails.
+We show that \(\mathsf R\) fails already for \(b=3\).
+Fix arbitrary proposed constants \(A,B\ge1\).
+Apply Theorem~\ref{ian:hard-sector-aa-equivalence} with budget constants
+\[
+ A'=A7^B,\qquad B'=2B.
+\]
+It supplies a sector with
+\[
+ a=\frac1{4r^2},\qquad w=\frac1{64r^3},
+\]
+hard at depth
+\[
+ t=\left\lceil A7^B(T+r)^{2B}\right\rceil+1.
+\]
+For \(z=2+T+a^{-1}=2+T+4r^2\),
+\[
+ z\le7(T+r)^2,
+\]
+and hence
+\[
+ t>\left\lceil Az^B\right\rceil.
+\]
+Moreover,
+\[
+ z^{-3}\le(4r^2)^{-3}
+ =\frac1{64r^6}\le\frac1{64r^3}=w.
+\]
+This sector violates the asserted conclusion of \(\mathsf R\).
+Since \(A,B\) were arbitrary, \(\mathsf R\) fails.
+
+The proof uses the explicit polynomial extraction theorem, and does
+not depend on resolving the literal common-exponent form of H1.
+\end{proof}
