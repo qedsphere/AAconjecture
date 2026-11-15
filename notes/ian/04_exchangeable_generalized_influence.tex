@@ -1,36 +1,30 @@
 \subsection{Generalized influence for all exchangeable laws}
 \label{ian:exchangeable-generalized-influence}
 
-Status: proved conditionally on the imported uniform theorem (UAA).
-The conclusion covers all exchangeable laws, including endpoint slices,
-with constants uniform under arbitrary positive-probability pinnings.
+Status: proved. The conclusion covers all exchangeable laws, including
+endpoint slices, with constants uniform under arbitrary
+positive-probability pinnings. The product influence input is
+Corollary~\ref{ian:product-influence-aa-proved}, proved in
+Subsection~\ref{ian:influence-form-uniform-aa} from (BC) and the OSSS
+covariance inequality; the slice step cites Girish
+Proposition~4.12(1) and Lemma~4.9. An earlier version assumed the imported uniform
+theorem (UAA) of
+Section~\ref{ht:conventions-and-imported-uniform-theorem}; that
+hypothesis is no longer used. The recomputed constants are recorded in
+Proposition~\ref{ian:influence-consequences-exchangeable}.
 
-Assume precisely the hypothesis recorded in
-\path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex},
-Section~\ref{ht:conventions-and-imported-uniform-theorem}:
-\[
- \max_i I_i^{U_N}(h)
- \ge c_{\mathrm{AA}}\,
-       \frac{\Var_{U_N}(h)^{5/2}}{D^6}
- \tag{UAA}
-\]
-for every \(N,D\ge1\) and every globally bounded
-\(h:\{-1,1\}^N\to[-1,1]\) of degree at most \(D\).
+Notation \(D_i\), \(I_i^\mu\), \(G_\mu\) is that of
+Subsection~\ref{ian:generalized-influence-bridge}.
 
 Here are explicit, deliberately coarse constants:
 \[
- \begin{split}
- c_0&=\min\{1,c_{\mathrm{AA}}\},\\
- A_0&=\min\left\{r\in\N:
-       r\ge32,\ (r+1)^6 2^{-r}\le c_0/128\right\},\\
- \kappa&=\frac{c_0}{16(A_0+1)^6},\qquad
+ \kappa=c_\star=\frac{9}{2^{61}\pi^{12}},\qquad
  \lambda=10^{-9}2^{-146}\kappa^4,\qquad
- \sigma=2^{-112}\lambda.
- \end{split}
+ \sigma=2^{-112}\lambda,
  \tag{5}\label{ian:exchangeable-constants}
 \]
-The integer \(A_0\) exists because exponential growth dominates
-polynomial growth.
+where \(c_\star\) is the constant of
+Theorem~\ref{ian:uniform-influence-aa-proved}.
 
 Let \(\rho_{n,p}\) be the product law with
 \(\Pr(X_i=1)=p\), and let \(\omega_{n,k}\) be uniform on the slice with
@@ -38,7 +32,7 @@ exactly \(k\) coordinates equal to \(1\).
 
 \begin{lemma}[Product and slice bounds uniform in density]
 \label{ian:uniform-product-slice-aa}
-Assuming (UAA), the following statements hold for every \(n,d\ge1\),
+The following statements hold for every \(n,d\ge1\),
 every \(t\in(0,1]\), and every globally bounded multilinear
 \(f:\{-1,1\}^n\to[-1,1]\) of degree at most \(d\):
 \[
@@ -59,110 +53,46 @@ and
 \end{lemma}
 
 \begin{proof}
-We first prove the uniformity in \(p\), rather than appeal to a
-fixed-bias equivalence. The functions
+The bound \eqref{ian:uniform-product-bound} is (P-AA) of
+Corollary~\ref{ian:product-influence-aa-proved}, proved in
+Subsection~\ref{ian:influence-form-uniform-aa}, applied to the product
+law \(\rho_{n,p}\); that corollary holds for every bias, including
+\(p\in\{0,1\}\), with no bias-dependent constant. If
+\(\Var_{\rho_{n,p}}f\ge t\), it gives
 \[
- V(p)=\Var_{\rho_{n,p}}f,\qquad
- J_i(p)=I_i^{\rho_{n,p}}(f)
-\]
-are polynomials in \(p\) of degree at most \(2d\), with values in
-\([0,1]\) on \([0,1]\). Indeed, multilinearising \(f^2\) and
-\((D_i f)^2\) gives this degree bound. Markov brothers' inequality
-therefore yields
-\[
- |V(p)-V(r)|,\ |J_i(p)-J_i(r)|
- \le8d^2|p-r|.
- \tag{8}\label{ian:product-bias-continuity}
-\]
-
-Suppose \(V(p)\ge t\), put \(x=d/t\ge1\), and set
-\[
- b=\lceil A_0x\rceil,\qquad
- r=2^{-b}\lfloor2^bp\rfloor,\qquad
- \eta=8d^22^{-b},\qquad
- L_0=\frac{c_0t^{5/2}}{16d^6b^6}.
-\]
-Then
-\[
- \eta\le t/2,\qquad \eta\le L_0.
- \tag{9}\label{ian:dyadic-error-comparison}
-\]
-For completeness, \(b\le(A_0+1)x\), and the functions
-\(x^2 2^{-A_0x}\) and \(x^{14}2^{-A_0x}\) decrease for \(x\ge1\).
-Consequently,
-\[
- \frac{\eta}{t}\le8x^22^{-A_0x}\le8\,2^{-A_0}\le\frac12
-\]
-and
-\[
- \frac{\eta}{L_0}
- =\frac{16d^6b^6\eta}{c_0t^{5/2}}
- \le\frac{128(A_0+1)^6}{c_0}
-       x^{14}2^{-A_0x}\le1.
-\]
-
-Choose a Boolean function
-\(g:\{-1,1\}^b\to\{-1,1\}\) with
-\(\Pr_{U_b}(g=1)=r\): assign \(2^br\) source strings the value \(1\).
-Its multilinear degree is at most \(b\). On \(n\) independent blocks
-of \(b\) fair bits, define
-\[
- H(z)=f(g(z_1),\ldots,g(z_n)).
-\]
-This function is globally bounded, has degree at most \(db\), and,
-by \eqref{ian:product-bias-continuity} and
-\eqref{ian:dyadic-error-comparison}, has variance at least \(t/2\).
-
-The normalised derivative chain rule gives, for a source bit \(j\)
-in block \(i\),
-\[
- D_{ij}H=(D_i f)(g(z_{-i}))\,D_jg(z_i).
-\]
-The two factors depend on disjoint blocks. Since \(|D_jg|\le1\),
-\[
- I_{ij}^{U_{nb}}(H)\le I_i^{\rho_{n,r}}(f).
-\]
-Applying (UAA) and then \eqref{ian:product-bias-continuity} gives
-\[
- \begin{split}
  \max_i I_i^{\rho_{n,p}}(f)
- &\ge \frac{c_0(t/2)^{5/2}}{d^6b^6}-\eta\\
- &\ge 2L_0-\eta\ge L_0\\
- &\ge\kappa\,t^{17/2}d^{-12}
+ \ge c_\star\frac{(\Var_{\rho_{n,p}}f)^{12}}{d^{12}}
  \ge\kappa(t/d)^{12}.
- \end{split}
 \]
-This proves \eqref{ian:uniform-product-bound}, with no density-dependent
-constant.
+See also
+Section~\ref{influence-recovery:a-product-aa-bound-uniform-over-all-biases},
+which derives the better rate \(s^{7/2}/d^7\), with inexplicit
+constants, from its own (UAA) hypothesis by dyadic encoding; that
+route is not used here.
 
-We now use Girish Proposition~4.12(1), pp.~20--21. Its convention is
-\(\{0,1\}\), range \([0,1]\), and unnormalised flip influence. For
+For the slice bound we use Girish Proposition~4.12(1), pp.~20--21,
+whose conventions are \(\{0,1\}\), range \([0,1]\) and unnormalised
+flip influence. Under the translation of
+Subsection~\ref{ian:program}, \(g(y)=(1+f(2y-1))/2\) has
+\(\Var(g)=\Var(f)/4\) and
+\(\operatorname{Inf}^{\mathrm{Girish}}_i(g)=I_i(f)\). Thus
+\eqref{ian:uniform-product-bound} supplies the Girish product bound
+\(S(u,d)=\kappa(u/d)^{12}\), uniformly in \(p\). For \(0<k<n\), apply
+Proposition~4.12 at \(p=k/n\), where \(\nu_{n,k/n}=\omega_{n,k}\) since \(\lfloor(k/n)n\rfloor=k\), with
+slice variance parameter \(t/4\). Its bound contains no \(p\): the proof
+uses only Lemma~2.12 (constant \(1/(2n^2)\)) and Corollary~4.11
+(constant \(48d^2/\sqrt n\)). It gives
 \[
- g(y)=\frac{1+f(2y-1)}2
-\]
-these quantities satisfy
-\[
- \Var(g)=\Var(f)/4,\qquad
- \operatorname{Inf}^{\mathrm{Girish}}_i(g)=I_i(f).
-\]
-Thus \eqref{ian:uniform-product-bound} supplies the Girish product
-bound \(S(u,d)=\kappa(u/d)^{12}\), uniformly in \(p\).
-
-For \(0<k<n\), apply Proposition~4.12 at \(p=k/n\), with slice
-variance parameter \(t/4\). The bound in Proposition~4.12 contains no \(p\); its proof uses only Lemma~2.12 (constant \(1/(2n^2)\)) and Corollary~4.11 (constant \(48d^2/\sqrt n\)), both free of \(p\), and \(\nu_{n,k/n}=\omega_{n,k}\) since \(\lfloor (k/n)n\rfloor=k\). It gives
-\[
- \begin{split}
  \max_i I_i^{\omega_{n,k}}(f)
- &\ge10^{-9}d^{-8}
+ \ge10^{-9}d^{-8}
  \min\left\{(t/4)^5,\
-       (t/4)\kappa^4\left(\frac{t}{8d}\right)^{48}\right\}\\
- &=10^{-9}2^{-146}\kappa^4\,t^{49}d^{-56}\\
- &\ge\lambda(t/d)^{56}.
- \end{split}
+       (t/4)\kappa^4\left(\frac{t}{8d}\right)^{48}\right\}
+ =10^{-9}2^{-146}\kappa^4\,t^{49}d^{-56}
+ \ge\lambda(t/d)^{56},
 \]
-The displayed minimum equals its second term because
-\(\kappa,t\le1\) and \(d\ge1\). At \(k=0,n\), positive variance is
-impossible. This completes the proof, including the endpoint cases.
+the minimum being its second term since \(\kappa,t\le1\le d\). At
+\(k=0,n\) the variance vanishes, so \eqref{ian:uniform-slice-bound} is
+vacuous.
 \end{proof}
 
 \begin{lemma}[Slice continuity]
@@ -203,7 +133,7 @@ Finally \(V(0)=V(n)=0\), which proves
 
 \begin{theorem}[Theorem B]
 \label{ian:exchangeable-gamma}
-Assuming (UAA), the class \(\Lambda_{\mathrm{exch}}\) of all
+The class \(\Lambda_{\mathrm{exch}}\) of all
 exchangeable laws on all finite cubes is pinning-closed and satisfies
 \(\Gamma^{\mathrm{rand}}(\Lambda_{\mathrm{exch}})\). One choice of
 constants is
@@ -214,11 +144,19 @@ constants is
  \tag{12}\label{ian:exchangeable-gamma-constants}
 \]
 where \(\sigma\) is defined in
-\eqref{ian:exchangeable-constants}. Consequently
+\eqref{ian:exchangeable-constants}. Consequently, by the observation after
+Definition~\ref{ian:gamma-definition},
 \(\Gamma^{\mathrm{set}}(\Lambda_{\mathrm{exch}})\) also holds.
 \end{theorem}
 
 \begin{proof}
+Pinning closure: fix a positive-probability assignment on some
+coordinates. Every permutation of the remaining coordinates extends to
+one fixing the pinned coordinates; it preserves the exchangeable law and
+the conditioning event, hence the residual law. Nothing below depends on
+the law beyond exchangeability, so the constants are uniform over all
+pinnings.
+
 Fix \(n,d\ge1\), an exchangeable \(\mu\), \(v\in(0,1]\), and a
 globally bounded degree-at-most-\(d\) polynomial \(f\) with
 \(\Var_\mu f\ge v\). Let
@@ -233,158 +171,107 @@ Lemma~\ref{ian:slice-continuity}, total variance gives
  \Var_\mu f=\Var(F(W))+\E V(W).
  \tag{13}\label{ian:exchangeable-variance-split}
 \]
-Set
-\[
- \ell=\min\{n,\lceil128(d/v)^4\rceil\}.
-\]
+Set \(\ell=\min\{n,\lceil128(d/v)^4\rceil\}\).
 If \(\ell=n\), the Global alternative holds with gain
 \(\Var_\mu f\ge v\). Hence assume \(\ell<n\).
 
-Suppose first that
-\[
- s:=\Var(F(W))\ge v/2.
-\]
-Let \(S\) be an independent uniformly random \(\ell\)-subset. Extend
-the values \(F(k)\), at points \(k/n\), to a piecewise linear function
-\(\widetilde F\) on \([0,1]\). By
-\eqref{ian:slice-lipschitz-estimates}, this extension is
-\(8d^2\)-Lipschitz. Define
+\emph{Between slices.} Suppose first that \(s:=\Var(F(W))\ge v/2\).
+Let \(S\) be an independent uniformly random \(\ell\)-subset, and let
+\(\widetilde F\) be the piecewise linear interpolation on \([0,1]\) of
+the values \(F(k)\) at \(k/n\); by
+\eqref{ian:slice-lipschitz-estimates} it is \(8d^2\)-Lipschitz. Define
 \[
  \widehat p=\frac1\ell\sum_{i\in S}\frac{1+X_i}{2},
  \qquad Z=\widetilde F(\widehat p).
 \]
-All expectations in this part of the proof are over \((S,X)\).
-Hypergeometric sampling, conditional on \(X\), gives
-\[
- \E[\widehat p\mid X]=W/n,\qquad
- \E[(\widehat p-W/n)^2\mid X]\le\frac1{4\ell}.
-\]
-Therefore
+All expectations in this part are over \((S,X)\). Hypergeometric
+sampling gives
+\(\E[\widehat p\mid X]=W/n\) and
+\(\E[(\widehat p-W/n)^2\mid X]\le1/(4\ell)\), so
 \[
  \delta:=\E(Z-F(W))^2
  \le\frac{16d^4}{\ell}
  \le\frac{v^4}{8}\le\frac v8\le\frac s4.
  \tag{14}\label{ian:density-estimation-error}
 \]
-
-We explicitly account for possible cancellation between within-slice
-and between-slice fluctuations. For a fixed input \(x\), the average
-\(\E_S[Z\mid X=x]\) depends only on its weight. Since
-\(\E[f-F(W)\mid W]=0\), it follows that
+For fixed \(X=x\), \(\E_S Z\) depends only on the weight of \(x\);
+this is where the random \(S\) is used. Since
+\(\E[f-F(W)\mid W]=0\), with \(m=\E_\mu f\),
 \[
- \E[(f-F(W))(Z-m)]=0,\qquad m=\E_\mu f.
-\]
-Consequently,
-\[
- \begin{split}
  \E[(f-m)(Z-m)]
- &=\E[(F(W)-m)(Z-m)]\\
- &\ge s-\sqrt{s\delta}\ge s/2,
- \end{split}
+ =\E[(F(W)-m)(Z-m)]
+ \ge s-\sqrt{s\delta}\ge s/2,
  \tag{15}\label{ian:between-slice-covariance}
 \]
-while
+while \(\E(Z-m)^2\le(\sqrt s+\sqrt\delta)^2\le9s/4\). As \(Z\) is
+measurable with respect to \(\mathcal H=\sigma(S,X_S)\),
+Cauchy--Schwarz gives
 \[
- \E(Z-m)^2\le(\sqrt s+\sqrt\delta)^2\le9s/4.
+ \E_S G_\mu(f,S)
+ =\E\bigl(\E[f\mid\mathcal H]-m\bigr)^2
+ \ge
+ \frac{\bigl(\E[(f-m)(Z-m)]\bigr)^2}{\E(Z-m)^2}
+ \ge \frac s9\ge\frac v{18}\ge\frac1{18}(v/d).
 \]
-The variable \(Z\) is measurable with respect to
-\(\mathcal H=\sigma(S,X_S)\). Conditional expectation and
-Cauchy--Schwarz thus imply
-\[
- \begin{split}
- \E_S\Var_\mu(\E_\mu[f\mid X_S])
- &=\E\bigl(\E[f\mid\mathcal H]-m\bigr)^2\\
- &\ge
- \frac{\bigl(\E[(f-m)(Z-m)]\bigr)^2}{\E(Z-m)^2}\\
- &\ge s/9\ge v/18\ge\frac1{18}(v/d).
- \end{split}
-\]
-This proves the Global alternative. The averaging over random \(S\)
-in \eqref{ian:between-slice-covariance} is essential to this argument.
+This is the Global alternative.
 
-It remains to consider the case
-\[
- \E V(W)\ge v/2.
-\]
-Let
-\[
- \mathcal A=\{k:V(k)\ge v/4\}.
-\]
-Because \(0\le V(k)\le1\),
+\emph{Within slices.} Otherwise \(\E V(W)\ge v/2\) by
+\eqref{ian:exchangeable-variance-split}. Let
+\(\mathcal A=\{k:V(k)\ge v/4\}\). Because \(0\le V(k)\le1\),
 \[
  v/2\le\E V(W)\le v/4+\pi(\mathcal A),
  \qquad\text{so}\qquad \pi(\mathcal A)\ge v/4.
  \tag{16}\label{ian:good-slice-mass}
 \]
 For every \(k\in\mathcal A\),
-Lemma~\ref{ian:uniform-product-slice-aa}, with \(t=v/4\), supplies
-some coordinate with influence at least
+Lemma~\ref{ian:uniform-product-slice-aa} with \(t=v/4\) gives a
+coordinate with influence at least
 \[
  s_*:=\lambda\left(\frac{v}{4d}\right)^{56}
       =\sigma(v/d)^{56}.
 \]
-
-Partition \([0,1]\) into
+The influential coordinate may vary with \(k\), so we localise in
+density. Partition \([0,1]\) into
+\(q=\lceil32d^2/s_*\rceil\le33d^2/s_*\) intervals of length \(1/q\).
+By \eqref{ian:good-slice-mass}, one interval contains points \(k/n\)
+with \(k\in\mathcal A\) of total \(\pi\)-mass at least \(v/(4q)\).
+Choose such a \(k_0\) with \(\pi_{k_0}>0\) and a coordinate \(i\) with
+\(J_i(k_0)\ge s_*\). By \eqref{ian:slice-lipschitz-estimates}, every
+\(k\) in that interval has
+\(J_i(k)\ge s_*-16d^2/q\ge s_*/2\). Hence, using \(v\le1\),
 \[
- q=\left\lceil\frac{32d^2}{s_*}\right\rceil
- \le\frac{33d^2}{s_*}
-\]
-intervals of equal length \(1/q\), assigning boundary points
-consistently to one interval. By
-\eqref{ian:good-slice-mass}, one interval contains good slices of total
-\(\pi\)-mass at least \(v/(4q)\).
-Choose a positive-mass good slice \(k_0\) in that interval and a
-coordinate \(i\) with \(J_i(k_0)\ge s_*\).
-For every other slice \(k\) in that interval,
-\[
- J_i(k)\ge J_i(k_0)-16d^2|k-k_0|/n
-          \ge s_*-\frac{16d^2}{q}\ge s_*/2.
-\]
-Thus the same coordinate works throughout the selected interval,
-regardless of which coordinates are influential on other slices.
-It follows that
-\[
- \begin{split}
  I_i^\mu(f)
- &=\sum_k\pi_kJ_i(k)\\
- &\ge\frac{s_*}{2}\frac{v}{4q}
- \ge\frac{vs_*^2}{264d^2}\\
- &\ge\frac{\sigma^2}{264}(v/d)^{114}.
- \end{split}
+ =\sum_k\pi_kJ_i(k)
+ \ge\frac{s_*}{2}\frac{v}{4q}
+ \ge\frac{vs_*^2}{264d^2}
+ \ge\frac{\sigma^2}{264}(v/d)^{114}.
 \]
-The last inequality uses \(v\le1\). This proves the Local alternative.
-
-Finally, fix a positive-probability assignment on any coordinate set.
-Every permutation of the remaining coordinates extends to a
-permutation fixing the pinned coordinates. It preserves both the
-original exchangeable law and the conditioning event, and therefore
-preserves the residual law. This proves pinning closure. The constants
-above are independent of the original law and of the pinning.
+This is the Local alternative.
 \end{proof}
 
 \begin{remark}[Endpoints, margins, and the simulation theorem]
 \label{ian:exchangeable-endpoints}
 There is no endpoint exclusion in Theorem~\ref{ian:exchangeable-gamma}.
-Equation~\eqref{ian:endpoint-variance} also shows explicitly why a slice
-with \(V(k)\ge v/4\) must satisfy
-\[
- \frac{k}{n}\in
- \left[\frac{v}{128d^2},\,1-\frac{v}{128d^2}\right].
-\]
-Thus the within-slice argument has a polynomial density margin whenever
-it needs one.
-
-A proof using only constants for a fixed margin \([a,1-a]\) would leave
-a gap after pinnings move the residual density outside that interval.
-Lemma~\ref{ian:uniform-product-slice-aa} supplies uniform bounds for
-every density, so every residual exchangeable law is covered directly.
-No additional stopping rule is required.
+By \eqref{ian:endpoint-variance}, a slice with \(V(k)\ge v/4\) has
+\(k/n\in[v/(128d^2),\,1-v/(128d^2)]\), so the within-slice argument
+has a polynomial density margin automatically. Since
+Lemma~\ref{ian:uniform-product-slice-aa} is uniform in density, a
+pinning that moves the residual density towards \(0\) or \(1\) needs no
+separate treatment; constants for a fixed margin \([a,1-a]\) would not
+suffice.
 
 Combined with Theorem~\ref{ian:bridge}, this gives hereditary full AA
-for all exchangeable laws under (UAA). The acceptance-simulation
+for all exchangeable laws, with the influence input proved in
+Subsection~\ref{ian:influence-form-uniform-aa}. The acceptance-simulation
 conclusion is already established in
 \path{simulation/exchangeable_inputs/01_theorem.tex},
-Section~\ref{exch:heading-2}. There it is proved from a simulation-form uniform hypothesis, which (UAA) implies via AA14 Theorem~3.3 (Girish Theorem~4.13, p.~21). The additional conclusion here is the
-generalized-influence dichotomy for every globally bounded low-degree
+Section~\ref{exch:heading-2}, from a simulation-form uniform
+hypothesis, which is supplied by
+Corollary~\ref{cor:resolution-product-alphabet-aa} applied to the
+uniform law; an adaptive-transcript influence form with better
+exponents, conditional on (UAA), is
+Section~\ref{influence-recovery:the-theorem}. The
+additional conclusion here is the generalized-influence dichotomy, with
+a random fixed-size set, for every globally bounded low-degree
 polynomial.
 \end{remark}

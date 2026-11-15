@@ -1,0 +1,508 @@
+\subsection{The phase-label theorem: program elimination and flat components}
+\label{ian:phase-label-theorem}
+
+Status: proved. Theorems~\ref{ian:phase-label-elimination} and \ref{ian:phase-label-hard-sector-converse} and Proposition~\ref{ian:phase-label-flat-components} hold for every decomposition satisfying \eqref{ian:phase-label-component-bound}; every application with product or exchangeable components (the noisy, soft, bounded-degree local and positive instances) uses the uniform-input simulator \(s_U\) of Subsection~\ref{ian:phase-label-admissibility}, which Corollary~\ref{cor:resolution-product-alphabet-aa} supplies, and so rests only on inequality (BC) of Huffstutler--Miloschewsky--Podder, the sole import of that corollary; no influence form of uniform AA is used. The classical lower bounds \eqref{ian:phase-label-clean-bound}, \eqref{ian:phase-label-noisy-bound} and \eqref{ian:phase-label-local-bound} are unconditional. Failure of full AA is equivalent to hard sectors and implies a hidden (label, transcript) explanation on a hard sector (the explanation alone does not imply failure); automatic label-only explanation is refuted on a prescribed hard sector, and no converse in terms of natural phases is proved.
+
+Fix a family \((\mu_N)\) and a decomposition satisfying
+\eqref{ian:phase-label-component-bound} with polynomial \(\Psi\). By
+Lemma~\ref{ian:phase-label-measurable-choice}, after replacing
+\(\Psi(T,y)\) by \(\Psi(T,2y)\) for uncountable label spaces, there are
+measurable component simulators
+\[
+ D_z\in\mathcal D_s,\qquad
+ s=\lceil\Psi(T,\delta^{-1})\rceil,\qquad
+ \E_{\mu_z}|D_z-Q|\le\delta .
+\]
+On the joint space \(\Pr(Z\in dz,X=x)=\pi(dz)\mu_z(x)\) put
+\[
+ \widehat Q=D_Z(X),
+ \tag{20.1}\label{ian:phase-label-program}
+\]
+so \(\E|\widehat Q-Q|\le\delta\). This is a program indexed by \(Z\) and
+applied to \(X\), not a function of \(Z\) alone. Note that
+\[
+ \E[Q(X)\mid Z,X]=Q(X),
+ \tag{20.2}\label{ian:phase-label-conditioning-correction}
+\]
+so conditioning on \((Z,X)\) attributes no variance to the label; the
+label-only quantity is \(\E[Q\mid Z]\), or \(\E[Q\mid Z,H]\) on a sector.
+
+\begin{theorem}[Eliminating a component program]
+\label{ian:phase-label-elimination}
+If a depth-\(t_0\) tree produces a surrogate label \(\widehat Z\) with
+\(\E|D_{\widehat Z}(X)-D_Z(X)|\le\zeta\) (for instance
+\(\Pr(\widehat Z\ne Z)\le\zeta\)), then a tree of depth at most
+\(t_0+s\) approximates \(Q\) on \(\mu\) with error at most
+\(\delta+\zeta\).
+
+With \(L_{\widehat Q}(t)=\inf_{D\in\mathcal D_t}\E|D(X)-\widehat Q|\),
+\[
+ \bigl|L_{\widehat Q}(t)-\ell_\mu(t,Q)\bigr|\le\delta
+ \qquad(t\ge0).
+ \tag{20.3}\label{ian:phase-label-loss-comparison}
+\]
+Consequently full AA holds if and only if there is a polynomial \(\Phi\),
+fixed before \(N,T,\varepsilon,Q\), such that for all \(N,T\ge1\),
+\(\varepsilon\in(0,1)\) and \(Q\in\mathcal Q_{N,T}\), with
+\(\widehat Q\) formed at \(\delta=\varepsilon/4\), some
+\(G\in\mathcal D_{\lceil\Phi(T,\varepsilon^{-1})\rceil}\) satisfies
+\[
+ \E|G(X)-\widehat Q|\le\varepsilon/2.
+ \tag{20.4}\label{ian:phase-label-program-eliminability}
+\]
+This holds for every fixed measurable choice of component simulators.
+\end{theorem}
+
+\begin{proof}
+Run the surrogate tree, then \(D_{\widehat Z}\); the triangle inequality
+gives the error. For each \(D\) the two losses in
+\eqref{ian:phase-label-loss-comparison} differ by at most
+\(\E|\widehat Q-Q|\le\delta\). If full AA holds with polynomial
+\(\Phi_0\), its simulator at accuracy \(\varepsilon/4\) has depth
+\(\lceil\Phi_0(T,4\varepsilon^{-1})\rceil\) and distance at most
+\(\varepsilon/2\) to \(\widehat Q\); take \(\Phi(T,y)=\Phi_0(T,4y)\).
+Conversely \eqref{ian:phase-label-program-eliminability} gives error at
+most \(3\varepsilon/4\) for \(Q\).
+\end{proof}
+
+Randomized selectors obey the same statements after their
+input-independent coins are fixed by averaging. A selector need not
+recover the label, only a program compatible with the target.
+
+\begin{theorem}[Explicit hard-sector converse]
+\label{ian:phase-label-hard-sector-converse}
+Suppose full AA fails for \((\mu_N)\). For every \(\theta_1,\theta_2\ge1\)
+there exist \(N,T\ge1\), \(\varepsilon\in(0,1/8)\),
+\(Q\in\mathcal Q_{N,T}\) and \(H\subseteq\Omega_N\) such that, with
+\[
+ w_0=\frac{\varepsilon^3}{64},\qquad
+ a=\frac{\varepsilon^2}{4},\qquad
+ \delta=\frac{\varepsilon^7}{2^{22}},\qquad
+ s=\lceil\Psi(T,\delta^{-1})\rceil,\qquad
+ t=\left\lceil\theta_1(T+\varepsilon^{-1})^{\theta_2}\right\rceil+s+1,
+ \tag{20.5}\label{ian:phase-label-explicit-parameters}
+\]
+one has
+\[
+ \mu_N(H)\ge w_0,\qquad
+ \operatorname{Hard}(Q,\mu_N(\cdot\mid H);t,a,a/4).
+ \tag{20.6}\label{ian:phase-label-hard-witness}
+\]
+Lift the joint law to the event \(\{X\in H\}\), write \(\E_H\) for its
+expectation, and form \(\widehat Q\) at accuracy \(\delta\). With
+\(u=a^2/4096=\varepsilon^4/2^{16}\),
+\[
+ \E_H|Q-\widehat Q|\le u,\qquad
+ \Var_H\widehat Q\ge\Var_HQ-2u,
+ \tag{20.7}\label{ian:phase-label-lifted-signal}
+\]
+and every \(F\in\mathcal F_t\) on the physical spins satisfies
+\[
+ |\Cov_H(\widehat Q,F)|\le a/4+2u.
+ \tag{20.8}\label{ian:phase-label-lifted-covariance}
+\]
+Let \(\tau_Z(X)\) be the transcript of \(D_Z\) on \(X\), and put
+\(\widetilde Z=(Z,\tau_Z(X))\), \(M=\E_H[Q\mid\widetilde Z]\). Then
+\[
+ \E_H\Var(Q\mid\widetilde Z)\le u,\qquad
+ \Var_HM\ge\Var_HQ-u,
+ \tag{20.9}\label{ian:phase-label-variance-explanation}
+\]
+\[
+ |\Cov_H(M,F)|\le a/4+a/64
+ \qquad(F\in\mathcal F_t).
+ \tag{20.10}\label{ian:phase-label-explained-signal-hidden}
+\]
+Conversely, if witnesses \eqref{ian:phase-label-hard-witness} exist for
+all \(\theta_1,\theta_2\ge1\), full AA fails.
+\end{theorem}
+
+\begin{proof}
+Write \(\Psi(T,y)\le c_\Psi(T+y)^{d_\Psi}\) for \(T,y\ge1\), where
+\(c_\Psi\) is the sum of the absolute coefficients and
+\(d_\Psi=\max\{1,\deg\Psi\}\). With \(x=T+\varepsilon^{-1}\ge1\),
+\(T+\delta^{-1}\le2^{22}x^7\), so
+\(t\le\theta_1'x^{\theta_2'}\) for
+\(\theta_1'=\theta_1+c_\Psi2^{22d_\Psi}+3\) and
+\(\theta_2'=\max\{\theta_2,7d_\Psi\}\). Apply
+Theorem~\ref{ian:hard-sector-aa-equivalence}, (1)\(\Rightarrow\)(2), with
+budget constants \(\theta_1',\theta_2'\); its proof contains the
+reduction to \(\varepsilon<1/8\). With \(\varepsilon=r^{-1}\) it gives
+\eqref{ian:phase-label-hard-witness} at depth
+\(\lceil\theta_1'x^{\theta_2'}\rceil+1\ge t\), hence at depth \(t\),
+since \(\mathcal F_t\subseteq\mathcal F_{t'}\) for \(t\le t'\).
+
+Restriction costs the reciprocal sector weight:
+\(\E_H|Q-\widehat Q|\le\delta/w_0=u\). For \(U,V\in[0,1]\) and
+\(|F|\le1\) on one probability space,
+\(|\Var U-\Var V|\le2\E|U-V|\), from
+\(\Var U=\min_{c\in[0,1]}\E(U-c)^2\), and
+\(|\Cov(U,F)-\Cov(V,F)|\le2\E|U-V|\). These give
+\eqref{ian:phase-label-lifted-signal} and
+\eqref{ian:phase-label-lifted-covariance}.
+
+The output \(\widehat Q\) is \(\widetilde Z\)-measurable, so
+\(\E_H(Q-M)^2\le\E_H(Q-\widehat Q)^2\le\E_H|Q-\widehat Q|\le u\); total
+variance gives \eqref{ian:phase-label-variance-explanation}. Since
+\(\E_HM=\E_HQ\),
+\(|\Cov_H(M,F)-\Cov_H(Q,F)|=|\E_H[(M-Q)F]|\le\sqrt u=a/64\).
+
+For the converse, \(t\ge\lceil\theta_1(T+\varepsilon^{-1})^{\theta_2}\rceil+1\),
+so the witnesses give item (2) of
+Theorem~\ref{ian:hard-sector-aa-equivalence} with \(r=\varepsilon^{-1}\),
+after the same depth monotonicity.
+\end{proof}
+
+\begin{remark}[What is and is not an equivalence]
+\label{ian:phase-label-headline}
+Equation~\eqref{ian:phase-label-program-eliminability} is an equivalence,
+but an operational one: it restates full AA for the fixed programs
+\(\widehat Q\). The structural statements are: failure of full AA is
+equivalent to polynomially weighted hard sectors
+(Theorem~\ref{ian:hard-sector-aa-equivalence}); and failure implies that
+on such a sector the label together with its shallow component
+transcript, \(\widetilde Z\), explains almost all acceptance variance
+while staying invisible to shallow tests
+(Theorem~\ref{ian:phase-label-hard-sector-converse}). The explanation
+adds nothing in the reverse direction: what forces failure is that the
+sector is hard (dispersion plus invisibility), while a
+\(\widetilde Z\)-explanation by itself is always available, e.g.\
+\(\widetilde Z=X\).
+Proposition~\ref{ian:phase-label-flat-components} gives a sufficient
+condition for a label-only explanation, and
+Proposition~\ref{ian:phase-label-simplex-counterexample} shows it is not
+automatic. No claim is made that \(\mu_z(\cdot\mid H)\in\mathcal C\): a
+hard sector is an arbitrary event, and only the original component
+error and domination by \(1/\mu(H)\) are used.
+\end{remark}
+
+\begin{proposition}[A sufficient condition for a label-only statement]
+\label{ian:phase-label-flat-components}
+Let \(g(Z)=\E[Q\mid Z]\) and \(v=\E\Var(Q\mid Z)=\E(Q-g(Z))^2\). For a
+sector of mass \(w=\mu(H)>0\) put \(g_H(Z)=\E[Q\mid Z,H]\). Then
+\[
+ \E_H\Var(Q\mid Z,H)\le v/w,
+ \qquad
+ \Var_Hg_H\ge\Var_HQ-v/w.
+ \tag{20.11}\label{ian:phase-label-flat-variance}
+\]
+If \(\operatorname{Hard}(Q,\mu(\cdot\mid H);t,a,\gamma)\), then
+\[
+ |\Cov_H(g_H,F)|\le\gamma+\sqrt{v/w}
+ \qquad(F\in\mathcal F_t).
+ \tag{20.12}\label{ian:phase-label-flat-covariance}
+\]
+In particular \(v\le wa^2/4096\) gives a label-only version of
+\eqref{ian:phase-label-variance-explanation}--%
+\eqref{ian:phase-label-explained-signal-hidden}. More generally, for any
+\(g(Z)\in[0,1]\) with \(e=\E|Q-g(Z)|\),
+\[
+ \left|
+ \inf_{D\in\mathcal D_t}\E|D(X)-g(Z)|
+ -\ell_\mu(t,Q)
+ \right|\le e,
+ \tag{20.13}\label{ian:phase-label-pure-target-comparison}
+\]
+so a classical label-target lower bound \(e+\Delta\) gives an
+acceptance-simulation lower bound \(\Delta\).
+\end{proposition}
+
+\begin{proof}
+On \(H\) the predictor \(g(Z)\) has squared loss at most \(v/w\), and
+\(g_H\) has no larger loss. Total variance and Cauchy--Schwarz, as in the
+preceding proof, give the first two claims; the last is the triangle
+inequality.
+\end{proof}
+
+Component simulability does not give \(v\) small: a shallow component
+tree may read an essential random input bit.
+
+In the instances below, \(m\ge2\) is even, \(n=2^m\), \(h\) is the bent
+quadratic and \(Q\) is the one-query acceptance function, called \(P\)
+in Section~\ref{ian:hard-sector-instances}; put
+\(\bar h=\E h(A)=(1-n^{-1/2})/2\) for uniform \(A\).
+
+\begin{proposition}[A hard sector with negligible between-label variance]
+\label{ian:phase-label-simplex-counterexample}
+Take \(\mu=U_{C_n}\), so \(Q(c_A)=h(A)\), with the
+\(\mathcal U\)-decomposition \eqref{ian:phase-label-simplex} and label
+\(\xi\). Then
+\[
+ \Var Q=\frac{1-1/n}{4},
+ \qquad
+ \Var\bigl(\E[Q\mid\xi]\bigr)
+ =\frac14\left(\frac1{m+1}-\frac1n\right).
+ \tag{20.14}\label{ian:phase-label-small-between}
+\]
+Every component computes \(Q\) exactly with one query, yet the fraction
+of variance explained by \(\xi\) tends to zero, while \(H=C_n\) is a
+weight-one hard sector: \(\operatorname{Hard}(Q,U_{C_n};t,3/16,1/8)\) for
+\(n\ge16\), \(t\le m/2-2\).
+\end{proposition}
+
+\begin{proof}
+Write \(f=(-1)^h\). Flipping coordinate \(i\) of \(A\) multiplies \(f\)
+by \((-1)^{A_{i'}}\), \(i'\) the paired coordinate, so
+\[
+ \E[f(A)\mid\xi]
+ =\frac{f(\xi)}{m+1}\Bigl(1+\sum_{i=1}^m(-1)^{\xi_i}\Bigr),
+ \qquad
+ \E\bigl(\E[f(A)\mid\xi]\bigr)^2=\frac1{m+1},
+ \qquad
+ \E f(A)=n^{-1/2},
+\]
+which gives \eqref{ian:phase-label-small-between} via \(Q=(1-f)/2\).
+Coordinate universality gives the one-query component simulator, and
+hardness is Proposition~\ref{ian:hard-sector-character-instance}, with
+covariance at most \((2^t-1)/(2\sqrt n)\) by
+Lemma~\ref{ian:hard-sector-orbit-covariance}.
+\end{proof}
+
+This refutes automatic between-label concentration on a supplied hard
+sector, even for a hereditary decomposition with growing component
+min-entropy. It does not exclude some other sector with larger
+between-label variance; hard-sector extraction supplies no such sector.
+
+\begin{proposition}[Character and noisy-character obstructions]
+\label{ian:phase-label-character-noisy-instances}
+For \(U_{C_n}\), one quantum phase query followed by a Walsh transform
+returns \(A\), and accepting when \(h(A)=1\) gives \(Q\). Every classical
+depth-\(t\) predictor \(D\) of \(h(A)\) satisfies
+\[
+ \E|D-h(A)|\ge\frac{1-2^{t-m/2}}2.
+ \tag{20.15}\label{ian:phase-label-clean-bound}
+\]
+For \((1-w_n)U_n+w_nU_{C_n}\) the sector \(C_n\) has mass
+\(w_n+(1-w_n)n2^{-n}\), at least \(1/2\) in the Gibbs realization at
+\(\beta\ge1\) (Proposition~\ref{ian:hard-sector-character-instance}).
+
+For the noisy law \(X=(-1)^Bc_A\eta\), \(\E\eta_z=\rho\in(0,1)\), put
+\(g_\rho(A)=\bar h+\rho^2(h(A)-\bar h)\). Then
+\[
+ \E[Q\mid A,B]=g_\rho(A),\qquad
+ \E(Q-g_\rho(A))^2=\frac{2\bar h(1-\bar h)(1-\rho^4)}n,\qquad
+ \Var g_\rho=\rho^4\bar h(1-\bar h).
+ \tag{20.16}\label{ian:phase-label-noisy-flatness}
+\]
+Every depth-\(t\) tree satisfies
+\(\E|D-g_\rho(A)|\ge\frac{\rho^2}{2}(1-2^{t-m/2})\), hence
+\[
+ \E|D-Q|
+ \ge\frac{\rho^2}{2}(1-2^{t-m/2})
+ -\sqrt{\frac{2\bar h(1-\bar h)(1-\rho^4)}n}.
+ \tag{20.17}\label{ian:phase-label-noisy-bound}
+\]
+\end{proposition}
+
+\begin{proof}
+After the noise and global sign are granted, a depth-\(t\) transcript
+imposes at most \(t\) linear equations on uniform \(A\), i.e.\ restricts
+it to an affine subspace of codimension \(c\le t\). There
+\(|\E(-1)^{h(A)}|\le2^{c-m/2}\), since all Walsh coefficients of
+\((-1)^h\) have magnitude \(2^{-m/2}\); the best leaf output then has
+error at least \((1-2^{t-m/2})/2\). The noisy target takes two values
+\(\rho^2\) apart, giving its bound.
+
+By the proof of Lemma~\ref{ian:hard-sector-orbit-covariance},
+\(Q(\sigma c_A\eta)=\sum_bp_bh(A+b)\) with \(p_b=\widehat\eta(b)^2\).
+For independent \(\eta_z\) of mean \(\rho\),
+\(\E p_0=\rho^2+(1-\rho^2)/n\) and \(\E p_b=(1-\rho^2)/n\) for \(b\ne0\);
+since \(\sum_bh(A+b)=n\bar h\), this gives \(\E[Q\mid A,B]=g_\rho(A)\).
+The repo formula \(\Var Q=\bar h(1-\bar h)[\rho^4+2(1-\rho^4)/n]\) (proof of
+Proposition~\ref{ian:hard-sector-soft-instance}, from
+Theorem~\ref{threshold:noisy-query-theorem}) and total variance give the
+rest of \eqref{ian:phase-label-noisy-flatness}; Cauchy--Schwarz gives
+\eqref{ian:phase-label-noisy-bound}.
+\end{proof}
+
+For noisy inputs the Walsh measurement returns \(A\) with probability
+\(\E p_0=\rho^2+(1-\rho^2)/n\); the obstruction concerns the acceptance
+probability, not exact recovery. The hard target \(h(A)\) is nonlinear:
+every parity \(u\cdot A\) is the single clean coordinate \(c_A(u)\), so
+the advantage is not recovery of a classically hidden linear parity.
+
+\begin{proposition}[The soft-code phase label]
+\label{ian:phase-label-soft-instance}
+Use the joint law \eqref{ian:phase-label-soft-joint}, with
+\(V=(-1)^Bc_A\), at fixed \(\beta,L>0\), \(\rho=\tanh(\beta L)\), and
+\(\tau_n\) as in Proposition~\ref{ian:hard-sector-soft-instance}. Then
+\[
+ \E_\mu(Q-g_\rho(A))^2
+ \le \frac{2\bar h(1-\bar h)(1-\rho^4)}n+\tau_n,
+ \tag{20.18}\label{ian:phase-label-soft-flatness}
+\]
+and \eqref{ian:phase-label-noisy-bound} holds on \(\mu\) with an
+additional loss \(\tau_n\). Using \(s_U\), the components are
+uniformly simulable (item 3 after
+Lemma~\ref{ian:phase-label-close-products}).
+\end{proposition}
+
+\begin{proof}
+The joint law \eqref{ian:phase-label-soft-joint} has density
+\(\omega(X)\) relative to the noisy joint law of \((V,X)\), so the two
+joint laws are at the TV distance of their \(X\)-marginals, at most
+\(\tau_n\). Transfer the bounded squared and absolute losses.
+\end{proof}
+
+For the set-sector formulation and free-energy gap of the soft code see
+Proposition~\ref{ian:hard-sector-soft-instance} in
+\path{ian/17_hard_sector_instances.tex}; TV comparison alone is not a
+domination statement, and that set-sector argument avoids the issue.
+
+\begin{proposition}[Local orbit families]
+\label{ian:phase-label-local-instance}
+Let \(H\) and \(k\) be as in Proposition~\ref{ian:hard-sector-local-instances}
+(\(n\ge16\), \(\delta_n<1\)). On \(H\), write
+\(X_{\rm vis}=\sigma c_A\eta\) with \(c_A\) the nearest character and
+\(|\{z:\eta_z=-1\}|<n/32\). Then \(|Q(X)-h(A)|\le1/8\) on \(H\), and
+every depth-\(t\) tree \(D\) on all physical spins satisfies
+\[
+ \E_H|D-Q|
+ \ge\frac{1-2^{kt-m/2}}2-\frac18.
+ \tag{20.19}\label{ian:phase-label-local-bound}
+\]
+For the bounded-degree families (sparse three-local, pairwise,
+zero-field), the independent-set pinning decomposition (item 5 after
+Lemma~\ref{ian:phase-label-close-products}), with \(I\) a set of
+visible spins of size at most \(n/8\), is \(\mathcal C_\cup\)-admissible
+(using \(s_U\)), its label determines \(h(A)\) on \(H\), and at
+least a fraction \(15/17\) of \(\Var_HQ\) is between its labels.
+\end{proposition}
+
+\begin{proof}
+With \(p_0=\widehat\eta(0)^2\ge225/256\) (proof of
+Lemma~\ref{ian:hard-sector-orbit-covariance}),
+\(|Q-h(A)|\le1-p_0<1/8\). Conditional on \(H\), \(A\) is uniform and
+independent of the side information, and after it is granted each
+physical query costs at most \(k\) linear queries to \(A\): this is the
+proof of Proposition~\ref{ian:hard-sector-local-instances}, from
+Lemma~\ref{res:orbit-lemma} and, for the zero-field family,
+Section~\ref{res:zero-field}. The argument for
+\eqref{ian:phase-label-clean-bound} with \(kt\) equations and the
+triangle inequality give \eqref{ian:phase-label-local-bound}.
+
+For the last assertion, with \(d\) the primal degree of item 5, take
+\(I\) among the visible spins with \(n/(d+1)\wedge n/8\le|I|\le n/8\).
+Distinct signed characters differ in at least \(n/2\) coordinates, hence
+in at least \(3n/8\) outside \(I\), while the visible input has fewer
+than \(n/32\) errors. So the label \(X_{I^c}\) determines the nearest
+signed character, hence \(h(A)\), on \(H\), and
+\(\E_H\Var(Q\mid Z,H)\le\E_H(Q-h(A))^2\le1/64\). With
+\(\Var_HQ\ge17/128\) (Proposition~\ref{ian:hard-sector-local-instances}),
+the between-label fraction is at least \(1-\frac{1/64}{17/128}=15/17\).
+\end{proof}
+
+That pinning label is almost the whole input
+(Remark~\ref{ian:phase-label-what-admissibility-excludes}), so this is
+not a natural phase label. For the dense three-local family only the
+\(\mathcal U\)-decomposition (item 4) is available here; uniform
+hereditary simulation of its natural fixed-\(A\) components is not
+proved.
+
+\begin{remark}[In which sense each instance is an obstruction]
+\label{ian:phase-label-instance-senses}
+\emph{Clean code \(U_{C_n}\): only in the \(\widetilde Z\)-sense.} The
+natural \(A\)-decomposition is atomic, hence not admissible; the
+admissible \(\mathcal U\)-decomposition has negligible between-label
+variance \eqref{ian:phase-label-small-between} on the sector \(C_n\), so
+no label-only explanation holds on that sector. This is a statement
+about the sector \(C_n\) only; on other hard sectors the simplex label
+may carry more of \(Q\). Theorem~\ref{ian:phase-label-hard-sector-converse} applies
+with \(\widetilde Z=(\xi,\text{one-query transcript})\), which determines
+\(Q\).
+
+\emph{Noisy code, label \((A,B)\): label-only.} Take \(H=\Omega_n\),
+\(w=1\), and \(\operatorname{Hard}(Q,\nu_{n,\rho};t,a,\rho^4/16)\) with
+\(a=3\rho^4/16\), valid when \(2^t/\sqrt n\le\rho^4/16\)
+(Proposition~\ref{ian:hard-sector-soft-instance}). By
+\eqref{ian:phase-label-noisy-flatness}, \(v\le1/(2n)\le a^2/4096\) once
+\(n\ge2^{19}/(9\rho^8)\). Then
+\eqref{ian:phase-label-flat-variance}--\eqref{ian:phase-label-flat-covariance}
+give \(\Var g_\rho\ge\Var Q-a^2/4096\) and
+\(|\Cov(g_\rho,F)|\le\rho^4/16+a/64\) for \(F\in\mathcal F_t\).
+
+\emph{Soft code, label \(V\): label-only.} Take the set \(G\) of
+Proposition~\ref{ian:hard-sector-soft-instance}: \(w=\mu(G)\ge1-b_n-\tau_n\),
+\(a=\rho^4/8\), \(\gamma=\rho^4/16\). By
+\eqref{ian:phase-label-soft-flatness}, \(v\le1/(2n)+\tau_n\to0\), while
+\(wa^2/4096\ge(1-b_n-\tau_n)\rho^8/2^{18}\to\rho^8/2^{18}\). Hence
+\(v\le wa^2/4096\) for all large \(n\), and
+\eqref{ian:phase-label-flat-variance}--\eqref{ian:phase-label-flat-covariance}
+hold on \(G\) with \(\sqrt{v/w}\le a/64\).
+
+\emph{Local families.} Equation~\eqref{ian:phase-label-local-bound} is a
+label-target bound in the sense of
+\eqref{ian:phase-label-pure-target-comparison}, with \(g=h(A)\) and
+\(e\le1/8\); the bounded-degree pinning label explains most variance but
+is not a phase label.
+\end{remark}
+
+\begin{proposition}[Exchangeability and Curie--Weiss are positive cases]
+\label{ian:phase-label-positive-instances}
+Use the uniform-input simulator \(s_U\), supplied by
+Corollary~\ref{cor:resolution-product-alphabet-aa}. Every exchangeable
+input law has full AA, with
+one polynomial uniform over all exchangeable laws, without recovering
+the Hamming-weight label: for \(k=\lfloor n/2\rfloor\), the slices \(k\)
+and \(k+1\) are indistinguishable with constant advantage by \(o(n)\)
+queries.
+
+For fixed \(\beta>1\), the Curie--Weiss law
+\(\mu_{\beta,n}(x)\propto\exp\bigl(\frac{\beta}{2n}(\sum_ix_i)^2\bigr)\)
+has a \(\mathcal C_\cup\)-admissible two-phase decomposition with
+exchangeable components, and its phase sign is learnable at error
+\(\delta'\) with \(O_\beta(\log(1/\delta'))\) queries.
+\end{proposition}
+
+\begin{proof}
+The exchangeable theorem \ref{exch:heading-2} supplies one tree of cost
+polynomial in \((T,\varepsilon^{-1})\) for every slice, hence for every
+mixture of slices. For the slices, couple \(X\sim U_{n,k}\) with \(X'\)
+obtained by flipping a uniformly chosen zero of \(X\); then
+\(X'\sim U_{n,k+1}\), and a depth-\(t\) tree sees a difference only if it
+queries the flipped position, which has probability at most
+\(t/(n-k)\).
+
+For Curie--Weiss, let \(\mathfrak h(p)=-p\log p-(1-p)\log(1-p)\),
+\(\phi(y)=\mathfrak h(\frac{1+y}2)+\frac\beta2y^2\), and let
+\(m_\beta\in(0,1)\) solve \(m_\beta=\tanh(\beta m_\beta)\). The mass of
+\(\{\sum_ix_i=ny\}\) is \(\binom n{n(1+y)/2}e^{\beta ny^2/2}\) divided by
+the normalizer, and
+\((n+1)^{-1}e^{n\mathfrak h(j/n)}\le\binom nj\le e^{n\mathfrak h(j/n)}\).
+The function \(\phi\) is even, with
+\(\phi'(y)=\beta y-\operatorname{artanh}y>0\) on \((0,m_\beta)\), because
+\(\tanh(\beta y)>y\) there. So
+\(\sup_{|y|\le m_\beta/2}\phi=\phi(m_\beta/2)<\phi(m_\beta)\). An
+attainable \(y_n\) lies within \(2/n\) of \(m_\beta\), and \(\phi\) is
+Lipschitz, with constant \(c_\beta'\), on
+\([m_\beta/2,(1+m_\beta)/2]\); hence, for all large \(n\) and after
+enlarging \(C_\beta\) for the others,
+\[
+ \mu_{\beta,n}\Bigl\{\bigl|\textstyle\sum_iX_i\bigr|<nm_\beta/2\Bigr\}
+ \le(n+1)^2e^{2c_\beta'}e^{-n(\phi(m_\beta)-\phi(m_\beta/2))}
+ \le C_\beta e^{-c_\beta n}.
+\]
+
+Let the label be the sign of \(\sum_ix_i\), with ties assigned to
+\(+\). This is a function of \(x\), the two components are exchangeable,
+and by the symmetry \(x\mapsto-x\) and the display each has mass at
+least \(1/4\) for large \(n\). The conditional field on a spin given the
+others is \(\frac\beta n\sum_{j\ne i}x_j\in(-\beta,\beta)\), so every
+chain-rule factor of \(\mu_{\beta,n}\) is at most
+\((1+e^{-2\beta})^{-1}\), and the component atoms are at most
+\(4(1+e^{-2\beta})^{-n}\). With Proposition~\ref{ian:phase-label-union-class}
+the decomposition is \(\mathcal C_\cup\)-admissible.
+
+Outside the displayed event, the majority of \(j\) coordinates sampled
+with replacement has the correct sign except with probability at most
+\(\exp(-jm_\beta^2/8)\), by Hoeffding. Take
+\(j=\lceil8m_\beta^{-2}\log(2/\delta')\rceil\). When
+\(C_\beta e^{-c_\beta n}>\delta'/2\), \(n=O_\beta(\log(1/\delta'))\), and
+reading all spins determines the label. Averaging fixes the sampling
+coins.
+\end{proof}
+
+The two positive mechanisms differ: the Curie--Weiss phase sign is
+learnable, so Theorem~\ref{ian:phase-label-elimination} applies with a
+surrogate label, whereas exchangeable simulation uses one predictor
+compatible with all slice labels. Neither uses rapid Glauber mixing.

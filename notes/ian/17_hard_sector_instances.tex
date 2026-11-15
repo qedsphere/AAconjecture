@@ -1,7 +1,7 @@
 \subsection{Explicit hard sectors in the repo's counterexamples}
 \label{ian:hard-sector-instances}
 
-Status: proved for the listed instances, including covariance bounds with access to all physical spins and a domination repair for the soft-code law.
+Status: proved for the listed instances, including covariance bounds with access to all physical spins and a domination repair for the soft-code law. The hardness, mass and gap statements rest only on repo results. The full-AA classifications quoted from Theorem~\ref{threshold:weight-criterion} and Section~\ref{sec:resolution-nonmonotone} are unconditional: those proofs use uniform-input AA only through a uniform-input simulator, which Corollary~\ref{cor:resolution-product-alphabet-aa} supplies, importing only inequality (BC) of Huffstutler--Miloschewsky--Podder (arXiv:2611.12795).
 
 Throughout, \(m\ge2\) is even, \(n=2^m\), and
 \[
@@ -40,9 +40,9 @@ queries to \(A\). Then
 \]
 If \(\eta\) always has fewer than \(n/32\) negative coordinates, then
 \[
- \Var P\ge\left(\frac{97}{128}\right)^2r(1-r).
+ \Var P\ge\left(\frac{97}{128}\right)^2r(1-r),
 \]
-Consequently, if in addition \(\eta\) always has fewer than \(n/32\) negative coordinates, then for \(n\ge16\) and \(kt\le m/2-2\),
+and consequently, for \(n\ge16\) and \(kt\le m/2-2\),
 \[
  \operatorname{Hard}\left(
  P,\mathcal L(\text{all physical spins});
@@ -90,20 +90,19 @@ gives
  \ge\frac{97}{128}\sqrt{r(1-r)}.
 \]
 The conditional mean is always \(r\), so averaging proves the bound.
-For \(n\ge16\),
+For \(n\ge16\) and \(kt\le m/2-2\), since \(r(1-r)\ge15/64\) and
+\(2^{kt}\le\sqrt n/4\),
 \[
  \left(\frac{97}{128}\right)^2r(1-r)
  \ge\frac{141135}{1048576}>\frac{17}{128},
- \qquad c_{m,kt}\le\frac18.
+ \qquad c_{m,kt}\le\frac18<\frac{17}{128}.
 \]
-Finally \(1/8<17/128\).
 \end{proof}
 
-This lemma obtains the covariance condition directly from the proof
-of Lemma~\ref{res:orbit-lemma} in
-\path{obstructions/local_codes/01_character_orbit_lemma.tex}.
-An \(L^1\) approximation lower bound alone would not justify that
-condition.
+The covariance condition comes directly from the proof of
+Lemma~\ref{res:orbit-lemma} in
+\path{obstructions/local_codes/01_character_orbit_lemma.tex}; an
+\(L^1\) approximation lower bound alone would not give it.
 
 \begin{proposition}[The character code and arbitrary mixture weights]
 \label{ian:hard-sector-character-instance}
@@ -146,7 +145,7 @@ the same set sector has weight
 \[
  p_n=w_n+(1-w_n)\delta_n.
 \]
-Assuming uniform-input AA, this family has full AA exactly when
+This family has full AA exactly when
 \[
  \exists a,C>0\quad
  m\le Cw_n^{-a}\quad\text{at every index with }w_n>0.
@@ -168,9 +167,15 @@ Section~\ref{qm:exact-mixture-identity-and-transition-width}.
 For arbitrary mixture weights, conditioning on the code again gives
 \(U_C\), with the displayed actual mass. The full-AA equivalence is
 Theorem~\ref{threshold:weight-criterion} in
-\path{obstructions/noisy_codes/04_energy_entropy_and_schedules.tex};
-its sufficiency uses uniform-input AA, while its necessity uses the
-one-query lower bound.
+\path{obstructions/noisy_codes/04_energy_entropy_and_schedules.tex}.
+Its necessity uses only the one-query lower bound. Although that
+theorem is stated under uniform-input AA, its sufficiency proof uses
+only a deterministic uniform-input simulator with mean error \(e\) and
+cost \(S_0(T,1/e)\). Corollary~\ref{cor:resolution-product-alphabet-aa},
+applied to the uniform product law, supplies one with
+\(S_0(T,1/e)=O(T^6e^{-15})\). That proof's cost is then
+\(C(2/\varepsilon)^a+\lceil\log_2(4/\varepsilon)\rceil
++O(T^6\varepsilon^{-15})\), and the equivalence holds unconditionally.
 \end{proof}
 
 A mixture alone has no specified temperature or free energy. If
@@ -256,11 +261,13 @@ For this fixed \(H\), at fixed \(\beta>0\),
 Thus \([1,2]\) is exactly the fixed-temperature band on which this
 hard sector has a dimension-uniform free-energy gap. Its hidden signal
 remains hard on the conditional law outside the band, but its mass
-vanishes. Assuming uniform-input AA,
-Section~\ref{sec:resolution-nonmonotone} proves full AA outside the
-band and failure throughout the band, including both endpoints.
-This is a hard free-energy band, with no monotonicity in inverse
-temperature.
+vanishes. Section~\ref{sec:resolution-nonmonotone} proves full AA
+outside the band and failure throughout the band, including both
+endpoints. Its only use of uniform-input AA is a uniform-input
+simulator at error \(e/2\) for \(0\le\beta<1\), supplied by
+Corollary~\ref{cor:resolution-product-alphabet-aa}, so this
+classification is unconditional. This is a hard free-energy band, with
+no monotonicity in inverse temperature.
 
 \begin{proposition}[Noisy and soft character codes]
 \label{ian:hard-sector-soft-instance}
@@ -362,8 +369,8 @@ For laws \(\lambda,\lambda'\) at TV distance \(d\), a bounded
 \[
  |\Var_\lambda P-\Var_{\lambda'}P|\le d.
 \]
-Indeed, use
-\(\Var_\lambda P=\min_{c\in[0,1]}\E_\lambda(P-c)^2\).
+Indeed, \(\Var_\lambda P=\min_{c\in[0,1]}\E_\lambda(P-c)^2\), and each
+\((P-c)^2\) takes values in \([0,1]\).
 For \(F\in[-1,1]\), expansion of the two covariances gives
 \[
  |\Cov_\lambda(P,F)-\Cov_{\lambda'}(P,F)|\le5d:
@@ -405,11 +412,10 @@ weight \(r_-/(1+e_n)\), and
  \frac1\beta D_\infty(q\|\mu)
  \le\frac{\log(1+e_n)+(1-\beta)_+\log(2n)}{\beta}.
 \]
-At \(\beta=1\), \(\mu=q\) exactly. For \(0<\beta<1\) this certificate
+At \(\beta\ge1\) the certified weight is \(1/(1+e_n)\), and at
+\(\beta=1\), \(\mu=q\) exactly. For \(0<\beta<1\) this certificate
 has a polynomial loss in \(n\); the preceding set-sector argument
-instead gives mass tending to one. The needed domination estimate
-is therefore available from the repo's pointwise power bounds, even
-though its stated comparison theorem is in TV distance.
+instead gives mass tending to one.
 
 \begin{proposition}[Local families, including every auxiliary and reference spin]
 \label{ian:hard-sector-local-instances}
@@ -511,9 +517,8 @@ linear queries. These are exactly the all-spin reductions established
 in the cited repo proofs.
 
 Apply Lemma~\ref{ian:hard-sector-orbit-covariance} to each conditional
-law. Its constants give dispersion \(17/128\), covariance at most
-\(1/8\), and a positive difference \(1/128\). The mass and gap
-statements follow from the partition identity.
+law; it gives dispersion \(17/128\) and covariance at most \(1/8\).
+The mass and gap statements follow from the partition identity.
 \end{proof}
 
 For clarity, the partition sums in this proposition are over all

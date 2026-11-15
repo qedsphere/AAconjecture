@@ -1,234 +1,33 @@
-\subsection{Polynomial hard-sector extraction by real-valued regularity}
+\subsection{Extraction parameters, dispersion, and sampling}
 \label{ian:hard-sector-smooth}
 
-Status: an explicit polynomial version of both smooth and set extraction is proved below; the literal requirement that the same exponent \(C\) occur in every parameter of H1 remains unresolved here.
+Status: proved, with no quantum property and no uniform-AA hypothesis: the dispersion trade-off (Corollary~\ref{ian:hard-sector-general-tradeoff}), the bound \(a_0(\varepsilon)\le4\varepsilon^2\) on the dispersion guaranteed by any extraction whose depth depends only on \((\varepsilon,\eta,t)\) and which covers all \(Q:\Omega_n\to[0,1]\) under the uniform law (Proposition~\ref{ian:hard-sector-dispersion-order}), and a dimension-free sampling bound for mixtures of predictors (Remark~\ref{ian:hard-sector-minimax-sampling}). Open: the literal H1 form with one exponent \(C\) in every parameter.
 
-The argument uses squared error as a bounded potential and concludes
-with an \(L^1\) approximation. All functions \(Q:\Omega_n\to[0,1]\)
-are allowed. No quantum property is used. The construction is the standard energy-increment, or multicalibration, argument: compare the regularity lemma of Trevisan--Tulsiani--Vadhan (CCC 2009), the multicalibration algorithm of H\'ebert-Johnson--Kim--Reingold--Rothblum (ICML 2018), and its hardcore consequence in Casacuberta--Dwork--Vadhan (STOC 2024, arXiv:2312.17223) (from literature; only the last abstract was checked). What is specific here is the adaptation to real-valued \(Q\), \(L^1\) loss, variance as the dispersion measure, and explicit query depth.
-
-\begin{theorem}[An explicit regularity alternative]
-\label{ian:hard-sector-regularity}
-For every \(n\ge1\), probability law \(\mu\) on \(\Omega_n\),
-function \(Q:\Omega_n\to[0,1]\), integer \(t\ge1\), and parameters
-\[
- 0<\gamma<a\le1/4,\qquad 0<w\le1,
-\]
-define
-\[
- M=\left\lceil\frac1\gamma\right\rceil,
- \qquad
- K=\left\lceil\frac1{w\gamma^2}\right\rceil.
-\]
-At least one of the following holds:
-\[
- \begin{gathered}
- \text{there is }H\subseteq\Omega_n,\quad \mu(H)\ge w,\quad
- \operatorname{Hard}(Q,\mu(\cdot\mid H);t,a,\gamma);
- \\[2mm]
- \ell_\mu(Kt,Q)\le\sqrt a+Mw.
- \end{gathered}
-\]
-\end{theorem}
-
-\begin{proof}
-Partition \([0,1]\) into \(M\) intervals \(I_1,\ldots,I_M\) of length
-\(1/M\), taking intervals half-open except for the last one. Let \(c_j\)
-be the midpoint of \(I_j\). In particular,
-\[
- |z-c_j|\le\frac1{2M}\le\frac\gamma2
- \qquad(z\in I_j).
-\]
-
-We construct a predictor \(g:\Omega_n\to[0,1]\).
-Initially \(g\equiv1/2\). Throughout the construction, \(g\) is an
-arbitrary function of the outputs of the shallow tests already chosen.
-Thus, after \(k\) updates, \(g\) and every function of \(g\) are
-computable using at most \(kt\) queries, by
-Lemma~\ref{ian:hard-sector-tree-closure}.
-
-For the current predictor define
-\[
- H_j=\{x:g(x)\in I_j\},\qquad p_j=\mu(H_j).
-\]
-For \(p_j>0\), write
-\[
- \nu_j=\mu(\cdot\mid H_j),\qquad
- m_j=\E_{\nu_j}Q,\qquad v_j=\Var_{\nu_j}Q.
-\]
-Call \(j\) active when \(p_j\ge w\) and \(v_j\ge a\).
-
-If an active \(j\) satisfies
-\(\operatorname{Hard}(Q,\nu_j;t,a,\gamma)\), return \(H_j\).
-If an active \(j\) is not hard, there exists a test
-\(F\in\mathcal F_t\) with covariance of absolute value greater than
-\(\gamma\). Negating \(F\), if necessary, gives
-\[
- \Cov_{\nu_j}(Q,F)>\gamma.
-\]
-One may choose a Boolean-valued test by
-Lemma~\ref{ian:hard-sector-tree-closure}.
-
-Put
-\[
- h=F-\E_{\nu_j}F.
-\]
-Then
-\[
- \E_{\nu_j}h=0,\qquad
- \E_{\nu_j}h^2=\Var_{\nu_j}F\le1,\qquad
- \E_{\nu_j}|h|\le1.
-\]
-It follows that
-\[
- \begin{aligned}
- \E_{\nu_j}[(Q-g)h]
- &=\Cov_{\nu_j}(Q,F)
-   -\E_{\nu_j}[(g-c_j)h]\\
- &>\gamma-\frac1{2M}\E_{\nu_j}|h|
- \ge\frac\gamma2.
- \end{aligned}
-\]
-Update the predictor by
-\[
- g'=\operatorname{clip}_{[0,1]}
-       \left(g+\frac\gamma2\mathbf1_{H_j}h\right).
-\]
-This is a function of the previous tests and the one additional
-depth-\(t\) test \(F\). The conditional expectation appearing in \(h\)
-is a fixed real constant and costs no queries.
-
-Consider the potential
-\[
- \Phi(g)=\E_\mu(Q-g)^2.
-\]
-Projection onto \([0,1]\) cannot increase distance to \(Q(x)\).
-Outside \(H_j\) the predictor is unchanged. Therefore
-\[
- \begin{aligned}
- \Phi(g')-\Phi(g)
- &\le p_j\left(
-   -\gamma\,\E_{\nu_j}[(Q-g)h]
-   +\frac{\gamma^2}{4}\E_{\nu_j}h^2\right)\\
- &<-\frac{p_j\gamma^2}{4}
- \le-\frac{w\gamma^2}{4}.
- \end{aligned}
-\]
-Initially \(\Phi(g)\le1/4\), and the potential is always nonnegative.
-Performing \(K\) updates would give
-\[
- \Phi(g_K)<\frac14-\frac{Kw\gamma^2}{4}\le0,
-\]
-which is impossible. Hence fewer than \(K\) updates occur before the
-construction returns a hard set or reaches a predictor with no active
-bin.
-
-In the latter case define
-\[
- D(x)=m_j\qquad\text{when }g(x)\in I_j
-\]
-for every positive-mass bin; use any output in \([0,1]\) on
-zero-mass bins. This is a function of the previously chosen tests and
-has depth at most \(Kt\).
-
-Every bin with \(v_j\ge a\) has \(p_j<w\), since there are no active
-bins. Their total mass is at most \(Mw\). On every other bin,
-conditional Cauchy--Schwarz gives
-\[
- \E_{\nu_j}|Q-m_j|\le\sqrt{v_j}\le\sqrt a.
-\]
-Since the loss is at most one on the remaining bins,
-\[
- \E_\mu|Q-D|
- \le \sum_{j:v_j<a}p_j\sqrt{v_j}
-      +\sum_{j:v_j\ge a}p_j
- \le\sqrt a+Mw.
-\]
-This proves the alternative.
-\end{proof}
-
-\begin{corollary}[Explicit polynomial smooth and set extraction]
-\label{ian:hard-sector-explicit}
-For every \(n\ge1\), probability law \(\mu\) on \(\Omega_n\),
-function \(Q:\Omega_n\to[0,1]\), integer \(t\ge1\), and parameters
-\[
- 0<\varepsilon<1/8,\qquad 0<\eta\le1/4,
-\]
-put
-\[
- L_*=\left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil t.
-\]
-If \(\ell_\mu(L_*,Q)>\varepsilon\), there exists
-\(H\subseteq\Omega_n\) such that
-\[
- \mu(H)\ge\frac{\eta\varepsilon^3}{16},
- \qquad
- \operatorname{Hard}\left(
- Q,\mu(\cdot\mid H);
- t,\frac{\varepsilon^2}{4},
- \frac{\eta\varepsilon^2}{4}\right).
-\]
-In particular, the same conclusion holds for a smooth law satisfying
-\[
- \nu\le\frac{16}{\eta\varepsilon^3}\,\mu.
-\]
-These assertions hold for arbitrary atomic laws.
-\end{corollary}
-
-\begin{proof}
-Apply Theorem~\ref{ian:hard-sector-regularity} with
-\[
- a=\frac{\varepsilon^2}{4},\qquad
- \gamma=\eta a,\qquad
- M=\left\lceil\frac1\gamma\right\rceil,\qquad
- w=\frac{\varepsilon}{2M}.
-\]
-The approximation alternative has error at most
-\[
- \sqrt a+Mw=\frac\varepsilon2+\frac\varepsilon2=\varepsilon.
-\]
-Since \(0<\gamma<1\), one has \(M\le2/\gamma\). Consequently,
-\[
- w\ge\frac{\varepsilon\gamma}{4}
-   =\frac{\eta\varepsilon^3}{16}
-\]
-and
-\[
- K=\left\lceil\frac{2M}{\varepsilon\gamma^2}\right\rceil
- \le\left\lceil\frac4{\varepsilon\gamma^3}\right\rceil
- =\left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil.
-\]
-Since \(K\le\lceil256\varepsilon^{-7}\eta^{-3}\rceil\), one has \(Kt\le L_*\), hence \(\ell_\mu(Kt,Q)\ge\ell_\mu(L_*,Q)>\varepsilon\).
-Thus the approximation alternative contradicts the assumed loss at
-depth \(L_*\), and the hard-set alternative must hold.
-The conditional law of that set is dominated by
-\(16\mu/(\eta\varepsilon^3)\).
-\end{proof}
+The notation is that of Subsection~\ref{ian:hard-sector-definitions-forward}.
+None of the results below is needed for
+Theorem~\ref{ian:hard-sector-aa-equivalence}.
 
 \begin{remark}[Why dispersion is obtained]
 \label{ian:hard-sector-dispersion-explanation}
-The final predictor in the proof is the conditional mean of \(Q\) on
-each score bin. It need not equal the predictor used in the potential.
-If every bin has variance below \(a\), these conditional means give
-\(L^1\) error at most \(\sqrt a\). More generally, bins of variance at
-least \(a\) but mass below \(w\) contribute at most \(Mw\).
-Thus approximation failure forces a bin with both sufficient mass and
-sufficient dispersion. This handles nearly constant acceptance
-functions directly.
-
-All conditional means and chosen tests may be computed during
-unrestricted preprocessing. This is permitted by the query model.
-The argument requires no hereditary simulation hypothesis of the kind
-used in Proposition~\ref{tht:reveal-prop}.
+The proof of Theorem~\ref{ian:hard-sector-regularity} bins one exactly
+calibrated predictor \(g\), and the final approximator is the conditional
+mean of \(Q\) on each score bin, not \(g\) itself. Low-variance bins cost at
+most \(\sqrt a\), and heavy bins of variance at least \(a\) are bad unless
+they are hard; so approximation failure forces a good bin with both mass
+at least \(w\) and variance at least \(a\). This handles nearly constant
+\(Q\) directly, and the hard sector is a set, so no smooth-to-set rounding
+is needed. All conditional means and tests are fixed in unrestricted
+preprocessing, and no hereditary simulation hypothesis of the kind used in
+Proposition~\ref{tht:reveal-prop} is needed.
 \end{remark}
 
 \begin{corollary}[A separately specified dispersion threshold]
 \label{ian:hard-sector-general-tradeoff}
-Under the same assumptions on \(n,\mu,Q,t,\varepsilon,\eta\), let
+Let \(t\ge1\), \(0<\varepsilon<1/8\), \(0<\eta\le1/4\), and
 \(0<b\le\varepsilon^2/4\). If
 \[
  \ell_\mu\left(
- \left\lceil\frac4{\varepsilon\eta^3b^3}\right\rceil t,Q
+ \left\lceil\frac2{\varepsilon\eta^2b^2}\right\rceil t,Q
  \right)>\varepsilon,
 \]
 then some set \(H\) satisfies
@@ -237,95 +36,126 @@ then some set \(H\) satisfies
  \qquad
  \operatorname{Hard}(Q,\mu(\cdot\mid H);t,b,\eta b).
 \]
+Corollary~\ref{ian:hard-sector-explicit} is the case
+\(b=\varepsilon^2/4\).
 \end{corollary}
 
 \begin{proof}
-Use \(a=b\), \(\gamma=\eta b\),
-\(M=\lceil1/\gamma\rceil\), and \(w=\varepsilon/(2M)\) in
-Theorem~\ref{ian:hard-sector-regularity}.
-Then \(\sqrt b+Mw\le\varepsilon\),
-\(w\ge\varepsilon\eta b/4\), and
-\[
- K\le\left\lceil\frac4{\varepsilon\eta^3b^3}\right\rceil.
-\]
-Since \(Kt\) does not exceed the stated depth, the approximation alternative is excluded exactly as in Corollary~\ref{ian:hard-sector-explicit}.
+Apply Theorem~\ref{ian:hard-sector-regularity} with \(a=b\),
+\(\gamma=\eta b\), \(M=\lceil1/\gamma\rceil\), \(w=\varepsilon/(2M)\) and
+\(K=\lceil2/(\varepsilon\gamma^2)\rceil=\lceil2/(\varepsilon\eta^2b^2)\rceil\).
+Then \(0<\gamma<a\le1/4\), \(w<1\), \(\sqrt b\le\varepsilon/2\),
+\(Mw/2=\varepsilon/4\) and \(1/(2K\gamma^2)\le\varepsilon/4\), so the
+approximation alternative has error at most \(\varepsilon\) and is
+excluded. As \(M\le2/\gamma\),
+\(w\ge\varepsilon\gamma/4=\varepsilon\eta b/4\).
 \end{proof}
 
 \begin{remark}[The literal common-exponent requirement]
 \label{ian:hard-sector-common-exponent-warning}
-Corollary~\ref{ian:hard-sector-explicit} proves a polynomial
-characterization with independently specified exponents:
-depth multiplier \(256\varepsilon^{-7}\eta^{-3}\), inverse weight at
-most \(16\varepsilon^{-3}\eta^{-1}\), and dispersion
-\(\varepsilon^2/4\). It does not establish the literal parameter form
+Corollary~\ref{ian:hard-sector-explicit} has independently specified
+exponents: depth multiplier \(32\varepsilon^{-5}\eta^{-2}\), inverse
+weight at most \(16\varepsilon^{-3}\eta^{-1}\), and dispersion
+\(\varepsilon^2/4\). It does not give the literal form
 \[
  L=\lceil C(\varepsilon\eta)^{-C}\rceil t,\qquad
  a_0=c\varepsilon^C,\qquad
- \gamma=\eta a_0.
+ \gamma=\eta a_0,
 \]
-Increasing an exponent to weaken the variance lower bound simultaneously
-strengthens the covariance requirement.
-
-This lack of monotonicity is substantive. For example, under the uniform
-law on \(\Omega_2\), fix \(0<\eta\le1/4\) and set
+and padding exponents does not reach it: lowering the variance threshold
+from \(a\) to \(b<a\) also tightens the covariance tolerance from
+\(\eta a\) to \(\eta b\), and \(\operatorname{Hard}\) is not monotone
+under this change. For example, under the uniform law on \(\Omega_2\),
+fix \(0<\eta\le1/4\) and set
 \[
  Q(x)=\frac12+\frac14x_1x_2+\frac{\eta}{16}x_1,
  \qquad a=\frac1{16}.
 \]
-Then \(Q\in[0,1]\),
-\[
- \Var Q=\frac1{16}+\frac{\eta^2}{256}\ge a,
- \qquad
- \sup_{F\in\mathcal F_1}|\Cov(Q,F)|=\frac{\eta}{16}=\eta a.
-\]
-Indeed, a depth-one test depends on a single coordinate, and the two
-coordinate covariances are \(\eta/16\) and zero.
+Then \(Q\in[0,1]\), \(\Var Q=\frac1{16}+\frac{\eta^2}{256}\ge a\), and,
+since a depth-one test is an affine function of one coordinate and the
+two coordinate covariances are \(\eta/16\) and \(0\),
+\(\sup_{F\in\mathcal F_1}|\Cov(Q,F)|=\eta/16=\eta a\).
 Hence \(\operatorname{Hard}(Q,\mu;1,a,\eta a)\) holds, but
 \(\operatorname{Hard}(Q,\mu;1,b,\eta b)\) fails for every \(0<b<a\).
 
-Applying Corollary~\ref{ian:hard-sector-general-tradeoff} with
-\(b=c\varepsilon^C\) instead gives depth proportional to
-\(\varepsilon^{-(3C+1)}\eta^{-3}\) and guaranteed weight proportional
-to \(\varepsilon^{C+1}\eta\). These powers cannot be replaced by the
-literal common exponent through monotonicity.
-
-This is an obstruction to that parameter-padding argument, not a
-counterexample to the existence of some universal \(c,C\).
-The literal common-exponent assertion remains unsettled here.
+Corollary~\ref{ian:hard-sector-general-tradeoff} with
+\(b=c\varepsilon^C\) gives depth proportional to
+\(\varepsilon^{-(2C+1)}\eta^{-2}\) and weight proportional to
+\(\varepsilon^{C+1}\eta\), not the common-exponent form.
+This obstructs only the padding argument; whether some universal
+\(c,C\) exist remains open here.
 \end{remark}
 
 \begin{proposition}[The dispersion scale cannot exceed order
 \(\varepsilon^2\)]
 \label{ian:hard-sector-dispersion-order}
-A universal extraction statement from \(L^1\) error
-\(\varepsilon\) cannot guarantee dispersion asymptotically larger than
-\(\varepsilon^2\). In particular, the literal H1 parameter form is
-impossible with \(C<2\).
+Let \(0<\varepsilon<1/8\), let \(n\ge1\), let \(\mu\) be uniform on
+\(\Omega_n\), and put \(Q(x)=\frac12+2\varepsilon\prod_{i=1}^nx_i\).
+Then \(\ell_\mu(d,Q)=2\varepsilon>\varepsilon\) for every \(d<n\), while
+\(\Var_\nu Q\le4\varepsilon^2\) for every law \(\nu\) on \(\Omega_n\).
+Consequently, any extraction statement that applies, for every \(n\),
+to the uniform law and to every \(Q:\Omega_n\to[0,1]\) (with no bound
+on quantum query cost), and that, from
+\(\ell_\mu(L,Q)>\varepsilon\) at a depth \(L\) depending only on
+\(\varepsilon,\eta,t\), yields a law \(\nu\) with
+\(\Var_\nu Q\ge a_0(\varepsilon)\) (smooth or set, of any weight) must
+have \(a_0(\varepsilon)\le4\varepsilon^2\) for all
+\(\varepsilon\in(0,1/8)\). In particular, the literal H1 form
+with \(a_0=c\varepsilon^C\) is impossible for \(C<2\).
 \end{proposition}
 
 \begin{proof}
-Fix \(0<\varepsilon<1/8\), an integer depth \(d\), and choose \(n>d\).
-Under the uniform law on \(\Omega_n\), put
-\[
- Q(x)=\frac12+2\varepsilon\prod_{i=1}^n x_i.
-\]
-At every positive-probability leaf of a tree of depth at most \(d\),
-at least one coordinate remains unqueried. The parity is therefore
-conditionally uniform on \(\{-1,1\}\). For any leaf output \(z\),
+At every leaf of a tree of depth \(d<n\) some coordinate is unqueried,
+so the parity is conditionally uniform on \(\{-1,1\}\); for any leaf
+output \(z\),
 \[
  \frac12\left|z-\left(\frac12+2\varepsilon\right)\right|
  +\frac12\left|z-\left(\frac12-2\varepsilon\right)\right|
- \ge2\varepsilon.
+ \ge2\varepsilon,
 \]
-Thus \(\ell_\mu(d,Q)=2\varepsilon\).
-For every probability law \(\nu\), however,
-\[
- \Var_\nu Q\le\E_\nu(Q-1/2)^2=4\varepsilon^2.
-\]
-For any fixed \(c>0\) and \(C<2\), sufficiently small
-\(\varepsilon\) satisfies \(c\varepsilon^C>4\varepsilon^2\).
-Choose \(d=\lceil C(\varepsilon/4)^{-C}\rceil\), so that this example
-violates the proposed conclusion with \(t=1\) and \(\eta=1/4\).
-The example is also quantum-realizable by querying all coordinates and
-then using the prescribed acceptance probability.
+with equality at \(z=1/2\). Thus \(\ell_\mu(d,Q)=2\varepsilon\). For every
+law \(\nu\), \(\Var_\nu Q\le\E_\nu(Q-1/2)^2=4\varepsilon^2\). Applying
+the extraction statement with \(n>L\) gives
+\(a_0(\varepsilon)\le4\varepsilon^2\); and for fixed \(c>0\), \(C<2\),
+small \(\varepsilon\) has \(c\varepsilon^C>4\varepsilon^2\).
+The example is quantum-realizable: query all \(n\) coordinates and
+accept with probability \(Q(x)\).
 \end{proof}
+
+\begin{remark}[What counting does and does not imply]
+\label{ian:hard-sector-minimax-sampling}
+Uniform empirical control of all Boolean depth-\(t\) test moments by
+Hoeffding's inequality and a union bound over the tests of
+Lemma~\ref{ian:hard-sector-tree-closure} uses
+\(s\ge2\delta^{-2}\log(2N(n,t)/\rho)\) samples for error \(\delta\) and
+failure probability \(\rho\), where
+\[
+ \log N(n,t)=(2^t-1)\log n+2^t\log2.
+\]
+This argument therefore depends on \(n\), as does the rounding criterion
+of Lemma~\ref{ian:hard-sector-rounding}. The loss is real for uniform
+empirical test moments: for \(s\) independent uniform points of
+\(\Omega_n\), the probability that some coordinate is \(+1\) in every
+sample is \(1-(1-2^{-s})^n\), and the empirical mean of that coordinate
+then differs from its true mean by one. Simultaneous error below one with
+fixed confidence therefore needs \(s=\Omega(\log n)\).
+
+Sampling a mixture of predictors needs no such control. For any
+distribution on \(D\in\mathcal D_t\), put \(g=\E D\) pointwise, take
+independent \(D_1,\ldots,D_s\) from it, and let
+\(\bar D=s^{-1}\sum_iD_i\). Each \(D_i(x)\in[0,1]\) has variance at most
+\(1/4\), so the pointwise variance bound and Cauchy--Schwarz give
+\[
+ \E_{\mathrm{samples}}\E_\mu(\bar D-g)^2\le\frac1{4s},\qquad
+ \E_{\mathrm{samples}}\E_\mu|\bar D-Q|
+ \le\E_\mu|g-Q|+\frac1{2\sqrt s}.
+\]
+Some realization achieves this loss, and by
+Lemma~\ref{ian:hard-sector-tree-closure} it has depth at most \(st\),
+independently of \(n\). So the \(\log n\) count applies only when
+simultaneous approximation of all test moments is demanded, not to
+sampling a mixture of predictors. This does not by itself give a minimax
+proof of sector existence; the extraction of
+Theorem~\ref{ian:hard-sector-regularity} uses neither minimax nor a
+hardcore lemma from the literature.
+\end{remark}

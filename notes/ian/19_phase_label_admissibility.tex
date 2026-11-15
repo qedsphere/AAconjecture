@@ -1,0 +1,439 @@
+\subsection{Admissible component decompositions}
+\label{ian:phase-label-admissibility}
+
+Status: proved. Every simulation bound for product or exchangeable components, hence every admissibility assertion that uses the class \(\mathcal C_\cup\) or the polynomial \eqref{ian:phase-label-product-polynomial} with such components, uses the uniform-input simulator \(s_U\) below, which Corollary~\ref{cor:resolution-product-alphabet-aa} supplies; these assertions therefore rest only on inequality (BC) of Huffstutler--Miloschewsky--Podder, the sole import of that corollary. The coordinate-universal certificate, the mass and entropy bounds, and all decomposition identities are unconditional. No influence form of uniform AA is used. Admissibility is a weak condition: among decompositions into components of the named class, it excludes only those whose component min-entropy fails to tend to infinity in probability (Remark~\ref{ian:phase-label-what-admissibility-excludes}).
+
+Write \(N\) for the number of physical spins, \(\Omega_N=\{-1,1\}^N\), and
+use \(\mathcal D_t,\mathcal F_t,\ell_\mu(t,Q)\) of
+Section~\ref{ian:hard-sector-definitions-forward} and \(\mathcal Q_{N,T}\)
+of Theorem~\ref{ian:hard-sector-aa-equivalence}; \(Q\) always denotes an
+acceptance function. For a law \(\lambda\) put
+\(H_\infty(\lambda)=-\log\max_x\lambda(x)\). Computation and
+preprocessing are free. Uniform-input AA enters only in its simulation
+form, the hypothesis of
+\path{foundations/transfers/01_posterior_access.tex}: every \(T\)-query
+acceptance function has a deterministic simulator of mean error at most
+\(e\) under the uniform law using \(s_U(T,e)\) queries. We write
+\(s_U(T,e)\le C_U(T+e^{-1})^{d_U}\) with fixed \(C_U,d_U\ge1\). This
+bound is supplied by Corollary~\ref{cor:resolution-product-alphabet-aa}:
+the uniform law is a product law, so \(s_U(T,e)\le CT^6e^{-15}\) with an
+absolute constant \(C\), and since
+\(T^6e^{-15}\le(T+e^{-1})^{21}\) for \(T\ge1\), \(e\in(0,1)\), one may
+take \(C_U=\max\{C,1\}\) and \(d_U=21\). That corollary imports only
+inequality (BC) of Huffstutler--Miloschewsky--Podder
+(arXiv:2611.12795). Statements below marked ``using \(s_U\)'' rest on
+this simulator, hence hold modulo (BC) only. The influence form of
+uniform AA
+(\path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex},
+proved with exponents \((12,12)\) in
+Corollary~\ref{ian:product-influence-aa-proved}) is not used in this or
+the next two subsections.
+
+\begin{definition}[\(\mathcal C\)-admissible decompositions]
+\label{ian:phase-label-certified-admissibility}
+Let \(\mathcal C\) be a named class of laws on the cubes \(\Omega_N\)
+with a proved common simulation bound: a fixed polynomial \(\Psi\) with
+\[
+ \forall N,T\ge1\ \ \forall\delta\in(0,1)\ \
+ \forall\lambda\in\mathcal C\text{ on }\Omega_N\ \
+ \forall Q\in\mathcal Q_{N,T}:\quad
+ \ell_\lambda\bigl(\lceil\Psi(T,\delta^{-1})\rceil,Q\bigr)\le\delta.
+ \tag{19.1}\label{ian:phase-label-component-bound}
+\]
+A decomposition of a family \((\mu_N)\) consists of probability spaces
+\((\mathcal Z_N,\pi_N)\) and laws \(\mu_{N,z}\), with
+\(z\mapsto\mu_{N,z}(x)\) measurable for every \(x\), such that
+\(\mu_N=\int\mu_{N,z}\,\pi_N(dz)\). It is fixed before any acceptance
+function, accuracy, budget or sector is chosen. It is
+\(\mathcal C\)-admissible if every \(\mu_{N,z}\) lies in \(\mathcal C\)
+and component min-entropy tends to infinity in probability:
+\[
+ \pi_N\bigl\{z:H_\infty(\mu_{N,z})<M\bigr\}\longrightarrow0
+ \qquad(N\to\infty)\quad\text{for every }M<\infty.
+ \tag{19.2}\label{ian:phase-label-anti-atom}
+\]
+The class \(\mathcal C\) is hereditary if it is closed under pinning
+coordinates, deleting deterministic coordinates, and inserting
+deterministic coordinates, with the same \(\Psi\).
+Condition~\eqref{ian:phase-label-anti-atom} concerns the original
+components only; pinning every coordinate produces a point mass.
+\end{definition}
+
+\begin{lemma}[Measurable choice of component simulators]
+\label{ian:phase-label-measurable-choice}
+Assume \eqref{ian:phase-label-component-bound} and that every
+\(\mu_{N,z}\) lies in \(\mathcal C\). For every \(N,T\ge1\),
+\(\delta\in(0,1)\) and \(Q\in\mathcal Q_{N,T}\) there is a measurable map \(z\mapsto D_z\) into
+\(\mathcal D_s\), \(s=\lceil\Psi(T,2\delta^{-1})\rceil\), with
+\(\E_{\mu_{N,z}}|D_z-Q|\le\delta\) for every \(z\). For a countable label
+space with the discrete \(\sigma\)-algebra one may take \(s=\lceil\Psi(T,\delta^{-1})\rceil\).
+\end{lemma}
+
+\begin{proof}
+Let \(\mathcal G\) be the finite set of trees in \(\mathcal D_s\) whose
+leaf outputs lie in \(\{0,\delta,2\delta,\ldots\}\cap[0,1]\) or equal
+\(1\). Rounding the leaves of the tree supplied by
+\eqref{ian:phase-label-component-bound} at accuracy \(\delta/2\) moves
+each output by at most \(\delta/2\), so some \(D\in\mathcal G\) has
+error at most \(\delta\). For fixed \(D\),
+\(z\mapsto\sum_x\mu_{N,z}(x)|D(x)-Q(x)|\) is measurable; take the first
+such \(D\) in a fixed enumeration of \(\mathcal G\). In the countable
+case every choice is measurable.
+\end{proof}
+
+\begin{proposition}[Exactly what bounded-bias product mixtures cover]
+\label{ian:phase-label-bounded-products}
+Fix \(0<\alpha<1/2\). The convex hull of product laws whose coordinate
+probabilities lie in \([\alpha,1-\alpha]\) is exactly
+\[
+ \left\{\mathcal L(Y\eta):
+     Y\text{ has an arbitrary law on }\Omega_N,\quad
+     \Pr(\eta_i=-1)=\alpha\text{ independently of each other and of }Y\right\}.
+ \tag{19.3}\label{ian:phase-label-noise-polytope}
+\]
+Consequently every such mixture satisfies
+\[
+ \alpha^N\le\mu(x)\le(1-\alpha)^N,
+ \qquad
+ \mu(\Gamma)\le |\Gamma|(1-\alpha)^N\quad(\Gamma\subseteq\Omega_N).
+ \tag{19.4}\label{ian:phase-label-product-mass-bound}
+\]
+Its components have min-entropy at least \(N\log\frac1{1-\alpha}\) and,
+using \(s_U\), the common polynomial
+\eqref{ian:phase-label-product-polynomial}.
+\end{proposition}
+
+\begin{proof}
+For a product component write \(\Pr(x_i=1)=\alpha+(1-2\alpha)t_i\) with
+\(t_i\in[0,1]\). Independent latent signs \(Y_i\) with
+\(\Pr(Y_i=1)=t_i\), followed by the independent crossover-\(\alpha\)
+channel, generate the component; mixing gives one inclusion in
+\eqref{ian:phase-label-noise-polytope}, and conditioning on \(Y\) gives
+the other. The atom bounds hold coordinatewise. The simulation claim is
+Proposition~\ref{ian:phase-label-union-class}.
+\end{proof}
+
+\begin{remark}[The bias bound is substantive]
+\label{ian:phase-label-bias-bound-remark}
+Equivalently to \eqref{ian:phase-label-noise-polytope}, the inverse noise
+operator, which multiplies the Fourier coefficient on \(S\) by
+\((1-2\alpha)^{-|S|}\), must map \(\mu\) to a nonnegative vector. The
+atom lower bound alone does not suffice: for
+\((1-2\alpha)^2<c<1-2\alpha\), the law \(\mu(x_1,x_2)=(1+cx_1x_2)/4\)
+has one-site conditional probabilities \((1\pm c)/2\in[\alpha,1-\alpha]\)
+and atoms at least \((1-c)/4>\alpha/2\ge\alpha^2\), but
+\eqref{ian:phase-label-noise-polytope} would force
+\(|\E X_1X_2|\le(1-2\alpha)^2<c\). Conversely, at fixed \(N\) the inverse
+noise operator tends to the identity as \(\alpha\downarrow0\), so every
+strictly positive law has representation
+\eqref{ian:phase-label-noise-polytope} for some small enough
+\(\alpha=\alpha_N\). A fixed \(\alpha\), or a separate anti-atom
+condition, is therefore what carries content.
+\end{remark}
+
+\begin{proposition}[An incompatibility with the exact code obstruction]
+\label{ian:phase-label-code-entropy-limitation}
+Let \(n=2^m\) and let \(C_n=\{c_a:a\in\mathbb F_2^m\}\) be the character
+code. If every component of a decomposition of \(\mu_n\) has min-entropy
+at least \(cn\), then \(\mu_n(C_n)\le ne^{-cn}\). In particular no
+family with \(\mu_n(C_n)\) bounded below by a positive constant, such as \(U_{C_n}\) or the
+character-code Gibbs law at \(\beta\ge1\) (code mass at least \(1/2\),
+Proposition~\ref{ian:hard-sector-character-instance}), has a fixed-\(\alpha\)
+bounded-bias product decomposition, or any decomposition with
+min-entropy linear in \(n\).
+\end{proposition}
+
+\begin{proof}
+\(\mu_n(C_n)=\int\mu_{n,z}(C_n)\,\pi_n(dz)\le|C_n|e^{-cn}\); for
+bounded-bias products use \eqref{ian:phase-label-product-mass-bound}.
+\end{proof}
+
+The literal decomposition of \(U_{C_n}\) by the character label \(A\) has
+singleton components and violates \eqref{ian:phase-label-anti-atom}.
+Here is a non-atomic alternative.
+
+\begin{definition}[Coordinate-universal supports]
+\label{ian:phase-label-coordinate-universal}
+A set \(\mathcal S\subseteq\Omega_N\) is coordinate-universal if every
+Boolean function on \(\mathcal S\) is constant or equals
+\((1+\sigma x_i)/2\) on \(\mathcal S\) for some coordinate \(i\) and sign
+\(\sigma\). Let \(\mathcal U\) consist of all laws supported on such
+sets.
+\end{definition}
+
+\begin{lemma}[Simulation on coordinate-universal supports]
+\label{ian:phase-label-universal-support-simulation}
+A coordinate-universal set satisfies \(|\mathcal S|\le\log_2(2N+2)\).
+Every \(Q:\mathcal S\to[0,1]\), with no quantum restriction, has a
+deterministic approximation of pointwise error at most \(\delta\) using
+at most \(\max\{1,\lceil\log_2(1/\delta)\rceil\}\) queries. The class
+\(\mathcal U\) is hereditary.
+\end{lemma}
+
+\begin{proof}
+The \(2^{|\mathcal S|}\) Boolean functions on \(\mathcal S\) are among
+the \(2N+2\) functions \(0,1,(1\pm x_i)/2\).
+
+Truncate the binary expansion of \(Q\) to the indicated number of bits,
+replacing the value one by \(1-2^{-k}\). Each bit is a Boolean function
+on \(\mathcal S\), hence constant or one signed coordinate; query these
+coordinates and reconstruct.
+
+After pinning, the support is a subset \(\mathcal S'\subseteq\mathcal S\).
+Extend a Boolean function on \(\mathcal S'\) arbitrarily to
+\(\mathcal S\); the coordinate realizing the extension realizes the
+function on \(\mathcal S'\). A deterministic coordinate realizes only
+constants, so deleting it loses no nonconstant function, and inserting
+one changes nothing.
+\end{proof}
+
+\begin{proposition}[An exact \(\mathcal U\)-decomposition of character orbits]
+\label{ian:phase-label-simplex-decomposition}
+Let \(E_m=\{0,e_1,\ldots,e_m\}\subseteq\mathbb F_2^m\). Let \(\xi\) be
+uniform on \(\mathbb F_2^m\), let \(\kappa\) be independently uniform on
+\(\{0,\ldots,m\}\), and set
+\[
+ A=\xi+e_\kappa,\qquad e_0=0.
+ \tag{19.5}\label{ian:phase-label-simplex}
+\]
+Then \(A\) is uniform, and conditional on \(\xi\) the configuration
+\(c_A\) is uniform on a coordinate-universal set of size \(m+1\).
+
+The same holds for physical inputs of the form
+\[
+ X_{\rm vis}=\sigma(W)c_A\eta(W),\qquad
+ X_{\rm side}=f_W(A),
+ \tag{19.6}\label{ian:phase-label-orbit-input}
+\]
+with \(A\) uniform and independent of the side information \(W\): realize
+\(A\) by \eqref{ian:phase-label-simplex} with \((\xi,\kappa)\) independent
+of \(W\) and use the label \(Z=(W,\xi)\). Every component has
+min-entropy \(\log(m+1)\) and the simulation bound of
+Lemma~\ref{ian:phase-label-universal-support-simulation}.
+\end{proposition}
+
+\begin{proof}
+Translation by \(e_\kappa\) preserves the uniform law. Given Boolean
+values \(b_0,\ldots,b_m\), choose \(z\in\mathbb F_2^m\) with
+\(z_i=b_i+b_0\); then \((-1)^{(\xi+e_j)\cdot z}=(-1)^{\xi\cdot z}(-1)^{z_j}\)
+(\(z_0:=0\)) realizes them up to a fixed output sign, and fixed signs
+\(\sigma\eta_z\) are absorbed into that sign. The visible configurations
+for distinct \(j\) are distinct, so side coordinates change neither the
+atom sizes nor universality.
+\end{proof}
+
+\begin{lemma}[Global character randomization]
+\label{ian:phase-label-character-randomization}
+Let \(n=2^m\), and let \((X,R,\Theta)\) be random with \(X\in\Omega_n\),
+\(R\) finite-valued, \(\Theta\) independent of \((X,R)\), and the law of
+\((X,R)\) invariant under \((x,\rho)\mapsto(xc_b,\rho)\) for every
+\(b\in\mathbb F_2^m\) (coordinatewise product). Let \(A\) be uniform and
+independent of \((X,R,\Theta)\), and put \(\eta=c_AX\). Then \(X=c_A\eta\),
+\((\eta,R)\) has the law of \((X,R)\), and \(A\) is independent of
+\(W=(\eta,R,\Theta)\). Hence any further spins \(S=f(X,R,\Theta)\) give a
+representation \eqref{ian:phase-label-orbit-input} of the law of
+\((X,R,S)\), with \(\sigma\equiv1\) and \(X_{\rm side}=(R,f(c_A\eta,R,\Theta))\).
+\end{lemma}
+
+\begin{proof}
+\(\Pr(A=a,\eta=y,R=\rho)=2^{-m}\Pr(X=c_ay,R=\rho)=2^{-m}\Pr(X=y,R=\rho)\),
+and \(\Theta\) is independent of \((A,X,R)\). Finally \(c_A^2=1\).
+\end{proof}
+
+Every conditional law of finitely many spins given \((X,R)\) can be
+realized as \(f(X,R,\Theta)\) with \(\Theta\) uniform on \([0,1]\), so the
+lemma applies to every law whose \((X,R)\)-marginal is character
+invariant. This yields \(\mathcal U\)-decompositions on the whole cube,
+not only on a good event.
+
+\begin{proposition}[The union class]
+\label{ian:phase-label-union-class}
+Let \(\mathcal C_\cup\) consist of
+(i) product laws with arbitrary coordinate probabilities, deterministic
+coordinates allowed;
+(ii) the class \(\mathcal U\);
+(iii) laws that are exchangeable after deletion of their deterministic
+coordinates.
+Then \(\mathcal C_\cup\) is hereditary. Part (ii) satisfies
+\eqref{ian:phase-label-component-bound} unconditionally with
+\(\Psi_{\mathcal U}(T,y)=1+y\). Using \(s_U\), part (i)
+satisfies it with
+\[
+ \Psi_{\rm prod}(T,y)=(C_U14^{d_U}+2)(T+y)^{2d_U},
+ \tag{19.7}\label{ian:phase-label-product-polynomial}
+\]
+part (iii) with a polynomial majorant \(\Psi_{\rm exch}\) of the bound in
+\ref{exch:heading-2}, and \(\mathcal C_\cup\) with
+\(\Psi_\cup=\Psi_{\rm prod}+\Psi_{\mathcal U}+\Psi_{\rm exch}\).
+\end{proposition}
+
+\begin{proof}
+Pinning a product gives a product. Conditioning an exchangeable law on
+the values of a fixed set of coordinates leaves it invariant under
+permutations of the remaining coordinates. Deletion and insertion of
+deterministic coordinates are immediate in (i) and (iii), and (ii) is
+Lemma~\ref{ian:phase-label-universal-support-simulation}. The simulator
+may depend on the component, so queries to deterministic coordinates
+are answered without querying; the remaining acceptance function is a
+\(T\)-query function of the other coordinates.
+
+For (i), Theorem~\ref{thm:threshold-block-products} in
+\path{simulation/positive_examples/02_arbitrary_blocks.tex}, with block
+size one and \(e=\delta\), uses \(s_U(2bT,\delta/2)\) queries, where
+\(b=1+\lceil\log_2(64T^2\delta^{-2})\rceil\). With \(x=T+\delta^{-1}\ge2\),
+\(b\le4+4\log_2x\le6x\), so
+\(s_U(2bT,\delta/2)\le C_U(12xT+2\delta^{-1})^{d_U}\le C_U14^{d_U}x^{2d_U}\).
+For (iii) use \ref{exch:heading-2} in
+\path{simulation/exchangeable_inputs/01_theorem.tex}, whose hypothesis
+is the bound on \(s_U\) and whose single polynomial covers every
+exchangeable law. For (ii) note
+\(\max\{1,\lceil\log_2\delta^{-1}\rceil\}\le1+\delta^{-1}\).
+\end{proof}
+
+\begin{remark}[What admissibility excludes]
+\label{ian:phase-label-what-admissibility-excludes}
+First, \eqref{ian:phase-label-anti-atom} holds if and only if there are
+\(h_N\to\infty\) and \(b_N\to0\) with
+\(\pi_N\{z:H_\infty(\mu_{N,z})<h_N\}\le b_N\). One direction is
+immediate. Conversely choose strictly increasing \(N_k\) with
+\(\pi_N\{H_\infty<k\}\le1/k\) for \(N\ge N_k\), and put \(h_N=k\),
+\(b_N=1/k\) for \(N_k\le N<N_{k+1}\) (and \(h_N=0\), \(b_N=1\) for
+\(N<N_1\)). So the definition excludes \(Z=X\)
+(point-mass components) and, more generally, exactly the decompositions
+along which component min-entropy fails to tend to infinity in
+probability; apart from membership of the components in
+\(\mathcal C\), it excludes nothing more.
+
+Second, \(\mathcal U\)-components are tiny: by
+Lemma~\ref{ian:phase-label-universal-support-simulation} their
+min-entropy is at most \(\log\log_2(2N+2)\), and they simulate every
+bounded target, quantum or not. They satisfy
+\eqref{ian:phase-label-anti-atom} as soon as their maximal atoms tend to
+zero in probability, for example for uniform components with growing
+support, as in Proposition~\ref{ian:phase-label-simplex-decomposition}.
+
+Third, the label may be the entire relevant input. For arbitrary laws
+\(\nu_n\) on \(\Omega_n\), the law \(\nu_n\otimes U_n\) on \(\Omega_{2n}\)
+has the padding decomposition with label \(y\sim\nu_n\) and components
+\(\mathbf 1_{\{y\}}\otimes U_n\). These are products with min-entropy
+\(n\log2\), so, using \(s_U\), the padding decomposition is
+\(\mathcal C_\cup\)-admissible. The independent-set pinning
+decomposition (item 5 below), whose label is every spin outside an
+independent set, is \(\mathcal C_\cup\)-admissible in the same way.
+
+Thus \(\mathcal C_\cup\)-admissibility is a non-degeneracy condition on
+component size, not a restriction on what the label encodes, and it does
+not single out a physical phase.
+\end{remark}
+
+There is also a nonhereditary certificate.
+
+\begin{lemma}[Exponentially close product components]
+\label{ian:phase-label-close-products}
+Suppose \(\|\mu_{N,z}-p_{N,z}\|_{\rm TV}\le Ce^{-cN}\) uniformly in
+\(z,N\), where \(p_{N,z}\) are product laws and \(C,c>0\) are fixed.
+Using \(s_U\), the \(\mu_{N,z}\) have a common simulation
+polynomial. If the products have coordinate probabilities in a fixed
+\([\alpha,1-\alpha]\), then \(H_\infty(\mu_{N,z})\ge c'N\) for some
+\(c'>0\) and all large \(N\). No closure under pinning is asserted.
+\end{lemma}
+
+\begin{proof}
+If \(Ce^{-cN}\le\delta/2\), simulate \(p_{N,z}\) at error \(\delta/2\);
+since \(|D-Q|\in[0,1]\) the error on \(\mu_{N,z}\) is at most \(\delta\).
+Otherwise \(N<c^{-1}\log(2C/\delta)\), and reading the whole input costs
+at most \(c^{-1}(\log(2C)+\delta^{-1})\). The maximum atom is at most
+\((1-\alpha)^N+Ce^{-cN}\).
+\end{proof}
+
+The repo instances have the following decompositions. Throughout,
+\(n=2^m\), \(c_a(z)=(-1)^{a\cdot z}\), and the signed characters are
+\(\pm c_a\).
+
+\begin{enumerate}
+\item The character-code mixture \((1-w_n)U_n+w_nU_{C_n}\): one product
+component \(U_n\) and the decomposition
+\eqref{ian:phase-label-simplex} of \(U_{C_n}\). It is
+\(\mathcal C_\cup\)-admissible, using \(s_U\) for the product
+component. By \eqref{ian:phase-label-product-mass-bound} and
+\(\mu_n(C_n)\ge w_n\), no decomposition into products with probabilities
+in \([\alpha,1-\alpha]\) exists at any index with \(w_n>n(1-\alpha)^n\).
+Hence there is no fixed-\(\alpha\) such decomposition of the family if,
+for every \(\alpha\in(0,1/2)\), \(w_n>n(1-\alpha)^n\) for infinitely many
+\(n\).
+
+\item The noisy code \(X=(-1)^Bc_A\eta\) with \(\E\eta_i=\rho\in(0,1)\),
+the law \(\nu_{n,\rho}\) of Theorem~\ref{threshold:noisy-query-theorem}:
+the natural label \((A,B)\) gives products with probabilities in
+\([\alpha,1-\alpha]\), \(\alpha=(1-\rho)/2\), hence a
+\(\mathcal C_\cup\)-admissible decomposition, using \(s_U\).
+
+\item The soft code \(\mu\propto S_L^\beta\) of
+Proposition~\ref{ian:hard-sector-soft-instance}. Put \(\rho=\tanh(\beta L)\),
+\(q=\nu_{n,\rho}=(2n)^{-1}\sum_vq_v\), where \(q_v\) is the product law
+with \(\E_{q_v}X_z=\rho v_z\), and \(\omega=\mu/q\) (the ratio
+\(R/\E_qR\) in the proof of that proposition). The maps \(x\mapsto-x\)
+and \(x\mapsto xc_b\) generate a group acting transitively on signed
+characters and preserving \(\mu\), \(q\) and \(\omega\). Hence
+\[
+ \Pr(V=v,X=x)=\frac{q_v(x)\,\omega(x)}{2n}
+ \tag{19.8}\label{ian:phase-label-soft-joint}
+\]
+is a joint law with \(X\)-marginal \(\mu\) and uniform \(V\), because
+\(\E_{q_v}\omega\) is the same for all \(v\) and averages to
+\(\E_q\omega=1\). Its components \(\lambda_v=q_v\omega\) satisfy
+\(\|\lambda_v-q_v\|_{\rm TV}=\frac12\E_{q_v}|\omega-1|\), again
+independent of \(v\) and so equal to
+\(\frac12\E_q|\omega-1|=\|\mu-q\|_{\rm TV}\le\tau_n\), with \(\tau_n\)
+exponentially small at fixed \(\beta,L\) (proof of
+Proposition~\ref{ian:hard-sector-soft-instance}, from
+Theorem~\ref{threshold:soft-code-theorem}). Lemma~\ref{ian:phase-label-close-products}
+applies with \(\alpha=(1-\rho)/2\), using \(s_U\); hereditary
+simulation of the \(\lambda_v\) is not established.
+Since \(\mu\) is character invariant,
+Lemma~\ref{ian:phase-label-character-randomization} (with \(R,\Theta\)
+trivial) and Proposition~\ref{ian:phase-label-simplex-decomposition} give
+a hereditary \(\mathcal U\)-decomposition, unconditionally. At positive
+integer \(\beta\), expanding \(S_L^\beta\) gives an exact product
+decomposition with label \((v_1,\ldots,v_\beta)\), fields
+\(L\sum_{j=1}^\beta v_j(z)\), and minimum probability
+\((1+e^{2\beta L})^{-1}\).
+
+\item The local families of
+Proposition~\ref{ian:hard-sector-local-instances}. The dense and sparse
+three-local laws are character invariant, since every test
+\(x_zx_wx_{z+w}\) is. In the pairwise model the visible marginal is a
+function of the same tests (the display after that proposition), and in
+the zero-field model the \((X,R)\)-marginal, \(R\) the reference spins,
+is invariant under \(X\mapsto Xc_b\) with \(R\) fixed (its proof).
+Lemma~\ref{ian:phase-label-character-randomization}, with the auxiliary
+spins realized from an independent seed \(\Theta\), and
+Proposition~\ref{ian:phase-label-simplex-decomposition} give
+\(\mathcal U\)-decompositions of the full physical law, unconditionally.
+
+\item Independent-set pinning, for local families of bounded degree
+\(d\) in the primal graph of the interaction hypergraph (two spins
+adjacent when they share a term), such as the sparse three-local,
+pairwise and zero-field families. Let \(J_*\) bound the total incident
+absolute strength of each spin, fields included, as in the repo. Choose
+an independent set \(I\) (greedily, \(|I|\ge N/(d+1)\) is possible) and
+the label \(Z=X_{I^c}\). No term contains two spins of \(I\), so given \(Z\) the
+spins of \(I\) are independent with conditional fields of magnitude at
+most \(J_*\), hence probabilities in
+\([\alpha_\beta,1-\alpha_\beta]\), \(\alpha_\beta=(1+e^{2\beta J_*})^{-1}\).
+The components are products, deterministic on \(I^c\), with
+\(H_\infty\ge|I|\log\frac1{1-\alpha_\beta}\); the decomposition is
+\(\mathcal C_\cup\)-admissible, using \(s_U\).
+\end{enumerate}
+
+Thus each instance listed above has a \(\mathcal C_\cup\)-admissible
+decomposition, using \(s_U\), hence modulo (BC) only, wherever product
+or exchangeable components occur. This does not extend to every repo
+obstruction: since \(\mu(x)\le\pi\{H_\infty<M\}+e^{-M}\) for every
+decomposition, a law with an atom of mass bounded below admits no
+decomposition satisfying \eqref{ian:phase-label-anti-atom}; the
+nonmonotone family of Section~\ref{sec:resolution-nonmonotone} at
+\(\beta=2\) has \(\mu(c_0)=1/Z_n\to1/2\). By Remark~\ref{ian:phase-label-what-admissibility-excludes}
+this reflects the weakness of admissibility, not physical phase
+structure; the next subsection keeps component labels, component
+programs, and phases apart.

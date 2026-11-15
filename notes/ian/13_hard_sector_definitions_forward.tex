@@ -1,118 +1,216 @@
-\subsection{Hard sectors and approximation loss}
-\label{ian:hard-sector-definitions-forward}
+\subsection{Hard sectors, extraction, and full AA}\label{ian:hard-sector-definitions-forward}
 
-Status: proved; all statements in this subsection hold for arbitrary bounded real-valued functions, without quantum realizability.
+Status: proved, for every law \(\mu\) and every \(Q:\Omega_n\to[0,1]\), with dimension-free constants: the forward bound, set extraction from one calibrated predictor at depth \(\lceil32\varepsilon^{-5}\eta^{-2}\rceil t\) (Corollary~\ref{ian:hard-sector-explicit}), and the characterization of full-AA failure by polynomially weighted hard sectors (Theorem~\ref{ian:hard-sector-aa-equivalence}). Extraction uses no quantum realizability; full AA appears only as the property being characterized; no imported theorem is used.
 
-Let \(n\ge1\), let \(\Omega_n=\{-1,1\}^n\), and let
-\(Q:\Omega_n\to[0,1]\).
-For an integer \(t\ge0\), let \(\mathcal D_t\) denote the deterministic
-coordinate decision trees of worst-case depth at most \(t\), with leaf
-outputs in \([0,1]\), and put
-\[
- \ell_\mu(t,Q)=\min_{D\in\mathcal D_t}\E_\mu|D-Q|.
-\]
-The minimum exists: there are finitely many tree structures and coordinate
-labellings of bounded depth, and each associated space of leaf outputs
-is compact.
+Let \(n\ge1\), \(\Omega_n=\{-1,1\}^n\), let \(\mu\) be a probability law on \(\Omega_n\), and let
+\(Q:\Omega_n\to[0,1]\). For an integer \(t\ge0\), \(\mathcal D_t\) (resp.\ \(\mathcal F_t\)) denotes the
+deterministic coordinate decision trees of worst-case depth at most \(t\) with leaf outputs in \([0,1]\) (resp.\
+\([-1,1]\)), and \(\ell_\mu(t,Q)=\min_{D\in\mathcal D_t}\E_\mu|D-Q|\). This and the squared-loss minimum exist
+(finitely many query structures, each loss continuous on a compact cube of leaf outputs). As \(\mathcal
+D_t\subseteq\mathcal D_{t'}\) and \(\mathcal F_t\subseteq\mathcal F_{t'}\) for \(t\le t'\),
+\(\ell_\mu(\cdot,Q)\) is nonincreasing.
 
-Write \(\mathcal F_t\) for the corresponding trees with leaf outputs in
-\([-1,1]\).
-
-\begin{definition}[Hard laws and sectors]
-\label{ian:hard-sector-definition}
-For a probability law \(\nu\), put \(m_\nu=\E_\nu Q\).
-For \(0<\gamma<a\le1/4\), the assertion
+\begin{definition}[Hard laws and sectors]\label{ian:hard-sector-definition}
+For a probability law \(\nu\), put \(m_\nu=\E_\nu Q\). For \(0<\gamma<a\le1/4\), the assertion
 \(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) means
 \[
- \Var_\nu Q\ge a,
- \qquad
- \left|\E_\nu[(Q-m_\nu)F]\right|\le\gamma
- \quad\text{for every }F\in\mathcal F_t.
+ \Var_\nu Q\ge a,\qquad\left|\E_\nu[(Q-m_\nu)F]\right|\le\gamma\quad\text{for every }F\in\mathcal F_t.
 \]
-A smooth sector of weight \(w\in(0,1]\) is such a law satisfying
-\[
- w\nu(x)\le\mu(x)\qquad(x\in\Omega_n).
-\]
-A set sector of weight \(w\) is a set \(H\subseteq\Omega_n\) with
-\(\mu(H)\ge w\) for which the conditional law \(\mu(\cdot\mid H)\)
-is hard with the specified parameters.
-Every set sector is a smooth sector of the same weight.
+A smooth sector of weight \(w\in(0,1]\) is such a law satisfying \(w\nu(x)\le\mu(x)\) for all \(x\in\Omega_n\).
+A set sector of weight \(w\in(0,1]\) is a set \(H\subseteq\Omega_n\) with \(\mu(H)\ge w\) for which the
+conditional law \(\mu(\cdot\mid H)\) is hard with the specified parameters. Every set sector is a smooth sector
+of the same weight, since \(\mu(\cdot\mid H)\le\mu/\mu(H)\).
 \end{definition}
 
-\begin{lemma}[Aggregation and extremal tests]
-\label{ian:hard-sector-tree-closure}
-The following assertions hold for every \(n\ge1\) and integer \(t\ge0\).
+Since \(\E_\nu(Q-m_\nu)=0\), \(\E_\nu[(Q-m_\nu)F]=\Cov_\nu(Q,F)\). As \(\mathcal F_t=\{2D-1:D\in\mathcal D_t\}\)
+and \(\Cov_\nu(Q,2D-1)=2\Cov_\nu(Q,D)\), the covariance condition says exactly \(|\Cov_\nu(Q,D)|\le\gamma/2\)
+for every \(D\in\mathcal D_t\). By \(\mathcal F_t\subseteq\mathcal F_{t'}\),
+\(\operatorname{Hard}(Q,\nu;t',a,\gamma)\) implies \(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) for \(t\le t'\).
 
-First, any function of the outputs of \(k\) depth-\(t\) trees is
-computable by a tree of depth at most \(kt\), provided the resulting
-leaf outputs belong to the desired output range.
-
-Second, for any law \(\nu\), checking
-\[
- \left|\E_\nu[(Q-m_\nu)F]\right|\le\gamma
- \qquad(F\in\mathcal F_t)
-\]
-is equivalent to checking only trees with leaf outputs in
-\(\{-1,1\}\).
-The number of these Boolean-valued tests is at most
-\[
- N(n,t)=n^{2^t-1}2^{2^t}.
-\]
+\begin{lemma}[Aggregation and extremal tests]\label{ian:hard-sector-tree-closure}
+Let \(n\ge1\) and \(s,t\ge0\) be integers. First, for every integer \(k\ge1\), any function of the outputs of
+\(k\) depth-\(t\) trees whose values lie in the required output range is computable by a tree of depth at most
+\(kt\). Likewise, running a depth-\(s\) tree and, after it, a depth-\(t\) tree selected by the leaf reached
+costs at most \(s+t\) queries. Second, for any law \(\nu\), checking \(|\E_\nu[(Q-m_\nu)F]|\le\gamma\) for all
+\(F\in\mathcal F_t\) is equivalent to checking it for the trees with leaf outputs in \(\{-1,1\}\), of which
+there are at most
+\[N(n,t)=n^{2^t-1}2^{2^t}.\]
 \end{lemma}
-
 \begin{proof}
-Run the \(k\) trees consecutively and then apply the prescribed function
-to their outputs. Each run uses at most \(t\) queries. Previously
-queried coordinates can be remembered.
-
-For the second assertion, fix a query structure and let \(A_v\) be its
-leaf events. If its leaf outputs are \(f_v\in[-1,1]\), then
-\[
- \E_\nu[(Q-m_\nu)F]
- =\sum_v f_v\,\E_\nu[(Q-m_\nu)\mathbf1_{A_v}].
-\]
-The maximum absolute value over the cube of leaf assignments is attained
-at an assignment with every \(f_v\in\{-1,1\}\).
-Thus the Boolean-valued tests suffice.
-
-A tree of depth at most \(t\) can be padded to the complete binary tree
-of depth \(t\), using repeated queries if necessary. Its \(2^t-1\)
-internal vertices each have at most \(n\) coordinate labels, and its
-\(2^t\) leaves each have two output labels. This proves the count.
+Run the trees consecutively, remembering earlier answers, and apply the function, or the selected tree, at the
+end. For a fixed query structure with leaf events \(A_v\) and outputs \(f_v\in[-1,1]\),
+\(\E_\nu[(Q-m_\nu)F]=\sum_vf_v\,\E_\nu[(Q-m_\nu)\mathbf1_{A_v}]\) is linear in \((f_v)\), so its absolute value
+is maximized with every \(f_v\in\{-1,1\}\). For the count, pad to the complete tree of depth \(t\): \(2^t-1\)
+internal vertices with at most \(n\) labels each, \(2^t\) leaves with two each.
 \end{proof}
 
-\begin{proposition}[H1-forward]
-\label{ian:hard-sector-forward}
-For every \(n,\mu,Q,t,w,a,\gamma,\nu\) satisfying
-Definition~\ref{ian:hard-sector-definition},
-\[
- \nu\le\mu/w,\qquad
- \operatorname{Hard}(Q,\nu;t,a,\gamma)
- \quad\Longrightarrow\quad
- \ell_\mu(t,Q)\ge w(a-\gamma).
-\]
+\begin{proposition}[H1-forward]\label{ian:hard-sector-forward}
+If \(\nu\) is a smooth sector of weight \(w\), that is \(\nu\le\mu/w\), and
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\), then \(\ell_\mu(t,Q)\ge w(a-\gamma)\).
 \end{proposition}
-
 \begin{proof}
-Fix \(D\in\mathcal D_t\), and write \(m=\E_\nu Q\).
-The tree \(F=2D-1\) belongs to \(\mathcal F_t\), so
+For \(D\in\mathcal D_t\) and \(m=\E_\nu Q\), hardness gives \(\Cov_\nu(Q,D)\le\gamma/2\), so
+\(\E_\nu(Q-D)^2=\Var_\nu Q+\E_\nu(D-m)^2-2\Cov_\nu(Q,D)\ge a-\gamma\). As \(\mu\ge w\nu\) and
+\(|Q-D|\ge(Q-D)^2\) on \([0,1]\), \(\E_\mu|Q-D|\ge w(a-\gamma)\); minimize over \(D\). This is the pointwise argument of
+Lemma~\ref{threshold:hard-component}, with no quantum realizability of \(Q\).
+\end{proof}
+
+\begin{theorem}[One calibrated predictor]\label{ian:hard-sector-regularity}
+Let \(n\ge1\), let \(\mu\) be a probability law on \(\Omega_n\), let \(Q:\Omega_n\to[0,1]\), and let \(t\ge1\),
+\(0<\gamma<a\le1/4\), \(0<w\le1\), and \(M=\lceil1/\gamma\rceil\). For every integer \(K\ge1\), at least one of
+the following holds:
 \[
- 2\Cov_\nu(Q,D)=\E_\nu[(Q-m)(2D-1)]\le\gamma.
+ \begin{gathered}
+ \text{there is }H\subseteq\Omega_n,\quad \mu(H)\ge w,\quad \operatorname{Hard}(Q,\mu(\cdot\mid H);t,a,\gamma);
+ \\[2mm] \ell_\mu(Kt,Q)\le\sqrt a+\frac12\left(Mw+\frac1{K\gamma^2}\right).
+ \end{gathered}
 \]
-Consequently,
+In the first alternative, \(H\) can be taken to be \(g^{-1}(I)\) for an interval \(I\) and a function \(g\)
+computed by a tree of depth at most \(kt\), for some \(k<K\). With \(K=\lceil1/(w\gamma^2)\rceil\), one has
+\(1/(K\gamma^2)\le w\le Mw\), so the second alternative gives \(\ell_\mu(Kt,Q)\le\sqrt a+Mw\).
+\end{theorem}
+\begin{proof}
+Put \(R_j=\min_{D\in\mathcal D_{jt}}\E_\mu(Q-D)^2\), nonincreasing in \(j\), with \(R_0=\Var_\mu Q\le1/4\) (constant
+trees). Since \(\sum_{k<K}(R_k-R_{k+1})=R_0-R_K\le1/4\), some \(k<K\) has \(\Delta=R_k-R_{k+1}\le1/(4K)\). Let \(g\) be the output of a tree of depth at most \(kt\)
+attaining \(R_k\) (an optimal squared-error predictor), with leaf partition \(\mathcal A\). Optimal leaf outputs
+are conditional means, so \(g=\E_\mu[Q\mid\mathcal A]\) (any value in \([0,1]\) on null leaves), and
+\(\E_\mu[(Q-g)\mathbf1_B]=0\) for every \(\mathcal A\)-measurable \(B\) (so \(g\) is calibrated).
+
+Partition \([0,1]\) into intervals \(I_1,\ldots,I_M\) of length \(1/M\), half-open except the last, with
+midpoints \(c_j\); put \(H_j=g^{-1}(I_j)\), \(p_j=\mu(H_j)\), and, for \(p_j>0\), \(\nu_j=\mu(\cdot\mid H_j)\)
+and \(m_j=\E_{\nu_j}Q\). As \(H_j\) is \(\mathcal A\)-measurable, \(\E_{\nu_j}(Q-g)=0\). Bins with \(p_j=0\) are ignored. Call a bin \(j\) with \(p_j>0\) bad if
+some \(F_j\in\mathcal F_t\), negated if necessary, has \(\Cov_{\nu_j}(Q,F_j)>\gamma\), and good otherwise; a
+good bin with \(p_j\ge w\) and \(\Var_{\nu_j}Q\ge a\) is an \(H\) as in the first alternative. For a bad bin,
+\(|g-c_j|\le1/(2M)\le\gamma/2\) on \(H_j\) and Cauchy--Schwarz give
+\(|\Cov_{\nu_j}(g,F_j)|=|\E_{\nu_j}[(g-c_j)(F_j-\E_{\nu_j}F_j)]|\le\gamma/2\), so, by \(\E_{\nu_j}(Q-g)=0\),
+\(\E_{\nu_j}[(Q-g)F_j]=\Cov_{\nu_j}(Q,F_j)-\Cov_{\nu_j}(g,F_j)>\gamma/2\).
+
+Let \(p\) be the total mass of bad bins and \(Z=\sum_{j\ \mathrm{bad}}\mathbf1_{H_j}F_j\), so \(\E_\mu Z^2\le
+p\). Refine the tree for \(g\) by running \(F_j\) after its leaf is reached whenever that leaf lies in a bad bin
+\(j\); by Lemma~\ref{ian:hard-sector-tree-closure} the depth is at most \((k+1)t\). Its leaf partition
+\(\mathcal A'\) refines \(\mathcal A\), and \(Z\) is \(\mathcal A'\)-measurable. For \(g'=\E_\mu[Q\mid\mathcal
+A']\in[0,1]\), Pythagoras for the nested \(\sigma\)-algebras \(\sigma(\mathcal A)\subseteq\sigma(\mathcal A')\) gives
+\(\E_\mu(Q-g)^2=\E_\mu(Q-g')^2+\E_\mu(g'-g)^2\), and \(\E_\mu[(Q-g')Z]=0\). If \(p>0\), then
+\(\E_\mu[(Q-g)Z]>p\gamma/2>0\), hence \(\E_\mu Z^2>0\), and
 \[
- \E_\nu(Q-D)^2
- =\Var_\nu Q+\E_\nu(D-m)^2-2\Cov_\nu(Q,D)
- \ge a-\gamma.
+ \Delta\ge R_k-\E_\mu(Q-g')^2=\E_\mu(g'-g)^2\ge\frac{(\E_\mu[(g'-g)Z])^2}{\E_\mu Z^2}
+ =\frac{(\E_\mu[(Q-g)Z])^2}{\E_\mu Z^2}>\frac{p\gamma^2}{4};
 \]
-Because \(Q,D\in[0,1]\), one has \(|Q-D|\ge(Q-D)^2\).
-Pointwise domination therefore gives
+with \(\Delta\le1/(4K)\), \(p\le1/(K\gamma^2)\), also when \(p=0\).
+
+Suppose no good bin has \(p_j\ge w\) and \(\Var_{\nu_j}Q\ge a\). Then the bins with \(\Var_{\nu_j}Q\ge a\) are
+bad or have mass below \(w\), so their total mass is at most \(Mw+p\). For \(Y\in[0,1]\) and \(m=\E Y\),
+\(|Y-m|\le Y(1-m)+(1-Y)m\) gives \(\E|Y-m|\le2m(1-m)\le1/2\); on bins with \(\Var_{\nu_j}Q<a\), Cauchy--Schwarz
+gives \(\E_{\nu_j}|Q-m_j|<\sqrt a\). The tree outputting \(m_j\) on \(H_j\), and any value in \([0,1]\) on bins
+with \(p_j=0\), is a function of \(g\), so it lies in \(\mathcal D_{kt}\subseteq\mathcal D_{Kt}\), and its loss
+is at most \(\sqrt a+(Mw+p)/2\le\sqrt a+\frac12(Mw+1/(K\gamma^2))\).
+\end{proof}
+
+\begin{remark}[Context from literature]\label{ian:hard-sector-literature}
+This is an energy-increment (multicalibration) argument; compare Trevisan--Tulsiani--Vadhan (CCC 2009),
+H\'ebert-Johnson--Kim--Reingold--Rothblum (ICML 2018) and Casacuberta--Dwork--Vadhan (STOC 2024,
+arXiv:2312.17223) (from literature; only the last abstract was checked). None is used in the proofs.
+\end{remark}
+
+\begin{corollary}[Explicit polynomial smooth and set extraction] \label{ian:hard-sector-explicit}
+Let \(n\ge1\), let \(\mu\) be a probability law on \(\Omega_n\), let \(Q:\Omega_n\to[0,1]\), and let \(t\ge1\),
+\(0<\varepsilon<1/8\) and \(0<\eta\le1/4\). Put
 \[
- \E_\mu|Q-D|
- \ge w\E_\nu|Q-D|
- \ge w(a-\gamma).
+ L_\dagger=\left\lceil32\varepsilon^{-5}\eta^{-2}\right\rceil t, \qquad L_*=\left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil t.
 \]
-Taking the minimum over \(D\) proves the assertion. This is the
-chosen-sense hard-law input needed by
-Lemma~\ref{threshold:hard-component}.
+If \(\ell_\mu(L_\dagger,Q)>\varepsilon\), in particular if \(\ell_\mu(L_*,Q)>\varepsilon\), there exists
+\(H\subseteq\Omega_n\), with membership decided by a tree of depth below \(L_\dagger\), such that
+\[
+ \mu(H)\ge\frac{\eta\varepsilon^3}{16}, \qquad \operatorname{Hard}\left( Q,\mu(\cdot\mid H); t,\frac{\varepsilon^2}{4}, \frac{\eta\varepsilon^2}{4}\right).
+\]
+In particular \(\nu=\mu(\cdot\mid H)\le16\mu/(\eta\varepsilon^3)\) is a smooth sector of weight
+\(\eta\varepsilon^3/16\). No atom-size hypothesis on \(\mu\) is needed.
+\end{corollary}
+\begin{proof}
+Apply Theorem~\ref{ian:hard-sector-regularity} with
+\[
+ a=\frac{\varepsilon^2}{4},\qquad\gamma=\eta a,\qquad M=\left\lceil\frac1\gamma\right\rceil,\qquad
+ w=\frac{\varepsilon}{2M},\qquad K=\left\lceil\frac2{\varepsilon\gamma^2}\right\rceil.
+\]
+Here \(0<\gamma<a\le1/4\), \(w\le\varepsilon/2<1\), and \(M\le2/\gamma\) (as \(\gamma<1\)), so
+\(w\ge\varepsilon\gamma/4=\eta\varepsilon^3/16\); \(K=\lceil32\varepsilon^{-5}\eta^{-2}\rceil\), so
+\(Kt=L_\dagger\le L_*\). The approximation alternative has error at most
+\(\varepsilon/2+\varepsilon/4+\varepsilon/4=\varepsilon\), excluded by the hypothesis and monotonicity of
+\(\ell_\mu(\cdot,Q)\). So \(H=g^{-1}(I)\) with \(g\) of depth at most \(kt<Kt\), and \(\mu(\cdot\mid
+H)\le\mu/\mu(H)\le16\mu/(\eta\varepsilon^3)\).
+\end{proof}
+
+For \(n,T\ge1\), let \(\mathcal Q_{n,T}\) denote the acceptance functions of quantum algorithms using at most
+\(T\) coordinate queries. In the sense of Section~\ref{tht:target} of
+\path{synthesis/threshold_theory/01_target_and_conclusions.tex}, full AA for \(\symbf{\mu}=(\mu_n)_{n\ge1}\) is equivalent to
+\[
+ \begin{gathered}
+ \exists A_0,B_0\ge1\quad\forall n,T\ge1\quad\forall\varepsilon\in(0,1)\quad\forall Q\in\mathcal Q_{n,T}:\\
+ \ell_{\mu_n}\!\left(\left\lceil A_0(T+\varepsilon^{-1})^{B_0}\right\rceil,Q\right)\le\varepsilon.
+ \end{gathered}
+ \tag{AA}\label{ian:hard-sector-aa-definition}
+\]
+The constants may depend on the family and its fixed model parameters, and are chosen before
+\(n,T,\varepsilon,Q\). This matches the polynomial budgets of Section~\ref{tht:target}: for
+\(x=T+\varepsilon^{-1}\ge1\), a polynomial \(P\) has \(P(T,1/\varepsilon)\le A_0x^{B_0}\) with
+\(A_0=\max\{1,\text{sum of }|\text{coefficients of }P|\}\), \(B_0=\max\{1,\deg P\}\); conversely \(\lceil
+A_0x^{B_0}\rceil\le(A_0+1)x^{\lceil B_0\rceil}\); errors \(\varepsilon\ge1\) are trivial.
+
+\begin{lemma}[Sector exclusion under full AA]\label{ian:hard-sector-aa-exclusion}
+Suppose \eqref{ian:hard-sector-aa-definition} holds with constants \(A_0,B_0\). Let \(n,T\ge1\), \(Q\in\mathcal
+Q_{n,T}\), and let \(\nu\) be a smooth sector of \(\mu_n\) of weight \(w\) with
+\(\operatorname{Hard}(Q,\nu;t,a,a/4)\). Then
+\[t<\left\lceil A_0\left(T+\frac{8}{3wa}\right)^{B_0}\right\rceil.\]
+\end{lemma}
+\begin{proof}
+Put \(e=3wa/8\in(0,1)\) (as \(w\le1\), \(a\le1/4\)). Proposition~\ref{ian:hard-sector-forward} gives
+\(\ell_{\mu_n}(t,Q)\ge w(a-a/4)=2e\). If \(t\) were at least the displayed depth, monotonicity and
+\eqref{ian:hard-sector-aa-definition} at accuracy \(e\) would give \(\ell_{\mu_n}(t,Q)\le e<2e\).
+\end{proof}
+
+\begin{theorem}[Full-AA failure and polynomially weighted hard sectors]\label{ian:hard-sector-aa-equivalence}
+For every family \(\symbf{\mu}\), the following are equivalent.
+
+\par\noindent(1) Full AA fails.
+
+\par\noindent(2) For every \(A,B\ge1\), there exist integers \(n,T\ge1\), a real \(r>8\), a function
+\(Q\in\mathcal Q_{n,T}\), and a set \(H\subseteq\Omega_n\) such that, with \(t=\lceil A(T+r)^B\rceil+1\),
+\[
+ \mu_n(H)\ge\frac1{64r^3}, \qquad \operatorname{Hard}\left( Q,\mu_n(\cdot\mid H); t,\frac1{4r^2},\frac1{16r^2}\right).
+\]
+
+\par\noindent(3) For every \(A,B\ge1\), there exist integers \(n,T\ge1\), a real \(r>8\), a function
+\(Q\in\mathcal Q_{n,T}\), and a probability law \(\nu\) such that, with the same definition of \(t\),
+\[
+ \nu\le64r^3\mu_n, \qquad \operatorname{Hard}\left( Q,\nu;t,\frac1{4r^2},\frac1{16r^2}\right).
+\]
+
+\par\noindent
+The inverse weight \(64r^3\) and inverse dispersion \(4r^2\) are fixed polynomials in \(r\), independent of the
+budget constants \(A,B\), while hardness holds at a depth strictly exceeding the budget \(A(T+r)^B\).
+\end{theorem}
+\begin{proof}
+Throughout, \(r=\varepsilon^{-1}\) and \(R=T+r\); thus (AA) with constants \(A_0,B_0\) says
+\(\ell_{\mu_n}(\lceil A_0R^{B_0}\rceil,Q)\le1/r\) for all \(n,T\ge1\), \(r>1\) and \(Q\in\mathcal Q_{n,T}\).
+\emph{Reduction to \(\varepsilon<1/8\), that is \(r>8\).} If
+full AA fails, then for every \(A',B'\ge1\) there exist \(n,T\ge1\), \(r>8\) and \(Q\in\mathcal Q_{n,T}\) with
+\(\ell_{\mu_n}(\lceil A'R^{B'}\rceil,Q)>1/r\). Otherwise, for some \(A',B'\) and all \(n,T\ge1\), \(r>1\) and
+\(Q\in\mathcal Q_{n,T}\),
+\(r'=\max\{r,16\}\) has \(T+r'\le16R\), so \(\ell_{\mu_n}(\lceil16^{B'}A'R^{B'}\rceil,Q)\le\ell_{\mu_n}(\lceil
+A'(T+r')^{B'}\rceil,Q)\le1/r'\le1/r\): full AA with constants \(16^{B'}A',B'\).
+
+\emph{(1) implies (2).} Fix \(A,B\ge1\); the reduction with \(A'=1026A\), \(B'=B+5\) gives \(n,T\), \(r>8\),
+\(Q\) with \(\ell_{\mu_n}(\lceil A'R^{B'}\rceil,Q)>1/r\). Put \(t=\lceil AR^B\rceil+1\),
+\(\varepsilon=1/r<1/8\), \(\eta=1/4\). As \(\lceil512r^5\rceil\le513r^5\), \(t\le AR^B+2\le2AR^B\) (by \(AR^B\ge
+R>8\)) and \(r\le R\), \(L_\dagger=\lceil512r^5\rceil t\le1026AR^{B+5}\le\lceil A'R^{B'}\rceil\); so
+\(\ell_{\mu_n}(L_\dagger,Q)>1/r\) by monotonicity, and Corollary~\ref{ian:hard-sector-explicit} gives (2), as
+\(\eta\varepsilon^3/16=1/(64r^3)\), \(\varepsilon^2/4=1/(4r^2)\) and \(\eta\varepsilon^2/4=1/(16r^2)\).
+\emph{(2) implies (3):} \(\mu_n(\cdot\mid H)\le\mu_n/\mu_n(H)\le64r^3\mu_n\).
+
+\emph{(3) implies (1).} Suppose full AA holds with constants \(A_0,B_0\), and take the witness of (3) for
+\(A=2^{10B_0}A_0\), \(B=5B_0\): a smooth sector of weight \(w=1/(64r^3)\) with
+\(\operatorname{Hard}(Q,\nu;t,a,a/4)\), \(a=1/(4r^2)\). As \(wa=1/(256r^5)\),
+\(T+8/(3wa)=T+\tfrac{2048}{3}r^5\le2^{10}(T+r^5)\le2^{10}R^5\), so Lemma~\ref{ian:hard-sector-aa-exclusion}
+gives \(t<\lceil A_0(T+8/(3wa))^{B_0}\rceil\le\lceil A_0\,2^{10B_0}R^{5B_0}\rceil=\lceil AR^B\rceil\),
+contradicting \(t=\lceil AR^B\rceil+1\).
 \end{proof}

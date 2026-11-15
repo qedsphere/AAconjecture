@@ -1,0 +1,232 @@
+\subsection{Thermal phase labels and Gaussian product decompositions}
+\label{ian:phase-label-gibbs}
+
+Status: proved where stated. The Hubbard--Stratonovich identity and bias formulas, the typical min-entropy bound \(N^{1-o(1)}\ge\sqrt N\) with exceptional label mass \(N^{-2}\), and the Curie--Weiss scalar representation are unconditional. The thermal restatement holds for every decomposition satisfying \eqref{ian:phase-label-component-bound}; its use with product or exchangeable components, the admissibility conclusion of Proposition~\ref{ian:phase-label-hs-admissibility}, and the Curie--Weiss positive conclusion use the uniform-input simulator \(s_U\) of Subsection~\ref{ian:phase-label-admissibility}, which Corollary~\ref{cor:resolution-product-alphabet-aa} supplies, and so rest only on inequality (BC) of Huffstutler--Miloschewsky--Podder, the sole import of that corollary; no influence form of uniform AA is used. No equivalence in terms of thermodynamic phases is formulated here, and the local structural question is recorded as an open problem (Remark~\ref{ian:phase-label-local-open-problem}).
+
+Fix a temperature-independent classical Hamiltonian family \(E_N\) and
+\(\beta>0\), and let \(\mu_{\beta,N}\propto e^{-\beta E_N}\). Constants may
+depend on \(\beta\) and fixed interaction parameters, not on
+\(N,T,\varepsilon\). For \(H\subseteq\Omega_N\) put
+\(F_H(\beta)=-\beta^{-1}\log\sum_{x\in H}e^{-\beta E_N(x)}\) and
+\(F(\beta)=F_{\Omega_N}(\beta)\), the sums running over all physical
+spins.
+
+\begin{theorem}[Thermal restatement]
+\label{ian:phase-label-thermal-theorem}
+Fix a decomposition of \(\mu_{\beta,N}\) satisfying
+\eqref{ian:phase-label-component-bound} with polynomial \(\Psi_\beta\).
+The following are equivalent:
+(1) full AA fails at \(\beta\);
+(2) the programs \(\widehat Q\) violate
+\eqref{ian:phase-label-program-eliminability} for every polynomial \(\Phi\);
+(3) for all \(\theta_1,\theta_2\ge1\) there are witnesses
+\eqref{ian:phase-label-hard-witness}, which then satisfy
+\eqref{ian:phase-label-lifted-signal}--\eqref{ian:phase-label-explained-signal-hidden}.
+Every such witness has
+\[
+ F_H(\beta)-F(\beta)
+ =\frac1\beta\log\frac1{\mu_{\beta,N}(H)}
+ \le\frac1\beta\log\frac{64}{\varepsilon^3}.
+ \tag{21.1}\label{ian:phase-label-thermal-gap}
+\]
+If moreover
+\[
+ \E\Var(Q\mid Z)\le\frac{\mu_{\beta,N}(H)}{4096}\Bigl(\frac{\varepsilon^2}{4}\Bigr)^2,
+ \tag{21.2}\label{ian:phase-label-thermal-flatness}
+\]
+the label-only versions of Proposition~\ref{ian:phase-label-flat-components} hold.
+\end{theorem}
+
+\begin{proof}
+Theorems~\ref{ian:phase-label-elimination} and
+\ref{ian:phase-label-hard-sector-converse}, and
+Proposition~\ref{ian:phase-label-flat-components}; the gap identity is
+\(\mu_{\beta,N}(H)=\sum_{x\in H}e^{-\beta E_N(x)}/\sum_xe^{-\beta E_N(x)}\).
+\end{proof}
+
+The anti-atom condition \eqref{ian:phase-label-anti-atom} is never used.
+The theorem therefore holds for \(Z=X\), whose point-mass components are
+simulated with zero queries, so that \(\widehat Q=Q\) and (2) merely
+restates (1): it is
+the content of Section~\ref{ian:phase-label-theorem} for Gibbs laws, and
+anything beyond that lies in the choice of decomposition. An equivalence
+whose labels are thermodynamic phases is not formulated here. In
+particular infinite-volume extremality (pure DLR states) or clustering
+does not by itself give the uniform finite-volume bound
+\eqref{ian:phase-label-component-bound}; a finite-volume phase partition
+would also have to specify boundary conditions, exceptional
+configurations, and its simulation bound.
+
+\begin{proposition}[Hubbard--Stratonovich product decomposition]
+\label{ian:phase-label-hubbard-stratonovich}
+Let
+\(\mu(x)\propto\exp\bigl(\frac\beta2x^\mathsf TJx+\beta\varphi^\mathsf Tx\bigr)\)
+with \(J\) real symmetric and field \(\varphi\in\mathbb R^N\). Choose a
+diagonal \(D\) with \(K=J+D\succeq0\); this changes the energy by a
+constant on \(\Omega_N\). Let \(\gamma_{\beta K}\) be the (possibly
+singular) centered Gaussian law with covariance \(\beta K\), and
+\[
+ \pi_{\rm HS}(dg)
+ =\frac{\prod_{i=1}^N2\cosh(\beta\varphi_i+g_i)}
+         {\mathcal N_K}\,\gamma_{\beta K}(dg),
+ \qquad
+ \mu_g(x)
+ =\prod_{i=1}^N
+       \frac{e^{(\beta\varphi_i+g_i)x_i}}
+            {2\cosh(\beta\varphi_i+g_i)},
+ \tag{21.3}\label{ian:phase-label-hs-mixture}
+\]
+with \(\mathcal N_K\) the normalizer. Then \(\mu=\int\mu_g\,\pi_{\rm HS}(dg)\),
+the component probabilities are
+\[
+ p_i(g)=\frac1{1+e^{-2(\beta\varphi_i+g_i)}},
+ \tag{21.4}\label{ian:phase-label-hs-bias}
+\]
+and they all lie in \([\alpha,1-\alpha]\) exactly when
+\[
+ \max_i|\beta\varphi_i+g_i|
+ \le \frac12\log\frac{1-\alpha}{\alpha}.
+ \tag{21.5}\label{ian:phase-label-hs-bias-event}
+\]
+If \(K_{ii}>0\), no fixed \(\alpha>0\) bounds coordinate \(i\) over the
+whole label support.
+\end{proposition}
+
+\begin{proof}
+\(\int e^{g^\mathsf Tx}\,\gamma_{\beta K}(dg)=e^{\beta x^\mathsf TKx/2}\);
+multiply by \(e^{\beta\varphi^\mathsf Tx}\), sum over \(x\), and normalize.
+The bias assertions are the logistic formula; the cosh tilt has positive
+density relative to \(\gamma_{\beta K}\), so the unbounded Gaussian tails
+of coordinates with \(K_{ii}>0\) remain.
+\end{proof}
+
+The mixing law \(\pi_{\rm HS}\) is a tilted Gaussian, not a Gaussian.
+Positive semidefiniteness is no restriction: every finite symmetric
+\(J\) admits such a shift. For comparison with the standard transform
+see Theorem 3.12 of the following source; the identities needed here
+were proved above.
+% Literature: [Liu--Mohanty--Rajaraman--Wu, Fast Mixing in Sparse Random Ising Models](https://amitrajaraman.github.io/publications/sparse-ising.pdf).
+
+\begin{proposition}[Typical entropy of Gaussian product components]
+\label{ian:phase-label-hs-admissibility}
+Suppose, uniformly in \(N\),
+\(\max_i|\varphi_i|\le\varphi_*\),
+\(\max_i\sum_j|K_{ij}|\le\Lambda\) and
+\(\max_i\beta K_{ii}\le\sigma_*^2\). Put
+\(B_N=\beta(\varphi_*+\Lambda)+\sqrt{2\sigma_*^2\log(2N^3)}\) and
+\(\alpha_N=(1+e^{2B_N})^{-1}=e^{-O(\sqrt{\log N})}\). Then
+\[
+ \pi_{\rm HS}\Bigl\{g:\max_i|\beta\varphi_i+g_i|>B_N\Bigr\}\le N^{-2},
+\]
+and off this set all component probabilities lie in
+\([\alpha_N,1-\alpha_N]\) and
+\(H_\infty(\mu_g)\ge N\alpha_N=N^{1-o(1)}\ge\sqrt N\) for large \(N\).
+Hence \eqref{ian:phase-label-hs-mixture} satisfies
+\eqref{ian:phase-label-anti-atom} unconditionally and, using
+\(s_U\), is \(\mathcal C_\cup\)-admissible with the product
+polynomial \eqref{ian:phase-label-product-polynomial}. Every
+bounded-degree, bounded-strength pairwise Ising family with bounded
+fields has such a decomposition.
+\end{proposition}
+
+\begin{proof}
+In the joint Gaussian--spin representation, completing the square gives
+\(G\mid X=x\sim\mathcal N(\beta Kx,\beta K)\), so
+\(|\beta\varphi_i+\E[G_i\mid X]|\le\beta(\varphi_*+\Lambda)\). A Gaussian
+tail bound and a union bound over \(i\), conditional on \(X\) and then
+averaged, give exceptional mass at most
+\(2N\exp(-\log(2N^3))=N^{-2}\) (if \(\sigma_*=0\) there is no
+exceptional set). Off it,
+\(-\log\max_x\mu_g(x)\ge-N\log(1-\alpha_N)\ge N\alpha_N\), and
+\(\alpha_N\ge\frac12e^{-2B_N}\) with \(B_N=O(\sqrt{\log N})\). All
+components, exceptional ones included, are products, so
+Proposition~\ref{ian:phase-label-union-class} applies. For bounded row
+sums of \(J\), a fixed scalar shift makes \(K\succeq0\) by Gershgorin and
+keeps the row sums and diagonal bounded.
+\end{proof}
+
+The bias bound \(\alpha_N\) depends on dimension; it is the
+arbitrary-bias product theorem that keeps the simulation polynomial
+dimension-free. The proposition applies to the repo's bounded-degree
+pairwise counterexamples, Theorems~\ref{res:pairwise-theorem} and
+\ref{res:zero-field-theorem}, which fail full AA in their stated
+low-temperature regimes. So a product-mixture
+decomposition with component min-entropy at least \(\sqrt N\) (indeed
+\(N^{1-o(1)}\)) outside label mass \(N^{-2}\), together with bounded
+local interactions, is compatible with full-AA failure.
+
+Further Gibbs families admit certified simulation bounds
+\eqref{ian:phase-label-component-bound} with the whole law as one
+component; the anti-atom condition is not checked here. Products of
+bounded-size blocks (Theorem~\ref{thm:threshold-block-products}),
+exchangeable families (\ref{exch:heading-2}) and Ising forests
+(Theorem~\ref{thm:threshold-ising-forests}) do so through the
+uniform-input simulator \(s_U\), which
+Corollary~\ref{cor:resolution-product-alphabet-aa} supplies. The bounded
+local families in the high-temperature regime of
+Theorem~\ref{thm:resolution-dynamics-arbitrary-degree} do so through
+the same corollary (with its imported external lemma) applied
+directly, not through \(s_U\).
+
+For Curie--Weiss the scalar Gaussian representation has mixing density
+\(\propto\exp(-nt^2/(2\beta))(2\cosh t)^n\,dt\) and conditional product
+probability \((1+\tanh t)/2\); at \(\beta>1\) its modes are
+\(t=\pm\beta m_\beta\). The field support is unbounded, and the positive
+conclusion of Proposition~\ref{ian:phase-label-positive-instances}, which
+uses \(s_U\), comes from exchangeability and phase
+learnability, not from a fixed bias bound on this representation.
+
+\begin{remark}[Open problem: local character-order structure]
+\label{ian:phase-label-local-open-problem}
+\emph{Intended idea.} In bounded-degree, bounded-strength local Gibbs
+laws, a phase-label obstruction should come from a code-like label:
+thermally populated, hidden from classical trees whose depth is
+independent of \(N\), and quantumly relevant, as the character index
+(with the sign, \((A,B)\), in signed families) is in the repo's local
+codes. It is not hidden at depth \(O(\log N)\); see the first correction.
+
+\emph{Two corrections any formulation must respect.} First, the
+character label is determined by \(m=\log_2n\) clean coordinates
+(\(m+1\) with the sign), and in
+the noisy neighborhood (fewer than \(n/32\) errors) it is learnable from
+\(O(\log n+\log(1/\delta))\) uniformly sampled coordinates with
+unrestricted decoding: the true signed character has mismatch rate below
+\(1/32\), every other above \(15/32\), and Hoeffding with a union bound
+over \(2n\) candidates suffices. So ``not determined by any
+\(O(\log N)\) spins'' excludes the intended examples; the relevant scale
+is polynomial in \(T\) and \(\varepsilon^{-1}\), independent of \(N\), and
+a \(\Theta(\log N)\) lower bound at fixed \(T,\varepsilon\) already
+violates full AA. Second, every parity of the label is one classical
+query in the clean oracle; the separated observable is the nonlinear
+\(h(A)\) (remark after
+Proposition~\ref{ian:phase-label-character-noisy-instances}). So ``one
+quantum query reveals a parity of the label'' does not express the
+obstruction, and the definition of full AA does not require \(T=1\).
+
+\emph{Surviving weaker form.} For such a family failing full AA: on a
+polynomial refinement \(\nu'\le\nu/\kappa\) of a hard witness \(\nu\),
+with \(\kappa\) inverse-polynomial in the witness parameters, is there a
+near-uniform label \(\lambda:\operatorname{supp}\nu'\to\mathbb F_2^m\)
+with \(m\ge c\log t\) whose basis characters \((-1)^{e_i\cdot\lambda}\)
+are each \(\kappa\)-correlated with some \(k_0\)-local observable, with
+\(c,k_0\) fixed? The hard-witness part alone already follows from
+Remark~\ref{ian:hard-sector-polynomial-quantifiers} with the constants
+\(64,3,2\) there (its \(K,p,q\); unrelated to the coupling matrix \(K\)).
+As stated the question is weak: a label made of \(m\) spin values meets
+the correlation clause with \(k_0=1\), so a useful version must also
+force \(\lambda\) to be hidden, item (e) below.
+
+\emph{Requirements for a stronger formulation.} (a) Fix the scope: a
+fixed Hamiltonian sequence or a class, and whether fields count in the
+strength bound. (b) Quantify \(t,a,w,m\) and the observable index
+explicitly. (c) Any redundancy condition on the correlated observables
+must not be met by rescaled copies of a single observable. (d) A
+relevance condition such as \(\Var_{\nu'}\E[Q\mid\lambda]\ge\kappa\) must
+not be obtainable merely by choosing the refinement \(\nu'\). (e)
+\(\lambda\) must be hidden from shallow trees, which
+\(m\ge c\log t\) alone does not force, since it allows \(m\ll t\). Possible counterexamples include
+Forrelation-type mechanisms based on Fourier correlation rather than
+recovery of a character index; no bounded-degree thermal implementation
+with every spin queryable is known here.
+% Literature: [Aaronson--Ambainis, Forrelation](https://arxiv.org/abs/1411.5729).
+\end{remark}

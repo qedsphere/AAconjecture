@@ -1,14 +1,9 @@
 \subsection{Random sets, products, and failure of necessity}
 \label{ian:gamma-set-products-and-necessity}
 
-Status: proved. The counterexamples and the product implication below are unconditional. The hereditary full-AA assertions use the cited repository simulation results.
+Status: proved. The failures of \(\Gamma^{\mathrm{rand}}\) and \(\Gamma^{\mathrm{set}}\) (Propositions~\ref{ian:triple-random-set-failure} and~\ref{ian:gamma-set-not-necessary}) and the product implication (Proposition~\ref{ian:product-global-to-local}) are unconditional. The hereditary full-AA assertions use \path{foundations/product_alphabets.tex}, Corollary~\ref{cor:resolution-product-alphabet-aa}, whose only external import is its counting inequality (BC); neither the influence form (UAA) nor a uniform-input simulator is used in this subsection.
 
-Here (UAA) is the uniform theorem imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}. For a class \(\mathcal A\) of laws, \(\operatorname{Pin}\mathcal A\) denotes its pinning closure: all residual laws obtained from members of \(\mathcal A\) by positive-probability pinnings, including the empty pinning.
-
-Write
-\[
- G_\mu(f,S):=\Var_\mu\bigl(\E_\mu[f\mid X_S]\bigr).
-\]
+Notation \(D_i\), \(I_i^\mu\), the reveal gain \(G_\mu(f,S)\), and the constants of \(\Gamma^{\mathrm{rand}},\Gamma^{\mathrm{set}}\) are those of Subsection~\ref{ian:generalized-influence-bridge}. For a class \(\mathcal A\) of laws, \(\operatorname{Pin}\mathcal A\) denotes its pinning closure: all residual laws obtained from members of \(\mathcal A\) by positive-probability pinnings, including the empty pinning.
 
 \begin{proposition}[Random sets are not necessary]
 \label{ian:triple-random-set-failure}
@@ -64,11 +59,19 @@ for example with
 parameter. This is a witness-level statement; it does not assert
 \(\Gamma^{\mathrm{set}}\) for the whole class.
 
-A positive-probability pinning leaves a product of blocks of size at
-most three, some deterministic. The hereditary full-AA conclusion
-therefore follows from
-\path{simulation/positive_examples/02_arbitrary_blocks.tex},
-Theorem~\ref{thm:threshold-block-products}.
+For hereditary full AA, note that a positive-probability pinning of
+\(\mu_m\) is again a product of independent laws on disjoint blocks of
+at most three coordinates, some deterministic. Regard each block as one
+symbol of a finite alphabet. A physical query is implemented by two
+coherent symbol queries (compute the symbol, act on the requested bit,
+uncompute), and a classical symbol query costs at most three physical
+queries. Hence \path{foundations/product_alphabets.tex},
+Corollary~\ref{cor:resolution-product-alphabet-aa}, gives every
+\(T\)-query acceptance function a deterministic simulator with mean
+error at most \(e\) using \(O(T^6e^{-15})\) physical queries, with an
+absolute constant, uniformly over \(m\) and the pinning.
+(Theorem~\ref{thm:threshold-block-products} gives the same conclusion
+through a uniform-input simulator.)
 \end{proof}
 
 \begin{proposition}[L4: Global implies Local on products]
@@ -106,28 +109,19 @@ Product Efron--Stein and Jensen give
 \]
 This proves both claims.
 
-For the constants in Definition~\ref{ian:gamma-definition}, write
-\(x=d/v\ge1\). The Global alternative implies
+With \(x=d/v\ge1\), the Global alternative of
+Definition~\ref{ian:gamma-definition} has
+\(|S|\le\lceil B_Gx^{K_G}\rceil\le(B_G+1)x^{K_G}\), so
 \[
  \max_i I_i^\mu(f)
- \ge\frac{c_G}{B_G+1}(v/d)^{C_G+K_G},
+ \ge\frac{c_G}{B_G+1}(v/d)^{C_G+K_G}.
 \]
-because \(|S|\le\lceil B_Gx^{K_G}\rceil\le(B_G+1)x^{K_G}\).
 Thus ordinary AA holds with
-\[
- c=\min\{c_L,c_G/(B_G+1)\},\qquad
- C=\max\{C_L,C_G+K_G\}.
-\]
-
-No bias floor entered this argument, including at deterministic
-coordinates. A floor is needed for the reverse comparison
-\[
- H_i^\mu(f)\ge4a(1-a)I_i^\mu(f)
- \quad\text{when }p_i\in[a,1-a].
-\]
-In particular, this comparison converts the original Local branch,
-which is stated using flip influence, into a heat-bath lower bound.
-There is no uniform reverse comparison for arbitrary biases.
+\(c=\min\{c_L,c_G/(B_G+1)\}\) and \(C=\max\{C_L,C_G+K_G\}\).
+No bias floor entered, even at deterministic coordinates. A floor
+\(p_i\in[a,1-a]\) is needed only for the reverse comparison
+\(H_i^\mu(f)\ge4a(1-a)I_i^\mu(f)\), which would turn the flip-influence
+Local branch into a heat-bath bound.
 \end{proof}
 
 \begin{proposition}[Hereditary full AA does not imply fixed-set Gamma]
@@ -146,14 +140,9 @@ restricted to quantum acceptance functions.
 \end{proposition}
 
 \begin{proof}
-The hereditary full-AA assertion follows from
-Theorem~\ref{thm:threshold-block-products}. Alternatively,
-\path{foundations/product_alphabets.tex},
-Corollary~\ref{cor:resolution-product-alphabet-aa}, applies to the
-independent block symbols. A physical query can be implemented using
-two coherent symbol queries, and a classical symbol query costs at
-most three physical queries. This gives a uniform
-\(O(T^6e^{-15})\) physical-query bound, also after pinning.
+Hereditary full AA, with the uniform \(O(T^6e^{-15})\) physical-query
+bound, was proved in Proposition~\ref{ian:triple-random-set-failure}
+from Corollary~\ref{cor:resolution-product-alphabet-aa}.
 
 Proposition~\ref{ian:hard-block-addressing} below constructs, on
 \(\mu_{r+2^r}\), Boolean polynomials \(f_r\) satisfying
@@ -177,10 +166,8 @@ is an acceptance function of a deterministic algorithm: read the
 three spins in each of the \(r\) address blocks, then the three spins
 in the selected data block. It uses \(3(r+1)\) queries.
 For \(Q_r\), the variance is \(1/4\), all influences remain zero,
-and the reveal bound is divided by four. Thus the same asymptotic
-contradiction applies to acceptance functions themselves.
-
-The obstruction is therefore present even without the distinction
-between bounded polynomials and acceptance functions. A short
-adaptive tree need not supply a polynomial-size fixed revealing set.
+and the reveal bound is divided by four, so the same asymptotic
+contradiction (now with \(v=1/4\)) applies to acceptance functions
+themselves. A short adaptive tree need not supply a polynomial-size
+fixed revealing set.
 \end{proof}

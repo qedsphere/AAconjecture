@@ -1,0 +1,419 @@
+\subsection{Influence AA from completion and elementary certificate bounds}
+\label{ian:influence-form-uniform-aa}
+
+Status: proved, for the uniform law and every finite product law, uniformly under positive-probability pinning, with exponents \((\alpha,\beta)=(12,12)\) and explicit constant \(c_\star=9/(2^{61}\pi^{12})\) (Theorem~\ref{ian:uniform-influence-aa-proved}, Corollary~\ref{ian:product-influence-aa-proved}). The only imports are the Boolean-box counting inequality (BC) of Huffstutler--Miloschewsky--Podder, entering through the completion theorem of \path{foundations/product_alphabets.tex} (Theorem~\ref{thm:resolution-alphabet-completion}); the covariance inequality of O'Donnell--Saks--Schramm--Servedio 2005, equation~(6), cited from the literature (its proof is only sketched below, to fix the normalization); and the standard facts of finite-dimensional linear programming duality, Chebyshev polynomials and Markov's polynomial inequality. The imported influence form (UAA) of \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex} is not used, and its stronger exponents \((5/2,6)\) are not established here.
+
+Throughout, the physical-coordinate convention is
+\[
+ D_i f(x)=\frac{f(x_{-i},1)-f(x_{-i},-1)}2,\qquad
+ I_i^\mu(f)=\mathbb E_\mu(D_i f)^2.
+\]
+This is the derivative influence of
+Subsection~\ref{ian:generalized-influence-bridge}. It is not the
+Boolean resampling probability
+\(\Pr[G(X)\ne G(X_{-i},X_i')]\) that
+\path{foundations/product_alphabets.tex} also writes \(I_i^\mu(G)\);
+for a \(\{0,1\}\)-valued \(G\) under the uniform law the latter equals
+\(2I_i^{U}(G)\) in the present convention. In this subsection
+resampling probabilities are always written out explicitly.
+
+\begin{remark}[Exact statement and dependencies of HMP Theorem 7]
+\label{ian:hmp-influence-audit}
+In \path{../papers/2611.12795v1.pdf}, Appendix A, PDF page~7,
+Huffstutler--Miloschewsky--Podder state the following theorem:
+if \(n,d\ge1\), \(p:\{0,1\}^n\to[0,1]\) is a real polynomial
+of degree \(d\), and \(w=\operatorname{Var}_{U_n}(p)>0\), then
+\[
+ \max_i J_i(p)=\Omega\!\left(\frac{w^{12}}{d^{12}}\right),
+ \qquad
+ J_i(p)=\mathbb E_{U_n}\bigl(p(X)-p(X^{\oplus i})\bigr)^2.
+\]
+The measure is uniform, boundedness is on the entire cube, and the
+influence has no factor \(1/4\). The theorem supplies an absolute
+positive implied constant, but prints no numerical constant.
+
+For a polynomial \(f:\{-1,1\}^n\to[-1,1]\), put
+\(p(y)=(1+f(2y-1))/2\). Then
+\[
+ J_i(p)=I_i^{U_n}(f),\qquad
+ \operatorname{Var}(p)=\operatorname{Var}(f)/4.
+\]
+Consequently a constant \(c_{\mathrm H}\) in their displayed
+normalization becomes \(4^{-12}c_{\mathrm H}\) here.
+
+The nontrivial external imports at the boundary of their proof are
+the following two results.
+
+Anshu--Ben-David--Kundu, \emph{On Query-to-Communication Lifting for
+Adversary Bounds}, CCC 2021, LIPIcs~200, Article~30,
+DOI \(10.4230/\mathrm{LIPIcs.CCC.2021.30}\), Theorem~8,
+PDF page~8, states
+\[
+ \operatorname{CAdv}(\phi)
+ \le \frac{\pi^2\widetilde{\deg}_{\epsilon}(\phi)^2}{1-2\epsilon}
+ \qquad(0\le\epsilon<1/2).
+\]
+Here approximating polynomials must remain in \([0,1]\) on the whole
+cube. On HMP page~7 this is applied to the promised sign of
+\(z=p-\mathbb Ep\), with promise \(|z|\ge w/4\), approximant
+\((1+z)/2\), and \(\epsilon=1/2-w/8\). It supplies
+\(\operatorname{CAdv}(\phi)\le4\pi^2d^2/w\).
+% [ABDK21, Theorem 8, PDF page 8](https://drops.dagstuhl.de/storage/00lipics/lipics-vol200-ccc2021/LIPIcs.CCC.2021.30/LIPIcs.CCC.2021.30.pdf#page=8)
+
+O'Donnell--Saks--Schramm--Servedio, \emph{Every decision tree has an
+influential variable}, FOCS 2005, pp.~31--39,
+DOI \(10.1109/\mathrm{SFCS.2005.34}\), equation~(6) in
+Section~3.3, arXiv PDF page~8, supplies the covariance inequality.
+HMP use it in Lemma~6, PDF pages~6--7, to obtain
+\[
+ |\operatorname{Cov}(p,h)|
+ \le \frac D2\sqrt{\max_i J_i(p)}
+\]
+when a depth-\(D\) tree computes \(h:\{0,1\}^n\to[-1,1]\).
+This converts their correlated tree into an influence of \(p\).
+
+The intervening completion theorem is HMP Theorem~2, stated on
+page~2 and proved on pages~2--5. Its completion construction is on
+pages~2--3; its certificate inequality is Lemma~4, pages~3--4,
+with (BC) appearing as equation~(4) on page~3.
+These are proved within HMP. The reference to Turturean's
+Theorem~5.4 identifies the provenance of the certificate inequality;
+HMP reprove the required special case. AA14 and HKMP26 provide
+context and the completion framework, rather than further theorem
+inputs to Theorem~7. In particular, the separate bound
+\(\operatorname{CAdv}=O(Q^2)\) is not used in this influence proof.
+\end{remark}
+
+\begin{definition}[Degree on a product alphabet]
+\label{ian:alphabet-interaction-degree}
+For a finite product set \(\Omega=\prod_{i=1}^n\Omega_i\), say that
+\(F:\Omega\to\mathbb R\) has interaction degree at most \(d\) if
+\[
+ F(x)=\sum_{\substack{S\subseteq[n]\\|S|\le d}}F_S(x_S)
+\]
+for suitable functions \(F_S\). A multilinear degree-\(d\) polynomial
+on a Boolean cube has this property. Grouping physical coordinates
+into arbitrary disjoint blocks also preserves the upper bound \(d\)
+on interaction degree.
+\end{definition}
+
+\begin{lemma}[Threshold certificates from degree]
+\label{ian:degree-threshold-certificates}
+Suppose \(F:\Omega\to[-1,1]\) has interaction degree at most
+\(d\ge1\). Fix \(\theta\in\mathbb R\), \(a>0\), and write
+\[
+ H(x)=\mathbf1_{\{F(x)\ge\theta\}},\qquad
+ \mathcal D=\{x:|F(x)-\theta|\ge a\}.
+\]
+Every \(x\in\mathcal D\) has a fractional certificate \(c^x\) for
+the total function \(H\), of cost at most
+\[
+ A=\frac{\pi^2d^2}{2a}.
+\]
+Moreover these certificates satisfy
+\[
+ \sum_{i:x_i\ne y_i}\min(c_i^x,c_i^y)\ge1
+ \quad\text{whenever }x,y\in\mathcal D,\ H(x)\ne H(y).
+ \tag{DADV}
+\]
+Thus they are weights of exactly the form required by
+Theorem~\ref{thm:resolution-alphabet-completion}.
+\end{lemma}
+
+\begin{proof}
+Fix \(x\in\mathcal D\). The certificate linear program and its dual are
+\[
+ \min\left\{\sum_i c_i:
+ c_i\ge0,\
+ \sum_{i:x_i\ne y_i}c_i\ge1\quad(H(y)\ne H(x))\right\},
+\]
+\[
+ \max\left\{\sum_{y:H(y)\ne H(x)}w_y:
+ w_y\ge0,\
+ \sum_{\substack{y:H(y)\ne H(x)\\y_i\ne x_i}}w_y\le1
+ \quad(i\in[n])\right\}.
+\]
+An empty constraint family needs the zero certificate. Otherwise
+choose a rational optimal dual solution and put \(W=\sum_yw_y\).
+
+Let \(k\) tend to infinity through multiples of a common denominator
+of the \(w_y\). For each \(y\), make \(kw_y\) copies of its
+modification of \(x\). At coordinate \(i\), allocate a distinct slot
+to every copy which changes that coordinate. There are at most \(k\)
+such slots. Label that slot by its target symbol \(y_i\); label unused
+slots by \(x_i\). The slot sets belonging to different modification
+copies are disjoint.
+
+Put
+\[
+ m_k=\left\lceil\frac{\pi\sqrt{k}}2\right\rceil,\qquad
+ r_k(s)=
+ \frac{1-T_{m_k}\!\left(1-(1-\cos(\pi/m_k))s\right)}2,
+\]
+where \(T_m(\cos t)=\cos(mt)\). Then
+\[
+ r_k(0)=0,\qquad r_k(1)=1,\qquad
+ 0\le r_k(s)\le1\quad(0\le s\le k).
+\]
+Indeed,
+\(1-\cos(\pi/m_k)\le\pi^2/(2m_k^2)\), so the argument of
+\(T_{m_k}\) stays in \([-1,1]\) throughout that interval.
+
+For Boolean slot variables \(z_{i1},\ldots,z_{ik}\), let
+\(s_i=\sum_jz_{ij}\), and let \(u_{ij}\) be the slot labels.
+Define the symbol distribution
+\[
+ Q_i(z_i)=
+ (1-r_k(s_i))\delta_{x_i}
+ +\frac{r_k(s_i)}{s_i}\sum_{j=1}^kz_{ij}\delta_{u_{ij}}.
+\]
+The quotient is interpreted as a polynomial, since \(r_k(0)=0\).
+At \(s_i=0\) the second term vanishes. These are probability
+distributions at every Boolean slot assignment.
+
+Define
+\[
+ \widetilde F(z)=
+ \mathbb E_{Y_i\ \mathrm{independent},\ Y_i\sim Q_i(z_i)}F(Y).
+\]
+It is bounded by one on the entire slot cube. Each probability
+coordinate of \(Q_i\) has degree at most \(m_k\); the interaction-degree
+decomposition therefore gives \(\deg\widetilde F\le dm_k\).
+
+There are \(M=kW\) modification copies. Tie together the slot bits
+belonging to each copy, leaving unused slots zero. After
+multilinearization this gives a polynomial \(P\) on \(M\) Boolean
+variables of degree at most \(dm_k\), bounded by one. It satisfies
+\(P(0)=F(x)\), and setting just the variable for a copy of \(y\) to
+one gives \(P(e_\ell)=F(y)\).
+
+For independent Bernoulli-\(t\) variables \(B_1,\ldots,B_M\), put
+\[
+ q(t)=\mathbb E P(B_1,\ldots,B_M).
+\]
+Then \(\deg q\le dm_k\), \(|q(t)|\le1\) on \([0,1]\), and
+\[
+ q'(0)=\sum_{y:H(y)\ne H(x)}kw_y\bigl(F(y)-F(x)\bigr).
+\]
+All differences have the same sign and absolute value at least
+\(a\). Markov's inequality on \([0,1]\) consequently gives
+\[
+ akW\le |q'(0)|\le2d^2m_k^2.
+\]
+Letting \(k\to\infty\) yields
+\[
+ W\le\frac{\pi^2d^2}{2a}.
+\]
+Linear programming duality proves the certificate bound.
+
+Choose such a certificate at every domain point. For opposite
+\(x,y\in\mathcal D\), construct \(z\) coordinatewise: where they
+differ, choose \(z_i=x_i\) if \(c_i^x\ge c_i^y\), and \(z_i=y_i\)
+otherwise. At least one of \(H(z)\ne H(x)\) and \(H(z)\ne H(y)\)
+holds. In the first case,
+\[
+ 1\le\sum_{i:x_i\ne z_i}c_i^x
+ \le\sum_{i:x_i\ne y_i}\min(c_i^x,c_i^y);
+\]
+the other case uses the certificate at \(y\) in the same way.
+This proves (DADV).
+\end{proof}
+
+\begin{remark}[What replaces the ABDK import]
+\label{ian:degree-certificate-provenance}
+Lemma~\ref{ian:degree-threshold-certificates} proves the required
+degree-to-weight implication, including its alphabet extension,
+rather than importing ABDK Theorem~8. The Boolean fractional-packing
+and certificate antecedents appear in ABDK21, Section~6,
+Lemmas~27--28 and Theorem~29, PDF pages~34--36.
+The proof above supplies all needed steps using elementary
+Chebyshev and Markov facts.
+
+One cannot instead apply exact Boolean degree/certificate relations
+to \(H\): thresholding a bounded real polynomial need not preserve
+its degree. The promise margin and the fractional certificate
+argument are essential here.
+\end{remark}
+
+\begin{lemma}[Product OSSS covariance inequality]
+\label{ian:product-osss-covariance}
+Let \(\mu\) be a finite product law, let \(F:\Omega\to\mathbb R\),
+and suppose a deterministic tree of depth at most \(K\) computes
+\(h:\Omega\to[-1,1]\). Write
+\[
+ q_i=\Pr_\mu[\text{the tree queries }i],\qquad
+ L_i^\mu(F)=\mathbb E|F(X)-F(X_{-i},X_i')|,
+\]
+\[
+ \mathcal E_i^\mu(F)=
+ \mathbb E_\mu\operatorname{Var}(F\mid X_{-i})
+ =\frac12\mathbb E(F(X)-F(X_{-i},X_i'))^2.
+\]
+Then
+\[
+ |\operatorname{Cov}_\mu(F,h)|
+ \le\sum_iq_iL_i^\mu(F)
+ \le K\sqrt{2\max_i\mathcal E_i^\mu(F)}.
+ \tag{OSSS-C}
+\]
+This is the standard product covariance form of OSSS, including
+unequal biases and arbitrary finite alphabets, not merely its
+Boolean variance specialization.
+% [OSSS05, Section 3.3, equation (6), PDF page 8](https://arxiv.org/pdf/cs/0508071#page=8)
+\end{lemma}
+
+\begin{proof}
+The first inequality is O'Donnell--Saks--Schramm--Servedio 2005,
+Section~3.3, equation~(6); the hybrid argument and its induction
+over the tree are carried out there on arXiv PDF pages~7--8. We
+record the steps only to fix the normalization.
+
+A tree computing \(h\) may be pruned so that no path queries a
+coordinate twice: a repeated query has an already determined answer,
+so deleting it does not change \(h\) and does not increase the depth
+or any \(q_i\). Take independent \(X,Y\sim\mu\). Let
+\(i_1,\ldots,i_s\) be the pruned tree's queries on \(X\). Let \(U_t\)
+use \(X\) on coordinates queried after time \(t\), and \(Y\)
+elsewhere. Thus \(U_s=Y\), \(h(U_0)=h(X)\), and \(U_0\sim\mu\). Hence
+\[
+ \operatorname{Cov}_\mu(F,h)
+ =\mathbb E\bigl[h(X)(F(U_0)-F(U_s))\bigr].
+\]
+By independence and deferred decisions, conditional on the transcript
+before query \(t\), the pair \((U_{t-1},U_t)\) has the original
+product resampling distribution at coordinate \(i_t\).
+Telescoping and \(|h|\le1\) give the first inequality.
+Cauchy--Schwarz gives \(L_i^\mu(F)\le\sqrt{2\mathcal E_i^\mu(F)}\);
+finally \(\sum_iq_i\le K\).
+\end{proof}
+
+\begin{theorem}[Uniform-input influence AA with an explicit constant]
+\label{ian:uniform-influence-aa-proved}
+For every \(n,d\ge1\) and every multilinear
+\(f:\{-1,1\}^n\to[-1,1]\) of degree at most \(d\),
+\[
+ \max_i I_i^{U_n}(f)
+ \ge c_\star\,
+       \frac{\operatorname{Var}_{U_n}(f)^{12}}{d^{12}},
+ \qquad c_\star=\frac{9}{2^{61}\pi^{12}}.
+ \tag{I-AA}
+\]
+\end{theorem}
+
+\begin{proof}
+Put \(v=\operatorname{Var}_{U_n}(f)\). The case \(v=0\) is immediate.
+Otherwise \(0<v\le1\). Write
+\[
+ z=f-\mathbb Ef,\qquad
+ a=v/8,\qquad
+ \mathcal D=\{|z|\ge a\},\qquad
+ \phi(x)=\mathbf1_{\{z(x)>0\}}\quad(x\in\mathcal D).
+\]
+Lemma~\ref{ian:degree-threshold-certificates}, with
+\(\theta=\mathbb Ef\), supplies (ADV) weights of cost at most
+\[
+ A=\frac{4\pi^2d^2}{v}.
+\]
+Apply Theorem~\ref{thm:resolution-alphabet-completion} with
+\(\eta=v/64\). It produces a total Boolean tree output \(F_0\)
+whose unconditional error mass on \(\mathcal D\) is at most
+\(\eta\), and whose depth is at most
+\[
+ K=\left\lceil128A^3/\eta^2\right\rceil
+  =\left\lceil2^{25}\pi^6d^6v^{-5}\right\rceil
+  \le2^{26}\pi^6d^6v^{-5}.
+\]
+Set \(h=2F_0-1\), and let
+\(E=\{x\in\mathcal D:F_0(x)\ne\phi(x)\}\).
+
+Since \(|z|\le2\), we have \(\mathbb E|z|\ge v/2\).
+On \(\mathcal D\setminus E\), \(zh=|z|\); everywhere else
+\(zh\ge-|z|\). Therefore
+\[
+ \operatorname{Cov}(f,h)=\mathbb Ezh
+ \ge\mathbb E|z|-2\mathbb E[|z|\mathbf1_{\mathcal D^c}]
+                     -2\mathbb E[|z|\mathbf1_E]
+ \ge v/2-2a-4\eta
+ =3v/16.
+\]
+For fair Boolean coordinates,
+\(\mathcal E_i^{U_n}(f)=I_i^{U_n}(f)\).
+Lemma~\ref{ian:product-osss-covariance} now gives
+\[
+ \max_i I_i^{U_n}(f)
+ \ge\frac{(3v/16)^2}{2K^2}
+ \ge\frac{9}{2^{61}\pi^{12}}\frac{v^{12}}{d^{12}}.
+\]
+\end{proof}
+
+\begin{corollary}[All product biases, alphabets, and pinnings]
+\label{ian:product-influence-aa-proved}
+For every finite product law \(\mu\) and every
+\(F:\Omega\to[-1,1]\) of interaction degree at most \(d\ge1\),
+\[
+ \max_i\mathcal E_i^\mu(F)
+ \ge c_\star\,
+       \frac{\operatorname{Var}_\mu(F)^{12}}{d^{12}}.
+ \tag{A-AA}
+\]
+Consequently, for every Boolean product law
+\(\mu=\bigotimes_i\operatorname{Bernoulli}_{\{-1,1\}}(p_i)\),
+where \(p_i=\Pr_\mu(X_i=1)\in[0,1]\),
+and every globally bounded multilinear degree-at-most-\(d\) polynomial,
+\[
+ \max_i I_i^\mu(f)
+ \ge c_\star\,
+       \frac{\operatorname{Var}_\mu(f)^{12}}{d^{12}}.
+ \tag{P-AA}
+\]
+The constant is independent of dimension, degree, alphabet sizes,
+and all biases, including deterministic coordinates.
+Both assertions hold with the same constant after every
+positive-probability pinning.
+\end{corollary}
+
+\begin{proof}
+Repeat the preceding proof under \(\mu\).
+The threshold-weight lemma is pointwise and independent of the law;
+the completion theorem and (OSSS-C) hold for every finite product
+law. Every displayed estimate, including the depth and covariance
+bounds, is unchanged. This proves (A-AA).
+
+For a Boolean product coordinate, independence gives exactly
+\[
+ \mathcal E_i^\mu(f)=4p_i(1-p_i)I_i^\mu(f)\le I_i^\mu(f).
+\]
+This proves (P-AA) without dividing by a bias parameter.
+Zero-mass symbols may be deleted, and deterministic coordinates may
+be fixed before applying the argument.
+
+Pinning preserves product structure, interaction degree, and global
+boundedness on the residual domain. The same proof therefore applies
+after every allowed pinning.
+\end{proof}
+
+\begin{remark}[Completion normalization and the final transfer step]
+\label{ian:influence-aa-dependencies}
+The completion theorem uses Boolean resampling probabilities
+\(\Pr[G(X)\ne G(X_{-i},X_i')]\). For Boolean \(G\in\{0,1\}\)
+these equal \(2\mathcal E_i^\mu(G)\). Its stated constant \(128\)
+has been used without changing that normalization.
+
+More explicitly, its proof constructs a completion \(G\) with total
+Boolean resampling influence at most \(4A\) and certificates
+\(4\lambda^x\) on the promise. Lemma
+\ref{lem:resolution-alphabet-certificates}, obtained from (BC),
+provides a queried coordinate with resampling influence at least
+\(m(C)^2/(32A^2)\) at transcript \(C\). The exact influence decrement
+then yields depth \(\lceil128A^3/\eta^2\rceil\).
+All weights used in (BC) are nonnegative.
+
+The tree-to-\(f\) step is (OSSS-C). No pointwise comparison between
+influences of the auxiliary completion \(G\) and those of \(f\) is
+asserted. OSSS is a standard, citable product-space theorem; its
+required covariance form is cited from OSSS05 and sketched above.
+No ABDK theorem or quantum adversary theorem remains an imported
+step. The simulation corollary
+\ref{cor:resolution-product-alphabet-aa} is not used to infer
+influence AA.
+\end{remark}

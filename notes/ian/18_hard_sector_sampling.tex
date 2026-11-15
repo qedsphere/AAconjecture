@@ -1,7 +1,7 @@
 \subsection{Sampling, Glauber mixing, and acceptance simulation}
 \label{ian:hard-sector-sampling}
 
-Status: proved in the stated computation models; the Curie--Weiss full-AA assertion is conditional on uniform-input AA, and its mixing estimate is imported from literature.
+Status: proved in the stated computation models. The Curie--Weiss full-AA assertion is unconditional: it is Section~\ref{exch:heading-2} with its uniform-input simulator supplied by Corollary~\ref{cor:resolution-product-alphabet-aa}, which imports only inequality (BC) of Huffstutler--Miloschewsky--Podder (arXiv:2611.12795). The Curie--Weiss Glauber mixing lower bound is imported from Ding--Lubetzky--Peres (Theorem 3). Every other statement rests only on repo results and standard Markov-chain facts.
 
 A uniform exact sampler here is a probabilistic Turing machine using
 independent fair bits, halting almost surely, whose output has exactly
@@ -92,7 +92,7 @@ unknown input supplied to the query algorithm.
 
 \begin{proposition}[Curie--Weiss: full AA with exponentially slow Glauber mixing]
 \label{ian:hard-sector-curie-weiss-sampling}
-Assume uniform-input AA. For every fixed \(\beta>1\), the laws
+For every fixed \(\beta>1\), the laws
 \[
  \pi_{\beta,n}(x)
  \propto\exp\left(\frac{\beta}{2n}
@@ -110,8 +110,14 @@ for some \(c_\beta>0\).
 \begin{proof}
 These laws are permutation invariant, so the full-AA assertion is
 Section~\ref{exch:heading-2} in
-\path{simulation/exchangeable_inputs/01_theorem.tex}, with precisely
-its uniform-input AA assumption.
+\path{simulation/exchangeable_inputs/01_theorem.tex} (written on
+\(\{0,1\}^n\); identify bits with signs). That theorem assumes
+uniform-input AA only in simulation form: a deterministic uniform-input
+simulator with mean error \(e\) and \(S_0(T,1/e)\) queries for a fixed
+polynomial \(S_0\). Corollary~\ref{cor:resolution-product-alphabet-aa},
+applied to the uniform product law, supplies it with
+\(S_0(T,1/e)=O(T^6e^{-15})\) for \(0<e<1\); errors \(e\ge1\) need no
+queries.
 
 The mixing assertion is an external import from
 Ding--Lubetzky--Peres, Theorem 3, for ordinary random-site heat-bath
@@ -274,22 +280,25 @@ No polynomial-time energy-evaluation promise is asserted.
 
 \begin{corollary}[The logical separation]
 \label{ian:hard-sector-sampling-separation}
-In the repo's unrestricted query model, and assuming uniform-input
-AA for the Curie--Weiss implication, neither efficient exact
+In the repo's unrestricted query model, neither efficient exact
 samplability nor polynomial random-site heat-bath Glauber mixing is
 necessary or sufficient for full AA.
+\end{corollary}
 
+\begin{proof}
 Efficient samplability is not sufficient by
 Theorem~\ref{ian:hard-sector-character-sampler}, and is not necessary
 by Proposition~\ref{ian:hard-sector-sampling-not-necessary}.
 Polynomial Glauber mixing is not sufficient by
 Proposition~\ref{ian:hard-sector-padded-fast-mixing}, and is not
 necessary by Proposition~\ref{ian:hard-sector-curie-weiss-sampling}.
-Only the last implication uses uniform-input AA.
+Only the last implication uses imports: the Ding--Lubetzky--Peres
+mixing bound, and, for its full-AA half, inequality (BC) through
+Corollary~\ref{cor:resolution-product-alphabet-aa}.
+\end{proof}
 
 If one additionally restricts to polynomial-time evaluable Gibbs
 Hamiltonians with polynomial-time precision access, the diagonal
 non-samplability construction does not establish necessity failure
 inside that narrower class. The other three separations above retain
 their stated effective models.
-\end{corollary}

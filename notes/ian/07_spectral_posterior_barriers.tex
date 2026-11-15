@@ -7,7 +7,8 @@ Hubbard--Stratonovich field coordinate, even to a fixed small total
 variation error, requires linearly many input queries. The same holds
 for one heat-bath update. These are representation-specific lower
 bounds, not a failure of full AA or a universal obstruction to
-Proposition~\ref{prop:threshold-local-posterior}.
+Proposition~\ref{prop:threshold-local-posterior}. The barriers use no
+import.
 
 \begin{lemma}[An adaptive sampler's correlation budget]
 \label{ian:adaptive-correlation-budget}
@@ -214,18 +215,24 @@ uniformly bounded expected neighbor-query cost in this family.
 An input-independent random update map, evaluated using its selected
 parents, is such a procedure. Hence the subcritical expected-parent
 estimates used in
-\texttt{high\_temperature/classical/05\_arbitrary\_degree.tex},
+\path{high_temperature/classical/05_arbitrary_degree.tex},
 Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, cannot follow
 from a small spectral norm alone.
 
 This limitation is specific to the elementary update task. For
 example, a star with central couplings \(\lambda/\sqrt N\) also has
 operator norm \(\lambda\), and its central heat-bath task has exactly
-the same lower bound. Nevertheless, the entire star family has
-hereditary full AA by
-\texttt{simulation/positive\_examples/03\_ising\_forests.tex},
-Theorem~\ref{thm:threshold-ising-forests}.
-Thus expensive uniform heat-bath access is compatible with a different
-successful local-posterior representation. No universal impossibility
-statement for forward maps plus posterior access follows from these
-barriers.
+the same lower bound. Nevertheless, every star law, with arbitrary
+fields and after any pinning, has full AA with one extra query: query
+the center if it is unpinned; given its value, the remaining law is a
+product law, and the hardwired function of the leaves is again a
+\(T\)-query acceptance function, to which
+Corollary~\ref{cor:resolution-product-alphabet-aa} applies at mean
+error \(\epsilon\) with \(O(T^6\epsilon^{-15})\) queries; averaging over
+the center value gives \(\E_\mu|D-Q|\le\epsilon\).
+(Theorem~\ref{thm:threshold-ising-forests} treats all forests; it is
+stated through the uniform-input simulator \(s_U\), which the same
+corollary supplies.) Thus expensive uniform heat-bath access is
+compatible with hereditary full AA, so these barriers give no universal
+impossibility statement for simulation from forward maps plus
+posterior access.

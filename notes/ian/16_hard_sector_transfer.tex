@@ -1,22 +1,20 @@
 \subsection{Recognizable hard sectors and transfer}
 \label{ian:hard-sector-transfer}
 
-Status: proved, including an unconditional counterexample to full-AA transfer under a dimension-uniform KL bound.
+Status: proved. The Gibbs and product-reference transfers in Proposition~\ref{ian:hard-sector-likelihood-reconciliation} are unconditional, resting on Corollary~\ref{cor:resolution-product-alphabet-aa}, which imports only inequality (BC) of Huffstutler--Miloschewsky--Podder (arXiv:2611.12795). Every other statement, including the counterexample to full-AA transfer under a dimension-uniform KL bound, uses no import.
 
 We use the definitions of \(\ell_\mu\), \(\mathcal D_t\),
 \(\mathcal F_t\), and \(\operatorname{Hard}\) from
 Definition~\ref{ian:hard-sector-definition}. All trees have worst-case
 query depth; preprocessing, computation, and real leaf constants are
-unrestricted. Full AA has the quantifiers used in
-Theorem~\ref{ian:hard-sector-aa-equivalence} and
-Corollary~\ref{ian:hard-sector-resource-equivalence}.
+unrestricted. Full AA means \eqref{ian:hard-sector-aa-definition}.
 
 \begin{corollary}[Recognizable hard sectors]
 \label{ian:recognizable-hard-sectors}
-In Theorem~\ref{ian:hard-sector-regularity}, the hard-set alternative
-can be strengthened to require that \(H\) be a level set of a
-finite-valued predictor computed by a deterministic tree of depth
-at most \(Kt\), where
+In Theorem~\ref{ian:hard-sector-regularity}, for every \(K\ge1\), the
+hard-set alternative can be strengthened to require that \(H\) be a
+level set of a finite-valued predictor computed by a deterministic tree
+of depth at most \(Kt\); in particular this holds for
 \[
  K=\left\lceil\frac1{w\gamma^2}\right\rceil.
 \]
@@ -47,32 +45,23 @@ depth at most
 \end{corollary}
 
 \begin{proof}
-The proof of Theorem~\ref{ian:hard-sector-regularity} maintains a
-predictor \(g\) that, after \(k\) updates, is a function of \(k\)
-depth-\(t\) tests. It returns a hard set of the form
-\[
- H=\{x:g(x)\in I_j\}
-\]
-before \(K\) updates have occurred. If
-\(b(x)=j/M\) whenever \(g(x)\in I_j\), then \(b\) is computed by the
-same tree and \(H=\{b=j/M\}\). Thus the returned set is a level set
-of the binned predictor.
+The proof of Theorem~\ref{ian:hard-sector-regularity} chooses an
+optimal squared-error predictor \(g\) of depth at most \(kt\), for some
+\(k<K\), and returns one of its score bins, \(H=\{x:g(x)\in I_j\}\). The
+binned predictor \(b(x)=j/M\) for \(g(x)\in I_j\) is a function of \(g\),
+hence computed by a tree of depth at most \(kt<Kt\)
+(Lemma~\ref{ian:hard-sector-tree-closure}), and \(H=\{b=j/M\}\).
 
-For the explicit conclusion, use the parameters in the proof of
-Corollary~\ref{ian:hard-sector-explicit}:
-\[
- a=\varepsilon^2/4,\qquad
- \gamma=\eta\varepsilon^2/4,\qquad
- M=\lceil1/\gamma\rceil,\qquad
- w=\varepsilon/(2M).
-\]
-That proof establishes
-\[
- w\ge\eta\varepsilon^3/16,\qquad
- K\le\left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil.
-\]
-The preceding observation therefore supplies the stated membership
-tree.
+For the explicit conclusion, the proof of
+Corollary~\ref{ian:hard-sector-explicit} applies the theorem with
+\(a=\varepsilon^2/4\), \(\gamma=\eta a\), \(M=\lceil1/\gamma\rceil\),
+\(w=\varepsilon/(2M)\) and
+\(K_\dagger=\lceil2/(\varepsilon\gamma^2)\rceil
+=\lceil32\varepsilon^{-5}\eta^{-2}\rceil\), and shows
+\(w\ge\eta\varepsilon^3/16\). Membership in \(H\),
+the indicator \(\mathbf1[b=j/M]\), is a function of \(g\), so it has
+depth at most
+\(kt<K_\dagger t\le\lceil256\varepsilon^{-7}\eta^{-3}\rceil t\).
 \end{proof}
 
 For a Gibbs law
@@ -90,9 +79,9 @@ The corollary gives a recognizable sector with
  =\beta^{-1}\log\frac1{\mu_\beta(H)}
  \le\beta^{-1}\log\frac{16}{\eta\varepsilon^3}.
 \]
-Recognizability here is a query statement with unrestricted
-preprocessing. Its depth can be much larger than the depth \(t\)
-against which the sector's acceptance signal is hard.
+Recognizability is a query statement with unrestricted preprocessing;
+its depth can be much larger than the depth \(t\) against which the
+sector's acceptance signal is hard.
 
 \begin{proposition}[Bounded-density transfer]
 \label{ian:hard-sector-density-transfer}
@@ -113,33 +102,24 @@ depth
 In particular, full AA transfers when \(K\) is bounded by a polynomial
 in fixed model parameters alone.
 
-If \(\sigma\) is a \(\nu\)-hard smooth sector of weight \(w\), then
-the same hard law is a \(\mu\)-hard smooth sector of weight \(w/K\).
-This also applies when the original sector is a set sector, although
-its conditional law need not equal the conditional law induced by
-\(\mu\) on that set.
+If \(\sigma\) is a smooth hard sector of \(\nu\) of weight \(w\), for
+instance the conditional law of a set sector of \(\nu\), then
+\(\sigma\) is a smooth hard sector of \(\mu\) of weight \(w/K\) with the
+same parameters (it need not be a set sector of \(\mu\)).
 \end{proposition}
 
 \begin{proof}
 For every \(D\in\mathcal D_t\),
-\[
- \E_\nu|D-Q|\le K\E_\mu|D-Q|.
-\]
-Use a minimizing tree for \(\mu\). For full AA, simulate under
-\(\mu_n\) to error \(\varepsilon/K\). Finally,
-\[
- \nu\ge w\sigma,\qquad \nu\le K\mu
- \quad\Longrightarrow\quad
- \mu\ge(w/K)\sigma.
-\]
-The variance and covariance assertions concern \(\sigma\) itself and
-therefore remain unchanged.
+\(\E_\nu|D-Q|\le K\E_\mu|D-Q|\); take \(D\) minimizing for \(\mu\).
+For full AA, run the \(\mu_n\)-simulator at error \(\varepsilon/K<1\).
+Finally, \(\nu\ge w\sigma\) and \(\nu\le K\mu\) give
+\(\mu\ge(w/K)\sigma\), and hardness is a property of \(\sigma\) alone.
 \end{proof}
 
 A dimension-dependent estimate \(K_n=\operatorname{poly}(n)\) does
 not supply the dimension-independent constants required by full AA.
-The counterexample below already has
-\(K_n\le\log_2 n\).
+The counterexample in Proposition~\ref{ian:hard-sector-kl-transfer}
+already has \(K_n\le\log_2 n\).
 
 \begin{proposition}[Reconciliation with the repo's likelihood criteria]
 \label{ian:hard-sector-likelihood-reconciliation}
@@ -179,24 +159,28 @@ acceptance simulation under \(\mu_{\beta,n}\) at cost
 \[
  S_0(T,e^{W_n}/\varepsilon).
 \]
-In particular, \(\sup_nW_n<\infty\) preserves full AA, conditionally
-on uniform-input AA.
+Corollary~\ref{cor:resolution-product-alphabet-aa} supplies
+\(S_0(T,1/e)=O(T^6e^{-15})\), so every \(Q\in\mathcal Q_{n,T}\) and
+\(0<\varepsilon<1\) admit a deterministic tree \(D\) of depth
+\(O(T^6\exp(15W_n)\varepsilon^{-15})\), with an absolute implied constant,
+satisfying \(\E_{\mu_{\beta,n}}|D-Q|\le\varepsilon\). In particular,
+\(\sup_nW_n<\infty\) implies full AA. The same conclusion holds with
+\(U_n\) replaced by an arbitrary product law \(\pi_n\) on \(\Omega_n\),
+for laws \(\mu_n\propto e^{-V_n}\pi_n\), with \(W_n=\max V_n-\min V_n\).
 \end{proposition}
 
 \begin{proof}
-For \(A=|D-Q|\in[0,1]\), H\"older's inequality gives
+For \(A=|D-Q|\in[0,1]\), the inequalities
 \[
- \E_\nu A
- \le K(\E_\mu A^q)^{1/q}
- \le K(\E_\mu A)^{1/q}.
-\]
-For the tail criterion,
-\[
+ \E_\nu A\le K(\E_\mu A)^{1/q},\qquad
  \E_\nu A
  \le M\E_\mu A+\E_\mu[r\mathbf1_{\{r>M\}}]
- \le Me+CM^{-b}.
+ \le Me+CM^{-b}\le\varepsilon
 \]
-The displayed choices make this at most \(\varepsilon\).
+are the two estimates in the proof of Proposition~\ref{tht:density-prop}
+in \path{foundations/transfers/03_density_transfer.tex}, with source
+and target interchanged; the first is H\"older's inequality together
+with \(A^q\le A\). Apply them to a minimizing tree for \(\mu\).
 
 For the Gibbs assertion,
 \[
@@ -204,16 +188,26 @@ For the Gibbs assertion,
  =\frac{e^{-\beta E_n(x)}}{\E_{U_n}e^{-\beta E_n}},
 \]
 and bounding the numerator and denominator by their extrema gives
-the density bounds. Apply
-Proposition~\ref{ian:hard-sector-density-transfer}.
+the density bounds. Proposition~\ref{ian:hard-sector-density-transfer}
+with \(K=e^{W_n}\) reduces to uniform error
+\(\varepsilon e^{-W_n}<1\), and the corollary, applied to the uniform
+product law, gives depth at most
+\(C_0T^6\exp(15W_n)\varepsilon^{-15}\le C_0\exp(15W_n)(T+\varepsilon^{-1})^{21}\)
+for an absolute \(C_0\). For a product reference \(\pi_n\) and
+\(\mu_n\propto e^{-V_n}\pi_n\), \(d\mu_n/d\pi_n=e^{-V_n}/\E_{\pi_n}e^{-V_n}\)
+and \(\E_{\pi_n}e^{-V_n}\ge e^{-\max V_n}\), so
+\(d\mu_n/d\pi_n\le e^{\operatorname{osc}V_n}\); the corollary covers
+every product law.
 \end{proof}
 
-The \(L^p\) and tail assertions are exactly Proposition~\ref{tht:density-prop} in \path{foundations/transfers/03_density_transfer.tex}, with its source and target names interchanged; the Gibbs assertion is its bounded-oscillation special case. The bounded-energy subsection
+The Gibbs assertion is the bounded-density (\(p=\infty\)) case,
+Proposition~\ref{ian:hard-sector-density-transfer}; the \(L^p\) form of
+Proposition~\ref{tht:density-prop} is its analogue for finite \(p\). The bounded-energy subsection
 \path{foundations/definitions/05_bounded_energy_sufficient_condition.tex},
-under Section~\ref{note:model_definitions}, additionally uses the lower density
-bound to transfer influence inequalities. Acceptance simulation needs
-only the upper bound. Its dependence is polynomial in \(e^W\), rather
-than necessarily polynomial in \(W\).
+under Section~\ref{note:model_definitions}, additionally uses the lower
+density bound to transfer influence inequalities. Acceptance simulation
+needs only the upper bound, and its cost is polynomial in \(e^{W}\),
+not necessarily in \(W\).
 
 \begin{proposition}[KL conversion and its limitation]
 \label{ian:hard-sector-kl-transfer}
@@ -239,27 +233,23 @@ preserve full AA.
 \end{proposition}
 
 \begin{proof}
-Define the tilted law
-\[
- \mu_s(x)=\frac{e^{sg(x)}\mu(x)}{\E_\mu e^{sg}}.
-\]
-Nonnegativity of relative entropy gives
+For the tilted law
+\(\mu_s(x)=e^{sg(x)}\mu(x)/\E_\mu e^{sg}\),
 \[
  0\le D(\nu\|\mu_s)
  =D(\nu\|\mu)-s\E_\nu g+\log\E_\mu e^{sg}.
 \]
 For \(g\in[0,1]\), convexity gives
-\(e^{sg}\le1+g(e^s-1)\). Taking
-\(s=(C+\log2)/\varepsilon\) proves the stated accuracy conversion.
+\(e^{sg}\le1+g(e^s-1)\). With
+\(s=(C+\log2)/\varepsilon\) the stated \(\delta\) satisfies
+\(\delta(e^s-1)\le\delta e^s\le1\), so \(\E_\nu g\le(C+\log2)/s=\varepsilon\).
 
 For the counterexample, let \(m\ge4\) range over even integers,
-\(n=2^m\), and use the character code \(C_n\) and the all-plus codeword \(c_0\) (the character with \(a=0\)) from
-Section~\ref{qm:model-and-theorem}. Define
+\(n=2^m\), and use the character code \(C_n\) and the all-plus
+codeword \(c_0\) (the character with \(a=0\)) from
+Section~\ref{qm:model-and-theorem}. With natural \(\log\), put
 \[
- p_m=\frac1m,\qquad q_m=\frac1{\log m},
-\]
-where \(\log\) is natural, and set
-\[
+ p_m=\frac1m,\qquad q_m=\frac1{\log m},\qquad
  \mu_n=(1-p_m)\delta_{c_0}+p_mU_{C_n},\qquad
  \nu_n=(1-q_m)\delta_{c_0}+q_mU_{C_n}.
 \]
@@ -269,20 +259,16 @@ The source family has full AA unconditionally, even for arbitrary
 bounded targets. If \(\varepsilon\ge p_m\), output \(Q(c_0)\).
 Otherwise query the \(m\) coordinates indexed by the standard basis
 of \(\mathbb F_2^m\). On the support these determine the entire input,
-so the output can be exact. In this case \(m<\varepsilon^{-1}\).
+so the output can be exact; and \(m<\varepsilon^{-1}\).
 
 The log-sum inequality, applied to the common two-component mixture,
-gives
+and \(p_m\le q_m\le1\) give
 \[
- \begin{aligned}
  D(\nu_n\|\mu_n)
- &\le q_m\log\frac{q_m}{p_m}
- +(1-q_m)\log\frac{1-q_m}{1-p_m}\\
- &\le q_m\log\frac1{p_m}=1,
- \end{aligned}
-\]
-because \(p_m\le q_m\le1\). Also
-\[
+ \le q_m\log\frac{q_m}{p_m}
+ +(1-q_m)\log\frac{1-q_m}{1-p_m}
+ \le q_m\log\frac1{p_m}=1,
+ \qquad
  \frac{d\nu_n}{d\mu_n}\le\frac{q_m}{p_m}
  =\frac{m}{\log m}\le\log_2 n.
 \]
@@ -298,8 +284,35 @@ gives, whenever \(t\le m/2-2\),
 Take \(\varepsilon_m=q_m/8\). For every proposed full-AA constants
 \(A,B\ge1\), all sufficiently large even \(m\) satisfy
 \[
- \left\lceil A(1+8\log m)^B\right\rceil\le m/2-2.
+ \left\lceil A(1+8\log m)^B\right\rceil\le m/2-2,
 \]
-Thus the proposed depth has loss exceeding \(\varepsilon_m\).
-The target family fails full AA.
+so the proposed depth has loss exceeding \(\varepsilon_m\), and the
+target family fails full AA.
 \end{proof}
+
+\begin{remark}[R\'enyi order one is the threshold]
+\label{ian:hard-sector-renyi-threshold}
+For \(\alpha\in(0,1)\cup(1,\infty)\) write
+\(D_\alpha(\nu\|\mu)=(\alpha-1)^{-1}\log\E_\mu(d\nu/d\mu)^\alpha\), and
+\(D_1=D(\nu\|\mu)\), the limit \(\alpha\to1\). For \(\alpha>1\),
+\(\|d\nu/d\mu\|_{L^\alpha(\mu)}=e^{(1-1/\alpha)D_\alpha}=:K\). By
+Proposition~\ref{tht:density-prop} (with its source and target
+interchanged), a dimension-uniform bound on \(D_\alpha(\nu_n\|\mu_n)\)
+for one fixed \(\alpha>1\) transfers full AA from \((\mu_n)\) to
+\((\nu_n)\): with \(q=\alpha/(\alpha-1)\) and source cost
+\(\lceil A(T+y)^B\rceil\), the target cost at error \(\varepsilon\) is at
+most \(\lceil AK^{qB}(T+\varepsilon^{-1})^{qB}\rceil\), since
+\(T+K^q\varepsilon^{-q}\le K^q(T+\varepsilon^{-1})^q\) for \(T,K\ge1\). In the counterexample above the
+codewords other than \(c_0\) carry \(\mu_n\)-mass \(p_m(1-1/n)\) and
+density ratio \(q_m/p_m\), so
+\[
+ \E_{\mu_n}\Bigl(\frac{d\nu_n}{d\mu_n}\Bigr)^\alpha
+ \ge\Bigl(1-\frac1n\Bigr)\frac{m^{\alpha-1}}{(\log m)^\alpha}
+ \longrightarrow\infty
+\]
+for every \(\alpha>1\), while \(D_1=D(\nu_n\|\mu_n)\le1\). Thus among
+R\'enyi divergences, a uniform bound transfers full AA exactly for
+orders \(\alpha>1\); order \(1\), and hence every order
+\(\alpha\in(0,1]\) since \(D_\alpha\) is nondecreasing in \(\alpha\),
+fails.
+\end{remark}

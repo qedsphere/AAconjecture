@@ -1,7 +1,7 @@
 \subsection{Spectral high temperature: partial positive results and the remaining gap}
 \label{ian:spectral-high-temperature}
 
-Status: partial. Hereditary full AA for the entire spectral high-temperature class, including quenched SK at fixed sufficiently small positive temperature, is not established here. We prove hereditary simulation for every one-query acceptance function throughout that class, and hereditary full AA under an additional dimension-independent Frobenius bound. We also exclude the proposed Hadamard forrelation statistic, including its bounded polynomial amplifications, as an obstruction. The all-query positive theorem uses the uniform-AA import; the other results below do not.
+Status: partial. Hereditary full AA for the entire spectral high-temperature class, including quenched SK at fixed sufficiently small positive temperature, is not established here. We prove hereditary simulation for every one-query acceptance function throughout that class, and hereditary full AA under an additional dimension-independent Frobenius bound, for \(\|K\|_{\mathrm{op}}\le1/8\) (Theorem~\ref{ian:frobenius-full-aa}) and for every \(\|K\|_{\mathrm{op}}\le c<1/2\) (Corollary~\ref{ian:frobenius-full-aa-half}). We also exclude the proposed Hadamard forrelation statistic, including its bounded polynomial amplifications, as an obstruction. The all-query positive results rest on Corollary~\ref{cor:resolution-product-alphabet-aa}, which imports only inequality (BC) of Huffstutler--Miloschewsky--Podder; no result here uses the uniform-AA import. Literature imports: the Bakry--\'Emery Poincar\'e inequality in Lemma~\ref{ian:spectral-poincare} (used by the one-query and Hadamard results, not by the Frobenius results), and the F\"uredi--Koml\'os/Bai--Yin operator-norm limit, used only to place quenched SK in the class.
 
 Write
 \[
@@ -62,7 +62,7 @@ Borel--Cantelli yields
  \qquad\text{almost surely}.
 \]
 The pair-interaction hypothesis in
-\texttt{high\_temperature/classical/05\_arbitrary\_degree.tex},
+\path{high_temperature/classical/05_arbitrary_degree.tex},
 Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, is exactly
 \(\beta\max_iR_i\le1/8\), proving the assertion.
 Its convention \(\beta h_i\) instead of \(h_i\) is immaterial for
@@ -117,23 +117,13 @@ Hence
  \Var_\nu g\le\frac{\kappa}{1-\kappa}\E_\nu\|\nabla g\|_2^2.
  \tag{ian-LP}
 \]
-For completeness, the strong-convexity variance bound follows from the
-Langevin semigroup \(P_t\) with generator
-\(\Delta-\nabla V\cdot\nabla\). Its flow Jacobian contracts by
-\(e^{-\rho t}\) when \(\nabla^2V\succeq\rho I\), giving
-\[
- \E_\nu\|\nabla P_tg\|^2
- \le e^{-2\rho t}\E_\nu\|\nabla g\|^2.
-\]
-Integration by parts and convergence to equilibrium yield
-\[
- \Var_\nu g
- =2\int_0^\infty\E_\nu\|\nabla P_tg\|^2\,dt
- \le\rho^{-1}\E_\nu\|\nabla g\|^2.
-\]
-Here \(V\) has bounded Hessian and is strongly convex, so these identities
-apply directly to smooth bounded Lipschitz \(g\); truncation gives the
-usual extension.
+This is the Bakry--\'Emery Poincar\'e inequality for
+\(\nabla^2V\succeq\rho I\), \(\rho=\kappa^{-1}-1\) (Bakry--Gentil--Ledoux,
+\emph{Analysis and Geometry of Markov Diffusion Operators}, Ch.~4; from
+literature): along the Langevin
+semigroup \(S_t\) with generator \(\Delta-\nabla V\cdot\nabla\),
+\(\E_\nu\|\nabla S_tg\|^2\le e^{-2\rho t}\E_\nu\|\nabla g\|^2\) and
+\(\Var_\nu g=2\int_0^\infty\E_\nu\|\nabla S_tg\|^2\,dt\).
 
 Apply (ian-LP) to \(g(y)=\E_{P_y}f\). Differentiating gives
 \[
@@ -300,25 +290,24 @@ The bound is independent of \(S\).
 
 \begin{theorem}[Hereditary full AA with a fixed Frobenius budget]
 \label{ian:frobenius-full-aa}
-Assume the uniform-AA import, in the simulation form \(s_U(T,e)=\operatorname{poly}(T,1/e)\) used in \texttt{foundations/transfers/01\_posterior\_access.tex} (Proposition~\ref{prop:threshold-local-posterior}) and derived from the inequality of Section~\ref{ht:conventions-and-imported-uniform-theorem}, through the product simulation theorem \texttt{simulation/positive\_examples/02\_arbitrary\_blocks.tex}, Theorem~\ref{thm:threshold-block-products}.
 For every fixed finite \(B\), the class
 \[
  \|K\|_{\mathrm{op}}\le\frac18,\qquad
  \|K\|_{\mathrm F}\le B,\qquad h\in\R^n
  \tag{ian-FB}
 \]
-has hereditary full AA, uniformly over \(n,K,h\).
-
-More precisely, let
-\(s_{\mathrm{prod}}(T,\eta)=S_B(T,\eta;1)\) be the arbitrary-product
-query bound from that theorem. A valid bound here is
+has hereditary full AA, uniformly over \(n,K,h\). More precisely, for
+\(T\ge1\) and \(0<\epsilon<1\), every \(T\)-query acceptance function
+has a deterministic simulator of mean error at most \(\epsilon\) using
 \[
- s_{\mathrm{prod}}\left(
- T,\epsilon^2e^{-16B^2/3}\right).
+ O\bigl(T^6\eta^{-15}\bigr)
+ =O\bigl(T^6\epsilon^{-30}e^{80B^2}\bigr),
+ \qquad \eta=\epsilon^2e^{-16B^2/3},
  \tag{ian-FQ}
 \]
-For fixed \(B\), this is a polynomial in \(T,1/\epsilon\), independent
-of dimension and fields.
+spin queries, with an absolute implied constant. The only import is
+inequality (BC) of Huffstutler--Miloschewsky--Podder, through
+Corollary~\ref{cor:resolution-product-alphabet-aa}.
 \end{theorem}
 
 \begin{proof}
@@ -352,21 +341,75 @@ For \(r=d\mu/dP_m\), this proves
 \[
  \|r\|_{L^2(P_m)}\le e^{8B^2/3}=:M_B.
 \]
-Use product AA to obtain \(D\in[0,1]\) with
-\[
- \E_{P_m}|D-Q|\le\eta,
- \qquad \eta=\epsilon^2M_B^{-2}.
-\]
-Cauchy--Schwarz and \(|D-Q|^2\le|D-Q|\) give
+Apply Corollary~\ref{cor:resolution-product-alphabet-aa} to \(Q\)
+under the product law \(P_m\), with error
+\(\eta=\epsilon^2M_B^{-2}<1\). It gives a deterministic tree \(D\)
+making \(O(T^6\eta^{-15})\) queries, with an absolute constant
+independent of the biases \(m\), such that
+\(\E_{P_m}|D-Q|\le\eta\). Its output is an average of Boolean
+classifiers, so \(D\in[0,1]\). Cauchy--Schwarz and
+\(|D-Q|^2\le|D-Q|\) give
 \[
  \E_\mu|D-Q|
  \le M_B\bigl(\E_{P_m}|D-Q|^2\bigr)^{1/2}
  \le M_B\sqrt\eta=\epsilon.
 \]
-The simulator directly queries the physical input, so its query count
-is unchanged. Pinning preserves both matrix bounds; its arbitrarily
-large induced fields are handled by recomputing the fixed point.
+The tree queries the physical input directly, so its query count is
+unchanged, and \(\eta^{-15}=\epsilon^{-30}e^{80B^2}\) gives (ian-FQ).
+Pinning preserves both matrix bounds
+(Proposition~\ref{ian:spectral-pinning-and-noncoverage}); the induced
+fields only change the fixed point \(m\), and the corollary is uniform
+in the biases.
 \end{proof}
+
+\begin{corollary}[Operator norm up to \(1/2\)]
+\label{ian:frobenius-full-aa-half}
+Fix \(c\in(0,1/2)\) and \(B<\infty\), and put
+\(p=(1+2c)/(4c)\), \(p'=(1+2c)/(1-2c)\). The class
+\(\|K\|_{\mathrm{op}}\le c\), \(\|K\|_{\mathrm F}\le B\), \(h\in\R^n\)
+has hereditary full AA, uniformly over \(n,K,h\): for \(T\ge1\) and
+\(0<\epsilon<1\) every \(T\)-query acceptance function has a
+deterministic simulator of mean error at most \(\epsilon\) using
+\[
+ O\bigl(T^6\eta_c^{-15}\bigr),\qquad
+ \eta_c=\Bigl(\epsilon\,e^{-4pB^2/((1-2c)(3+2c))}\Bigr)^{p'},
+\]
+spin queries, with an absolute implied constant. The only import is
+again (BC), through
+Corollary~\ref{cor:resolution-product-alphabet-aa}.
+\end{corollary}
+
+\begin{proof}
+Since \(\|K\|_{\mathrm{op}}<1\), the map \(m\mapsto\tanh(h+Km)\) is
+still a strict contraction, and (ian-centered-density) holds as above.
+Now \(p>1\) because \(c<1/2\), and \(2pc=(1+2c)/2<1\), so
+Lemma~\ref{ian:centered-quadratic-moment} applies at \(t=p\):
+\(1-4p^2c^2=(1-2c)(3+2c)/4\), hence
+\[
+ \E_{P_m}e^{pF}\le\exp\Bigl(\frac{4p^2B^2}{(1-2c)(3+2c)}\Bigr).
+\]
+With \(\E_{P_m}e^F\ge1\) this gives
+\(\|r\|_{L^p(P_m)}\le M_{c,B}:=e^{4pB^2/((1-2c)(3+2c))}\). Here
+\(p'=p/(p-1)\) is the conjugate exponent. Apply
+Corollary~\ref{cor:resolution-product-alphabet-aa} under \(P_m\) with
+error \(\eta_c=(\epsilon/M_{c,B})^{p'}<1\). H\"older's inequality and
+\(|D-Q|^{p'}\le|D-Q|\) give
+\[
+ \E_\mu|D-Q|\le M_{c,B}\bigl(\E_{P_m}|D-Q|\bigr)^{1/p'}
+ \le M_{c,B}\,\eta_c^{1/p'}=\epsilon.
+\]
+Pinning preserves both matrix bounds, as in the theorem.
+\end{proof}
+
+The corollary extends the theorem to the full range \(c<1/2\) of
+Lemma~\ref{ian:spectral-poincare}. Its cost is
+\(O(T^6\epsilon^{-15p'}e^{60pp'B^2/((1-2c)(3+2c))})\), which degenerates
+as \(c\to1/2\). For \(c\le1/8\) the two bounds trade off: at \(c=1/8\)
+the corollary has \(\epsilon\)-exponent \(25\) against the theorem's
+\(30\), but \(B^2\)-coefficient \(4000/39\approx102.6\) against \(80\).
+The \(B^2\)-coefficient is not monotone in \(c\) (it grows like \(5/c\)
+as \(c\to0\)), so for small \(c\) one may apply the corollary with a
+larger admissible value of \(c\).
 
 Here bounded density moments relative to a suitable product law replace
 local posterior access entirely. No latent field is sampled.
@@ -374,9 +417,15 @@ local posterior access entirely. No latent field is sampled.
 In particular, fixed-rank spectral families satisfy this theorem:
 if \(\rank K\le r\) and \(\|K\|_{\mathrm{op}}\le1/8\), then
 \(\|K\|_{\mathrm F}\le\sqrt r/8\). The Frobenius restriction is only
-sufficient. For example, arbitrarily many independent weak edges violate
-a fixed Frobenius budget while retaining full AA by
-Theorem~\ref{thm:threshold-block-products}.
+sufficient. For example, a matching of \(k\) independent edges with
+couplings of size \(1/8\) has \(\|K\|_{\mathrm F}^2=k/32\), unbounded.
+Its law is a product over two-spin blocks and singletons, and pinning
+a spin of a pair leaves a singleton with a shifted field, so every
+pinning is again such a product. It therefore has hereditary full AA by
+Corollary~\ref{cor:resolution-product-alphabet-aa} with
+\(O(T^6\epsilon^{-15})\) spin queries: a quantum spin query costs two
+coherent block-symbol queries (compute the pair, apply the phase,
+uncompute), and a classical block-symbol query costs two spin queries.
 
 This theorem does not include fixed-temperature SK:
 \[
@@ -512,7 +561,7 @@ Proposition~\ref{tht:reveal-prop}, uniformly over all fields and pinnings,
 with polynomial bounds. Alternatively, one needs a different
 representation satisfying
 Proposition~\ref{prop:threshold-local-posterior}, or a genuine
-multi-query counterexample. The next subsection proves that canonical
+multi-query counterexample. Subsection~\ref{ian:spectral-posterior-barriers} proves that canonical
 Gaussian-coordinate posterior access and uniform local heat-bath
 access cannot provide the required dimension-independent primitive.
 It does not rule out other representations.

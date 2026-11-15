@@ -9,7 +9,7 @@ Status: statement of a program; nothing is proved in this subsection. It restate
 \item \emph{influence AA} for \(\mu\): there are \(c,A,B>0\) with \(\max_iI_i^{\mu_n}(f)\ge c\Var_{\mu_n}(f)^A/d^B\) for all \(n\), all \(d\) and all globally bounded \(f\) of degree at most \(d\);
 \item \emph{full AA} (acceptance simulation) for \(\mu\), as in Section~\ref{tht:target}: every \(T\)-query quantum acceptance function has a deterministic classical tree \(D\) with \(\E_{\mu_n}|D-Q|\le\varepsilon\) and depth \(\mathrm{poly}(T,1/\varepsilon)\), independent of \(n\). \emph{Hereditary} full AA asks for this uniformly over all positive-probability pinnings.
 \end{itemize}
-The outline called these \(\mathrm{AA}(\mu)\) and \(\mathrm{folklore}(\mu)\). All positive statements are relative to the uniform-cube theorem imported in Section~\ref{ht:conventions-and-imported-uniform-theorem}.
+The outline called these \(\mathrm{AA}(\mu)\) and \(\mathrm{folklore}(\mu)\). The outline took both statements for the uniform cube as given. In this section neither is assumed any more: acceptance simulation for every finite product law is Corollary~\ref{cor:resolution-product-alphabet-aa}, and influence AA for every finite product law, with exponents \((12,12)\) in place of the \((5/2,6)\) of the theorem imported in Section~\ref{ht:conventions-and-imported-uniform-theorem}, is Corollary~\ref{ian:product-influence-aa-proved}. Positive statements here are therefore relative only to the literature imports listed in the section status, chiefly inequality (BC) of Huffstutler--Miloschewsky--Podder.
 
 \paragraph{Items.} The labels follow the outline.
 \begin{enumerate}
@@ -24,3 +24,4 @@ The outline called these \(\mathrm{AA}(\mu)\) and \(\mathrm{folklore}(\mu)\). Al
 \item[O1--O3] Obstructions: laws where full AA fails (forrelation or Simon-type mixtures as candidates); laws where influence AA fails but full AA holds; a hidden-latent-label dichotomy for full AA.
 \item[Q1--Q4] Quantitative: overhead maps from the uniform bound, a parameter ledger, polynomiality through phase transitions, and explicit extremal functions.
 \end{enumerate}
+Item O3 is taken up in Subsections~\ref{ian:phase-label-admissibility}--\ref{ian:phase-label-gibbs}, which relate failure of full AA to hidden phase labels on hard sectors. The uniform input to Q1 is made explicit in Subsections~\ref{ian:influence-form-uniform-aa} and~\ref{ian:influence-form-consequences}, which prove the influence bound and recompute the constants that depend on it.

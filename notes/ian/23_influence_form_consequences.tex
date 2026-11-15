@@ -1,0 +1,322 @@
+\subsection{Consequences of the proved influence bound}
+\label{ian:influence-form-consequences}
+
+Status: proved for the listed exchangeable, Curie--Weiss, independent-block, and total-interaction-budget conclusions, using Corollary~\ref{ian:product-influence-aa-proved} of Subsection~\ref{ian:influence-form-uniform-aa} (no (UAA)) and, for the exchangeable laws, the slice-transfer theorem of Girish--Mittal--Nehoran--Raz cited from the literature; this subsection records the recomputed constants now used in Subsections~\ref{ian:exchangeable-generalized-influence}, \ref{ian:generalized-influence-checks}, \ref{ian:gamma-set-blocks-and-forests} and~\ref{ian:gamma-set-high-temperature}. The unrestricted weighted-row-sum Gamma question remains unresolved.
+
+Throughout this subsection,
+\[
+ c_\star=\frac{9}{2^{61}\pi^{12}}.
+\]
+All polynomial bounds retain the entire-cube boundedness hypothesis.
+
+\begin{proposition}[Updated product, slice, and exchangeable constants]
+\label{ian:influence-consequences-exchangeable}
+In \path{ian/04_exchangeable_generalized_influence.tex}, the product
+bound is supplied by Corollary~\ref{ian:product-influence-aa-proved}
+and the constants are
+\[
+ \kappa=c_\star,\qquad
+ \lambda=10^{-9}2^{-146}c_\star^4,\qquad
+ \sigma=2^{-112}\lambda.
+ \tag{EC}
+\]
+With these, Lemma~\ref{ian:uniform-product-slice-aa} holds without
+assuming (UAA), with exactly its stated exponents:
+\[
+ \operatorname{Var}_{\rho_{n,p}}f\ge t
+ \ \Longrightarrow\
+ \max_i I_i^{\rho_{n,p}}(f)\ge\kappa(t/d)^{12},
+\]
+\[
+ \operatorname{Var}_{\omega_{n,k}}f\ge t
+ \ \Longrightarrow\
+ \max_i I_i^{\omega_{n,k}}(f)\ge\lambda(t/d)^{56}.
+\]
+Theorem~\ref{ian:exchangeable-gamma} consequently holds with
+\[
+ c_L=\frac{\sigma^2}{264}
+     =\frac{10^{-18}2^{-516}c_\star^8}{264},
+ \qquad C_L=114,
+\]
+\[
+ c_G=\frac1{18},\qquad C_G=1,\qquad B_G=128,\qquad K_G=4.
+\]
+These constants are uniform over all exchangeable laws and their
+positive-probability pinnings.
+\end{proposition}
+
+\begin{proof}
+The product assertion follows directly from (P-AA), so the earlier
+constants \(c_0,A_0\) and the product encoding are unnecessary.
+
+The slice step retains the literature input already used in
+Lemma~\ref{ian:uniform-product-slice-aa}:
+Girish--Mittal--Nehoran--Raz, \emph{Distributional Variants of the
+Aaronson--Ambainis Conjecture}, arXiv:2609.35327v1,
+Proposition~4.12(1), PDF pages~20--21.
+Its quantitative transfer is
+\[
+ S'(u,d)\ge10^{-9}d^{-8}
+             \min\{u^5,\ uS(u/2,d)^4\}.
+\]
+This is a citable slice-transfer theorem, not an additional AA
+hypothesis. Its proof has no density-dependent constant.
+The slice continuity input remains its Lemma~4.9, PDF page~19,
+as recorded in Lemma~\ref{ian:slice-continuity}.
+% [Girish--Mittal--Nehoran--Raz, Proposition 4.12 and Lemma 4.9](https://arxiv.org/pdf/2609.35327v1#page=19)
+
+For \(g(y)=(1+f(2y-1))/2\), variance is divided by four and
+unnormalized flip influence equals \(I_i(f)\).
+The product theorem supplies the conservative bound
+\(S(u,d)=\kappa(u/d)^{12}\) in those conventions. Applying the
+transfer with \(u=t/4\) gives
+\[
+ \max_i I_i^{\omega_{n,k}}(f)
+ \ge10^{-9}d^{-8}
+ \min\left\{(t/4)^5,\
+       (t/4)\kappa^4\left(\frac{t}{8d}\right)^{48}\right\}
+ =\lambda t^{49}d^{-56}
+ \ge\lambda(t/d)^{56}.
+\]
+The minimum is the second term: \(\kappa=c_\star\le1\) and
+\(t/(8d)\le t/4\le1\), so
+\(\kappa^4(t/(8d))^{48}\le(t/4)^{48}\le(t/4)^4\).
+Its value is \(10^{-9}2^{-2}2^{-144}\kappa^4t^{49}d^{-56}\), and
+\(t^{49}\ge t^{56}\) since \(t\le1\).
+The endpoint slices have zero variance.
+
+The remaining proof of Theorem~\ref{ian:exchangeable-gamma} is
+unchanged. Its within-slice threshold is
+\[
+ s_*=\lambda(v/(4d))^{56}=\sigma(v/d)^{56},
+\]
+and its localization step gives
+\[
+ \max_i I_i^\mu(f)
+ \ge\frac{v s_*^2}{264d^2}
+ \ge\frac{\sigma^2}{264}(v/d)^{114}.
+\]
+The between-slice argument retains all four Global parameters.
+\end{proof}
+
+\begin{remark}[The degree-\(db\) encoding route is not used]
+\label{ian:influence-consequences-dyadic}
+The product part of the proof in
+\path{ian/04_exchangeable_generalized_influence.tex} now uses
+(P-AA) directly. It is not a verbatim substitution of the new uniform
+theorem into the earlier dyadic-encoding calculation, which would
+lose exponents.
+
+If only Theorem~\ref{ian:uniform-influence-aa-proved} were used,
+the encoded polynomial \(h=f\circ g\) would have degree at most
+\(db\), and the new source estimate would be
+\[
+ \max_{i,j}I_{ij}^{U_{nb}}(h)
+ \ge\frac{c_\star(t/2)^{12}}{d^{12}b^{12}}.
+\]
+With \(x=d/t\ge1\), choose an integer \(A\ge64\) satisfying
+\[
+ 2^{16}(A+1)^{12}2^{-A}\le c_\star,
+ \qquad b=\lceil Ax\rceil,
+ \qquad
+ L=\frac{c_\star t^{12}}{2^{13}d^{12}b^{12}}.
+\]
+For the original continuity error \(\varepsilon=8d^22^{-b}\),
+\[
+ \varepsilon/t\le8x^22^{-Ax}\le1/2,\qquad
+ \varepsilon/L
+ \le2^{16}(A+1)^{12}c_\star^{-1}x^{26}2^{-Ax}\le1.
+\]
+Both right sides are nonincreasing on \(x\ge1\) because
+\(A>26/\ln2\approx37.5\), which \(A\ge64\) guarantees; at \(x=1\)
+they are at most \(8\cdot2^{-64}\le1/2\) and, by the choice of \(A\),
+at most \(1\). The earlier floor \(A_0\ge32\) would not suffice for
+this monotonicity, since \(32\ln2\approx22.2<26\).
+Thus that route gives only
+\[
+ \max_i I_i^{\rho_{n,p}}(f)
+ \ge\kappa_{\mathrm{enc}}(t/d)^{24},
+ \qquad
+ \kappa_{\mathrm{enc}}
+ =\frac{c_\star}{2^{13}(A+1)^{12}}.
+\]
+Sketch, not separately checked: propagating this exponent through
+the same slice and localization computations, with \(12\) replaced
+by \(24\), gives
+\[
+ \lambda_{\mathrm{enc}}
+ =10^{-9}2^{-290}\kappa_{\mathrm{enc}}^4,
+ \qquad
+ \max_iI_i^{\omega_{n,k}}(f)
+ \ge\lambda_{\mathrm{enc}}(t/d)^{104},
+\]
+\[
+ \sigma_{\mathrm{enc}}=2^{-208}\lambda_{\mathrm{enc}},
+ \qquad
+ c_{L,\mathrm{enc}}=\sigma_{\mathrm{enc}}^2/264,
+ \qquad C_{L,\mathrm{enc}}=210.
+\]
+The direct product theorem avoids these losses and gives the
+constants in (EC), with \(C_L=114\); nothing below depends on this
+remark.
+\end{remark}
+
+\begin{corollary}[The Curie--Weiss check]
+\label{ian:influence-consequences-cw}
+Proposition~\ref{ian:cw-generalized-check} in
+\path{ian/05_generalized_influence_checks.tex} holds without
+assuming (UAA), with the six constants of
+Proposition~\ref{ian:influence-consequences-exchangeable}.
+Its proof is unchanged after replacing the invocation of
+Theorem~\ref{ian:exchangeable-gamma} by its updated version.
+
+The low-temperature failure of a standalone Local theorem, the
+magnetisation reveal calculation, and the character-code refutation
+retain their original statements and proofs.
+\end{corollary}
+
+\begin{proposition}[Updated block resampling and two-spin bounds]
+\label{ian:influence-consequences-blocks}
+Lemma~\ref{ian:block-resampling-aa} in
+\path{ian/09_gamma_set_blocks_and_forests.tex} holds without
+assuming (UAA), with
+\[
+ \kappa_k=c_\star\qquad\text{for every }k\ge1.
+\]
+In fact its resampling assertion holds for arbitrary finite
+independent blocks without a block-size bound:
+\[
+ \operatorname{Var}_\mu f\ge v
+ \ \Longrightarrow\
+ \max_B\mathcal E_B^\mu(f)\ge c_\star(v/d)^{12}.
+\]
+
+Corollary~\ref{ian:two-spin-blocks} consequently becomes
+\[
+ \max_i I_i^\mu(f)\ge c_\star(v/d)^{12}
+ \quad\text{for arbitrary coordinate-bias products},
+\]
+\[
+ \max_i I_i^\mu(f)\ge\frac{c_\star}{8}(v/d)^{12}
+ \quad\text{for products of blocks of size at most two}.
+\]
+Both conclusions are hereditary. For Gamma, the Local parameters
+are respectively
+\[
+ (c_L,C_L)=(c_\star,12),\qquad
+ (c_L,C_L)=(c_\star/8,12).
+\]
+Since Local always holds, the four Global parameters may be any
+fixed positive constants, for example all equal to one.
+\end{proposition}
+
+\begin{proof}
+Regard each physical block as one alphabet coordinate.
+Every physical monomial of degree at most \(d\) involves at most
+\(d\) blocks. Thus \(f\) has interaction degree at most \(d\) on
+the product of block alphabets, and remains bounded by one on that
+whole product set. Assertion (A-AA) is exactly the required block
+resampling bound.
+
+This replaces the dyadic proof of
+Lemma~\ref{ian:block-resampling-aa}; its old parameters
+\(A_k,M_k\) are unnecessary. The proof of
+Corollary~\ref{ian:two-spin-blocks} is unchanged:
+\[
+ \mathcal E_{\{i\}}^\mu(f)
+ =4p_i(1-p_i)I_i^\mu(f)\le I_i^\mu(f),
+\]
+and for a block of size at most two its existing deterministic
+path inequality gives
+\[
+ \mathcal E_B^\mu(f)\le4\sum_{i\in B}I_i^\mu(f)
+ \le8\max_{i\in B}I_i^\mu(f).
+\]
+Pinning preserves independent residual blocks and cannot increase
+interaction degree.
+\end{proof}
+
+\begin{remark}[Block and forest failures are unchanged]
+\label{ian:influence-consequences-failures}
+The block-resampling conclusion does not assert a physical-spin
+influence bound for larger blocks. Therefore
+Proposition~\ref{ian:hard-block-addressing}, which refutes fixed-set
+Gamma from block size three onward, remains valid unchanged.
+Its large block energies coexist with vanishing physical influences.
+
+Proposition~\ref{ian:forest-addressing} also remains valid unchanged
+for every positive finite edge-strength bound. At zero edge bound,
+its positive product-law conclusion is now unconditional.
+The forest simulation conclusion continues to use the simulation
+form supplied by
+Corollary~\ref{cor:resolution-product-alphabet-aa}.
+\end{remark}
+
+\begin{proposition}[Updated total-interaction-budget parameters]
+\label{ian:influence-consequences-budget}
+Proposition~\ref{ian:interaction-budget-aa} in
+\path{ian/10_gamma_set_high_temperature.tex} holds without
+assuming (UAA). If
+\[
+ \beta\sum_{|A|\ge2}|J_A|\le B,
+\]
+then
+\[
+ \max_iI_i^\mu(f)
+ \ge c_\star e^{-26B}(v/d)^{12}.
+\]
+Thus its Local parameters are
+\[
+ c_L(B)=c_\star e^{-26B},\qquad C_L=12.
+\]
+The bound is uniform under pinning, needs no field or bias bound,
+and does not require the weighted row bound.
+The four Global parameters may again all be set to one.
+\end{proposition}
+
+\begin{proof}
+The existing proof goes through unchanged with \(c_\star\) in place
+of the earlier \(\kappa_1\).
+For the field-only product law \(\nu\), its density comparison gives
+\[
+ \operatorname{Var}_\nu f\ge e^{-2B}v,\qquad
+ I_i^\mu(f)\ge e^{-2B}I_i^\nu(f).
+\]
+Hence
+\[
+ \max_iI_i^\mu(f)
+ \ge e^{-2B}c_\star
+       \left(\frac{e^{-2B}v}{d}\right)^{12}
+ =c_\star e^{-26B}(v/d)^{12}.
+\]
+Pinning cannot increase the total absolute mass of residual
+interactions of size at least two, so the same constant survives.
+
+More generally a product estimate \(cv^\alpha/d^\beta\) gives
+\(ce^{-2(\alpha+1)B}v^\alpha/d^\beta\) by this comparison.
+The unnecessary uniform-encoding exponent \(24\) would instead
+produce \(e^{-50B}\); the direct product theorem retains \(e^{-26B}\).
+\end{proof}
+
+\begin{remark}[Summary of the changes in the consuming subsections]
+\label{ian:influence-consequences-status}
+Subsections~\ref{ian:exchangeable-generalized-influence},
+\ref{ian:generalized-influence-checks},
+\ref{ian:gamma-set-blocks-and-forests} and
+\ref{ian:gamma-set-high-temperature} no longer assume (UAA).
+In the first, the product half of
+Lemma~\ref{ian:uniform-product-slice-aa} is (P-AA) and the
+constants are (EC); the slice and Theorem~B proofs keep their
+exponents and structure. In the second, only the Status line and
+the hypothesis of Proposition~\ref{ian:cw-generalized-check} change.
+In the third, Lemma~\ref{ian:block-resampling-aa} is proved by the
+block-alphabet argument above with \(\kappa_k=c_\star\), and
+Corollary~\ref{ian:two-spin-blocks} has constants \(c_\star\) and
+\(c_\star/8\); the failure results are unchanged. In the fourth,
+Proposition~\ref{ian:interaction-budget-aa} has constant
+\(c_\star e^{-26B}\), and the Status line remains ``partial''
+because the weighted-row-sum-only assertion is unresolved.
+Claims of better exponents elsewhere in the repository still carry
+their own (UAA) hypothesis; the \((12,12)\) estimate proved here is
+not identified with the stronger statement (UAA).
+\end{remark}

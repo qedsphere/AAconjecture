@@ -1,0 +1,461 @@
+\subsection{Hidden labels, admissibility, and the limits of phase-label equivalences}
+\label{ian:hidden-label-admissibility}
+
+Status: proved where stated. The no-shallow-disclosure criterion (Definition~\ref{ian:hidden-label-no-disclosure}), its prediction interpretation and pinning exclusions, the sample decomposition with \(\Psi_{\mathcal U}(T,y)=1+y\) and its application to every listed invariant obstruction family, the heavy-atom bound, and the sector variance bound \eqref{ian:hidden-label-sector-variance-bound} are unconditional. The label-only equivalence is false for a prescribed hidden-label-admissible decomposition, even for an atom-free law (Proposition~\ref{ian:hidden-label-fixed-decomposition-obstruction}), and false in the existential form when the anti-atom condition is retained, through heavy atoms (Proposition~\ref{ian:hidden-label-existential-equivalence-false}); the atom-free existential equivalence is open. The operational and one-sided statements (Theorem~\ref{ian:hidden-label-operational-theorem}) hold for every decomposition satisfying \eqref{ian:phase-label-component-bound}; their applications with product or exchangeable components, and the common simulation polynomial in Proposition~\ref{ian:hidden-label-hs-limitation}, use \(s_U\), i.e.\ hold modulo (BC) through Corollary~\ref{cor:resolution-product-alphabet-aa}. A structural characterization by physical phases remains open.
+
+Notation is that of Subsections~\ref{ian:phase-label-admissibility}--\ref{ian:phase-label-sectors}; in particular \(\mu_H=\mu(\cdot\mid H)\), \(g_H\) and \(B_H\) are as in Subsection~\ref{ian:phase-label-sectors}, and \(\mathcal F_t\) consists of deterministic trees, as in Subsection~\ref{ian:hard-sector-definitions-forward}; randomized tests are not considered.
+
+Exact recovery failure is insufficient as a hiding definition. A large label can fail exact recovery while revealing individual input spins. Adding independent continuous randomness to a label makes exact recovery impossible without removing any disclosed input information.
+
+\begin{definition}[No shallow disclosure]
+\label{ian:hidden-label-no-disclosure}
+A joint law \((Z,X)\) is \((t,\kappa)\)-hidden, where \(0\le\kappa<1\), if
+\[
+ \Var\bigl(\E[F(X)\mid Z]\bigr)
+ \le\kappa\,\Var_\mu F(X)
+ \qquad(F\in\mathcal F_t).
+ \tag{27.1}\label{ian:hidden-label-contraction}
+\]
+The ratio is taken to be zero for constant tests. A decomposition is hidden-label-admissible at this scale if it satisfies
+\eqref{ian:phase-label-component-bound},
+\eqref{ian:phase-label-anti-atom}, and
+\eqref{ian:hidden-label-contraction}. It remains fixed before the target, accuracy, budget, or sector is selected.
+
+For asymptotic statements, call a decomposition hidden at bounded depth if its least possible coefficient \(\kappa_N(t)\) tends to zero for every fixed \(t\). At a witness budget \(t=\operatorname{poly}(T,\varepsilon^{-1})\), the actual coefficient at that depth must be specified; bounded-depth convergence alone is not a uniform assertion for growing budgets.
+
+With a fixed \(\kappa<1\) the criterion excludes only exact disclosure (Lemma~\ref{ian:hidden-label-prediction-exclusions}). For example, let \(X=(Y,R)\) with \(Y,R\) uniform on \(\Omega_n\), and let the label be a \(\rho\)-noisy copy of \(Y\), each spin flipped independently with probability \((1-\rho)/2\). The components are products of min-entropy at least \(n\log2\), and expanding \(F\) in Walsh characters gives
+\(\Var(\E[F\mid Z])=\sum_{S\ne\emptyset}\rho^{2|S|}\widehat F(S,\emptyset)^2\le\rho^2\Var F\) for every \(F\). So this label is \((t,\rho^2)\)-hidden at every depth although it is correlated with every padding spin. Robust exclusion of such correlated copies requires \(\kappa_N(t)\to0\).
+
+This definition hides every label observable from shallow prediction. It is stronger than requiring failure to recover the entire label.
+\end{definition}
+
+\begin{lemma}[Prediction interpretation and pinning exclusions]
+\label{ian:hidden-label-prediction-exclusions}
+Under \eqref{ian:hidden-label-contraction}, every bounded label observable \(b(Z)\) and every depth-\(t\) transcript \(\tau(X)\) satisfy
+\[
+ \Var\bigl(\E[b(Z)\mid\tau]\bigr)\le\kappa\Var b(Z).
+\]
+Consequently every predictor based on that transcript has squared error at least
+\[
+ (1-\kappa)\Var b(Z).
+\]
+In particular, no nonconstant label observable is exactly obtainable by a depth-\(t\) tree.
+
+If the label determines any non-deterministic physical spin, then its hiding coefficient is one at every depth \(t\ge1\). This excludes \(Z=X\), every nontrivial padding label \(Z=Y\) in
+\(\nu\otimes U\), and independent-set pinning \(Z=X_{I^c}\) whenever a pinned coordinate is non-deterministic.
+\end{lemma}
+
+\begin{proof}
+For bounded \(b\) and \(F\),
+\[
+ |\Cov(b(Z),F(X))|
+ \le\sqrt{\kappa\,\Var b(Z)\,\Var F(X)}.
+\]
+Indeed condition first on \(Z\) and apply Cauchy--Schwarz and
+\eqref{ian:hidden-label-contraction}. Apply this inequality to the bounded tree output \(\E[b\mid\tau]\), rescaled if needed. Its covariance with \(b\) equals its own variance, proving the first assertion. Orthogonal projection gives the error bound.
+
+If \(X_i\) is label-measurable and has positive variance, choose
+\(F(X)=X_i\). Then
+\[
+ \Var(\E[X_i\mid Z])=\Var X_i,
+\]
+forcing coefficient one. The stated labels determine their pinned coordinates.
+
+A padding decomposition with constant \(Y\) is an unavoidable exception: its label is constant and discloses no random information. No information-hiding definition can exclude a constant label for disclosing the input. Likewise an empty or deterministic pinned block creates no disclosure.
+\end{proof}
+
+\begin{remark}[Natural character labels fail this stronger criterion]
+\label{ian:hidden-label-natural-labels}
+For the clean natural label \(A\), any nonconstant visible character coordinate is label-measurable. For the original simplex label \(\xi\), under \(U_{C_n}\),
+\[
+ \E[c_A(e_i)\mid\xi]
+ =\frac{m-1}{m+1}(-1)^{\xi_i}.
+\]
+Its depth-one hiding coefficient is therefore at least
+\[
+ \left(\frac{m-1}{m+1}\right)^2\longrightarrow1.
+\]
+Neither decomposition is hidden at bounded depth.
+
+For the noisy label \((A,B)\),
+\[
+ \E[X_z\mid A,B]=\rho(-1)^Bc_A(z),
+\]
+so the coefficient is at least \(\rho^2\) at depth one. For the soft label \(V\), the uniform component TV estimate in
+\eqref{ian:phase-label-soft-joint} gives the lower bound
+\((\rho-2\tau_n)^2\).
+
+There is a stronger finite-depth obstruction for these noisy labels. Fix \(z_0\ne0\) and query \(r\) disjoint coordinate pairs
+\((u_j,u_j+z_0)\). Their products are independent noisy observations of \(c_A(z_0)\), with bias \(\rho^2\). A majority test of depth \(2r\) has error at most
+\(\exp(-r\rho^4/2)\). Thus the hiding coefficient is at least
+\[
+ \left(1-2e^{-r\rho^4/2}\right)^2.
+\]
+For every prescribed \(\kappa<1\), sufficiently large constant \(r\), depending only on \(\rho,\kappa\), violates that coefficient. The soft model has the same conclusion up to its vanishing TV error.
+
+For local code sectors, the nearest-character label also discloses visible spins. On the good event, the residual noise has fewer than \(n/32\) errors. Some nonzero visible coordinate therefore has mean residual sign at least \(15/16-o(1)\). Uniformity of \(A\), and Jensen when a sign label is present, give a depth-one coefficient at least
+\((15/16-o(1))^2\). Including a good-event tag in the global label multiplies this lower bound by the good-event mass. Independent-set labels are excluded exactly by
+Lemma~\ref{ian:hidden-label-prediction-exclusions}.
+
+Thus hiding all label observables excludes the natural character-index labels as well as pinning labels. The nonlinear acceptance target can be hidden even though individual character bits are easy.
+\end{remark}
+
+\begin{lemma}[A hidden decomposition from independent samples]
+\label{ian:hidden-label-sample-decomposition}
+Suppose a law on all physical spins has a visible block
+\((X_z)_{z\in\mathbb F_2^m}\), \(n=2^m\), whose marginal is invariant under
+\[
+ X_z\longmapsto c_a(z)X_z
+ \qquad(a\in\mathbb F_2^m).
+\]
+For any integer \(k\ge2\), put
+\[
+ p=\frac{4^{k-1}}{n-1}.
+\]
+There is a target-independent decomposition into
+\(\mathcal U\)-components for which
+\[
+ \Var(\E[F(X)\mid Z])
+ \le\left(\frac1k+p\right)\Var_\mu F(X)
+ \tag{27.2}\label{ian:hidden-label-sample-contraction}
+\]
+for every function \(F\) on the entire physical input, with no depth restriction. Except on label mass at most \(p\), its components are uniform on \(k\) distinct inputs and have min-entropy \(\log k\).
+
+In particular, take
+\[
+ k=\left\lfloor\frac14\log_2(n-1)\right\rfloor
+\]
+for sufficiently large \(n\). Then
+\[
+ p\le(n-1)^{-1/2},\qquad
+ \kappa_n=\frac1k+p=O(m^{-1})\longrightarrow0.
+\]
+The decomposition is hidden-label-admissible at every depth, with common polynomial
+\(\Psi_{\mathcal U}(T,y)=1+y\), unconditionally, and satisfies the anti-atom condition \eqref{ian:phase-label-anti-atom}.
+\end{lemma}
+
+\begin{proof}
+Draw independent full inputs
+\(X^1,\ldots,X^k\sim\mu\), then choose \(J\) uniformly in
+\(\{1,\ldots,k\}\), and set \(X=X^J\). Call the tuple good if its rows form a coordinate-universal support using visible coordinates and output signs.
+
+On a good tuple, let the label be the tuple itself. On a bad tuple, include \(J\) in the label. The conditional components are respectively the uniform empirical law of the tuple and a point mass. Both lie in \(\mathcal U\), and the selected input has marginal \(\mu\).
+
+We prove a uniform conditional bound on badness. Fix the entire first row \(X^1=x\). For nonzero visible indices \(z\), consider the pattern
+\[
+ Y_z=(x_zX_z^2,\ldots,x_zX_z^k)\in\{-1,1\}^{k-1}.
+\]
+Character invariance makes each \(X_z^j\) unbiased. For distinct nonzero \(z,w\), it makes \((X_z^j,X_w^j)\) uniform: their product transforms by the nontrivial character indexed by \(z+w\). Independence between rows therefore makes each \(Y_z\) uniform, and makes \(Y_z,Y_w\) independent.
+
+For any specified pattern, its count among \(n-1\) coordinates has mean
+\((n-1)2^{-(k-1)}\) and variance at most its mean. Chebyshev bounds its absence probability by \(2^{k-1}/(n-1)\). A union bound over all patterns gives
+\[
+ \Pr(\text{bad}\mid X^1=x)\le p.
+\]
+If all patterns occur, signed coordinates realize every Boolean assignment on the rows. The rows are then distinct and coordinate-universal. By row symmetry the same conditional badness bound holds given any \(X^i=x\).
+
+For an arbitrary \(F\), the unrefined tuple label has conditional mean
+\[
+ \overline F=\frac1k\sum_iF(X^i),
+ \qquad \Var\overline F=\frac1k\Var_\mu F.
+\]
+Refining only bad labels adds
+\[
+ \E\left[
+ \mathbf1_{\rm bad}\frac1k\sum_i
+       (F(X^i)-\overline F)^2\right]
+ \le
+ \E\left[
+ \mathbf1_{\rm bad}\frac1k\sum_i
+       (F(X^i)-\E_\mu F)^2\right]
+ \le p\Var_\mu F.
+\]
+This proves \eqref{ian:hidden-label-sample-contraction}. The entropy and simulation assertions follow from the construction and
+Lemma~\ref{ian:phase-label-universal-support-simulation}.
+\end{proof}
+
+\begin{corollary}[All listed invariant obstruction families remain admissible]
+\label{ian:hidden-label-obstruction-families}
+The character mixtures, noisy codes, soft codes, and all four local code families of
+Subsection~\ref{ian:hard-sector-instances}
+admit the hidden-label-admissible decomposition of
+Lemma~\ref{ian:hidden-label-sample-decomposition}. Its parameters are
+\[
+ H_\infty=\log k\quad\text{outside label mass }p,\qquad
+ \kappa_n(t)\le k^{-1}+p\quad\text{for every }t,
+ \qquad \Psi(T,y)=1+y.
+\]
+This includes the dense three-local family and all auxiliary and reference spins in the pairwise families. No simulation theorem for natural fixed-character components is needed, and the conclusion is unconditional.
+
+The conclusion concerns existence of a hidden simulable decomposition. It does not assert a label-only acceptance explanation.
+\end{corollary}
+
+\begin{proof}
+The character mixture and noisy law are visibly character invariant. Soft-code invariance is established in
+\eqref{ian:phase-label-soft-joint}. For local laws, item 4 after
+Lemma~\ref{ian:phase-label-close-products}, using
+Lemma~\ref{ian:phase-label-character-randomization}, establishes the required visible-marginal invariance for the dense, sparse, pairwise, and zero-field families. The sample lemma needs only that visible marginal; its samples and labels include every physical spin.
+\end{proof}
+
+\begin{remark}[Heavy atoms]
+\label{ian:hidden-label-heavy-atoms}
+The strengthened definition retains \eqref{ian:phase-label-anti-atom}, so it does not improve its treatment of heavy atoms. For every decomposition and every \(M\),
+\[
+ \mu(x)\le
+ \pi\{z:H_\infty(\mu_z)<M\}+e^{-M}.
+\]
+Thus anti-atom admissibility forces \(\max_x\mu_N(x)\to0\).
+
+Deleting the entropy clause gives a legitimate alternative consisting of the component bound and no shallow disclosure. It permits heavy atoms: a point law with its constant label has coefficient zero and zero-query component simulation. This removes the blanket atom exclusion, but supplies neither general component certificates nor a label-only converse for arbitrary heavy-atom families.
+
+The results below distinguish these choices. The existential counterexample uses the definition retaining anti-atom admissibility. The fixed-decomposition counterexample is atom-free and also applies if that clause is deleted. Neither settles the existential equivalence for atom-free families, which is open.
+\end{remark}
+
+The label-only equivalence under consideration asserts that full AA fails if and only if there is a hidden-label-admissible decomposition whose label explains \(Q\), in the sense of Definition~\ref{ian:phase-label-sector-shallow-definition}, on polynomial-weight hard sectors against every polynomial budget. In the prescribed form the decomposition is fixed in advance; in the existential form it may be chosen for the family.
+
+\begin{proposition}[The existential label-only equivalence fails with anti-atom admissibility]
+\label{ian:hidden-label-existential-equivalence-false}
+Under Definition~\ref{ian:hidden-label-no-disclosure}, failure of full AA does not imply existence of a hidden-label-admissible decomposition, and hence does not imply existence of such a label explaining \(Q\) on a polynomial-weight hard sector.
+\end{proposition}
+
+\begin{proof}
+At \(\beta=2\), the nonmonotone Hamiltonian of
+Section~\ref{sec:resolution-nonmonotone} fails full AA, while
+\[
+ \mu_n(c_0)=\frac1{Z_n}\longrightarrow\frac12.
+\]
+See also Proposition~\ref{ian:hard-sector-nonmonotone-instance}. The heavy-atom inequality excludes every decomposition satisfying
+\eqref{ian:phase-label-anti-atom}, independently of its class, simulation polynomial, or hiding coefficient.
+\end{proof}
+
+\begin{proposition}[An atom-free obstruction for prescribed hidden labels]
+\label{ian:hidden-label-fixed-decomposition-obstruction}
+For \(\mu_n=U_{C_n}\), choose the sample decomposition of
+Lemma~\ref{ian:hidden-label-sample-decomposition}. Full AA fails, and this decomposition is hidden-label-admissible even at unrestricted depth. Nevertheless it has no label-only hard-sector witnesses with fixed polynomial lower bounds on weight and explained variance against every polynomial query budget.
+
+More explicitly, for every sufficiently large even \(m\), every set \(H\) of weight \(w>0\), and every \(Q:\Omega_n\to[0,1]\),
+\[
+ B_H\le\frac14\sqrt{\frac{\kappa_n}{w}}
+ \le\frac1{\sqrt{mw}},
+ \tag{27.3}\label{ian:hidden-label-sector-variance-bound}
+\]
+where the last inequality uses \(\kappa_n\le16/m\).
+\end{proposition}
+
+\begin{proof}
+The sample contraction holds for all physical functions. Put
+\(q_H=\E_HQ\), \(f(X)=\mathbf1_H(X)(Q(X)-q_H)\), and \(b(Z)=g_H(Z)\). Then
+\[
+ \E f=0,\qquad
+ \Var f=w\Var_HQ,\qquad
+ \Cov(f,b)=wB_H.
+\]
+The covariance consequence of contraction and
+\(\Var_\pi b\le1/4\) give
+\[
+ wB_H\le\frac12\sqrt{\kappa_n w\Var_HQ}
+ \le\frac14\sqrt{\kappa_n w}.
+\]
+This proves \eqref{ian:hidden-label-sector-variance-bound}.
+
+Suppose fixed \(K,p,q\ge1\) supplied witnesses, for every budget, with
+\[
+ w\ge K^{-1}r^{-p},\qquad
+ B_H\ge K^{-1}r^{-q},\qquad r>8.
+\]
+The bound forces
+\[
+ m\le K^3r^{p+2q}
+\]
+whenever \(m\) is at least the threshold \(m_0\) of \eqref{ian:hidden-label-sector-variance-bound}.
+But every input in \(C_n\) is determined by the \(m\) coordinates indexed by \(e_1,\ldots,e_m\). Every target on this support is therefore exactly computable in \(m\) queries. A positive-variance hard sector cannot have depth \(t\ge m\), since the test \(2Q-1\) would then be available.
+
+Choose budget exponent at least \(p+2q\) and coefficient greater than \(\max\{K^3,m_0\}\). A witness depth exceeding that budget would exceed \(m\), a contradiction. Full-AA failure of \(U_{C_n}\) is already proved by the one-query bent acceptance witness.
+\end{proof}
+
+\begin{remark}[What the sample construction establishes]
+\label{ian:hidden-label-synthetic-labels}
+No shallow disclosure is a substantive exclusion of deterministic pinning, but it does not identify a physical phase. The sample label names a collection of possible inputs and conceals which one was selected. It satisfies a strong information-hiding inequality while its components simulate every bounded target.
+
+Proposition~\ref{ian:hidden-label-fixed-decomposition-obstruction} rules out a label-only necessity theorem for an arbitrary prescribed hidden admissible decomposition. It does not rule out a different decomposition for the same atom-free family, so the atom-free existential equivalence remains open. Proposition~\ref{ian:hidden-label-existential-equivalence-false} separately rules out the existential equivalence when anti-atom admissibility is retained and heavy atoms are present.
+\end{remark}
+
+\begin{theorem}[Operational and one-sided statements]
+\label{ian:hidden-label-operational-theorem}
+The following statements hold.
+
+First, polynomial-weight hard sectors with hidden admissible label-only explanations imply failure of full AA, provided the polynomial bounds precede the budget quantifiers. Precisely, suppose there exist fixed \(K,p,q\ge1\) such that, for every \(A,B\ge1\), there are \(N,T\ge1\), \(r>8\), \(Q\in\mathcal Q_{N,T}\), and a set sector satisfying
+\[
+ t>\lceil A(T+r)^B\rceil,\qquad
+ w^{-1}\le Kr^p,\qquad a^{-1}\le Kr^q,
+\]
+\[
+ \operatorname{Hard}(Q,\mu_H;t,a,a/4).
+\]
+Then full AA fails. Any additional label explanation or hiding certificate is allowed but is unnecessary for this implication. The quantitative lower bound is
+\[
+ \ell_{\mu_N}(t,Q)\ge\frac34wa
+ \ge\frac{3}{4K^2r^{p+q}}.
+\]
+
+Second, fix any decomposition satisfying the common component bound with polynomial \(\Psi\), after replacing \(\Psi(T,y)\) by \(\Psi(T,2y)\) for uncountable label spaces (Lemma~\ref{ian:phase-label-measurable-choice}). Full-AA failure implies the following for every
+\(\theta_1,\theta_2\ge1\): there are \(N,T,Q,H\) and
+\(0<\varepsilon<1/8\) with
+\[
+ w_0=\frac{\varepsilon^3}{64},\qquad
+ a=\frac{\varepsilon^2}{4},\qquad
+ \delta=\frac{\varepsilon^7}{2^{22}},\qquad
+ s=\lceil\Psi(T,\delta^{-1})\rceil,
+\]
+\[
+ t=\left\lceil\theta_1(T+\varepsilon^{-1})^{\theta_2}\right\rceil+s+1,
+ \qquad
+ \mu_N(H)\ge w_0,\qquad
+ \operatorname{Hard}(Q,\mu_H;t,a,a/4).
+\]
+With the component transcript label
+\[
+ \widetilde Z=(Z,\tau_Z(X)),\qquad
+ M=\E_H[Q\mid\widetilde Z],\qquad u=a^2/4096,
+\]
+one has
+\[
+ \E_H\Var(Q\mid\widetilde Z)\le u,\qquad
+ \Var_H M\ge\Var_HQ-u,
+\]
+\[
+ |\Cov_H(M,F)|\le a/4+a/64
+ \qquad(F\in\mathcal F_t).
+\]
+Existence of these hard witnesses for every budget is also sufficient for full-AA failure. The theorem does not assert that every observable of
+\(\widetilde Z\) satisfies no shallow disclosure.
+
+Third, if the original label additionally satisfies
+\[
+ v=\E\Var(Q\mid Z)\le w_0a^2/4096
+   =\frac{\varepsilon^7}{2^{22}}
+\]
+on these witnesses, the same variance and covariance conclusions hold with
+\(g_H(Z)\) replacing \(M\). If that original decomposition also satisfies \eqref{ian:hidden-label-contraction} at the stated depth, this supplies a hidden label-only witness; it is a hidden-label-admissible witness only if \eqref{ian:phase-label-anti-atom} holds as well.
+\end{theorem}
+
+\begin{proof}
+The first statement is
+Remark~\ref{ian:hard-sector-polynomial-quantifiers}, or directly
+Proposition~\ref{ian:hard-sector-forward} and
+Lemma~\ref{ian:hard-sector-aa-exclusion}. For completeness, if full AA had constants \(A_0,B_0\), choose
+\[
+ A=A_0(1+8K^2/3)^{B_0}+1,\qquad
+ B=(p+q)B_0.
+\]
+The exclusion bound contradicts the witness depth.
+
+The second statement is
+Theorem~\ref{ian:phase-label-hard-sector-converse}, whose converse follows from
+Theorem~\ref{ian:hard-sector-aa-equivalence}; the replacement of \(\Psi\) is the one made at the start of Subsection~\ref{ian:phase-label-theorem}. Its equivalence is about hard witnesses with a component-program explanation. The label transcript can disclose individual queried spins, so covariance hiding of \(M\) is not a certificate of
+\eqref{ian:hidden-label-contraction} for the whole enlarged label.
+
+The final statement is
+Proposition~\ref{ian:phase-label-flat-components}. None of these arguments uses the anti-atom condition or no shallow disclosure.
+\end{proof}
+
+\begin{remark}[Thermal reading]
+\label{ian:hidden-label-thermal-replacement}
+This remark would replace the paragraph following Theorem~\ref{ian:phase-label-thermal-theorem}. Fix a temperature-independent Hamiltonian sequence and a fixed
+\(\beta>0\). The thermal equivalence that holds is:
+full AA fails if and only if polynomially weighted hard sectors exist against every polynomial budget, with the canonical parameters of
+Theorem~\ref{ian:hard-sector-aa-equivalence}. For every fixed decomposition satisfying the component simulation bound, those sectors admit the component-program and enlarged-label explanation of
+Theorem~\ref{ian:hidden-label-operational-theorem}.
+
+Their free-energy gaps satisfy exactly
+\[
+ F_H(\beta)-F(\beta)
+ =\frac1\beta\log\frac1{\mu_{\beta,N}(H)}
+ \le\frac1\beta\log\frac{64}{\varepsilon^3}.
+\]
+A label-only conclusion additionally follows from
+\[
+ \E\Var(Q\mid Z)\le\frac{\varepsilon^7}{2^{22}},
+\]
+equivalently the sufficient condition
+\eqref{ian:phase-label-thermal-flatness} with the canonical lower weight.
+
+Thus Theorem~\ref{ian:phase-label-thermal-theorem} retains its operational content and gap bound. It must not be promoted to an equivalence involving hidden admissible label-only explanations in the existential form with anti-atom admissibility: Proposition~\ref{ian:hidden-label-existential-equivalence-false} refutes that promotion for a fixed-\(\beta\) Gibbs family. Of the two refutations above, only this one is a Gibbs statement. The atom-free obstruction of Proposition~\ref{ian:hidden-label-fixed-decomposition-obstruction} uses \(U_{C_n}\), which is not a fixed-\(\beta\) Gibbs law (such laws have full support); whether it extends to the character-code Gibbs law at fixed \(\beta>1\) is not established here.
+
+Adding no shallow disclosure does not make the anti-atom condition enter the thermal proof. Both conditions remain restrictions on the chosen representation, absent from the elimination, hard-sector, gap, and flatness arguments. In particular the underlying operational theorem still holds for \(Z=X\), although that label is excluded from the strengthened admissible class.
+\end{remark}
+
+\begin{proposition}[Hubbard--Stratonovich entropy does not certify hiding]
+\label{ian:hidden-label-hs-limitation}
+The identities of
+Proposition~\ref{ian:phase-label-hubbard-stratonovich} and the entropy conclusion of
+Proposition~\ref{ian:phase-label-hs-admissibility} remain unchanged. Under the latter proposition's boundedness assumptions,
+\[
+ \pi_{\rm HS}\{H_\infty(\mu_G)<N^{1-o(1)}\}\le N^{-2},
+\]
+unconditionally, and, using \(s_U\), the components have the common product polynomial \eqref{ian:phase-label-product-polynomial}.
+No no-disclosure conclusion follows from those assumptions.
+
+Indeed this can fail for independent unbiased physical spins.
+\end{proposition}
+
+\begin{proof}
+The original Gaussian tail and product calculations establish the stated identities and entropy bounds, and Proposition~\ref{ian:phase-label-union-class} gives the simulation polynomial using \(s_U\). They do not bound the information that \(G\) supplies about a coordinate.
+
+For the counterexample, take \(J=0\), zero field, and diagonal shift
+\(K=dI\), with fixed \(d>0\). The physical law is uniform product. In the joint representation,
+\[
+ \E[X_i\mid G]=\tanh G_i,\qquad
+ G_i\mid X_i\sim\mathcal N(\beta dX_i,\beta d).
+\]
+Consequently
+\[
+ \Var(\E[X_i\mid G])=\E\tanh^2G_i=:c(\beta d)>0,
+ \qquad \Var X_i=1.
+\]
+The depth-one hiding coefficient is bounded below by this dimension-independent positive constant. It tends to one as \(\beta d\) increases, so no prescribed coefficient below one is guaranteed either.
+
+Choosing \(K=0\) for the same physical product law instead gives a constant Gaussian label. Hence hiding depends on the chosen representation and is not an automatic consequence of Hubbard--Stratonovich entropy.
+\end{proof}
+
+\begin{remark}[On the local structural open problem]
+\label{ian:hidden-label-local-open-problem-replacement}
+This remark would replace the ``surviving weaker form'' of Remark~\ref{ian:phase-label-local-open-problem}. Fix one bounded-degree, bounded-strength local Hamiltonian sequence, with fields included in the total incident-strength bound, and fix \(\beta\). The repo proves hard sectors for its local counterexamples, and the sample construction above proves abstract hidden admissible decompositions. These facts do not identify thermodynamic phases or prove that a physically specified component label explains the acceptance.
+
+The intended question asks whether full-AA failure for such a sequence forces a decomposition, specified independently of the acceptance function and hard sector, whose label explains the acceptance on polynomial hard witnesses. Without further conditions it is answered trivially by \(Z=X\): its components are point masses, simulated with zero queries, and \(\E\Var(Q\mid X)=0\). A meaningful version needs at least (i) the hiding condition \eqref{ian:hidden-label-contraction} at a specified depth \(t=\operatorname{poly}(T,\varepsilon^{-1})\), with coefficient \(\kappa_N(t)\to0\), and (ii) the anti-atom condition \eqref{ian:phase-label-anti-atom}. The depth must be specified: the bound \eqref{ian:hidden-label-sector-variance-bound} uses \eqref{ian:hidden-label-contraction} only for the non-shallow function \(\mathbf1_H(Q-q_H)\), so hiding at unrestricted depth caps the explained variance by \(\frac14\sqrt{\kappa/w}\), and Proposition~\ref{ian:hidden-label-fixed-decomposition-obstruction} shows that this makes the label-only conclusion false for \(U_{C_n}\). A precise formulation is open. Theorem~\ref{ian:hidden-label-operational-theorem} supplies the sufficient flatness condition \(\E\Var(Q\mid Z)\le\varepsilon^7/2^{22}\) for the label-only conclusion; no necessity result of this kind is proved here.
+
+If physical character labels are intended, their easy linear predicates must be allowed. The appropriate hard object is then an acceptance-relevant nonlinear function of the label. Requiring the entire label to satisfy
+\eqref{ian:hidden-label-contraction} excludes the natural character labels, as shown above. The two interpretations must be stated separately.
+
+Likewise, fixed positive correlation between a label basis character and a bounded-depth local observable is incompatible with a hiding coefficient tending to zero at that depth. The covariance consequence of
+\eqref{ian:hidden-label-contraction} bounds every such normalized correlation by \(\sqrt{\kappa_N(t)}\).
+\end{remark}
+
+\begin{remark}[Disposition of requirements (a)--(e)]
+\label{ian:hidden-label-requirements-disposition}
+This records the status of requirements (a)--(e) of Remark~\ref{ian:phase-label-local-open-problem}.
+
+\medskip\noindent
+(a) \emph{Met for the abstract statements.}
+The law or Hamiltonian sequence, temperature, component class, simulation polynomial, and treatment of fields are fixed. A theorem about a whole class would require the corresponding constants uniformly over that class.
+
+\medskip\noindent
+(b) \emph{Met for the operational theorem; unmet for a code-structure theorem.}
+The depths, errors, weights, dispersion, residual variance, and budget quantifiers are explicit above. No universal near-uniform \(m\)-bit character label, or lower bound on such an \(m\), has been derived.
+
+\medskip\noindent
+(c) \emph{Obsolete for the abstract theorem; unmet as a physical structural requirement.}
+The proved theorem makes no assertion about many distinct correlated local observables. It therefore needs no redundancy convention. Any future theorem asserting such observables must still exclude duplicated or rescaled copies.
+
+\medskip\noindent
+(d) \emph{Unmet as an independent relevance requirement.}
+Large sector-conditioned label-mean variance can be created by choosing the sector. The distance-three sector and
+Proposition~\ref{ian:phase-label-constant-posterior-counterexample}
+prove this explicitly. Fixing the decomposition before choosing \(H\) does not prevent it. Global flatness supplies a sufficient transfer condition, not a necessary decomposition theorem.
+
+\medskip\noindent
+(e) \emph{Met by Definition~\ref{ian:hidden-label-no-disclosure}, but not yet imposed in any stated question.}
+The criterion excludes nontrivial padding and pinning, robustly when \(\kappa_N(t)\to0\), and the sample construction supplies parameters for all listed invariant obstruction families. It also excludes their natural character-index labels. A physical formulation retaining those labels must instead hide the relevant nonlinear target. Merely imposing \(m\ge c\log t\) establishes neither form of hiding.
+
+These dispositions leave the physical structural question open, together with the atom-free existential equivalence, while settling the claims about distance-three sectors and, for a prescribed decomposition, posterior smoothing in Subsection~\ref{ian:phase-label-sectors}.
+\end{remark}

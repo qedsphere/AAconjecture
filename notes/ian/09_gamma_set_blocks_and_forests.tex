@@ -1,13 +1,29 @@
 \subsection{The block-size boundary and forest counterexamples}
 \label{ian:gamma-set-blocks-and-forests}
 
-Status: proved. Assuming (UAA), bounded block products satisfy
-\(\Gamma^{\mathrm{set}}\) for block size at most two. They fail it
-for every block-size bound at least three. Ising forests fail it for
-every positive fixed finite edge-strength bound. Both failures are
-unconditional.
+Status: proved. Bounded block products satisfy
+\(\Gamma^{\mathrm{set}}\) for block size at most two
+(Lemma~\ref{ian:block-resampling-aa},
+Corollary~\ref{ian:two-spin-blocks}), as do Ising forests with zero
+edge bound (Proposition~\ref{ian:forest-addressing}), by the influence
+bound of Corollary~\ref{ian:product-influence-aa-proved}, proved in
+Subsection~\ref{ian:influence-form-uniform-aa}; these results no longer
+assume (UAA). Block products fail
+\(\Gamma^{\mathrm{set}}\) for every block-size bound at least three
+(Proposition~\ref{ian:hard-block-addressing}), although
+\(\Lambda_{\mathrm{blk}}(k)\) has hereditary full AA for every \(k\) by
+Corollary~\ref{cor:resolution-product-alphabet-aa}; Ising forests fail
+\(\Gamma^{\mathrm{set}}\) for every positive finite edge-strength bound
+(Proposition~\ref{ian:forest-addressing}). The positive forest
+simulation quoted there is
+Theorem~\ref{thm:threshold-ising-forests}, whose bound is stated
+through the uniform-input simulator \(s_U\) (via
+\(S_B\) of Theorem~\ref{thm:threshold-block-products}); that simulation
+form is supplied, with \(s_U(T,e)=O(T^6e^{-15})\), by
+Corollary~\ref{cor:resolution-product-alphabet-aa} applied to the
+uniform law.
 
-Here (UAA) is the uniform theorem imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}.
+The positive influence results below use Corollary~\ref{ian:product-influence-aa-proved} (Subsection~\ref{ian:influence-form-uniform-aa}), proved from (BC) and the OSSS covariance inequality with exponents \((12,12)\). An earlier version assumed instead the influence-form uniform theorem (UAA) imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}; that hypothesis is no longer used. Corollary~\ref{cor:resolution-product-alphabet-aa} supplies only simulation, and is used below only for simulation statements.
 
 Let \(\Lambda_{\mathrm{blk}}(k)\) be the class of all products of arbitrary laws on disjoint coordinate blocks of size at most \(k\); zero atoms are allowed and block laws may depend on \(n\). This class is pinning-closed: conditioning
 on a coordinate assignment conditions each block separately, leaving
@@ -24,8 +40,9 @@ where \(X'_B\) is an independent copy of the block.
 
 \begin{lemma}[Block resampling AA without an atom floor]
 \label{ian:block-resampling-aa}
-Assume (UAA), and fix \(k\ge1\). There is an explicit
-\(\kappa_k>0\) such that every admissible degree-\(d\) polynomial on
+Fix \(k\ge1\). There is an explicit
+\(\kappa_k>0\) such that every multilinear polynomial \(f\) of degree at
+most \(d\) with \(|f|\le1\) on the whole cube, on
 every \(\mu\in\Lambda_{\mathrm{blk}}(k)\) satisfies
 \[
  \Var_\mu f\ge v
@@ -34,117 +51,48 @@ every \(\mu\in\Lambda_{\mathrm{blk}}(k)\) satisfies
 \]
 One choice is
 \[
- \begin{split}
- c_0&=\min\{1,c_{\mathrm{AA}}\},\\
- A_k&=\min\left\{a\in\mathbb N:
- a\ge32,\quad128(k+a+1)^6\,2^{-a}\le c_0\right\},\\
- M_k&=k+A_k+1,\qquad
- \kappa_k=\frac{c_0}{16M_k^6}.
- \end{split}
+ \kappa_k=c_\star=\frac{9}{2^{61}\pi^{12}},
 \]
+the constant of Theorem~\ref{ian:uniform-influence-aa-proved}.
 \end{lemma}
 
 \begin{proof}
-Put \(x=d/v\), \(b=k+\lceil A_kx\rceil\), and
-\(\eta=2^{k-b}\). For each block law \(\pi_B\), construct a law
-\(\pi'_B\), with probabilities having denominator \(2^b\), such that
+Regard each block \(B\) as one alphabet coordinate, with alphabet
+\(\Omega_B\) the support of its block law \(\pi_B\) in
+\(\{-1,1\}^B\). Zero-mass block states are simply deleted, so zero
+atoms are allowed and no atom floor is needed. Then \(\mu\) is a
+product law on \(\prod_B\Omega_B\). Every physical monomial of degree
+at most \(d\) involves at most \(d\) blocks, so \(f\) has interaction
+degree at most \(d\) on this product of block alphabets
+(Definition~\ref{ian:alphabet-interaction-degree}), and it remains
+bounded by one on the whole product set because it is bounded on the
+entire physical cube. For the block coordinate \(B\), the quantity
+\(\mathcal E_i^\mu\) of
+Corollary~\ref{ian:product-influence-aa-proved} is exactly the
+resampling energy \(\mathcal E_B^\mu(f)\). Assertion (A-AA) of that
+corollary therefore gives
 \[
- \pi'_B\ge(1-\eta)\pi_B.
-\]
-Indeed, give each atom \(u\) the count
-\(\lceil(1-\eta)2^b\pi_B(u)\rceil\).
-The sum of these counts is at most
-\((1-\eta)2^b+2^k=2^b\); distribute the remaining counts arbitrarily.
-Thus
-\[
- \pi'_B=(1-\eta)\pi_B+\eta r_B
-\]
-for a probability law \(r_B\), with no assumption on zero atoms.
-
-Let
-\[
- \mu_t=\bigotimes_B\bigl((1-t)\pi_B+tr_B\bigr),
- \qquad 0\le t\le1.
-\]
-Both
-\[
- V(t)=\Var_{\mu_t}f,\qquad
- J_B(t)=\mathcal E_B^{\mu_t}(f)
-\]
-are polynomials of degree at most \(2d\), bounded between zero and
-one on \([0,1]\). For \(J_B\), expand
-\[
- J_B(t)=\E_{\mu_t}f^2
- -\E_{(\mu_t)_{-B}}
-       \left(\E_{(\mu_t)_B}f\right)^2.
-\]
-Each pair of monomials involves at most \(2d\) block occurrences,
-counting the two integrations over \(B\) separately.
-Markov brothers' inequality therefore gives
-\[
- |V(\eta)-V(0)|,\quad |J_B(\eta)-J_B(0)|
- \le \varepsilon_*:=8d^2\eta.
-\]
-
-Write \(\mu'=\mu_\eta\), and set
-\[
- q_*=\frac{c_0v^{5/2}}{16d^6b^6}.
-\]
-Since \(b\le M_kx\) and \(\eta\le2^{-A_kx}\),
-\[
- \frac{\varepsilon_*}{v}
- \le8x^2\,2^{-A_kx}\le\frac12,
-\]
-and
-\[
- \frac{\varepsilon_*}{q_*}
- \le\frac{128M_k^6}{c_0}x^{14}2^{-A_kx}\le1.
-\]
-Here \(x^{14}2^{-A_kx}\) decreases for \(x\ge1\), and the defining
-inequality for \(A_k\) applies.
-
-Generate every \(\pi'_B\) exactly from \(b\) independent fair bits.
-The composition \(H=f\circ T\) is globally bounded by one, has degree
-at most \(db\), and has uniform variance at least \(v/2\).
-Consequently (UAA) supplies a source bit \(j\), belonging to some
-block \(B\), with
-\[
- I_j^U(H)
- \ge\frac{c_0(v/2)^{5/2}}{d^6b^6}
- \ge2q_*.
-\]
-A source-bit influence is a conditional variance. Revealing all
-other source bits in its block can only decrease expected conditional
-variance, so
-\[
- I_j^U(H)
- \le\E\Var(H\mid Z_{-B})
- =\mathcal E_B^{\mu'}(f).
-\]
-Transferring back gives
-\[
- \mathcal E_B^\mu(f)\ge2q_*-\varepsilon_*\ge q_*.
-\]
-Finally,
-\[
- q_*\ge\frac{c_0}{16M_k^6}\frac{v^{17/2}}{d^{12}}
+ \max_B\mathcal E_B^\mu(f)
+ \ge c_\star\frac{(\Var_\mu f)^{12}}{d^{12}}
  \ge\kappa_k(v/d)^{12}.
 \]
 \end{proof}
 
 \begin{corollary}[Positive result through block size two]
 \label{ian:two-spin-blocks}
-Assuming (UAA), arbitrary coordinate-bias products satisfy
+Arbitrary coordinate-bias products satisfy
 \[
- \max_iI_i^\mu(f)\ge\kappa_1(v/d)^{12},
+ \max_iI_i^\mu(f)\ge c_\star(v/d)^{12},
 \]
 including deterministic coordinates. Products of arbitrary laws on
 blocks of size at most two satisfy
 \[
- \max_iI_i^\mu(f)\ge\frac{\kappa_2}{8}(v/d)^{12}.
+ \max_iI_i^\mu(f)\ge\frac{c_\star}{8}(v/d)^{12}.
 \]
 Thus both classes satisfy \(\Gamma^{\mathrm{set}}\) through the Local
-alternative alone.
+alternative alone. The first bound extends
+\eqref{ian:uniform-product-bound} from a common bias to
+coordinate-dependent biases, at the same rate.
 \end{corollary}
 
 \begin{proof}
@@ -293,7 +241,17 @@ The product-alphabet certificate and completion results in
 Lemma~\ref{lem:resolution-alphabet-certificates} and
 Corollary~\ref{cor:resolution-product-alphabet-aa}, are consistent
 with this counterexample: they give adaptive simulation, which does
-not require a small fixed revealing set.
+not require a small fixed revealing set. Indeed, the block-symbol
+reduction in the proof of
+Proposition~\ref{ian:triple-random-set-failure}, with three replaced
+by \(k\), shows that \(\Lambda_{\mathrm{blk}}(k)\) has hereditary full
+AA with \(O(kT^6e^{-15})\) physical queries for every \(k\); this
+sharpens the bound of Theorem~\ref{thm:threshold-block-products} by
+removing its block-length factor. With
+Proposition~\ref{ian:hard-block-addressing} it recovers, for every
+\(k\ge3\), that \(\Gamma^{\mathrm{set}}\) fails on a pinning-closed class
+with hereditary full AA (for \(k=3\) this is
+Proposition~\ref{ian:gamma-set-not-necessary}).
 
 \begin{proposition}[Failure for Ising forests at every positive edge bound]
 \label{ian:forest-addressing}
@@ -303,8 +261,8 @@ The class of finite Ising forests with
 \(\Gamma^{\mathrm{set}}\). Zero fields and ferromagnetic couplings
 already suffice.
 
-For \(\Theta=0\), the class is a product class and satisfies Gamma
-under (UAA).
+For \(\Theta=0\), the class is a product class and satisfies Gamma,
+by Corollary~\ref{ian:two-spin-blocks}.
 \end{proposition}
 
 \begin{proof}
@@ -363,11 +321,13 @@ Along sufficiently large odd \(r\),
 With \(v=1,d=d_r\), both alternatives fail.
 
 Pinning preserves the forest class by deleting pinned vertices and
-adding fields, without increasing the edge bound. Its hereditary
-full-AA property is nevertheless supplied by
+adding fields, without increasing the edge bound. The class
+nevertheless has hereditary full AA by
 \path{simulation/positive_examples/03_ising_forests.tex},
-Theorem~\ref{thm:threshold-ising-forests}.
-Thus fixed-set Gamma does not explain that positive simulation
+Theorem~\ref{thm:threshold-ising-forests}; that theorem's bound is
+expressed through the uniform-input simulator \(s_U\), here supplied by
+Corollary~\ref{cor:resolution-product-alphabet-aa} (see the Status
+line). Thus fixed-set Gamma does not explain that positive simulation
 theorem.
 
 When \(\Theta=0\), the spins are independent, and

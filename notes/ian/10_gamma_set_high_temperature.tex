@@ -1,14 +1,19 @@
 \subsection{Partial fixed-set Gamma results at weighted high temperature}
 \label{ian:gamma-set-high-temperature}
 
-Status: partial. Throughout the full stated weighted high-temperature
-region, the Local alternative holds uniformly for degree-one
-polynomials. It also holds quantitatively for polynomials with bounded
-Fourier coefficient mass. Assuming (UAA), all degrees are covered
-under an additional dimension-independent total-interaction budget.
-The unrestricted row-sum-only Gamma assertion remains unresolved here.
+Status: partial. Unconditionally, throughout the weighted
+high-temperature region below, a Poincar\'e inequality holds after
+every pinning (Lemma~\ref{ian:weighted-dobrushin-poincare}), and the
+Local alternative holds uniformly for degree-one polynomials and
+quantitatively for polynomials with bounded Fourier coefficient mass
+(Proposition~\ref{ian:weighted-linear-aa}). All degrees are covered
+under a dimension-independent total-interaction budget
+(Proposition~\ref{ian:interaction-budget-aa}), by the influence bound
+proved in Subsection~\ref{ian:influence-form-uniform-aa}; this no longer
+assumes (UAA). The unrestricted row-sum-only Gamma assertion remains
+unresolved here.
 
-Here (UAA) is the uniform theorem imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}.
+The budget result uses Corollary~\ref{ian:two-spin-blocks}, hence Corollary~\ref{ian:product-influence-aa-proved} of Subsection~\ref{ian:influence-form-uniform-aa}. An earlier version assumed instead the influence-form uniform theorem (UAA) imported in \path{influence/high_temperature/01_conventions_imported_uniform_theorem.tex}, Section~\ref{ht:conventions-and-imported-uniform-theorem}; that hypothesis is no longer used. The simulation result Corollary~\ref{cor:resolution-product-alphabet-aa} does not supply influence bounds and is not used for them.
 
 Write
 \[
@@ -98,11 +103,11 @@ If \(\Var_\mu f\ge v>0\), then
  \ge\frac{(1-\omega)^2v^2}{M(f)^2}.
  \tag{HTC}
 \]
-In particular, if
-\(\sum_A|\widehat f(A)|\le A_0d^q\), with \(q\ge0\), then
+In particular, if \(\deg f\le d\), \(v\le1\) and
+\(\sum_A|\widehat f(A)|\le Rd^q\), with \(R>0\) and \(q\ge0\), then
 \[
  \max_iI_i^\mu(f)
- \ge\frac{49}{64A_0^2}(v/d)^{2q+2}.
+ \ge\frac{49}{64R^2}(v/d)^{2q+2}.
 \]
 These assertions do not require (UAA).
 \end{proposition}
@@ -133,28 +138,32 @@ so \(M(f)\le1\). This proves the linear assertion. Restrictions
 remain globally bounded and linear, so it is hereditary.
 
 For the final assertion,
-\(M(f)\le d\sum_A|\widehat f(A)|\le A_0d^{q+1}\);
-use \(v\le1\) in (HTC).
+\(M(f)\le d\sum_A|\widehat f(A)|\le Rd^{q+1}\);
+use \(\omega\le1/8\) and, since \(v\le1\), \(v^2\ge v^{2q+2}\) in (HTC).
 \end{proof}
 
 \begin{proposition}[All degrees with a total-interaction budget]
 \label{ian:interaction-budget-aa}
-Assume (UAA). Suppose, in addition, that
+Suppose that
 \[
  \beta\sum_{|A|\ge2}|J_A|\le B
 \]
 for a fixed dimension-independent \(B\).
-Then every admissible polynomial satisfies
+Then every multilinear polynomial \(f\) of degree at most \(d\) with
+\(|f|\le1\) on the whole cube and \(\Var_\mu f\ge v\) satisfies
 \[
  \max_iI_i^\mu(f)
- \ge\kappa_1e^{-26B}(v/d)^{12},
+ \ge c_\star e^{-26B}(v/d)^{12},
 \]
-where \(\kappa_1\) is defined in
-Lemma~\ref{ian:block-resampling-aa}.
+where \(c_\star=9/(2^{61}\pi^{12})\) is the constant of
+Theorem~\ref{ian:uniform-influence-aa-proved}; the proof uses its
+product-law form, Corollary~\ref{ian:product-influence-aa-proved},
+through Corollary~\ref{ian:two-spin-blocks}.
 Consequently this subclass satisfies
 \(\Gamma^{\mathrm{set}}\), and indeed
 \(\Gamma^{\mathrm{rand}}\), through the Local alternative alone,
-uniformly after pinning. No field bound or bias floor is needed.
+uniformly after pinning. No field bound or bias floor is needed, and
+the proof does not use the row bound \(\omega\le1/8\).
 \end{proposition}
 
 \begin{proof}
@@ -180,9 +189,9 @@ Corollary~\ref{ian:two-spin-blocks}, applied to the arbitrary-bias
 product \(\nu\), yields
 \[
  \max_iI_i^\mu(f)
- \ge e^{-2B}\kappa_1
+ \ge e^{-2B}c_\star
           \left(\frac{e^{-2B}v}{d}\right)^{12}
- =\kappa_1e^{-26B}(v/d)^{12}.
+ =c_\star e^{-26B}(v/d)^{12}.
 \]
 
 Pinning cannot increase the total absolute mass of residual
@@ -205,7 +214,8 @@ as \(r\) grows. It therefore does not refute Gamma here.
 The acceptance-simulation theorem in
 \path{high_temperature/classical/05_arbitrary_degree.tex},
 Theorem~\ref{thm:resolution-dynamics-arbitrary-degree}, remains valid
-throughout the stated region. Proposition~\ref{ian:gamma-set-not-necessary}
+throughout the stated region; it goes through
+Corollary~\ref{cor:resolution-product-alphabet-aa}, not (UAA). Proposition~\ref{ian:gamma-set-not-necessary}
 shows why that simulation conclusion alone cannot establish fixed-set
 Gamma. A proof or counterexample for arbitrary bounded low-degree
 polynomials under the sole hypothesis \(\omega\le1/8\) remains needed.
