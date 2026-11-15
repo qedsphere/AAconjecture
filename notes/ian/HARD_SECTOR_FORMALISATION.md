@@ -99,6 +99,8 @@ have me use it, say so.
 | 13, $\mathcal Q_{n,T}$ (acceptance functions of `QAlg (Fin n) Bool Bool W` with ≤ T value-oracle queries) and `ian:hard-sector-aa-equivalence` for it | `QuantumClass`, `quantumClass_mem_unit`, `quantum_not_fullAA_iff_setSectorWitnesses`, `quantum_not_fullAA_iff_smoothSectorWitnesses` | `UnifiedAA.HardSector.Quantum` |
 | 15, `ian:hard-sector-polynomial-quantifiers` (property (P); ¬FullAA ⇔ (P), smooth and set) | `SectorKind`, `HasHardSector`, `PolynomialSectorProperty`, `not_fullAA_iff_polynomialSectorProperty`, `quantum_not_fullAA_iff_polynomialSectorProperty` | `UnifiedAA.HardSector.Quantifiers` |
 | 15, `ian:hard-sector-resource-equivalence` (FullAA ⇔ 𝖱(μ), smooth and set) | `ResourceProperty`, `fullAA_iff_resourceProperty`, `quantum_fullAA_iff_resourceProperty` | `UnifiedAA.HardSector.Quantifiers` |
+| 30, `ian:simon-law` (randomly labelled Simon law on `Fin (m·2^m) → Bool`; 𝔽₂^m = `Fin m → ZMod 2`) | `SimonGroup`, `simonCoord`, `IsSimonPair`, `simonPairs`, `simonTable`, `simonLaw`, `simonSupport`, `simonMask`, `simonTarget` | `UnifiedAA.HardSector.SimonLaw` |
+| 30, `ian:simon-promise-count` (mask uniqueness, $\lvert H_m\rvert$, uniform weight, $\rho_m$, $\Var Y$, $U(H_m)$ bound) | `isSimonPair_unique`, `simonMask_simonTable`, `card_simonSupport`, `card_simonPair_fiber`, `simonLaw_weight_of_mem`, `simonLaw_weight_of_not_mem`, `simonLaw_prob_support`, `simonLaw_expect_target`, `simonLaw_variance_target`, `uniform_prob_simonSupport` | `UnifiedAA.HardSector.SimonLaw` |
 
 ## Questions for you
 
