@@ -96,6 +96,7 @@ have me use it, say so.
 | 13, `ian:hard-sector-regularity` (one calibrated predictor; $K=\lceil1/(w\gamma^2)\rceil$ form; Cauchy–Schwarz and $\E\lvert Y-m\rvert$ bounds from the proof) | `regularity`, `regularity_of_K_eq`, `expect_mul_sq_le`, `expect_abs_sub_mean_le_half`, `expect_abs_sub_mean_le_sqrt_variance` | `UnifiedAA.HardSector.Regularity` |
 | 13, `ian:hard-sector-explicit` (set extraction at depth $L_\dagger$, the $L_*$ form, smooth sector $\nu\le16\mu/(\eta\varepsilon^3)$; constants as in the note) | `extraction`, `extraction_of_Lstar`, `extraction_smooth` | `UnifiedAA.HardSector.Extraction` |
 | 13, `ian:hard-sector-aa-equivalence` (condition (2); reduction to $r>8$; (1) ⇒ (2) ⇒ (3); (1) ⇔ (2) ⇔ (3), for an abstract $[0,1]$-valued class family) | `SetSectorWitnesses`, `exists_large_r_of_not_fullAA`, `setSectorWitnesses_of_not_fullAA`, `smoothSectorWitnesses_of_setSectorWitnesses`, `not_fullAA_iff_setSectorWitnesses`, `not_fullAA_iff_smoothSectorWitnesses` | `UnifiedAA.HardSector.Equivalence` |
+| 13, $\mathcal Q_{n,T}$ (acceptance functions of `QAlg (Fin n) Bool Bool W` with ≤ T value-oracle queries) and `ian:hard-sector-aa-equivalence` for it | `QuantumClass`, `quantumClass_mem_unit`, `quantum_not_fullAA_iff_setSectorWitnesses`, `quantum_not_fullAA_iff_smoothSectorWitnesses` | `UnifiedAA.HardSector.Quantum` |
 
 ## Questions for you
 
