@@ -97,6 +97,8 @@ have me use it, say so.
 | 13, `ian:hard-sector-explicit` (set extraction at depth $L_\dagger$, the $L_*$ form, smooth sector $\nu\le16\mu/(\eta\varepsilon^3)$; constants as in the note) | `extraction`, `extraction_of_Lstar`, `extraction_smooth` | `UnifiedAA.HardSector.Extraction` |
 | 13, `ian:hard-sector-aa-equivalence` (condition (2); reduction to $r>8$; (1) ⇒ (2) ⇒ (3); (1) ⇔ (2) ⇔ (3), for an abstract $[0,1]$-valued class family) | `SetSectorWitnesses`, `exists_large_r_of_not_fullAA`, `setSectorWitnesses_of_not_fullAA`, `smoothSectorWitnesses_of_setSectorWitnesses`, `not_fullAA_iff_setSectorWitnesses`, `not_fullAA_iff_smoothSectorWitnesses` | `UnifiedAA.HardSector.Equivalence` |
 | 13, $\mathcal Q_{n,T}$ (acceptance functions of `QAlg (Fin n) Bool Bool W` with ≤ T value-oracle queries) and `ian:hard-sector-aa-equivalence` for it | `QuantumClass`, `quantumClass_mem_unit`, `quantum_not_fullAA_iff_setSectorWitnesses`, `quantum_not_fullAA_iff_smoothSectorWitnesses` | `UnifiedAA.HardSector.Quantum` |
+| 15, `ian:hard-sector-polynomial-quantifiers` (property (P); ¬FullAA ⇔ (P), smooth and set) | `SectorKind`, `HasHardSector`, `PolynomialSectorProperty`, `not_fullAA_iff_polynomialSectorProperty`, `quantum_not_fullAA_iff_polynomialSectorProperty` | `UnifiedAA.HardSector.Quantifiers` |
+| 15, `ian:hard-sector-resource-equivalence` (FullAA ⇔ 𝖱(μ), smooth and set) | `ResourceProperty`, `fullAA_iff_resourceProperty`, `quantum_fullAA_iff_resourceProperty` | `UnifiedAA.HardSector.Quantifiers` |
 
 ## Questions for you
 
