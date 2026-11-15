@@ -1,0 +1,879 @@
+\subsection{Thermal obstructions and the remaining realization problem}\label{ian:thermal-realization}
+Status: proved unconditionally: (i) finite-energy obstructions for raw table encodings (Lemma~\ref{ian:thermal-reconstruction-obstruction}, Propositions~\ref{ian:thermal-simon-raw-obstruction} and~\ref{ian:thermal-period-raw-obstruction}, Remark~\ref{ian:thermal-raw-scope}): for every Hamiltonian obeying \eqref{ian:thermal-local-bounds}, of which only the incident bound at raw spins is used, so that auxiliary and reference interactions are otherwise arbitrary, at every fixed \(\beta>0\) and with the raw \(b\)-bit word encoding, every sector supported on \(H_{\mathrm S}\), on \(H_{\mathrm S,\theta}\) (\(\theta<1/2\), whole-word corruption), on \(H_{\mathrm P}\) or on \(H_{\mathrm P,\theta}\) (\(\theta<1\)) has weight \(e^{-\Omega(n)}\), and property~\eqref{ian:hard-sector-polynomial-property} is excluded for these sectors when the acceptance function reads the raw coordinates alone; bit-level Hamming neighbourhoods and raw sectors whose acceptance function reads auxiliary spins are not covered; (ii) the robust raw Simon word decoder (Lemma~\ref{ian:thermal-simon-word-decoder}); (iii) the entropy obstruction (Lemma~\ref{ian:thermal-entropy-obstruction}), its consequences for the laws of Definitions~\ref{ian:simon-law}, \ref{ian:period-hsp-period-law} and~\ref{ian:forrelation-input-law} (Proposition~\ref{ian:thermal-three-law-obstructions}; for the period law when \(K\ge K_0(C,k)\)), and the gadget obstruction, including the exact all-spin partition identities \eqref{ian:thermal-gadget-partition-sums} for independent bounded gadgets (Lemma~\ref{ian:thermal-independent-gadget-obstruction}; for the period law, \(K\ge K_0(2\beta Jg_0d_0,k_0)\), the hypothesis of Proposition~\ref{ian:thermal-three-law-obstructions} with \(C=2\beta Jg_0d_0\) and \(k=k_0\) from that lemma), together with its extension to visible sector laws at total-variation distance \(o(1)\) from these laws, by entropy continuity (Remark~\ref{ian:thermal-gadget-scope}); (iv) the exposed-witness lemma (Lemma~\ref{ian:thermal-exposed-witness}) and the exposed Forrelation selector (Remark~\ref{ian:thermal-forrelation-selector-leakage}); (v) the relabelling of the Forrelation observable to the character Hamiltonians of Subsection~\ref{ian:hard-sector-instances} (Remark~\ref{ian:thermal-forrelation-character-relabeling}). Proved conditionally: the compilation theorem (Theorem~\ref{ian:thermal-conditional-simon-compilation}), under a coupling \(\sigma=\Psi_m(\Gamma,\Xi)\) almost surely with \(\Gamma\) of exactly the law of Definition~\ref{ian:simon-law} and \(\Xi\) independent of \(\Gamma\), each physical spin \(\sigma_i\) computable by at most \(k_m\) adaptive whole-word queries to \(\Gamma\) once \(\Xi\) is fixed, a globally defined decoder with \(\operatorname{Dec}_m(\sigma)=\Gamma\) on \(H_m\) at \(q_m\) physical queries per logical bit, \(\mu_m(H_m)\ge1/2\), and pairwise distinct dimensions \(N_m\) (or a subsequence); \eqref{ian:thermal-local-bounds} is not used (Remark~\ref{ian:thermal-conditional-scope}). Open: for Simon and period finding, bit-level Hamming neighbourhoods of the raw encoding, which are the regions a fixed finite temperature populates and which the raw-table weight bounds do not exclude, and raw sectors whose acceptance function also reads auxiliary or reference spins (Remark~\ref{ian:thermal-raw-scope}); a thermal realization through decoded redundant encodings over correlated auxiliary networks, for each of the three mechanisms, and, for the Forrelation law, correlated auxiliary networks beyond independent bounded gadgets (Remark~\ref{ian:thermal-realization-open}); a version of the conditional theorem robust to total-variation error in the clean law. Literature: only Hoeffding's inequality, in the proof of Lemma~\ref{ian:thermal-simon-word-decoder}. Repository inputs are Definition~\ref{ian:hard-sector-definition}, property~\eqref{ian:hard-sector-polynomial-property}, Subsection~\ref{ian:hard-sector-instances}, Definitions~\ref{ian:simon-law}, \ref{ian:period-hsp-period-law} and~\ref{ian:forrelation-input-law}, Lemma~\ref{ian:forrelation-flatness} and Lemma~\ref{res:gadget}.
+
+We use Definition~\ref{ian:hard-sector-definition} of
+\path{ian/13_hard_sector_definitions_forward.tex}, with its classes
+\(\mathcal D_t,\mathcal F_t\) of coordinate trees querying every
+physical spin, and property~\eqref{ian:hard-sector-polynomial-property}
+of \path{ian/15_hard_sector_sets_asymptotics.tex}. When that property
+is invoked, its constants \(K,p,q,A,B\) and its parameter \(r\) are
+written \(\kappa,p,q,A,B\) and \(\varrho\), since \(K\) and \(r\) denote
+a number of primes and a period below.
+The obstructions below have explicitly different scopes. In particular,
+they do not establish that locality forces every auxiliary representation
+to reveal its hidden target.
+
+\begin{definition}[Physical spins and partition sums]
+\label{ian:thermal-physical-conventions}
+Let the physical input be \(\sigma=(X,U,\Upsilon)\in\{-1,1\}^N\), where \(X\)
+denotes raw table coordinates and \(U,\Upsilon\) denote any auxiliary and
+reference coordinates. Every coordinate is queryable by both algorithms.
+Consider a temperature-independent classical Hamiltonian
+\[
+ E_N(\sigma)=\sum_{\alpha}h_\alpha(\sigma_{S_\alpha}),
+ \qquad |S_\alpha|\le k,\qquad
+ \|h_\alpha\|_\infty\le J,\qquad
+ \max_i|\{\alpha:i\in S_\alpha\}|\le d,
+ \tag{36.1}\label{ian:thermal-local-bounds}
+\]
+where \(k,d,J\) are independent of \(N\). Fix any finite
+\(\beta>0\). For an event \(\mathcal A\) concerning the raw table, write
+\[
+ Z_{\mathcal A}=\sum_{\substack{X\in\mathcal A\\U,\Upsilon}}e^{-\beta E_N(X,U,\Upsilon)},
+ \qquad
+ Z=\sum_{X,U,\Upsilon}e^{-\beta E_N(X,U,\Upsilon)},
+ \qquad
+ \mu_\beta(X\in\mathcal A)=\frac{Z_{\mathcal A}}{Z}.
+ \tag{36.2}
+\]
+Thus every restricted partition sum includes all physical spins.
+\end{definition}
+
+\begin{lemma}[Finite energy and reconstruction constraints]
+\label{ian:thermal-reconstruction-obstruction}
+Put
+\[
+ \epsilon_*=\frac1{1+e^{2\beta dJ}},
+ \qquad c_*=-\log(1-\epsilon_*)>0.
+ \tag{36.3}
+\]
+Under any conditioning that does not specify coordinate \(i\), either
+value of that coordinate has conditional probability between
+\(\epsilon_*\) and \(1-\epsilon_*\).
+
+Suppose an event \(\mathcal A\) is covered by \(L\) events, each of which
+determines \(q\) specified raw coordinates as functions of the remaining
+raw coordinates. Auxiliary and reference spins may have arbitrary
+interactions satisfying \eqref{ian:thermal-local-bounds}. Then
+\[
+ \frac{Z_{\mathcal A}}{Z}\le L(1-\epsilon_*)^q=L e^{-c_*q}.
+ \tag{36.4}
+\]
+Every smooth sector supported on \(\mathcal A\) consequently has weight at most
+this quantity.
+\end{lemma}
+
+\begin{proof}
+Flipping one spin changes the energy by at most \(2dJ\). Its conditional
+odds, with all other physical spins fixed, therefore lie between
+\(e^{-2\beta dJ}\) and \(e^{2\beta dJ}\). Conditional expectation gives
+the same probability bounds under partial conditioning.
+
+For one reconstruction event, condition on all complementary raw
+coordinates and on every auxiliary and reference spin. Reveal the
+\(q\) determined coordinates successively. Each required answer has
+conditional probability at most \(1-\epsilon_*\), including after the
+previous required answers have been imposed. Multiply these bounds,
+average over the conditioning, and take the union bound over the
+\(L\) events.
+
+If \(w\nu\le\mu_\beta\) and \(\nu(\mathcal A)=1\), summing domination over \(\mathcal A\)
+gives \(w\le\mu_\beta(\mathcal A)\).
+\end{proof}
+
+\begin{proposition}[Raw Simon tables and corrupted words]
+\label{ian:thermal-simon-raw-obstruction}
+Let \(M=2^m\), and let the raw coordinates encode
+\(f:\mathbb F_2^m\to\{0,1\}^b\), so there are \(n=bM\) table spins.
+For \(s\ne0\), let \(H_s\) consist of the tables satisfying
+\(f(x)=f(x+s)\). Injectivity between different pairs is not needed for
+the following upper bounds.
+
+Let \(H_{\mathrm S}\) be the Simon promise set, the support of the law
+of Definition~\ref{ian:simon-law} when \(b=m\), and let
+\(H_{\mathrm S,\theta}\) consist of tables differing from some promised
+Simon table in at most \(\lfloor\theta M\rfloor\) whole output words.
+For every fixed \(0\le\theta<1/2\),
+\[
+ \mu_\beta(H_{\mathrm S})
+ \le(M-1)e^{-c_*bM/2},
+ \qquad
+ \mu_\beta(H_{\mathrm S,\theta})
+ \le(M-1)2^M e^{-c_*b(1/2-\theta)M}.
+ \tag{36.5}\label{ian:thermal-simon-raw-mass}
+\]
+These bounds hold with arbitrary auxiliary and reference networks
+satisfying \eqref{ian:thermal-local-bounds}.
+
+For the encoding \(b=m\) of Definition~\ref{ian:simon-law}, both
+weights are exponentially small in \(mM\), for sufficiently large
+\(m\). In particular, with the free energies
+\(\mathfrak F_{\mathcal A}=-\beta^{-1}\log Z_{\mathcal A}\) and
+\(\mathfrak F=-\beta^{-1}\log Z\),
+\[
+ \mathfrak F_{H_{\mathrm S,\theta}}-\mathfrak F
+ \ge\frac{
+ c_*m(1/2-\theta)M-M\log2-\log(M-1)}{\beta}.
+ \tag{36.6}
+\]
+\end{proposition}
+
+\begin{proof}
+For a fixed mask, choose one representative of each of its \(M/2\)
+pairs. All \(bM/2\) bits at the other endpoints are determined by the
+representatives. Apply Lemma~\ref{ian:thermal-reconstruction-obstruction}
+and sum over masks.
+
+For the corrupted-word assertion, fix a mask and a set \(\mathcal E\) of at most
+\(\theta M\) corrupted addresses. At least \(M/2-|\mathcal E|\) mask pairs have
+both endpoints outside \(\mathcal E\). Equality on those pairs determines at
+least \(b(1/2-\theta)M\) bits from complementary coordinates. There
+are at most \(2^M\) choices for \(\mathcal E\). Union bounding over masks and
+sets \(\mathcal E\) proves the second estimate. The free-energy inequality is
+the logarithm of the all-spin partition ratio.
+\end{proof}
+
+\begin{proposition}[Raw period tables and corrupted words]
+\label{ian:thermal-period-raw-obstruction}
+Let \(R>32\), let \(\mathcal P\subseteq[R,2R)\) contain \(K\) primes,
+and let
+\(16R^2\le D<32R^2\) and \(b=\lceil\log_2(2R)\rceil\); the setting of
+Definition~\ref{ian:period-hsp-period-law} is a special case.
+The raw table has \(n=bD\) spins.
+
+Let \(H_{\mathrm P}\) consist of the injectively labelled period
+tables \(f(z)=\ell(z\bmod r)\), \(r\in\mathcal P\). Let
+\(H_{\mathrm P,\theta}\) allow corruption of at most
+\(\lfloor\theta D\rfloor\) whole words. For every fixed
+\(0\le\theta<1\),
+\[
+ \mu_\beta(H_{\mathrm P})
+ \le K e^{-c_*b(D-2R)},
+ \qquad
+ \mu_\beta(H_{\mathrm P,\theta})
+ \le K2^D e^{-c_*b((1-\theta)D-2R)}.
+ \tag{36.7}\label{ian:thermal-period-raw-mass}
+\]
+For sufficiently large \(R\), these weights are exponentially small
+in \(bD\), with arbitrary auxiliary and reference networks satisfying
+\eqref{ian:thermal-local-bounds}.
+\end{proposition}
+
+\begin{proof}
+For fixed \(r\), the first \(r\) words determine the remaining
+\(D-r\) words. This gives the first estimate.
+
+For fixed corrupted addresses \(\mathcal E\), choose one uncorrupted
+representative in every residue class that contains an uncorrupted
+address. At most \(r\) representatives are required. They determine
+all other uncorrupted words, hence at least
+\(b(D-|\mathcal E|-r)\) bits. Apply the reconstruction lemma and sum over
+periods and at most \(2^D\) corrupted-address sets.
+\end{proof}
+
+\begin{remark}[Exact scope of the raw-table bounds]
+\label{ian:thermal-raw-scope}
+The refuted class is the following. The Hamiltonian obeys
+\eqref{ian:thermal-local-bounds}; the proofs use this only through the
+incident bound at raw spins, namely that flipping one raw spin changes
+the energy by at most \(2dJ\), so interactions among auxiliary and
+reference spins are otherwise arbitrary. The inverse temperature
+\(\beta>0\) is fixed, and the raw coordinates carry the \(b\)-bit word
+encoding of the table, with \(b=m\) for Simon and
+\(b=\lceil\log_2(2R)\rceil\) for periods. Then every smooth sector
+supported on \(H_{\mathrm S}\), on \(H_{\mathrm S,\theta}\) with
+\(\theta<1/2\), on \(H_{\mathrm P}\), or on \(H_{\mathrm P,\theta}\) with
+\(\theta<1\), corruption being counted in whole words, has weight
+\(e^{-\Omega(n)}\), by \eqref{ian:thermal-simon-raw-mass},
+\eqref{ian:thermal-period-raw-mass} and
+Lemma~\ref{ian:thermal-reconstruction-obstruction}; the prefactors
+\((M-1)2^M\) and \(K2^D\) are \(e^{o(n)}\) because \(b\to\infty\).
+The bounds already sum over all verifier, gadget, and reference spins.
+Thus a low-energy constraint verifier cannot make these regions carry
+constant weight at fixed finite temperature and bounded incident
+strength.
+
+The bounds also exclude property~\eqref{ian:hard-sector-polynomial-property},
+in which the dimension is the physical dimension \(N\), not the raw
+count \(n\), for these sectors when the acceptance function \(Q\) uses only the \(n\)
+raw table coordinates. Indeed, a depth-\(n\) tree reading those
+coordinates outputs \(2Q-1\) exactly, and
+\(\operatorname{Cov}(Q,2Q-1)=2\operatorname{Var}Q\ge2a>a/4\); hence a hard
+depth satisfies \(t<n\). Absorbing the prefactors, there are \(c>0\) and
+\(n_0\) such that each of these sectors has weight \(w\le e^{-cn}\) when
+\(n\ge n_0\). Given \(\kappa,p,q\), take \(B=p\) and
+\(A>\max(n_0,\kappa/c)\). If \(n<n_0\), then
+\(t>A(T+\varrho)^B\ge A>n\). If \(n\ge n_0\), then
+\(e^{cn}\le w^{-1}\le\kappa\varrho^p\), so
+\(t>A(T+\varrho)^p\ge A\kappa^{-1}e^{cn}\ge A\kappa^{-1}cn>n\). Both
+cases contradict \(t<n\).
+
+Not covered are bit-level Hamming neighbourhoods of these promise
+sets, which are the regions a fixed finite temperature populates, and
+raw sectors whose acceptance function also reads auxiliary or
+reference spins. A decoded logical word need not be a raw physical
+word. The preceding argument therefore does not exclude an encoding
+with redundancy.
+\end{remark}
+
+\begin{lemma}[Quantum readout survives a small fraction of bad words]
+\label{ian:thermal-simon-word-decoder}
+Fix \(\theta<1/4\) and \(0<\delta<1\). On
+\(H_{\mathrm S,\theta}\), the Simon mask is uniquely determined.
+There is a globally defined quantum decoder recovering it with error
+at most \(\delta\), using at most
+\[
+ T=bL,\qquad
+ L=\left\lceil
+ \frac{32}{(1-4\theta)^2}\log\frac{2M}{\delta}
+ \right\rceil
+ \tag{36.8}
+\]
+raw physical-coordinate queries.
+\end{lemma}
+
+\begin{proof}
+For any table \(f\), prepare the uniform address superposition,
+query its whole output, apply the Walsh transform to the address,
+and measure the address register. One sample costs \(b\) coordinate
+queries, with the output register retained. Its distribution satisfies
+\[
+ p_f(v)=\frac1{M^2}
+ \sum_{\substack{x,y\\f(x)=f(y)}}(-1)^{v\cdot(x+y)},
+ \qquad
+ \mathbb E_{V\sim p_f}(-1)^{u\cdot V}
+ =\frac1M|\{x:f(x)=f(x+u)\}|.
+ \tag{36.9}
+\]
+The second identity follows by summing the first against the Walsh
+character indexed by \(u\).
+
+If \(f\) has at most \(\theta M\) corrupted words relative to a
+promised mask-\(s\) table, its moment at \(s\) is at least
+\(1-2\theta\). At every \(u\ne0,s\), equality requires at least one
+corrupted endpoint, so the moment is at most \(2\theta\).
+This also proves uniqueness of \(s\).
+
+Estimate all nonzero moments from the same \(L\) independent samples
+and output a maximizing nonzero \(u\), with a fixed tie rule.
+For each moment, the probability of error exceeding
+\((1-4\theta)/4\) is at most
+\(2\exp(-L(1-4\theta)^2/32)\), by Hoeffding's inequality for
+independent signs (from literature: W.~Hoeffding, \emph{Probability
+inequalities for sums of bounded random variables}, J. Amer. Statist.
+Assoc. \textbf{58} (1963), 13--30, Theorem~2). Union bounding over
+fewer than \(M\) moments gives
+failure probability at most \(\delta\). On the complementary event,
+the true mask has a strictly larger empirical moment than every
+competitor. Exhaustive postprocessing costs no queries.
+The circuit and tie rule are defined on every physical input.
+\end{proof}
+
+Thus failure of the raw construction is a thermal-weight obstruction,
+even for a promise neighborhood admitting polynomial-query quantum
+readout.
+
+\begin{lemma}[Entropy versus locally invisible structure]
+\label{ian:thermal-entropy-obstruction}
+Let \(U_n\) be uniform on \(n\) visible spins and let
+\[
+ \lambda(x)=\frac{e^{-V(x)}}{\sum_y e^{-V(y)}},
+ \qquad
+ V=\sum_\alpha V_\alpha(x_{I_\alpha}),
+ \qquad |I_\alpha|\le k,
+ \qquad
+ \sum_\alpha\operatorname{osc}(V_\alpha)\le Cn.
+ \tag{36.10}\label{ian:thermal-effective-potentials}
+\]
+Here \(V\) is dimensionless and
+\(\operatorname{osc}(g)=\max g-\min g\).
+For a law \(\nu\), define
+\[
+ \Delta_k(\nu)=
+ \max_{|I|\le k}\|\nu_I-(U_n)_I\|_{\mathrm{TV}},
+ \qquad
+ \mathcal H(\nu)=-\sum_x\nu(x)\log\nu(x).
+ \tag{36.11}
+\]
+Then
+\[
+ \operatorname{KL}(\nu\Vert\lambda)
+ \ge n\log2-\mathcal H(\nu)-Cn\Delta_k(\nu).
+ \tag{36.12}
+\]
+Consequently, \(w\nu\le\lambda\) implies
+\[
+ \log\frac1w
+ \ge n\log2-\mathcal H(\nu)-Cn\Delta_k(\nu).
+ \tag{36.13}
+\]
+\end{lemma}
+
+\begin{proof}
+The exact relative-entropy identity and Jensen's inequality give
+\[
+ \operatorname{KL}(\nu\Vert\lambda)
+ =n\log2-\mathcal H(\nu)
+   +\mathbb E_\nu V+\log\mathbb E_{U_n}e^{-V}
+ \ge n\log2-\mathcal H(\nu)
+   +\mathbb E_\nu V-\mathbb E_{U_n}V.
+ \tag{36.14}
+\]
+For each term, its expectation changes by at most its oscillation
+times \(\Delta_k(\nu)\). Sum over terms.
+Finally, pointwise domination implies
+\(\log(\nu/\lambda)\le\log(1/w)\) on the support of \(\nu\), so its
+expectation satisfies the same bound.
+\end{proof}
+
+\begin{proposition}[The Simon, period and Forrelation input laws]
+\label{ian:thermal-three-law-obstructions}
+For fixed \(k,C\), each of the following laws has exponentially small
+smooth-sector weight under every law satisfying
+\eqref{ian:thermal-effective-potentials}; for the period law this
+requires \(K\ge K_0(C,k)\), as specified below.
+
+For Simon, take the law of Definition~\ref{ian:simon-law}: choose the
+nonzero mask uniformly, assign uniformly random
+distinct \(m\)-bit labels to its \(M/2\) pairs, and expose only the
+\(n=mM\) table bits. Denote this law by \(\nu_{\mathrm S}\).
+Writing \(c_k=\binom{k}{2}\), for sufficiently large \(M\),
+\[
+ \Delta_k(\nu_{\mathrm S})
+ \le\frac{c_k}{M-1}+\frac{c_k}{M},
+ \qquad
+ n\log2-\mathcal H(\nu_{\mathrm S})
+ \ge\frac n2\log2-\log(M-1).
+ \tag{36.15}\label{ian:thermal-simon-local-entropy}
+\]
+In particular,
+\[
+ w\nu_{\mathrm S}\le\lambda
+ \quad\Longrightarrow\quad
+ \log\frac1w
+ \ge\frac n2\log2-\log(M-1)
+ -Cn\left(\frac{c_k}{M-1}+\frac{c_k}{M}\right)
+ =\frac n2\log2-O_{C,k}(m).
+ \tag{36.16}
+\]
+
+For period finding, take the law \(\nu_{R,\mathcal P}\) of
+Definition~\ref{ian:period-hsp-period-law}: choose \(r\) uniformly from
+the \(K\) primes of \(\mathcal P\), assign uniformly random distinct
+\(b\)-bit residue labels, and expose the \(n=bD\) table bits. Denote
+this law by \(\nu_{\mathrm P}\). For fixed \(k\) and
+sufficiently large \(R\),
+\[
+ \Delta_k(\nu_{\mathrm P})
+ \le\frac{2c_k}{K}+\frac{c_k}{2^b},
+ \qquad
+ n\log2-\mathcal H(\nu_{\mathrm P})
+ \ge b(D-2R)\log2-\log K.
+ \tag{36.17}
+\]
+Thus, along \(K\to\infty\),
+\(w\nu_{\mathrm P}\le\lambda\) forces
+\(\log(1/w)\ge(\log2-o(1))n\). More precisely, if
+\(K\ge K_0(C,k)=\lceil8Cc_k/\log2\rceil\) and \(R\) is sufficiently
+large, then \(w\nu_{\mathrm P}\le\lambda\) forces
+\(\log(1/w)\ge(n\log2)/2\).
+
+For Forrelation, let \(M=2^m\), \(n=2M\), and
+\(W_{xy}=M^{-1/2}(-1)^{x\cdot y}\), as in
+Definition~\ref{ian:forrelation-input-law}. With \(\xi,\xi'\)
+independent standard Gaussian vectors (the vectors \(A,C\) there),
+define
+\[
+ \rho_0=\mathcal L(\operatorname{sgn}\xi,\operatorname{sgn}\xi')=U_{2M},
+ \qquad
+ \rho_1=\mathcal L(\operatorname{sgn}\xi,\operatorname{sgn}(W\xi)),
+ \qquad
+ \nu_{\mathrm F}=\frac{\rho_0+\rho_1}{2}.
+ \tag{36.18}
+\]
+Thus \(\nu_{\mathrm F}\) is the law \(\mu_n\) of
+Definition~\ref{ian:forrelation-input-law}.
+For \(M\ge k^2\),
+\[
+ \Delta_k(\nu_{\mathrm F})
+ \le e^{k^2/\sqrt M}-1,
+ \qquad
+ 2M\log2-\mathcal H(\nu_{\mathrm F})
+ \ge\frac{M}{2\pi^2}.
+ \tag{36.19}
+\]
+Consequently,
+\[
+ w\nu_{\mathrm F}\le\lambda
+ \quad\Longrightarrow\quad
+ \log\frac1w
+ \ge\frac{M}{2\pi^2}
+       -2CM(e^{k^2/\sqrt M}-1)
+ =\frac{M}{2\pi^2}-O_{C,k}(\sqrt M).
+ \tag{36.20}
+\]
+\end{proposition}
+
+\begin{proof}
+For Simon, a set of at most \(k\) bit coordinates touches at most \(k\)
+addresses. The probability, over the mask, that two touched addresses
+are partners is at most \(c_k/(M-1)\). Otherwise their whole labels
+are uniformly sampled without replacement. Their distance from
+independent uniform labels is at most \(c_k/M\), by coupling until
+the first repeated independent label. Projection onto the requested
+bits cannot increase total variation.
+
+There are exactly \((M-1)(M)_{M/2}\) promised tables, each equally
+likely, because each table determines its mask. Hence
+\(\mathcal H(\nu_{\mathrm S})
+=\log((M-1)(M)_{M/2})\le\log(M-1)+(M/2)\log M\).
+This proves \eqref{ian:thermal-simon-local-entropy}.
+
+For periods, every nonzero address difference has magnitude below
+\(D<32R^2\). It has at most two distinct prime divisors in
+\([R,2R)\): three would have product at least \(R^3>32R^2\).
+Thus the probability that two of the touched addresses occupy the
+same residue is at most \(2c_k/K\). Conditional on no such coincidence,
+the touched labels are sampled without replacement from \(2^b\) words,
+giving the additional \(c_k/2^b\) bound.
+The period and its injective residue labelling determine the table,
+so
+\(\mathcal H(\nu_{\mathrm P})
+\le\log K+K^{-1}\sum_r\log(2^b)_r
+\le\log K+2Rb\log2\).
+For the explicit threshold, \(K\ge K_0(C,k)\) gives
+\(2Cc_k/K\le(\log2)/4\), and for large \(R\) one has
+\(Cc_k/2^b\le(\log2)/8\) and \(2Rb\log2+\log K\le(n\log2)/8\), since
+\(2R/D\le1/(8R)\) and \(\log K\le\log R\). Hence
+\(\log(1/w)\ge n\log2(1-1/8-1/4-1/8)=(n\log2)/2\).
+
+For Forrelation, a set of \(j_1\) first-table and \(j_2\) second-table
+coordinates, \(j_1+j_2\le k\), has underlying Gaussian covariance
+\(I+E\), with
+\(\|E\|_{\mathrm{op}}\le\sqrt{j_1j_2/M}\le k/(2\sqrt M)\).
+Put \(\delta_0=k/(2\sqrt M)\le1/2\). Comparing Gaussian densities and
+integrating over any specified orthant bounds its likelihood ratio
+relative to independent signs between
+\(((1-\delta_0)/(1+\delta_0))^{k/2}\) and its reciprocal.
+The logarithms have magnitude at most
+\(k\operatorname{artanh}\delta_0\le k^2/\sqrt M\).
+The same bounds hold for the mixture, proving the discrepancy estimate.
+
+For the entropy bound, put
+\(\Phi(f,g)=M^{-1}f^{\mathsf T}Wg\), as in
+Definition~\ref{ian:forrelation-input-law}.
+Rotational symmetry for two correlated standard Gaussians gives
+\(\mathbb E[\operatorname{sgn}G\operatorname{sgn}G']
+=(2/\pi)\arcsin(\operatorname{Corr}(G,G'))\).
+Therefore, in agreement with \(\mathbb E_{\rho_0}\Phi=0\) and
+\(\mathbb E_{\rho_1}\Phi=c_M\) from
+Lemma~\ref{ian:forrelation-flatness},
+\[
+ \mathbb E_{\nu_{\mathrm F}}\Phi
+ =\frac{\sqrt M}{\pi}\arcsin(M^{-1/2})
+ \ge\frac1\pi.
+ \tag{36.21}
+\]
+Under \(U_{2M}\), condition on \(f\). Since \(\|Wf\|_2^2=M\) and
+\(\cosh z\le e^{z^2/2}\),
+\[
+ \mathbb E_{U_{2M}}e^{uM\Phi}
+ \le e^{u^2M/2}.
+ \tag{36.22}
+\]
+Nonnegativity of relative entropy against the corresponding
+exponentially tilted uniform law implies
+\(\operatorname{KL}(\nu_{\mathrm F}\Vert U_{2M})
+\ge uM\mathbb E_{\nu_{\mathrm F}}\Phi-u^2M/2\).
+Choose \(u=1/\pi\). This proves the entropy bound.
+All weight assertions now follow from
+Lemma~\ref{ian:thermal-entropy-obstruction}.
+\end{proof}
+
+\begin{lemma}[Exact elimination of independent bounded gadgets]
+\label{ian:thermal-independent-gadget-obstruction}
+Suppose the Hamiltonian has the form
+\[
+ E(X,U,\Upsilon)=E_{\mathrm{ref}}(\Upsilon)+
+ \sum_{\alpha}E_\alpha(X_{I_\alpha},U_\alpha),
+ \tag{36.23}
+\]
+where the \(U_\alpha\) are disjoint, \(|I_\alpha|\le k_0\), and every
+factor contains at most \(g_0\) terms of strength at most \(J\).
+Assume each visible spin belongs to at most \(d_0\) factors.
+Factors without visible coordinates may be absorbed into the
+normalization. Reference spins here form an arbitrary decoupled
+system.
+
+Put
+\(z_\alpha(x_{I_\alpha})
+=\sum_{u_\alpha}e^{-\beta E_\alpha(x_{I_\alpha},u_\alpha)}\).
+For every visible event \(\mathcal A\), the exact all-spin sums are
+\[
+ Z_{\mathcal A}=Z_{\mathrm{ref}}
+       \sum_{X\in\mathcal A}\prod_\alpha z_\alpha(X_{I_\alpha}),
+ \qquad
+ Z=Z_{\mathrm{ref}}
+       \sum_X\prod_\alpha z_\alpha(X_{I_\alpha}).
+ \tag{36.24}\label{ian:thermal-gadget-partition-sums}
+\]
+Their visible marginal satisfies
+\eqref{ian:thermal-effective-potentials} with
+\[
+ V_\alpha=-\log z_\alpha,\qquad
+ k=k_0,\qquad C=2\beta Jg_0d_0.
+ \tag{36.25}
+\]
+Consequently, every full physical law whose visible marginal is one
+of the three laws in
+Proposition~\ref{ian:thermal-three-law-obstructions} has exponentially
+small smooth-sector weight; for the period law,
+\(K\ge K_0(2\beta Jg_0d_0,k_0)\), the hypothesis of that proposition
+with the constants \(C=2\beta Jg_0d_0\) and \(k=k_0\) just displayed.
+\end{lemma}
+
+\begin{proof}
+The factorization of the auxiliary sums proves
+\eqref{ian:thermal-gadget-partition-sums}.
+For any two visible assignments and any fixed auxiliary assignment,
+the factor energies differ by at most \(2Jg_0\).
+The ratio of their partition sums therefore lies between
+\(e^{-2\beta Jg_0}\) and \(e^{2\beta Jg_0}\).
+Thus \(\operatorname{osc}(V_\alpha)\le2\beta Jg_0\).
+There are at most \(d_0n\) nonconstant visible factors.
+
+If a full law \(\widetilde\nu\) obeys
+\(w\widetilde\nu\le\mu_\beta\), summing over all auxiliaries and
+references gives \(w\widetilde\nu_X\le(\mu_\beta)_X\).
+Apply Proposition~\ref{ian:thermal-three-law-obstructions}.
+No assumption about the auxiliary conditional law under
+\(\widetilde\nu\) is needed.
+\end{proof}
+
+\begin{remark}[Approximation and the boundary of the gadget obstruction]
+\label{ian:thermal-gadget-scope}
+The same exponential conclusions hold (for the period law,
+\(K\ge K_0(2\beta Jg_0d_0,k_0)\), with the constants of
+Lemma~\ref{ian:thermal-independent-gadget-obstruction}) when the
+visible sector law is
+at total variation distance \(o(1)\) from the corresponding law of
+Proposition~\ref{ian:thermal-three-law-obstructions}. Indeed, local
+discrepancy increases by at most that distance.
+For laws at distance \(\zeta\), a maximal coupling and its disagreement
+indicator give
+\(|\mathcal H(\nu)-\mathcal H(\nu')|
+\le h_2(\zeta)+\zeta n\log2\), where \(h_2\) is binary entropy in
+natural logarithms. Thus the linear entropy deficit persists.
+
+The independently sampled thermal gadgets of Lemma~\ref{res:gadget} in
+\path{obstructions/local_codes/04_pairwise_all_spins.tex} are of the
+form covered by Lemma~\ref{ian:thermal-independent-gadget-obstruction}.
+An interacting reference network, a connected auxiliary network of
+growing size, or a decoded table is not covered by that lemma.
+
+There is no conflict with the character constructions of
+Subsection~\ref{ian:hard-sector-instances} in
+\path{ian/17_hard_sector_instances.tex}. Their local character tests
+have order-one expectation differences from uniform, allowing an
+extensive energy advantage. The three laws of
+Proposition~\ref{ian:thermal-three-law-obstructions} have
+vanishing discrepancy on every fixed number of visible coordinates.
+\end{remark}
+
+\begin{lemma}[An exposed witness destroys target hiding]
+\label{ian:thermal-exposed-witness}
+Let \(Y\in\{0,1\}\) have variance \(v\). Suppose a depth-\(t\) tree on
+physical spins computes \(D_{\mathrm w}\in[0,1]\) with
+\(\mathbb E|D_{\mathrm w}-Y|\le\varepsilon\), and suppose
+\(\mathbb E|Q-Y|\le\delta\). Then the depth-\(t\) test
+\(F=2D_{\mathrm w}-1\) satisfies
+\[
+ \operatorname{Cov}(Q,F)
+ \ge2v-2\varepsilon-2\delta.
+ \tag{36.26}
+\]
+In particular, storing the Simon mask or the period in directly
+readable binary witness registers invalidates the covariance condition
+of Definition~\ref{ian:hard-sector-definition} once the depth \(t\)
+suffices to read those registers.
+\end{lemma}
+
+\begin{proof}
+Write
+\(\operatorname{Cov}(Y,2D_{\mathrm w}-1)
+=2v+2\operatorname{Cov}(Y,D_{\mathrm w}-Y)\).
+The second covariance has magnitude at most \(\varepsilon\), since
+\(|Y-\mathbb EY|\le1\).
+Also
+\(|\operatorname{Cov}(Q-Y,F)|\le2\delta\).
+
+For Simon, \(m\) witness bits compute the target \(Y=s_1\) of
+Definition~\ref{ian:simon-law}, and its variance is
+at least \(3/16\). For period finding,
+\(\lceil\log_2(2R)\rceil\) witness bits determine the balanced period
+target \(Y=g(r)\) of Definition~\ref{ian:period-hsp-period-law}. Free
+classical postprocessing can evaluate that target once the register
+is read.
+\end{proof}
+
+\begin{remark}[An exposed Forrelation selector]
+\label{ian:thermal-forrelation-selector-leakage}
+In the Gaussian-mixture experiment of
+Definition~\ref{ian:forrelation-input-law}, let \(\omega\in\{0,1\}\)
+be its generating fair bit (written \(B\) there) and put
+\(c_M=(2\sqrt M/\pi)\arcsin(M^{-1/2})\).
+For \(Q=(1+\Phi)/2\), Lemma~\ref{ian:forrelation-flatness} gives
+\(\mathbb E[Q\mid\omega]=1/2+(c_M/2)\omega\), with within-case
+variances \(\operatorname{Var}_{\rho_0}\Phi=1/M\) and
+\(\operatorname{Var}_{\rho_1}\Phi\le16M^{-1/3}\).
+If an auxiliary spin directly exposes \(\omega\), one physical query gives
+\[
+ \operatorname{Cov}(Q,2\omega-1)=\frac{c_M}{4}
+ \ge\frac1{2\pi}.
+ \tag{36.27}
+\]
+Thus a queryable mixture selector cannot serve as a hidden thermal
+label for this hard sector.
+\end{remark}
+
+\begin{remark}[Why an unrestricted Forrelation-observable obstruction is false]
+\label{ian:thermal-forrelation-character-relabeling}
+The obstruction for \(\nu_{\mathrm F}\) is distribution-specific.
+For \(m=2d\), identify \((u,v)\in\mathbb F_2^d\times\mathbb F_2^d\)
+with \(z\in\mathbb F_2^{2d}=\mathbb F_2^m\) by \(u_j=z_{2j-1}\),
+\(v_j=z_{2j}\) (\(1\le j\le d\)), and frequencies
+\((a,b)\in\mathbb F_2^d\times\mathbb F_2^d\) with \(c\in\mathbb F_2^m\)
+in the same way, \(a_j=c_{2j-1}\), \(b_j=c_{2j}\). Then
+\(a\cdot u+b\cdot v=c\cdot z\) and
+\(a\cdot b=\sum_{j=1}^{d}c_{2j-1}c_{2j}=h(c)\), with \(h\) as in
+Subsection~\ref{ian:hard-sector-instances}.
+Write an arbitrary physical sign table as \(x_{u,v}=x_z\), and define
+logical tables
+\(f(u,v)=(-1)^{u\cdot v}x_{u,v}\) and
+\(g(u,v)=(-1)^{u\cdot v}x_{v,u}\).
+With the normalization of Subsection~\ref{ian:hard-sector-instances},
+put
+\(\widehat x(a,b)=M^{-1}\sum_{u,v}(-1)^{a\cdot u+b\cdot v}x_{u,v}\)
+for \(a,b\in\mathbb F_2^d\), which is the coefficient \(\widehat x(c)\)
+there, so that
+\(\sum_{a,b}\widehat x(a,b)^2=1\).
+A direct Walsh calculation gives
+\[
+ \Phi(f,g)
+ =\sum_{a,b}(-1)^{a\cdot b}\widehat x(a,b)^2,
+ \qquad
+ \frac{1+\Phi(f,g)}2
+ =1-\sum_{a\cdot b=1}\widehat x(a,b)^2.
+ \tag{36.28}
+\]
+Each logical phase query uses one physical phase query.
+
+To verify the identity, the matrix between the two occurrences of
+\(x\) has entries
+\(M^{-1/2}(-1)^{(u+u')\cdot(v+v')}\).
+Its Walsh eigenvalue at \((a,b)\) is \((-1)^{a\cdot b}\).
+Parseval gives the second equality.
+
+Consequently, the local character Hamiltonians of
+Subsection~\ref{ian:hard-sector-instances} already
+realize a Forrelation observable after this fixed change of
+coordinates. Its acceptance function is exactly the complement
+\(1-P\) of the character witness \(P\) there: under the interleaved
+identification above, \(a\cdot b=h(c)\), so
+\(\sum_{a\cdot b=1}\widehat x(a,b)^2=\sum_{h(c)=1}\widehat x(c)^2=P(x)\). It supplies no different advantage
+mechanism and does not realize the Gaussian-mixture sector.
+A no-go theorem for every local Gibbs law evaluated with the
+Forrelation observable would therefore be false.
+\end{remark}
+
+\begin{theorem}[Conditional compilation of a decoded Simon realization]
+\label{ian:thermal-conditional-simon-compilation}
+For each \(m\ge10\), let \(\mu_m\) be a law on \(\{-1,1\}^{N_m}\), for
+example a Gibbs law satisfying \eqref{ian:thermal-local-bounds}, with
+the dimensions \(N_m\) pairwise distinct (otherwise pass to a
+subsequence along which they are). Let \(H_m\) be a physical event with
+\(\mu_m(H_m)\ge1/2\), put \(\nu_m=\mu_m(\cdot\mid H_m)\) and \(M=2^m\),
+and assume the following.
+
+(i) Coupling. On some probability space there are a clean Simon table
+\(\Gamma\) having exactly the law of Definition~\ref{ian:simon-law},
+side information \(\Xi\) independent of \(\Gamma\), and a map
+\(\Psi_m\), such that the physical input \(\sigma\sim\nu_m\) satisfies
+\(\sigma=\Psi_m(\Gamma,\Xi)\) almost surely.
+
+(ii) Simulation. For every fixed value \(\varsigma\) of \(\Xi\) and every
+physical coordinate \(i\), auxiliary and reference coordinates
+included, the spin \(\Psi_m(\Gamma,\varsigma)_i\) is computed by an adaptive
+tree of at most \(k_m\) whole-word queries to \(\Gamma\).
+
+(iii) Decoding. There is a map \(\operatorname{Dec}_m\) defined on the
+entire physical cube with \(\operatorname{Dec}_m(\sigma)=\Gamma\) on
+\(H_m\), almost surely, whose logical-coordinate oracle uses at most
+\(q_m\) physical queries per call, with clean workspace, counting all
+auxiliary and reference spins.
+
+Put
+\[
+ T_m=q_m m(m+9),\qquad
+ t_m=\left\lfloor\frac{2^{m/2}}{64k_m}\right\rfloor,
+ \qquad
+ (w,a,\gamma)=\left(\frac12,\frac18,\frac1{64}\right).
+ \tag{36.29}
+\]
+Then a globally defined \(T_m\)-query acceptance function satisfies
+\(\operatorname{Hard}(Q_m,\nu_m;t_m,a,\gamma)\).
+If \(q_m,k_m\) are bounded by fixed polynomials in \(m\), this package
+satisfies property~\eqref{ian:hard-sector-polynomial-property}, with
+fixed \(\kappa=p=q=1\) and \(\varrho=16\).
+These conclusions are conditional on hypotheses (i)--(iii).
+\end{theorem}
+
+\begin{proof}
+We first prove the side-information reduction and the required
+adaptive hiding estimate.
+
+For a whole-output strategy of depth \(\ell\), set
+\(c_\ell=\binom{\ell}{2}\).
+On a collision-free transcript at distinct addresses
+\(x_1,\ldots,x_j\), a candidate mask \(s\) is excluded exactly when it
+is one of the pairwise differences \(x_i+x_{i'}\).
+For every surviving mask, the likelihood of the displayed distinct
+labels is \(1/(M)_j\). Adaptive query choices impose no further
+factor, because they are determined by preceding answers.
+The posterior mask is therefore uniform on the surviving masks.
+
+At any collision-free leaf, the posterior mean of \(Y=s_1\)
+differs from its prior mean by at most
+\(c_\ell/(M-1-c_\ell)\).
+Before the next query after \(j\) distinct queries, at most \(j\)
+surviving masks cause a collision. Summing first-collision
+probabilities gives the same upper bound for the probability of any
+collision. Thus
+\[
+ \mathbb E\left|
+       \mathbb E[Y\mid\tau]-\mathbb EY
+       \right|
+ \le\eta_\ell:=
+       \frac{2c_\ell}{M-1-c_\ell}.
+ \tag{36.30}\label{ian:thermal-simon-adaptive-bound}
+\]
+For a fixed strategy,
+\(\operatorname{Cov}(Y,F(\tau))
+=\mathbb E[(\mathbb E[Y\mid\tau]-\mathbb EY)F(\tau)]\);
+hence \eqref{ian:thermal-simon-adaptive-bound} bounds covariance
+against every \([-1,1]\)-valued leaf output.
+
+Now grant \(\Xi\) to the simulator and fix it. Independence preserves
+the clean Simon law. Composing the physical-answer simulations turns
+every physical depth-\(t\) tree into a whole-output strategy of depth
+at most \(k_mt\). Averaging over \(\Xi\) proves
+\[
+ \sup_{F_{\mathrm{phys}}\in\mathcal F_t}
+ |\operatorname{Cov}(Y,F_{\mathrm{phys}})|
+ \le\eta_{k_mt}.
+ \tag{36.31}
+\]
+This argument includes adaptive choices, repeated queries, and every
+auxiliary or reference coordinate. It would not be valid merely
+from independence of \(\Xi\) and the mask: the clean oracle law
+conditional on \(\Xi\) must retain the stated hiding property.
+
+For quantum readout, one whole-output query uses \(m\) logical
+coordinate queries. On a clean Simon table, one Fourier sample is
+uniform on \(s^\perp\), since its probability at \(v\) is
+\(M^{-1}(1+(-1)^{s\cdot v})\).
+Use \(m+9\) independent samples. Failure to span \(s^\perp\) implies
+that some nonzero functional on that \((m-1)\)-dimensional space
+vanishes on every sample. A union bound gives failure probability
+at most \(2^{-10}\).
+
+The physical algorithm runs these logical queries, recovers the
+unique nonzero orthogonal vector when the sample rank is \(m-1\),
+and outputs its first bit; on every other rank it outputs zero.
+The globally defined logical oracle and this rule define an
+acceptance function on the entire physical cube.
+The cost is at most \(T_m\), including the logical-oracle
+uncomputation already charged in \(q_m\).
+
+For completeness, the compilation estimates follow directly.
+If \(\widehat Y\) is the decoder output, then
+\(Q_m(\sigma)=\mathbb E[\widehat Y\mid\sigma]\) and Jensen gives
+\(\mathbb E|Q_m-Y|\le\delta=2^{-10}\).
+For \(y_1,y_2,c\in[0,1]\),
+\(|(y_1-c)^2-(y_2-c)^2|\le2|y_1-y_2|\).
+Minimizing over \(c\) and centering a bounded test therefore give
+\[
+ \operatorname{Var}Q_m\ge\operatorname{Var}Y-2\delta,
+ \qquad
+ |\operatorname{Cov}(Q_m,F_{\mathrm{phys}})|
+ \le\eta_{k_mt}+2\delta.
+ \tag{36.32}
+\]
+The exact target variance is
+\(1/4-1/(4(M-1)^2)\ge3/16\).
+
+At \(t=t_m\), \(c_{k_mt}\le M/8192\), and \(M\ge1024\) gives
+\(\eta_{k_mt}\le2/8183<1/2048\).
+Thus the variance exceeds \(1/8\), while the covariance bound is
+less than \(1/2048+1/512<1/64\).
+The sector weight is unchanged by compilation.
+
+Finally, polynomial bounds on \(q_m,k_m\) imply, for every fixed
+\(A,B\ge1\),
+\[
+ \frac{t_m}{(T_m+16)^B}\longrightarrow\infty,
+ \qquad
+ w^{-1}=2\le16,\qquad a^{-1}=8\le16,
+ \qquad \gamma\le a/4.
+ \tag{36.33}
+\]
+Choosing \(m\) after the budget constants proves the asserted
+conditional property~\eqref{ian:hard-sector-polynomial-property}.
+\end{proof}
+
+\begin{remark}[Scope of the conditional theorem]
+\label{ian:thermal-conditional-scope}
+The proof of Theorem~\ref{ian:thermal-conditional-simon-compilation}
+uses neither \eqref{ian:thermal-local-bounds} nor the Gibbs form of
+\(\mu_m\); it is a general compilation statement for any family of laws
+satisfying (i)--(iii). Hypothesis (i) requires the exact clean law of
+Definition~\ref{ian:simon-law}: the posterior computation behind
+\eqref{ian:thermal-simon-adaptive-bound} uses that law exactly, and no
+version tolerating total-variation error in the clean law is proved
+here.
+\end{remark}
+
+\begin{remark}[Unresolved physical step]
+\label{ian:thermal-realization-open}
+The preceding theorem specifies the missing requirements rather than
+constructing their Hamiltonian. A successful decoded Simon
+realization must simultaneously provide a thermally populated
+encoding, a logical oracle of polynomial physical-query cost, and
+the all-spin simulation under the actual conditional Gibbs law.
+A verifier with an exposed mask fails the third requirement.
+Independent bounded gadgets cannot reproduce the visible laws of
+Proposition~\ref{ian:thermal-three-law-obstructions}, by the entropy
+obstruction (for the period law, \(K\ge K_0(2\beta Jg_0d_0,k_0)\),
+with the constants of
+Lemma~\ref{ian:thermal-independent-gadget-obstruction}).
+
+Forrelation remains unresolved as a mechanism distinct from the
+character relabelling in
+Remark~\ref{ian:thermal-forrelation-character-relabeling}.
+The raw-table obstructions of
+Propositions~\ref{ian:thermal-simon-raw-obstruction}
+and~\ref{ian:thermal-period-raw-obstruction} already hold with
+arbitrary correlated auxiliary and reference networks. For Simon and
+period finding they nevertheless leave open, besides decoded redundant
+encodings, the two cases recorded in
+Remark~\ref{ian:thermal-raw-scope}: bit-level Hamming neighbourhoods
+of the raw encoding, which are the regions a fixed finite temperature
+populates and which those weight bounds do not exclude, and raw
+sectors whose acceptance function also reads auxiliary or reference
+spins. Correlated
+auxiliary networks are not eliminated for decoded redundant encodings
+of any of the three mechanisms, nor for the visible Forrelation law
+\(\nu_{\mathrm F}\) itself, for which only independent bounded gadgets
+are excluded, by
+Lemma~\ref{ian:thermal-independent-gadget-obstruction}.
+\end{remark}

@@ -1,0 +1,588 @@
+\subsection{Adaptive transcript hiding and character-query bounds}\label{ian:adaptive-transcript-hiding}
+
+Status: proved, including transcript duality for arbitrary bounded targets, the character-orbit covariance bound with all-spin access, and the fixed-set conversions below; the stated converses are refuted by explicit examples. Self-contained apart from Definition~\ref{ian:hard-sector-definition}; no literature import.
+
+Let \(X\) have law \(\nu\) on \(\Omega_n=\{-1,1\}^n\). As in
+\path{ian/13_hard_sector_definitions_forward.tex},
+\(\mathcal F_t\) and \(\mathcal D_t\) consist of deterministic coordinate decision trees of worst-case depth at most \(t\), with outputs in \([-1,1]\) and \([0,1]\), respectively. A query strategy specifies the queries and stopping rule, before assigning leaf outputs. Its transcript records the queried coordinates, their answers, and termination; equivalently, it identifies the reached leaf. Null transcripts are ignored.
+
+The target \(Y\) may be any bounded real random variable jointly distributed with \(X\). In particular, it need not be a deterministic function of \(X\).
+
+\begin{theorem}[Exact adaptive transcript duality]\label{ian:adaptive-transcript-duality}
+For the transcript \(\tau\) of any fixed depth-\(t\) query strategy,
+\[
+ \sup_{\substack{F=F(\tau)\\ |F|\le1}}
+ |\Cov(Y,F)|
+ =
+ \E\left|\E[Y\mid\tau]-\E Y\right|.
+ \tag{29.1}\label{ian:adaptive-transcript-TD}
+\]
+With outputs in \([0,1]\), the exact value is instead
+\[
+ \sup_{\substack{D=D(\tau)\\0\le D\le1}}
+ |\Cov(Y,D)|
+ =
+ \frac12\E\left|\E[Y\mid\tau]-\E Y\right|.
+\]
+Consequently, writing
+\[
+ C_t(Y):=\sup_{F\in\mathcal F_t}|\Cov(Y,F)|,
+\]
+one has
+\[
+ C_t(Y)
+ =
+ \max_{\tau:\,\mathrm{depth}(\tau)\le t}
+ \E\left|\E[Y\mid\tau]-\E Y\right|,
+ \qquad
+ \sup_{D\in\mathcal D_t}|\Cov(Y,D)|=\frac12C_t(Y).
+\]
+For \(Q:\Omega_n\to[0,1]\) and \(0<\gamma<a\le1/4\),
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma)
+ \quad\Longleftrightarrow\quad
+ \Var_\nu Q\ge a,\qquad
+ \max_{\tau:\,\mathrm{depth}(\tau)\le t}
+ \E_\nu\left|\E_\nu[Q\mid\tau]-\E_\nu Q\right|\le\gamma.
+\]
+\end{theorem}
+\begin{proof}
+Put \(H_\tau=\E[Y\mid\tau]-\E Y\). Conditional expectation gives
+\[
+ \Cov(Y,F(\tau))=\E[H_\tau F(\tau)].
+\]
+Its absolute value is at most \(\E|H_\tau|\), attained by the leaf output
+\(F=\operatorname{sgn}(H_\tau)\), with any allowed value at zero. This proves
+\eqref{ian:adaptive-transcript-TD}. Since \(\E H_\tau=0\),
+\[
+ \E(H_\tau)_+=\E(H_\tau)_-=\frac12\E|H_\tau|.
+\]
+The output \(D=\mathbf1_{\{H_\tau>0\}}\) attains the second supremum.
+
+Every tree output is a function of its transcript, and every assignment of allowed outputs to a fixed strategy's leaves gives a tree of the same depth. Maximizing over strategies therefore gives the asserted adaptive identities. There are finitely many query structures at bounded depth, so the maximum exists. The last assertion is exactly Definition~\ref{ian:hard-sector-definition}.
+\end{proof}
+
+\begin{lemma}[Posterior moment comparisons]\label{ian:adaptive-posterior-moments}
+Suppose \(L\le Y\le U\), with \(\Delta=U-L>0\), and let \(\mathcal A\) be any sub-\(\sigma\)-algebra. Set
+\[
+ H_{\mathcal A}=\E[Y\mid\mathcal A]-\E Y,
+ \qquad G_{\mathcal A}=\E H_{\mathcal A}^2.
+\]
+Then
+\[
+ \frac{2}{\Delta}G_{\mathcal A}
+ \le \E|H_{\mathcal A}|
+ \le \sqrt{G_{\mathcal A}}.
+\]
+Both constants are sharp. In particular, for targets in \([0,1]\),
+\[
+ 2G_{\mathcal A}\le\E|H_{\mathcal A}|\le\sqrt{G_{\mathcal A}},
+\]
+whether \(\mathcal A\) records fixed coordinates or an adaptive transcript.
+\end{lemma}
+\begin{proof}
+Write \(\mu=\E Y\). Since \(L-\mu\le H_{\mathcal A}\le U-\mu\),
+\[
+ G_{\mathcal A}
+ \le (U-\mu)\E(H_{\mathcal A})_+
+       +(\mu-L)\E(H_{\mathcal A})_-
+ =\frac{\Delta}{2}\E|H_{\mathcal A}|.
+\]
+Cauchy--Schwarz gives the other inequality. Symmetric two-valued \(H_{\mathcal A}\) attains the upper bound. Symmetric \(H_{\mathcal A}\) supported on
+\(\{-\Delta/2,0,\Delta/2\}\), with \(\mu=(L+U)/2\), attains the lower bound. These examples are realized by taking \(Y=\mu+H_{\mathcal A}\).
+\end{proof}
+
+\begin{lemma}[Centered affine-leaf estimate]\label{ian:adaptive-character-affine-leaf}
+Let \(A\) be uniform on \(\mathbb F_2^m\). Use the Fourier normalization
+\[
+ \chi_s(a)=(-1)^{s\cdot a},
+ \qquad
+ \widehat g(s)=2^{-m}\sum_a g(a)\chi_s(a),
+ \qquad
+ g(a)=\sum_s\widehat g(s)\chi_s(a).
+\]
+Suppose \(g:\mathbb F_2^m\to\mathbb R\) is bounded and
+\[
+ \max_{s\ne0}|\widehat g(s)|\le b.
+\]
+For every nonempty affine subspace \(a_0+V\) of codimension \(r\),
+\[
+ \E[g(A)\mid A\in a_0+V]-\E g(A)
+ =
+ \sum_{\substack{s\in V^\perp\\s\ne0}}
+ \widehat g(s)\chi_s(a_0),
+\]
+and hence
+\[
+ \left|\E[g(A)\mid A\in a_0+V]-\E g(A)\right|
+ \le(2^r-1)b.
+\]
+A linear query asks for \(z\cdot A\in\mathbb F_2\), equivalently \(\chi_z(A)\).
+Every positive-probability leaf of a deterministic depth-\(c\) adaptive linear-query tree conditions \(A\) onto an affine subspace of codimension at most \(c\). Consequently,
+\[
+ \sup_{\substack{F:\,\mathrm{depth}\le c\\|F|\le1}}
+ |\Cov(g(A),F)|
+ \le(2^c-1)b,
+\]
+and the corresponding supremum for outputs in \([0,1]\) is at most
+\((2^c-1)b/2\).
+
+In particular, these estimates hold for coordinate queries to the clean character input
+\(c_A(z)=\chi_z(A)\).
+\end{lemma}
+\begin{proof}
+A character has conditional average
+\[
+ \E[\chi_s(A)\mid A\in a_0+V]
+ =
+ \begin{cases}
+ \chi_s(a_0),&s\in V^\perp,\\
+ 0,&s\notin V^\perp.
+ \end{cases}
+\]
+Indeed, in the second case translation by a \(v\in V\) satisfying \(s\cdot v=1\) negates the average. Fourier expansion now gives the displayed identity. The constant coefficient cancels because \(\E g(A)=\widehat g(0)\); precisely \(2^r-1\) possible nonzero frequencies remain.
+
+Along a fixed root-to-leaf path, every query direction and answer is fixed. The leaf event is exactly the solution set of those linear equations. If nonempty, it is affine, has codimension equal to their rank, and retains the uniform conditional law. Adaptive choice of directions creates no additional constraint after the path has been fixed. Repeated or dependent equations do not increase rank.
+
+Thus every leaf posterior differs from the prior mean by at most \((2^c-1)b\). Averaging over leaves and applying Theorem~\ref{ian:adaptive-transcript-duality} proves the covariance bounds.
+\end{proof}
+
+From here through Corollary~\ref{ian:adaptive-character-quadratic-benchmark}, the physical input consists of every spin that a classical test may query. In these statements \(\mathcal F_t\), \(\mathcal D_t\), \(C_t\) and transcripts refer to coordinate trees on the full physical cube, and Theorem~\ref{ian:adaptive-transcript-duality} is applied on that cube; \(X\) denotes only the visible spins, and \(n=2^m\) their number rather than the number of physical spins.
+
+\begin{lemma}[Side information and query simulation]\label{ian:adaptive-character-side-information}
+Let \(A\) be uniform on \(\mathbb F_2^m\), independently of side information \(W\), and suppose
+\[
+ Y=q_W(A),\qquad
+ \E_A q_w(A)=\mu,\qquad
+ \max_{s\ne0}|\widehat q_w(s)|\le b
+\]
+for almost every \(w\), with the same mean \(\mu\).
+Assume that, after \(W\) is fixed, each physical-spin query can be simulated using at most \(k\) adaptive linear queries to \(A\), where \(k\ge1\).
+
+Then every depth-\(t\) physical query strategy, even with \(W\) supplied freely, satisfies
+\[
+ \left|\E[Y\mid W,\lambda]-\mu\right|
+ \le(2^{kt}-1)b
+\]
+almost surely, where \(\lambda\) is its simulator's linear-query transcript.
+For the original physical transcript \(\tau\),
+\[
+ \left|\E[Y\mid\tau]-\mu\right|\le(2^{kt}-1)b,
+ \qquad
+ \E\left|\E[Y\mid\tau]-\mu\right|\le(2^{kt}-1)b.
+\]
+Therefore
+\[
+ |\Cov(Y,F)|\le(2^{kt}-1)b\quad(F\in\mathcal F_t),
+ \qquad
+ |\Cov(Y,D)|\le\frac{(2^{kt}-1)b}{2}\quad(D\in\mathcal D_t).
+\]
+\end{lemma}
+\begin{proof}
+Fix \(W=w\). Composing the per-query simulations gives a linear-query tree of depth at most \(kt\). Conditional on \(w\), its positive-probability leaves carry uniform affine-subspace laws for \(A\). Lemma~\ref{ian:adaptive-character-affine-leaf}, centered at the common mean \(\mu\), proves the first inequality.
+
+The physical transcript is determined by \(W\) and the simulator transcript. The tower property transfers the pointwise bound to \(\tau\). Theorem~\ref{ian:adaptive-transcript-duality} then gives both covariance estimates.
+\end{proof}
+
+\begin{remark}[The common conditional mean is essential]\label{ian:adaptive-side-information-centering}
+If instead \(\mu(W)=\E_A q_W(A)\) varies with \(W\), the same proof gives only
+\[
+ |\Cov(Y,F)|
+ \le(2^{kt}-1)b+\E|\mu(W)-\E Y|
+ \qquad(F\in\mathcal F_t).
+\]
+Indeed,
+\[
+ \Cov(Y,F)
+ =\E[(Y-\mu(W))F]+\E[(\mu(W)-\E Y)F].
+\]
+Flat nonconstant Fourier coefficients alone do not control information carried by the conditional mean. For example, a target depending only on queryable \(W\) has all its nonconstant \(A\)-Fourier coefficients zero and can nevertheless be revealed by \(W\).
+\end{remark}
+
+\begin{proposition}[All-spin simulation from character symmetry]\label{ian:adaptive-character-all-spin-simulation}
+Let the physical input contain visible spins \(X=(X_z)_{z\in\mathbb F_2^m}\), auxiliary spins \(S=(S_j)\), and possibly reference spins \(R\). Suppose the \((X,R)\) marginal is invariant under
+\[
+ (X,R)\longmapsto(Xc_b,R)\qquad(b\in\mathbb F_2^m).
+\]
+Let \(G\) be the event that \(X\) lies at Hamming distance less than \(\epsilon 2^m\), with \(\epsilon<1/4\), from a character, or from a signed character. Assume \(\Pr(G)>0\).
+
+Suppose that, conditional on \((X,R)\), the auxiliary spins are independent, and each conditional kernel uses \(R\) and at most \(k\) visible coordinates, where \(k\ge1\). Under the conditional law on \(G\), there is an exact representation
+\[
+ X=\sigma c_A\eta
+\]
+such that \(A\) is uniform and independent of side information
+\[
+ W=(\sigma,\eta,R,(U_j)_j),
+\]
+where the \(U_j\) are independent auxiliary random seeds. After \(W\) is supplied, every visible query costs one linear query to \(A\), every reference query costs none, and every auxiliary query costs at most \(k\). Thus a depth-\(t\) tree querying any physical spins has a simulation using at most \(kt\) linear queries.
+\end{proposition}
+\begin{proof}
+Distinct characters, and distinct signed characters, have pairwise Hamming distance at least \(2^{m-1}\). The specified balls are therefore disjoint. On \(G\), let \(\sigma c_A\) be the unique nearest signed character and put
+\(\eta=\sigma Xc_A\); in the unsigned case set \(\sigma=1\).
+Then \(\eta\) has fewer than \(\epsilon2^m\) negative coordinates.
+
+Multiplication by \(c_b\) changes \(A\) to \(A+b\) and fixes
+\((\sigma,\eta,R)\). The event \(G\) is invariant. Consequently, for every measurable event \(B\) in these remaining variables,
+\[
+ \Pr\{A=a,(\sigma,\eta,R)\in B\mid G\}
+ =
+ 2^{-m}\Pr\{(\sigma,\eta,R)\in B\mid G\}.
+\]
+This proves the required uniformity and independence.
+
+Realize each auxiliary kernel by an independent uniform seed \(U_j\), independent of \((X,R)\). For example, if its conditional probability of \(+1\) is \(p_j(X_{I_j},R)\), set
+\[
+ S_j=1\quad\Longleftrightarrow\quad
+ U_j\le p_j(X_{I_j},R).
+\]
+Because \(G\) depends only on the visible input, conditioning on \(G\) preserves this representation and the seed independence. This is the seed argument in the proof of Lemma~\ref{res:orbit-lemma} in
+\path{obstructions/local_codes/01_character_orbit_lemma.tex}.
+
+After \(W\) is fixed, a visible answer is
+\(\sigma\eta_z\chi_z(A)\). An auxiliary answer is obtained by computing the at most \(k\) visible values in \(I_j\), then applying its fixed kernel realization. Reference answers are already known. Fixed seeds also ensure consistency on repeated queries. Composing these simulations proves the depth bound.
+\end{proof}
+
+\begin{remark}[The repo's pairwise and zero-field gadgets]\label{ian:adaptive-character-gadget-simulation}
+For the models in
+\path{obstructions/local_codes/04_pairwise_all_spins.tex} and
+\path{obstructions/local_codes/05_zero_field_pairwise.tex},
+the preceding proposition applies with \(k=3\).
+For a test \(e=(z,w)\), its auxiliary spin indexed by
+\(u\in\mathcal U=\{u\in\{-1,1\}^3:u_1u_2u_3=1\}\) has conditional law
+\[
+ \Pr(S_{e,u}=s\mid X,R)
+ =
+ \frac{\exp(\beta j s L_{e,u})}{2\cosh(\beta j L_{e,u})},
+ \qquad
+ L_{e,u}=u_1X_z+u_2X_w+u_3X_{z+w}-r_e.
+\]
+Here \(r_e=1\) in the model with fields, while \(r_e\) is a reference spin in the zero-field model. The conditional law factorizes over auxiliaries and uses at most three distinct visible coordinates.
+
+For completeness, the exact marginal symmetry follows directly by summing those spins. For \(r,x,y,z\in\{-1,1\}\) and \(s\ge0\),
+\[
+ \prod_{u\in\mathcal U}2\cosh\bigl(s(u_1x+u_2y+u_3z-r)\bigr)
+ =
+ C(s)\exp\bigl(K(s)rxyz\bigr),
+\]
+where \(C(s)\) is independent of \(r,x,y,z\), and
+\[
+ K(s)=\frac12\bigl(4\log\cosh(2s)-\log\cosh(4s)\bigr).
+\]
+For \(r=1\), the product is \([2\cosh(2s)]^4\) when \(xyz=1\), and \(16\cosh(4s)\) when \(xyz=-1\); substituting \((rx,ry,rz)\) proves the general case. With \(r=1\) this is (IG-marginal) of Lemma~\ref{res:gadget} in
+\path{obstructions/local_codes/04_pairwise_all_spins.tex}. Thus the joint visible/reference marginal has the form
+\[
+ \Pr(X,R)\ \propto\
+ \exp\left(
+ K(\beta j)\sum_{e=(z,w)}r_eX_zX_wX_{z+w}+V(R)
+ \right),
+\]
+which in the zero-field model is (ZF-marginal) of
+\path{obstructions/local_codes/05_zero_field_pairwise.tex}.
+It is character-invariant because
+\(c_b(z)c_b(w)c_b(z+w)=1\).
+Granting the entire reference vector and all auxiliary seeds therefore preserves uniformity of \(A\). This proves the all-spin reduction, including reference access, without an independence assumption on the visible errors.
+\end{remark}
+
+\begin{corollary}[Spectral orbit targets]\label{ian:adaptive-character-spectral-targets}
+Put \(n=2^m\), let \(g:\mathbb F_2^m\to[0,1]\), and define on the entire visible cube
+\[
+ P_g(x)=\sum_a g(a)\widehat x(a)^2,
+ \qquad
+ \widehat x(a)=\frac1n\sum_zx_z(-1)^{a\cdot z}.
+\]
+Then \(0\le P_g\le1\), and \(P_g(c_A)=g(A)\).
+
+Suppose \(X=\sigma(W)c_A\eta(W)\), with \(A\) uniform and independent of \(W\), and every physical query has a simulation costing at most \(k\) linear queries after \(W\) is fixed. If
+\[
+ b=\max_{s\ne0}|\widehat g(s)|,
+\]
+then
+\[
+ \E P_g=\E_A g(A),\qquad
+ C_t(P_g)\le(2^{kt}-1)b.
+\]
+In the repo's \([0,1]\)-output normalization,
+\[
+ \sup_{D\in\mathcal D_t}|\Cov(P_g,D)|
+ \le\frac{(2^{kt}-1)b}{2}.
+\]
+For the clean character oracle, \(k=1\), giving the bound
+\((2^t-1)b\).
+\end{corollary}
+\begin{proof}
+Parseval gives \(\sum_a\widehat x(a)^2=1\), proving boundedness. A change of Fourier index gives, conditional on \(W\),
+\[
+ P_g(\sigma c_A\eta)=\sum_b p_b g(A+b),
+ \qquad
+ p_b=\widehat\eta(b)^2,\qquad
+ \sum_b p_b=1.
+\]
+The conditional mean is always \(\E_A g(A)\). For every nonzero frequency \(s\), the Fourier coefficient of this function of \(A\) is
+\[
+ \widehat g(s)\sum_b p_b(-1)^{s\cdot b},
+\]
+whose magnitude is at most \(b\). Lemma~\ref{ian:adaptive-character-side-information} proves the assertions.
+\end{proof}
+
+\begin{corollary}[The quadratic benchmark and its hard-sector constants]\label{ian:adaptive-character-quadratic-benchmark}
+Let \(m\ge2\) be even, \(n=2^m\), and
+\[
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2,
+ \qquad
+ r=\frac{1-n^{-1/2}}2,
+ \qquad
+ P=P_h.
+\]
+Under the hypotheses of Corollary~\ref{ian:adaptive-character-spectral-targets},
+\[
+ \E P=r,\qquad
+ |\Cov(P,F)|\le\frac{2^{kt}-1}{2\sqrt n}
+ \quad(F\in\mathcal F_t),
+\]
+and
+\[
+ |\Cov(P,D)|\le\frac{2^{kt}-1}{4\sqrt n}
+ \quad(D\in\mathcal D_t).
+\]
+If \(\eta\) always has fewer than \(n/32\) negative coordinates, then
+\[
+ \Var P\ge\left(\frac{97}{128}\right)^2r(1-r).
+\]
+Consequently, for \(n\ge16\) and \(kt\le m/2-2\),
+\[
+ \operatorname{Hard}\left(
+ P,\mathcal L(\text{all physical spins});
+ t,\frac{17}{128},\frac18
+ \right).
+\]
+These are the constants of Lemma~\ref{ian:hard-sector-orbit-covariance} in
+\path{ian/17_hard_sector_instances.tex}.
+In the clean case \(k=1\), \(\eta\equiv1\), where \(\Var P=r(1-r)\ge15/64>3/16\) for \(n\ge16\), the same covariance bound gives \(\operatorname{Hard}(P,U_{C_n};t,3/16,1/8)\), where \(C_n=\{c_a:a\in\mathbb F_2^m\}\), for \(t\le m/2-2\), which is Proposition~\ref{ian:hard-sector-character-instance} in
+\path{ian/17_hard_sector_instances.tex}.
+\end{corollary}
+\begin{proof}
+For one pair of bits,
+\[
+ \frac14\sum_{u,v\in\mathbb F_2}
+ (-1)^{uv+\alpha u+\beta v}
+ =\frac12(-1)^{\alpha\beta}.
+\]
+Factoring over pairs shows that every Fourier coefficient of
+\(B(a)=(-1)^{h(a)}\) has magnitude \(n^{-1/2}\), with
+\(\widehat B(0)=n^{-1/2}\). Since \(h=(1-B)/2\),
+\[
+ \widehat h(0)=r,\qquad
+ |\widehat h(s)|=\frac1{2\sqrt n}\quad(s\ne0).
+\]
+Corollary~\ref{ian:adaptive-character-spectral-targets} gives the covariance bounds. On the clean code, \(P(c_A)=h(A)\), so its variance is exactly \(r(1-r)=(1-1/n)/4\).
+
+For the noisy representation, fix \(W\). The assumed error bound gives
+\[
+ p_0=\widehat\eta(0)^2\ge(15/16)^2=\frac{225}{256}.
+\]
+Write
+\[
+ P=p_0h(A)+(1-p_0)B_W(A),
+ \qquad
+ 0\le B_W\le1,\qquad \E_A B_W=r.
+\]
+If \(p_0=1\), take \(B_W=h\). Since
+\(\Var_A B_W\le r(1-r)\), the reverse triangle inequality in \(L^2\) gives
+\[
+ \sqrt{\Var(P\mid W)}
+ \ge(2p_0-1)\sqrt{r(1-r)}
+ \ge\frac{97}{128}\sqrt{r(1-r)}.
+\]
+The conditional mean is \(r\), so averaging proves the variance bound.
+
+Finally, for \(n\ge16\) and \(kt\le m/2-2\), one has \(r(1-r)=(1-1/n)/4\ge15/64\) and \(2^{kt}\le\sqrt n/4\), so
+\[
+ \left(\frac{97}{128}\right)^2r(1-r)
+ \ge\frac{141135}{1048576}>\frac{17}{128},
+ \qquad
+ \frac{2^{kt}-1}{2\sqrt n}\le\frac18<\frac{17}{128}.
+\]
+These are precisely the required variance and \([-1,1]\)-test covariance conditions. In the clean case the variance \(r(1-r)\ge15/64>3/16\) gives the last assertion in the same way.
+\end{proof}
+
+\begin{definition}[Fixed-set posterior quantities]\label{ian:adaptive-fixed-set-quantities}
+For \(Q:\Omega_n\to[0,1]\), put
+\[
+ \bar q=\E_\nu Q,\qquad
+ h_S=\E_\nu[Q\mid X_S]-\bar q,\qquad
+ G_\nu(Q,S)=\E_\nu h_S^2.
+\]
+For an integer \(s\ge0\), define
+\[
+ M_s=\max_{\substack{S\subseteq[n]\\|S|\le s}}\E_\nu|h_S|,
+ \qquad
+ R_s=\max_{\substack{S\subseteq[n]\\|S|\le s}}G_\nu(Q,S).
+\]
+These maxima concern sets fixed before any answers are received.
+\end{definition}
+
+\begin{proposition}[Exact fixed-set duality and valid adaptive conversions]\label{ian:adaptive-fixed-set-conversions}
+For every fixed \(S\),
+\[
+ \sup_{\substack{F=F(X_S)\\|F|\le1}}
+ |\Cov_\nu(Q,F)|=\E_\nu|h_S|,
+ \qquad
+ 2G_\nu(Q,S)\le\E_\nu|h_S|\le\sqrt{G_\nu(Q,S)}.
+\]
+Hence \(M_s\) is exactly the covariance supremum over non-adaptive tests using at most \(s\) coordinates, and
+\[
+ 2R_s\le M_s\le\sqrt{R_s}.
+\]
+
+Let \(N_t=\min\{n,2^t-1\}\). Then
+\[
+ M_t\le C_t(Q)\le M_{N_t}\le\sqrt{R_{N_t}}.
+\]
+For \(t\ge1\), there are also the bounds
+\[
+ C_t(Q)\le2^{t-1}M_t,
+ \qquad
+ C_t(Q)\le\sqrt{2^tR_t}.
+\]
+In particular, assuming \(\Var_\nu Q\ge a\) and \(0<\gamma<a\le1/4\),
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma)
+ \ \Longrightarrow\
+ M_t\le\gamma,\qquad R_t\le\gamma/2.
+\]
+Each of the following is sufficient for
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\):
+\[
+ M_{N_t}\le\gamma,\qquad
+ R_{N_t}\le\gamma^2,\qquad
+ R_t\le2^{-t}\gamma^2.
+\]
+For \(t\ge1\), \(M_t\le2^{1-t}\gamma\) is another sufficient condition.
+In particular,
+\[
+ R_t=0\quad\Longleftrightarrow\quad C_t(Q)=0.
+\]
+
+There is a stronger fixed-set hypothesis that transfers without either loss: if
+\[
+ |h_S|\le\epsilon\quad \nu\text{-almost surely for every }|S|\le t,
+\]
+then every depth-\(t\) transcript satisfies
+\[
+ \left|\E_\nu[Q\mid\tau]-\bar q\right|\le\epsilon
+ \quad \nu\text{-almost surely},
+ \qquad C_t(Q)\le\epsilon.
+\]
+\end{proposition}
+\begin{proof}
+Conditional expectation gives
+\(\Cov_\nu(Q,F(X_S))=\E_\nu[h_SF(X_S)]\).
+The sign of \(h_S\) attains the supremum. Lemma~\ref{ian:adaptive-posterior-moments} proves the moment comparisons; maximizing over \(S\) gives the corresponding bounds on \(M_s,R_s\).
+
+Every fixed-set test with \(|S|\le t\) is a depth-\(t\) tree, so \(M_t\le C_t(Q)\). A binary tree of depth at most \(t\) has at most \(2^t-1\) internal vertices. The union \(U\) of all its coordinate labels therefore has size at most \(N_t\). Its output is a function of \(X_U\), giving
+\[
+ |\Cov_\nu(Q,F)|\le\E_\nu|h_U|\le M_{N_t}.
+\]
+
+For the same-size bounds, let \(A_v\) be a positive-probability leaf event, let \(S_v\) be its path's coordinate set, and set
+\[
+ p_v=\nu(A_v),\qquad
+ a_v=\E_\nu[(Q-\bar q)\mathbf1_{A_v}].
+\]
+The event \(A_v\) is \(X_{S_v}\)-measurable and \(|S_v|\le t\), so
+\[
+ a_v=\E_\nu[h_{S_v}\mathbf1_{A_v}].
+\]
+Since \(\E_\nu h_{S_v}=0\),
+\[
+ |a_v|\le\frac12\E_\nu|h_{S_v}|\le\frac12M_t.
+\]
+Cauchy--Schwarz also gives
+\[
+ |a_v|\le\sqrt{R_t p_v}.
+\]
+For any allowed leaf outputs \(f_v\),
+\[
+ |\Cov_\nu(Q,F)|\le\sum_v|a_v|.
+\]
+There are at most \(2^t\) leaves, and \(\sum_vp_v=1\). Thus the last expression is at most \(2^{t-1}M_t\), and also at most
+\[
+ \sqrt{R_t}\sum_v\sqrt{p_v}\le\sqrt{2^tR_t}.
+\]
+This proves all the stated quantitative implications. At \(t=0\), both fixed-set quantities and every tree covariance are zero.
+
+For the pointwise assertion, a reached leaf fixes an assignment \(x_{S_v}\), and its event is exactly
+\(\{X_{S_v}=x_{S_v}\}\). Indeed, any input matching those answers follows the same path. Consequently,
+\[
+ \E_\nu[Q\mid\tau=v]-\bar q=h_{S_v}(x_{S_v}).
+\]
+The assumed pointwise bound applies to every positive-probability leaf. Theorem~\ref{ian:adaptive-transcript-duality} completes the proof.
+\end{proof}
+
+\begin{proposition}[Failures of the converse implications]\label{ian:adaptive-fixed-set-counterexamples}
+Small fixed-set posterior \(L^1\) or \(L^2\) moments at budget \(t\) do not, at unchanged tolerance, imply depth-\(t\) adaptive hardness. This remains false when the fixed-set budget is any polynomial in \(t\). Conversely, adaptive hardness at depth \(t\) need not give small posterior moments for sets of size \(N_t=\min\{n,2^t-1\}\).
+\end{proposition}
+\begin{proof}
+For the first assertion, let \(A\) be uniform on \(\mathbb F_2^r\), let
+\((Z_a)_{a\in\mathbb F_2^r}\) be independent uniform signs independent of \(A\), and use the uniform physical cube with coordinates
+\[
+ X=\bigl((-1)^{A_1},\ldots,(-1)^{A_r},(Z_a)_a\bigr).
+\]
+Define the globally bounded target
+\[
+ Q(X)=\frac{1+Z_A}{2}.
+\]
+Its mean is \(1/2\) and variance is \(1/4\). Reading the \(r\) address coordinates and then \(Z_A\) reveals \(Q\) in \(r+1\) queries. The tree output \(F=Z_A\) gives
+\[
+ \Cov(Q,F)=\frac12,\qquad C_{r+1}(Q)=\frac12.
+\]
+Equivalently, the \([0,1]\)-output tree \(D=Q\) has covariance \(1/4\).
+
+Now fix a coordinate set \(S\). Suppose it contains \(j\) address coordinates, indexed by \(J\), and \(d\) data coordinates, indexed by \(B\subseteq\mathbb F_2^r\). Independence gives the exact posterior
+\[
+ h_S
+ =
+ 2^{-(r-j)-1}
+ \sum_{\substack{a\in B\\a_J=A_J}}Z_a.
+\]
+Cross terms vanish when its square is averaged over the data signs, and each fixed \(a\in B\) matches \(A_J\) with probability \(2^{-j}\). Therefore
+\[
+ G_\nu(Q,S)=\frac{d\,2^{j-2r}}4
+ \le\frac{|S|\,2^{-r}}4.
+\]
+For every fixed-set budget \(N\),
+\[
+ R_N\le\frac{N\,2^{-r}}4,
+ \qquad
+ M_N\le\frac12\sqrt{N\,2^{-r}}.
+\]
+Both quantities tend to zero whenever \(N=o(2^r)\), although a depth-\(r+1\) adaptive transcript has posterior deviation exactly \(1/2\).
+
+For example, with \(N=\lfloor2^{r/2}\rfloor\), all non-adaptive tests using \(N\) coordinates have covariance at most
+\(2^{-r/4}/2\). This tolerance tends to zero, while
+\(C_{r+1}(Q)=1/2\). In particular, neither \(M_t\le\gamma\) nor
+\(R_t\le\gamma^2\) suffices for adaptive hardness at the same depth and tolerance. The example also rules out a universal conversion using a polynomially enlarged fixed-set budget and an unchanged positive tolerance.
+
+For the reverse assertion, fix \(t\ge2\), take the uniform law on \(n=t+1\) signs, and let
+\[
+ Q(X)=\frac{1+\prod_{i=1}^{t+1}X_i}{2}.
+\]
+Every depth-\(t\) leaf leaves at least one independent sign unqueried, so its conditional target mean is \(1/2\). Thus
+\[
+ C_t(Q)=0,\qquad \Var Q=\frac14.
+\]
+This is adaptively hard for every \(0<\gamma<a\le1/4\). However,
+\(N_t=n\), and revealing all coordinates gives
+\[
+ R_{N_t}=\frac14,\qquad M_{N_t}=\frac12.
+\]
+Adaptive hardness therefore controls fixed sets of size \(t\), not arbitrary sets as large as the union of labels in a depth-\(t\) tree.
+\end{proof}
+
+\begin{remark}[Scope of fixed-set information]\label{ian:adaptive-fixed-set-scope}
+The exact hardness quantity is the posterior \(L^1\) deviation maximized over adaptive strategies. Fixed-set \(L^2\) bounds imply non-adaptive covariance bounds through a square root; conversely, non-adaptive covariance tolerance \(\gamma\) implies fixed-set gain at most \(\gamma/2\). These are distinct thresholds.
+
+Uniform fixed-set \(L^1\) control through size \(2^t-1\) transfers to adaptive depth \(t\) with the same covariance tolerance. At size \(t\), the displayed exponential tolerance losses suffice, and addressing prevents replacing them by a general transfer at unchanged tolerance and polynomially comparable budgets. Exact zero posterior gain and uniform pointwise posterior bounds are stronger exceptions: they transfer at the same depth without loss.
+
+Tree closure, as in Lemma~\ref{ian:hard-sector-tree-closure}, composes available adaptive tests. It does not remove these fixed-set conversion costs. Every posterior and covariance assertion must also be evaluated under the law whose hardness is claimed.
+\end{remark}

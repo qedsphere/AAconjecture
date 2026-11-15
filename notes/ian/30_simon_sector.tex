@@ -1,0 +1,458 @@
+\subsection{Simon's problem as a coordinate-query hard sector}\label{ian:simon-sector}
+
+Status: proved: the adaptive transcript bound \eqref{ian:simon-transcript-bound}, the stated parameter package for every \(m\ge10\), the promise count, and failure of full AA with both polynomial and canonical sector quantifiers. Uses Definition~\ref{ian:hard-sector-definition}, Proposition~\ref{ian:hard-sector-forward} and Theorem~\ref{ian:hard-sector-aa-equivalence} of \path{ian/13_hard_sector_definitions_forward.tex}, and Remark~\ref{ian:hard-sector-polynomial-quantifiers} of \path{ian/15_hard_sector_sets_asymptotics.tex}; Simon (1997) is reproved inline.
+
+We use the conventions of \path{ian/13_hard_sector_definitions_forward.tex}.
+Thus \(\mathcal D_t\) and \(\mathcal F_t\) consist of deterministic adaptive coordinate trees of worst-case depth at most \(t\), with leaf outputs in \([0,1]\) and \([-1,1]\), respectively. The class \(\mathcal Q_{n,T}\) consists of globally defined acceptance functions of algorithms making at most \(T\) coordinate queries, and
+\[
+ \ell_\mu(t,Q)=\min_{D\in\mathcal D_t}\E_\mu|D-Q|.
+\]
+By Definition~\ref{ian:hard-sector-definition},
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) means
+\[
+ \Var_\nu Q\ge a,
+ \qquad
+ \sup_{F\in\mathcal F_t}|\Cov_\nu(Q,F)|\le\gamma.
+\]
+Since \(F=2D-1\), the second condition is equivalent to
+\[
+ \sup_{D\in\mathcal D_t}|\Cov_\nu(Q,D)|\le\gamma/2.
+\]
+Theorem~\ref{ian:simon-sector-theorem} also follows from Theorem~\ref{ian:robust-compilation-theorem} with \(\delta=1-p_m\); the exact identity \(Q_m=p_mY\) is sharper and is needed for the canonical parameters of Corollary~\ref{ian:simon-full-aa-failure}. The hiding step fits Theorem~\ref{ian:adaptive-transcript-duality} in \path{ian/29_adaptive_transcript_hiding.tex}; the proofs here are kept self-contained.
+
+\begin{definition}[The randomly labelled Simon law]\label{ian:simon-law}
+Fix \(m\ge2\), put \(G=\mathbb F_2^m\), \(M=2^m\), and \(N=M-1\).
+Choose \(s\) uniformly from \(G\setminus\{0\}\). Its unordered pairs form the partition
+\[
+ \mathcal P_s=\bigl\{\{x,x+s\}:x\in G\bigr\},
+ \qquad |\mathcal P_s|=M/2.
+\]
+Conditional on \(s\), choose an injection
+\[
+ L:\mathcal P_s\hookrightarrow G
+\]
+uniformly from all such injections, and set
+\[
+ f(x)=L(\{x,x+s\}).
+\]
+Consequently,
+\[
+ f(x)=f(y)
+ \quad\Longleftrightarrow\quad
+ y=x\ \text{or}\ y=x+s.
+\]
+The entire table is encoded by
+\[
+ X_{x,j}=(-1)^{f(x)_j},
+ \qquad x\in G,\quad 1\le j\le m,
+ \qquad n_m=mM.
+\]
+Let \(\mu^{(m)}\) be the resulting law on \(\Omega_{n_m}\), and let
+\(H_m=\operatorname{supp}\mu^{(m)}\).
+The target is
+\[
+ Y=s_1\in\{0,1\}.
+\]
+Only the table coordinates are supplied to either algorithm. The mask and the injection are not additional queryable data. In particular, the output names are randomized by the uniform injection; they are sampled without replacement.
+\end{definition}
+
+\begin{lemma}[Target variance and promise weight]\label{ian:simon-promise-count}
+The mask is uniquely determined by every \(X\in H_m\).
+Writing \((M)_q=M(M-1)\cdots(M-q+1)\), one has
+\[
+ |H_m|=(M-1)(M)_{M/2},
+ \qquad
+ \mu^{(m)}(X)=\frac1{(M-1)(M)_{M/2}}
+ \quad(X\in H_m).
+\]
+Furthermore,
+\[
+ \rho_m:=\E_{\mu^{(m)}}Y=\frac{M}{2(M-1)},
+ \qquad
+ \Var_{\mu^{(m)}}Y
+ =\frac{M(M-2)}{4(M-1)^2}
+ =\frac14-\frac1{4(M-1)^2}.
+\]
+For the uniform cube law \(U_{n_m}\),
+\[
+ U_{n_m}(H_m)
+ =\frac{(M-1)(M)_{M/2}}{M^M}
+ \le (M-1)M^{-M/2}.
+\]
+\end{lemma}
+
+\begin{proof}
+The unique nonzero argument having output \(f(0)\) is \(s\), so different masks produce disjoint sets of tables. For each mask there are exactly \((M)_{M/2}\) injections, each producing a different table. This proves the count and uniformity.
+
+Exactly \(M/2\) nonzero masks have first bit one, whereas \(M/2-1\) have first bit zero. The expectation and variance follow. There are \(M^M=2^{n_m}\) unrestricted tables, and \((M)_{M/2}\le M^{M/2}\), proving the uniform-weight assertion.
+\end{proof}
+
+\begin{lemma}[A global coordinate-query decoder]\label{ian:simon-quantum-decoder}
+For every integer \(k\ge m-1\), there is a globally defined acceptance function
+\[
+ Q_{m,k}\in\mathcal Q_{n_m,mk}
+\]
+with the following properties on \(H_m\). The algorithm outputs the first bit of the recovered mask when its \(k\) Fourier samples have rank \(m-1\), and outputs zero otherwise. There is a number \(p_{m,k}\), independent of the mask and output labels, such that
+\[
+ Q_{m,k}(X)=p_{m,k}Y(X),
+ \qquad
+ p_{m,k}=\prod_{j=0}^{m-2}(1-2^{j-k}),
+ \qquad
+ 1-p_{m,k}\le 2^{m-1-k}.
+\]
+Thus its target error on each promised input is at most \(2^{m-1-k}\).
+\end{lemma}
+
+\begin{proof}
+The Fourier-sampling procedure is Simon's (from literature: D.~R.~Simon,
+\emph{On the Power of Quantum Computation}, SIAM J. Comput. 26(5),
+1474--1483, 1997). The query implementation and probability calculations follow.
+% Simon (1997), SIAM J. Comput. 26(5), 1474-1483, doi:10.1137/S0097539796298637.
+
+Use the standard coordinate oracle
+\[
+ O_X|x,j,b\rangle
+ =|x,j,b\oplus(1-X_{x,j})/2\rangle.
+\]
+For every cube input \(X\), define \(f_X(x)_j=(1-X_{x,j})/2\).
+Its whole-output XOR oracle is
+\[
+ U_{f_X}|x,z\rangle=|x,z\oplus f_X(x)\rangle.
+\]
+This unitary uses exactly \(m\) coordinate queries: for each fixed \(j\), compute the coordinate address \((x,j)\), query into output bit \(j\), and reverse the address computation. Routing the target bit and reversing the address computation require only input-independent gates.
+The XOR oracle \(O_X\) and the controlled-phase coordinate oracle
+\(|x,j,b\rangle\mapsto(-1)^{b(1-X_{x,j})/2}|x,j,b\rangle\) simulate each other at one query each, so the count \(T=mk\) below holds in either access model.
+
+One sample starts with
+\[
+ M^{-1/2}\sum_{x\in G}|x\rangle|0^m\rangle,
+\]
+applies \(U_{f_X}\), applies the Walsh transform to the first register, and measures that register. The output register is retained or discarded. It is not erased by an inverse oracle call. Equivalently, all output registers can be retained until the final measurement. Thus each sample costs \(m\), including all required address uncomputation.
+
+On a promised input, the sample \(V\) satisfies
+\[
+ \Pr[V=v]
+ =\frac1{M^2}
+   \sum_{\substack{x,z\in G\\f(x)=f(z)}}
+       (-1)^{(x+z)\cdot v}
+ =\frac{1+(-1)^{s\cdot v}}M
+ =\frac2M\mathbf1_{\{v\in s^\perp\}}.
+\]
+Fresh registers give \(k\) independent uniform samples from the
+\((m-1)\)-dimensional space \(s^\perp\).
+
+Put \(d=m-1\). If these samples do not span \(s^\perp\), some nonzero linear functional on \(s^\perp\) vanishes on all of them. For each such functional this has probability \(2^{-k}\). A union bound gives
+\[
+ \Pr[\text{rank}<m-1]
+ \le(2^{m-1}-1)2^{-k}
+ \le2^{m-1-k}.
+\]
+In any basis of \(s^\perp\), the sample matrix is a uniform \(k\)-by-\(d\) binary matrix. Its columns are independent uniform vectors in \(\mathbb F_2^k\). Exposing the columns successively gives full-column-rank probability
+\[
+ p_{m,k}=\prod_{j=0}^{d-1}(1-2^{j-k}).
+\]
+This depends only on \(m,k\).
+
+For every cube input, compute the rank of the sampled vectors. If it equals \(m-1\), let \(\widehat s\) be the unique nonzero vector orthogonal to all samples and output \(\widehat s_1\). For every other rank, including rank \(m\), output zero. This defines the algorithm on the whole cube. Rank computation and postprocessing use no oracle queries; measurements may also be deferred using reversible computation with retained work registers.
+By the principle of deferred measurement, the acceptance probability of the resulting purified circuit, which measures only its final output qubit, equals \(Q_{m,k}(X)\) for every cube input \(X\); no uncomputation of \(f_X\) is needed.
+
+On \(H_m\), full rank within \(s^\perp\) gives \(\widehat s=s\). Otherwise the output is zero. Hence
+\(Q_{m,k}=p_{m,k}Y\), and the target error is at most \(1-p_{m,k}\).
+The total coordinate-query cost is \(mk\).
+\end{proof}
+
+\begin{lemma}[Adaptive collision-free posterior]\label{ian:simon-adaptive-posterior}
+Let a deterministic adaptive strategy make at most \(t\) whole-output queries, and let \(\tau\) be its transcript. Put
+\[
+ c_t=\binom t2,
+ \qquad
+ \eta_t=\frac{2c_t}{M-1-c_t},
+\]
+and assume \(c_t<M-1\). Then
+\[
+ \E\left|\E[Y\mid\tau]-\rho_m\right|
+ \le\eta_t.
+ \tag{30.1}\label{ian:simon-transcript-bound}
+\]
+More precisely, for any collision-free transcript of positive probability with distinct queried arguments
+\(x_1,\ldots,x_q\), define
+\[
+ E_\tau=\{x_i+x_j:1\le i<j\le q\}.
+\]
+Its posterior mask is exactly uniform on
+\((G\setminus\{0\})\setminus E_\tau\).
+Here a collision means equal whole outputs at two distinct arguments.
+\end{lemma}
+
+\begin{proof}
+Repeated arguments can be answered from a cache, so it suffices to consider strategies whose actual queries have distinct arguments.
+
+Fix a collision-free transcript of positive probability
+\[
+ \tau=((x_1,z_1),\ldots,(x_q,z_q)),
+\]
+where the \(z_i\) are distinct. For a candidate mask \(u\ne0\), this transcript is impossible if \(u\in E_\tau\). Otherwise the \(q\) arguments belong to distinct \(u\)-pairs. Prescribing their distinct labels has conditional probability
+\[
+ \Pr[\tau\mid s=u]=\frac1{(M)_q}
+ \qquad(u\notin E_\tau).
+\]
+Indeed, the number of compatible injections is
+\((M-q)_{M/2-q}\), out of \((M)_{M/2}\).
+For a fixed adaptive transcript, its query choices and stopping decision are determined by the preceding displayed answers. They impose no further probability factor.
+
+Since the prior mask is uniform on \(N=M-1\) possibilities, Bayes' rule gives
+\[
+ \Pr[s=u\mid\tau]
+ =\frac{\mathbf1_{\{u\notin E_\tau\}}}{N-|E_\tau|}
+ \qquad(u\ne0).
+\]
+Thus the label values themselves supply no further mask information on a collision-free transcript.
+
+We next bound the probability of a collision. After \(j\) distinct queries without collision, the next new argument \(x\) is fixed by the current transcript. A collision occurs precisely when
+\[
+ s\in B_j:=\{x+x_i:1\le i\le j\}.
+\]
+The posterior formula therefore gives conditional collision probability
+\[
+ \frac{|B_j\setminus E_{\tau_j}|}{N-|E_{\tau_j}|}
+ \le\frac{j}{N-c_t}.
+\]
+Summing over possible first-collision steps, with zero contribution after stopping, yields
+\[
+ \Pr[\text{a collision by depth }t]
+ \le\sum_{j=0}^{t-1}\frac{j}{N-c_t}
+ =\frac{c_t}{N-c_t}.
+\]
+
+For a collision-free terminal transcript, write \(e=|E_\tau|\le c_t\).
+The posterior formula implies
+\[
+ \E[Y\mid\tau]-\rho_m
+ =\frac{\sum_{u\in E_\tau}(\rho_m-u_1)}{N-e}.
+\]
+Consequently,
+\[
+ \left|\E[Y\mid\tau]-\rho_m\right|
+ \le\frac e{N-e}
+ \le\frac{c_t}{N-c_t}.
+\]
+On transcripts containing a collision, the absolute deviation is at most one. Averaging the two cases proves
+\[
+ \E\left|\E[Y\mid\tau]-\rho_m\right|
+ \le\frac{c_t}{N-c_t}
+      +\Pr[\text{a collision}]
+ \le\frac{2c_t}{N-c_t},
+\]
+which is \eqref{ian:simon-transcript-bound}.
+\end{proof}
+
+\begin{corollary}[Partial bit reads and covariance]\label{ian:simon-bit-hiding}
+Under the same assumption \(c_t<M-1\), every deterministic adaptive coordinate strategy of depth at most \(t\), with bit transcript \(\tau_{\rm bit}\), satisfies
+\[
+ \E\left|\E[Y\mid\tau_{\rm bit}]-\rho_m\right|\le\eta_t.
+\]
+In particular,
+\[
+ \sup_{F\in\mathcal F_t}
+       |\Cov_{\mu^{(m)}}(Y,F)|\le\eta_t,
+ \qquad
+ \sup_{D\in\mathcal D_t}
+       |\Cov_{\mu^{(m)}}(Y,D)|\le\eta_t/2.
+\]
+\end{corollary}
+
+\begin{proof}
+Simulate the bit strategy with whole-output access. When an argument \(x\) is first touched, query and cache the complete label \(f(x)\). Return only the requested bit to the simulated tree. Subsequent bit queries at that argument are answered from the cache.
+
+This is a deterministic adaptive whole-output strategy making at most \(t\) queries. Its full transcript \(\tau_{\rm full}\) determines the original bit transcript, including its stopping decision. Therefore conditional Jensen gives
+\[
+ \E\left|\E[Y\mid\tau_{\rm bit}]-\rho_m\right|
+ \le
+ \E\left|\E[Y\mid\tau_{\rm full}]-\rho_m\right|
+ \le\eta_t.
+\]
+
+For any fixed strategy with transcript \(\tau\), and any leaf output \(F(\tau)\in[-1,1]\),
+\[
+ \Cov(Y,F)
+ =\E\bigl[(\E[Y\mid\tau]-\rho_m)F(\tau)\bigr].
+\]
+Its maximum absolute value over such leaf outputs equals
+\[
+ \E|\E[Y\mid\tau]-\rho_m|,
+\]
+as witnessed by the sign of the conditional deviation. This proves the bound for \(\mathcal F_t\). The identity
+\(\Cov(Y,2D-1)=2\Cov(Y,D)\) proves the bound for \(\mathcal D_t\).
+\end{proof}
+
+\begin{theorem}[The Simon hard sector]\label{ian:simon-sector-theorem}
+For every \(m\ge10\), put \(Q_m=Q_{m,m+9}\). The parameter package
+\[
+ n_m=m2^m,\qquad
+ T\le T_m:=m(m+9),\qquad
+ t_m=\left\lfloor\frac{2^{m/2}}{32}\right\rfloor,\qquad
+ w=1,\qquad a=\frac18,\qquad\gamma=\frac1{64}
+ \tag{30.2}
+\]
+is valid:
+\[
+ Q_m\in\mathcal Q_{n_m,T_m},
+ \qquad
+ \operatorname{Hard}
+ \left(Q_m,\mu^{(m)};t_m,\frac18,\frac1{64}\right).
+\]
+Both \(H_m\) as a set sector and \(\mu^{(m)}\) as a smooth sector have weight one. Moreover,
+\[
+ \ell_{\mu^{(m)}}(t_m,Q_m)\ge\frac7{64}.
+\]
+\end{theorem}
+
+\begin{proof}
+The quantum lemma gives
+\[
+ p_m:=p_{m,m+9}\ge1-2^{-10},
+ \qquad
+ Q_m=p_mY\quad\text{on }H_m.
+\]
+In particular, the target error on every promised input is at most \(2^{-10}\).
+
+The exact identity supplies the variance and covariance transfer directly:
+\[
+ \Var_{\mu^{(m)}}Q_m
+ =p_m^2\Var_{\mu^{(m)}}Y
+ \ge(1-2^{-10})^2\frac3{16}
+ >\frac18.
+\]
+Here
+\(\Var Y=\frac14-\frac1{4(M-1)^2}\ge3/16\).
+
+Since \(t_m\le\sqrt M/32\),
+\[
+ c_{t_m}\le\frac{t_m^2}{2}\le\frac M{2048}.
+\]
+Using \(M\ge1024\), we obtain
+\[
+ N-c_{t_m}
+ \ge M-1-\frac M{2048}
+ \ge\frac{2045M}{2048},
+ \qquad
+ \eta_{t_m}\le\frac2{2045}<\frac1{64}.
+\]
+Thus, for every \(F\in\mathcal F_{t_m}\),
+\[
+ |\Cov_{\mu^{(m)}}(Q_m,F)|
+ =p_m|\Cov_{\mu^{(m)}}(Y,F)|
+ \le p_m\eta_{t_m}
+ <\frac1{64}.
+\]
+Equivalently, every \(D\in\mathcal D_{t_m}\) satisfies
+\[
+ |\Cov_{\mu^{(m)}}(Q_m,D)|
+ \le\frac{p_m\eta_{t_m}}2
+ \le\frac1{2045}
+ <\frac1{128}=\frac\gamma2.
+\]
+This includes arbitrary adaptive partial reads of table entries.
+
+Since \(\mu^{(m)}(H_m)=1\), conditioning on \(H_m\) leaves the law unchanged, and smooth domination holds with equality at weight one. Proposition~\ref{ian:hard-sector-forward} gives the asserted loss bound. Explicitly, for every \(D\in\mathcal D_{t_m}\),
+\[
+ \E(Q_m-D)^2
+ =\Var Q_m+\E(D-\E Q_m)^2-2\Cov(Q_m,D)
+ \ge\frac18-\frac1{64}=\frac7{64}.
+\]
+Because \(|Q_m-D|\ge(Q_m-D)^2\), minimizing proves the claim.
+\end{proof}
+
+\begin{corollary}[Polynomial quantifiers and full-AA failure]\label{ian:simon-full-aa-failure}
+Let \(\symbf{\mu}=(\mu_n)_{n\ge1}\) be any family satisfying
+\(\mu_{n_m}=\mu^{(m)}\) for every \(m\ge10\), with arbitrary laws at the remaining dimensions. Since \(n_m=m2^m\) is strictly increasing in \(m\), the dimensions \(n_m\) are distinct, so such a family is well defined. Then full AA fails.
+
+For both set and smooth sectors, property \(\mathrm{(P)}\) of
+Remark~\ref{ian:hard-sector-polynomial-quantifiers} in
+\path{ian/15_hard_sector_sets_asymptotics.tex}
+holds with fixed choices
+\[
+ K=p=q=1,\qquad r=16,\qquad w=1,\qquad a=\frac18.
+\]
+The canonical witnesses in items (2) and (3) of
+Theorem~\ref{ian:hard-sector-aa-equivalence} can also be supplied directly with \(r=16\).
+\end{corollary}
+
+\begin{proof}
+For every fixed \(B\ge1\),
+\[
+ \frac{t_m}{(T_m+16)^B}\longrightarrow\infty.
+\]
+Hence for every \(A,B\ge1\), a sufficiently large \(m\) satisfies
+\[
+ t_m>\left\lceil A(T_m+16)^B\right\rceil.
+\]
+The constants \(K,p,q,r,w,a\) displayed in the statement are fixed before these budget quantifiers. They satisfy
+\[
+ w^{-1}=1\le16=Kr^p,
+ \qquad
+ a^{-1}=8\le16=Kr^q.
+\]
+The preceding theorem gives hardness with
+\(\gamma=1/64\le a/4=1/32\), hence also hardness with tolerance \(a/4\).
+Taking \(H=H_m\), or the smooth law \(\nu=\mu^{(m)}\), establishes precisely property \(\mathrm{(P)}\).
+
+In terms of the physical input dimension,
+\[
+ m=\Theta(\log n_m),\qquad
+ T_m=\Theta((\log n_m)^2),\qquad
+ t_m=\Theta\!\left(\sqrt{\frac{n_m}{\log n_m}}\right)
+     =2^{\Theta(\log n_m)}.
+\]
+Thus the classical depth exceeds every fixed polynomial in \(T_m+r\), while the sector weight and variance lower bound remain constant.
+
+There is also a direct violation of \(\mathrm{(AA)}\),
+equation~\eqref{ian:hard-sector-aa-definition}.
+For any proposed constants \(A_0,B_0\ge1\), choose \(m\) with
+\[
+ t_m>\left\lceil A_0(T_m+16)^{B_0}\right\rceil.
+\]
+Monotonicity of \(\ell\), at the fixed accuracy \(\varepsilon=1/16\), gives
+\[
+ \ell_{\mu_{n_m}}
+ \left(\left\lceil A_0(T_m+16)^{B_0}\right\rceil,Q_m\right)
+ \ge\ell_{\mu^{(m)}}(t_m,Q_m)
+ \ge\frac7{64}>\frac1{16}.
+\]
+This negates full AA.
+
+Finally, to obtain the exact canonical sector parameters, put
+\[
+ d_m=\left\lfloor\frac{\sqrt M}{128}\right\rfloor.
+\]
+The same transcript estimate gives, for \(m\ge10\),
+\[
+ c_{d_m}\le\frac M{32768},
+ \qquad
+ N-c_{d_m}\ge\frac{32735M}{32768},
+ \qquad
+ \eta_{d_m}\le\frac2{32735}<\frac1{4096}.
+\]
+Since \(Q_m=p_mY\), this is also a covariance bound for \(Q_m\), without an additive decoder-error term.
+
+Given any \(A,B\ge1\), choose \(m\) sufficiently large that
+\[
+ b_m:=\left\lceil A(T_m+16)^B\right\rceil+1\le d_m.
+\]
+The variance bound and monotonicity in tree depth yield
+\[
+ \operatorname{Hard}
+ \left(Q_m,\mu^{(m)};b_m,\frac1{1024},\frac1{4096}\right).
+\]
+For \(r=16\), these are exactly
+\[
+ \frac1{1024}=\frac1{4r^2},
+ \qquad
+ \frac1{4096}=\frac1{16r^2},
+ \qquad
+ \mu_{n_m}(H_m)=1\ge\frac1{64r^3}.
+\]
+This supplies item (2) of
+Theorem~\ref{ian:hard-sector-aa-equivalence} directly. Taking
+\(\nu=\mu^{(m)}=\mu_{n_m}\le64r^3\mu_{n_m}\) also supplies item (3).
+\end{proof}

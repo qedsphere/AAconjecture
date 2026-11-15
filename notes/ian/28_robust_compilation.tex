@@ -1,0 +1,512 @@
+\subsection{Robust compilation from hidden targets}\label{ian:robust-compilation}
+
+Status: proved: distributional quantum readout compiles to a globally defined acceptance function without additional queries or loss of sector weight; the variance and covariance perturbation constants are sharp as universal linear constants. Uses Definition~\ref{ian:hard-sector-definition}, Proposition~\ref{ian:hard-sector-forward} and Lemma~\ref{ian:hard-sector-aa-exclusion} of \path{ian/13_hard_sector_definitions_forward.tex}, Remark~\ref{ian:hard-sector-polynomial-quantifiers} of \path{ian/15_hard_sector_sets_asymptotics.tex}, and Lemma~\ref{ian:hard-sector-orbit-covariance} of \path{ian/17_hard_sector_instances.tex}; the Bernstein--Vazirani readout in Proposition~\ref{ian:robust-compilation-character-check} is cited from the literature and its action is verified in place.
+
+\begin{definition}[Joint law, oracle, and decoder error]
+\label{ian:robust-compilation-conventions}
+Let \(\Omega_n=\{-1,1\}^n\), let \(\mu\) be an ambient probability law, and let \(\pi\) be a specified joint law of
+\[
+ (Z,X)\in\mathcal L\times\Omega_n,
+ \qquad X\sim\nu,
+\]
+where \(\mathcal L\) is finite. Fix \(g:\mathcal L\to[0,1]\) and put \(Y=g(Z)\).
+A deterministic label means \(Z=\lambda(X)\) almost surely; a latent label need not be a function of \(X\).
+Expectations involving \(Z\) or \(Y\) are under \(\pi\); expectations of functions of \(X\) alone are under \(\nu\).
+Thus notation such as \(\E_\nu|Q-Y|\), when used for a latent target, means \(\E_\pi|Q(X)-Y|\).
+
+The sector law has weight \(w\in(0,1]\) if either
+\[
+ w\nu(x)\le\mu(x)\quad\text{for every }x
+\]
+in the smooth interpretation, or
+\[
+ \nu=\mu(\cdot\mid H),\qquad \mu(H)\ge w
+\]
+for a specified set \(H\) in the set interpretation.
+No hardness assertion is included in these preliminary conditions.
+
+Coordinate access means the standard oracle
+\[
+ O_x|i,b\rangle
+ =|i,b\oplus(1-x_i)/2\rangle,
+ \qquad i\in\{1,\ldots,n\},\quad b\in\{0,1\}.
+\]
+Input-independent operations and postprocessing are free. Phase access follows by applying this oracle with the answer register in
+\(\lvert-\rangle=(\lvert0\rangle-\lvert1\rangle)/\sqrt2\).
+There is no additional access to \(Z\), sector membership, or a sampler.
+
+A \(q\)-query decoder is one fixed circuit, defined for every \(x\in\Omega_n\), using at most \(q\) oracle calls.
+Write \(K_x\) for its output law on input \(x\).
+Its internal randomness is independent of \(Z\) conditional on \(X\), so the output's conditional law given \((X,Z)\) is \(K_X\).
+For a label output \(\widehat Z\), distributional label error at most \(\delta\) means
+\[
+ \Pr_{\pi,\mathrm{decoder}}[\widehat Z\ne Z]\le\delta.
+\]
+More generally, a bounded target output \(\widehat Y\in[0,1]\) has distributional target error at most \(\delta\) if
+\[
+ \E_{\pi,\mathrm{decoder}}|\widehat Y-g(Z)|\le\delta.
+\]
+Label error implies target error for \(\widehat Y=g(\widehat Z)\).
+A failure symbol is assigned a fixed value in \([0,1]\) and counts as a label error.
+\end{definition}
+
+Throughout, \(\mathcal D_t\) and \(\mathcal F_t\) are deterministic coordinate trees of worst-case depth at most \(t\), with leaf outputs in \([0,1]\) and \([-1,1]\), respectively, as in
+\path{ian/13_hard_sector_definitions_forward.tex}.
+In particular,
+\[
+ \mathcal F_t=\{2D-1:D\in\mathcal D_t\}.
+\]
+
+\begin{lemma}[Bounded-variable perturbation]
+\label{ian:robust-compilation-perturbation}
+Let \(U,V\in[0,1]\) be random variables on the same probability space, with
+\(\E|U-V|\le\delta\). Then
+\[
+ |\Var U-\Var V|\le2\delta.
+\]
+For every random variable \(D\in[0,1]\), and every \(F\in[-1,1]\),
+\[
+ |\Cov(U,D)-\Cov(V,D)|\le\delta,
+ \qquad
+ |\Cov(U,F)-\Cov(V,F)|\le2\delta.
+\]
+\end{lemma}
+
+\begin{proof}
+For \(u,v,c\in[0,1]\),
+\[
+ |(u-c)^2-(v-c)^2|
+ =|u-v|\,|u+v-2c|
+ \le2|u-v|.
+\]
+Using \(c=\E U\) gives
+\[
+ \Var V
+ \le\E(V-\E U)^2
+ \le\Var U+2\delta.
+\]
+Interchanging \(U,V\) proves the variance assertion.
+
+Centering only the test gives
+\[
+ \Cov(U,D)-\Cov(V,D)
+ =\E[(U-V)(D-\E D)].
+\]
+Since \(|D-\E D|\le1\), this has absolute value at most \(\delta\).
+The same argument uses \(|F-\E F|\le2\) for the signed test.
+\end{proof}
+
+\begin{theorem}[Robust compilation]
+\label{ian:robust-compilation-theorem}
+Use Definition~\ref{ian:robust-compilation-conventions}, with integers \(t,q\ge0\).
+Suppose \(0<v\le1/4\), \(\eta\ge0\), \(0\le\delta\le1\), and
+\[
+ \Var_\pi Y\ge v,
+ \qquad
+ \sup_{F\in\mathcal F_t}
+ |\Cov_\pi(Y,F(X))|\le\eta.
+ \tag{28.1}\label{ian:robust-compilation-LH}
+\]
+Suppose a \(q\)-query decoder produces a bounded target output \(\widehat Y\) with distributional target error at most \(\delta\).
+This includes a label decoder with distributional label error at most \(\delta\), followed by \(g\).
+
+Running the decoder and accepting with probability \(\widehat Y\) produces a globally defined acceptance function \(Q:\Omega_n\to[0,1]\), using
+\[
+ T=q
+\]
+queries, such that
+\[
+ \E_\pi|Q(X)-Y|\le\delta,
+ \qquad
+ \Var_\nu Q\ge v-2\delta,
+\]
+and, for every \(D\in\mathcal D_t\) and \(F\in\mathcal F_t\),
+\[
+ |\Cov_\nu(Q,D)|\le\frac{\eta}{2}+\delta,
+ \qquad
+ |\Cov_\nu(Q,F)|\le\eta+2\delta.
+ \tag{28.2}\label{ian:robust-compilation-LR}
+\]
+For \(q\ge1\), \(Q\in\mathcal Q_{n,q}\).
+
+Put
+\[
+ a=v-2\delta,\qquad \gamma_0=\eta+2\delta.
+\]
+For every positive \(\gamma\) satisfying \(\gamma_0\le\gamma<a\),
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma).
+\]
+The original set or smooth sector retains weight \(w\).
+
+More generally, the same variance, covariance, hardness, and weight conclusions hold for every supplied globally defined \(Q:\Omega_n\to[0,1]\) satisfying only
+\[
+ \E_\pi|Q(X)-Y|\le\delta.
+\]
+In this general version, if \(Q\) is the acceptance function of a quantum algorithm using at most \(T\ge1\) coordinate queries, then \(Q\in\mathcal Q_{n,T}\) and \(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) for every such \(\gamma\).
+\end{theorem}
+
+\begin{proof}
+Let \(K_x\) be the decoder's output law on input \(x\), and define
+\[
+ Q(x)=\E_{K_x}\widehat Y.
+\]
+For label output this is
+\[
+ Q(x)=\sum_{\ell}K_x(\ell)g(\ell),
+\]
+including the assigned value of any failure symbol.
+Measuring the decoder output and tossing the indicated acceptance coin uses no further oracle calls.
+The fixed circuit and postprocessing define \(Q\) on the entire cube, including inputs outside the support of \(\nu\).
+
+Since the output's conditional law given \((X,Z)\) is \(K_X\),
+\[
+ \E[\widehat Y\mid X,Z]=Q(X).
+\]
+Consequently, conditional Jensen yields
+\[
+ \E_\pi|Q(X)-Y|
+ =\E\bigl|\E[\widehat Y-Y\mid X,Z]\bigr|
+ \le\E|\widehat Y-Y|
+ \le\delta.
+\]
+For a label decoder, the last inequality also follows from
+\[
+ |g(\widehat Z)-g(Z)|
+ \le\mathbf1_{\{\widehat Z\ne Z\}}.
+\]
+This argument applies to latent labels without identifying \(Y\) with a function of \(X\).
+
+Apply Lemma~\ref{ian:robust-compilation-perturbation} on the joint probability space to \(U=Q(X)\), \(V=Y\).
+The hypothesis for signed trees implies
+\[
+ |\Cov_\pi(Y,D(X))|\le\eta/2,
+\]
+because \(2D-1\in\mathcal F_t\).
+The claimed variance and covariance estimates follow.
+
+If \(0<\gamma<a\) and \(\gamma\ge\gamma_0\), then \(0<a\le v\le1/4\), and these estimates are precisely
+Definition~\ref{ian:hard-sector-definition} in
+\path{ian/13_hard_sector_definitions_forward.tex}.
+
+The law \(\nu\) and its domination inequality have not changed.
+For a set sector, the same \(H\) still has \(\mu(H)\ge w\) and conditional law \(\nu\); also
+\[
+ w\nu(x)
+ =\frac{w}{\mu(H)}\mu(x)\mathbf1_H(x)
+ \le\mu(x).
+\]
+For a smooth sector, the original inequality \(w\nu\le\mu\) already supplies the required weight.
+The proof after the construction of \(Q\) uses only the displayed \(L^1\) approximation, establishing the general version.
+\end{proof}
+
+\begin{corollary}[Exact certificate regimes and forward loss]
+\label{ian:robust-compilation-regimes}
+Under Theorem~\ref{ian:robust-compilation-theorem}, retain
+\[
+ a=v-2\delta,\qquad \gamma_0=\eta+2\delta.
+\]
+The canonical parameters satisfy \(0<\gamma_0<a\le1/4\) exactly when
+\[
+ \eta+2\delta>0,\qquad \eta+4\delta<v.
+\]
+A tolerance \(\gamma\) with \(\gamma>0\) and \(\gamma_0\le\gamma<a\) exists exactly when
+\[
+ \eta+4\delta<v.
+\]
+A tolerance \(\gamma\) with \(\gamma>0\) and \(\gamma_0\le\gamma\le a/4\) exists exactly when
+\[
+ 4\eta+10\delta\le v.
+ \tag{28.3}\label{ian:robust-compilation-quarter-condition}
+\]
+If \(\gamma_0>0\), this last inequality is exactly \(\gamma_0\le a/4\).
+If \(\eta=\delta=0\), take \(a=v\) and any \(0<\gamma\le v/4\), for example \(\gamma=v/4\).
+
+Whenever \(\eta+4\delta<v\), the loss satisfies
+\[
+ \ell_\mu(t,Q)\ge w(v-\eta-4\delta).
+\]
+In the quarter-tolerance regime,
+\[
+ \operatorname{Hard}(Q,\nu;t,a,a/4),
+ \qquad
+ \ell_\mu(t,Q)\ge\frac34w(v-2\delta).
+\]
+If full AA holds with constants \(A_0,B_0\), then in this regime
+\[
+ t<
+ \left\lceil
+ A_0\left(T_*+\frac{8}{3w(v-2\delta)}\right)^{B_0}
+ \right\rceil,
+ \qquad T_*=\max\{1,q\}.
+\]
+For a supplied \(T\)-query acceptance function, replace \(T_*\) by \(\max\{1,T\}\).
+\end{corollary}
+
+\begin{proof}
+The strict inequality \(\gamma_0<a\) is
+\(\eta+4\delta<v\).
+The positivity requirement excludes only \(\eta=\delta=0\) for the canonical tolerance.
+Moreover,
+\[
+ \gamma_0\le a/4
+ \quad\Longleftrightarrow\quad
+ 4\eta+10\delta\le v.
+\]
+Since \(v>0\), this last inequality ensures \(a>0\).
+When \(\gamma_0=0\), choosing \(a/4\) supplies a positive tolerance.
+
+For \(\gamma_0>0\), Proposition~\ref{ian:hard-sector-forward} in
+\path{ian/13_hard_sector_definitions_forward.tex} gives
+\[
+ \ell_\mu(t,Q)
+ \ge w(a-\gamma_0)
+ =w(v-\eta-4\delta).
+\]
+If \(\gamma_0=0\), apply that proposition with every \(\gamma\in(0,a)\) and let \(\gamma\) decrease to zero.
+In the quarter regime, increase the tolerance to \(a/4\) and apply the same proposition.
+
+The AA depth bound is Lemma~\ref{ian:hard-sector-aa-exclusion} with this value of \(a\).
+The maximum with \(1\) only accommodates the convention that
+\(\mathcal Q_{n,T}\) in \eqref{ian:hard-sector-aa-definition} is indexed by \(T\ge1\).
+\end{proof}
+
+\begin{remark}[Covariance normalization and asymptotic quantifiers]
+\label{ian:robust-compilation-normalization}
+The parameter \(\eta\) above uses the signed-tree normalization of \eqref{ian:robust-compilation-LH}.
+If the hiding hypothesis is instead
+\[
+ \sup_{D\in\mathcal D_t}
+ |\Cov_\pi(Y,D(X))|\le\eta_D,
+\]
+substitute \(\eta=2\eta_D\). In particular,
+\[
+ |\Cov_\nu(Q,D)|\le\eta_D+\delta,
+ \qquad
+ a=v-2\delta,\qquad
+ \gamma_0=2\eta_D+2\delta.
+\]
+The corresponding strict and quarter-tolerance criteria are
+\[
+ 2\eta_D+4\delta<v,
+ \qquad
+ 8\eta_D+10\delta\le v,
+\]
+with the positive-tolerance convention of
+Corollary~\ref{ian:robust-compilation-regimes}.
+
+For an asymptotic full-AA failure conclusion, compiled witnesses must satisfy the quarter-tolerance condition \eqref{ian:robust-compilation-quarter-condition}, or its \(\eta_D\) form above, so that \(\operatorname{Hard}(Q,\nu;t,a,a/4)\) holds with \(a=v-2\delta\).
+They must also satisfy the all-budget requirements of \eqref{ian:hard-sector-polynomial-property}: there are \(K,p,p'\ge1\) such that for every \(A,B\ge1\) some compiled witness has
+\[
+ r>8,
+ \qquad
+ T=\max\{1,q\},
+ \qquad
+ t>\left\lceil A(T+r)^B\right\rceil,
+ \qquad
+ w^{-1}\le Kr^p,
+ \qquad
+ (v-2\delta)^{-1}\le Kr^{p'},
+\]
+that is, with \(w^{-1}\) and \((v-2\delta)^{-1}\) bounded by fixed polynomials in \(r\).
+The polynomial bounds are chosen before the budget quantifiers, as specified in
+Remark~\ref{ian:hard-sector-polynomial-quantifiers} of
+\path{ian/15_hard_sector_sets_asymptotics.tex} and
+Theorem~\ref{ian:hard-sector-aa-equivalence} of
+\path{ian/13_hard_sector_definitions_forward.tex}.
+\end{remark}
+
+\begin{proposition}[Sharp perturbation constants]
+\label{ian:robust-compilation-sharpness}
+The coefficients \(2\) in the variance bound, \(1\) in the \(\mathcal D_t\) covariance bound, and \(2\) in the \(\mathcal F_t\) covariance bound cannot be decreased as universal linear coefficients.
+These assertions hold even for deterministic labels, exact hiding at depth one, and decoders of bounded query cost.
+\end{proposition}
+
+\begin{proof}
+For variance, let \(B\) be Bernoulli with parameter \(p\in(0,1)\), let \(R\) be an independent uniform sign, and set
+\[
+ X=(R,R(2B-1)),\qquad Y=B,\qquad
+ Q(x)=(1-\epsilon)\frac{1+x_1x_2}{2},
+ \qquad 0<\epsilon<1.
+\]
+Each coordinate is independent of \(B\), so \(Y\) has zero covariance with every depth-one tree.
+A decoder reads both coordinates, computes \(B\), and changes a recovered \(1\) to \(0\) with probability \(\epsilon\).
+With \(g(b)=b\), its acceptance function is \(Q\), and
+\[
+ \delta=\E|Q(X)-Y|=p\epsilon.
+\]
+Its variance loss is
+\[
+ \Var Y-\Var Q
+ =(2\epsilon-\epsilon^2)p(1-p)
+ =\delta(2-\epsilon)(1-p).
+\]
+Taking \(p=\epsilon\) and letting \(p\) decrease to zero makes the ratio of variance loss to \(\delta\) tend to \(2\).
+In this family, the coefficient \(2\) is attained only as \(p\to0\): at fixed \(p,\epsilon\in(0,1)\) the ratio \((2-\epsilon)(1-p)\) is strictly below \(2\).
+
+For covariance, let \(X_1,X_2\) be independent uniform signs, and let \(X_3\) be independent with \(\Pr[X_3=1]=p\).
+Put
+\[
+ Y=\frac{1+X_1X_2}{2},\qquad
+ D=\frac{1+X_3}{2},\qquad
+ Q=Y+(1-Y)D.
+\]
+Again \(Y\) has zero covariance with every depth-one tree, and \(\Var Y=1/4\).
+A three-query decoder computes these bits and outputs \(Y\lor D\); its label error against \(Y\) is
+\[
+ \delta=\Pr[Y=0,D=1]=p/2.
+\]
+Here
+\[
+ \Cov(Q,D)=\frac{p(1-p)}2=\delta(1-p),
+ \qquad
+ \Cov(Q,2D-1)=2\delta(1-p).
+\]
+Letting \(p\) decrease to zero proves both covariance assertions.
+These examples establish optimal universal linear coefficients, without asserting an optimal nonlinear bound at each fixed positive \(\delta\).
+\end{proof}
+
+\begin{remark}[The composed forward-loss error is not sharp]
+\label{ian:robust-compilation-direct-loss}
+Sharpness of the separate perturbation constants does not make the composed loss \(w(v-\eta-4\delta)\) sharp.
+Under just the target hiding and \(L^1\) approximation hypotheses, a direct argument gives
+\[
+ \ell_\mu(t,Q)\ge w\max\{0,v-\eta-\delta\}.
+\]
+Indeed, for \(D\in\mathcal D_t\), with \(m=\E_\pi Y\),
+\[
+ \E_\pi(Y-D(X))^2
+ =\Var_\pi Y+\E_\nu(D-m)^2
+   -2\Cov_\pi(Y,D(X))
+ \ge v-\eta.
+\]
+Since \(Y,D(X)\in[0,1]\), one has \(|Y-D(X)|\ge(Y-D(X))^2\), so \(\E_\pi|Y-D(X)|\ge v-\eta\); the triangle inequality then gives
+\[
+ \E_\nu|Q-D|
+ \ge\E_\pi|Y-D(X)|-\delta
+ \ge v-\eta-\delta.
+\]
+Multiply by \(w\) using \(\mu\ge w\nu\), minimize over \(D\), and use nonnegativity.
+The triangle-inequality step is the comparison \eqref{ian:phase-label-pure-target-comparison} of
+Proposition~\ref{ian:phase-label-flat-components} in
+\path{ian/20_phase_label_theorem.tex}, with the target \(Y\) in the role of \(g(Z)\) and \(e=\delta\), applied with \(\nu\) (joint law \(\pi\)) in place of \(\mu\), before minimizing over \(D\).
+The hard-sector certificate remains useful because it supplies the variance--covariance hypotheses required by the AA exclusion and equivalence results.
+\end{remark}
+
+\begin{proposition}[Character-code sanity check]
+\label{ian:robust-compilation-character-check}
+Let \(m\ge2\) be even, \(n=2^m\), and identify coordinates with \(z\in\mathbb F_2^m\).
+Let
+\[
+ c_a(z)=(-1)^{a\cdot z},\qquad
+ C_n=\{c_a:a\in\mathbb F_2^m\},
+ \qquad A\sim U_{\mathbb F_2^m},\qquad X=c_A.
+\]
+Take the deterministic label \(Z=A\) and the quadratic target
+\[
+ Y=h(A),\qquad
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2.
+\]
+There is a one-query decoder with \(\delta=0\).
+Compilation gives the globally defined one-query acceptance function
+\[
+ Q(x)=P(x)
+ =\sum_{a:h(a)=1}\widehat x(a)^2,
+ \qquad
+ \widehat x(a)=\frac1n\sum_zx_z(-1)^{a\cdot z}.
+\]
+The target parameters are
+\[
+ v=\frac{1-1/n}{4},
+ \qquad
+ \eta=\frac{2^t-1}{2\sqrt n}.
+\]
+Consequently, for \(n\ge16\) and \(t\le m/2-2\),
+\[
+ \operatorname{Hard}\left(
+ P,U_{C_n};t,\frac3{16},\frac18\right),
+\]
+recovering Proposition~\ref{ian:hard-sector-character-instance} in
+\path{ian/17_hard_sector_instances.tex}.
+Every ambient set or smooth realization of \(U_{C_n}\) retains its original weight.
+\end{proposition}
+
+\begin{proof}
+The decoder is Bernstein--Vazirani readout (from literature: Ethan Bernstein and Umesh Vazirani, \emph{Quantum Complexity Theory}, SIAM Journal on Computing \textbf{26}(5), 1411--1473 (1997), DOI \texttt{10.1137/S0097539796300921}).
+Only exact character-oracle recovery is used; its action is verified here.
+
+Prepare the uniform address state, apply one coordinate query by phase kickback, and apply the Walsh transform.
+For every cube input this gives
+\[
+ \frac1{\sqrt n}\sum_z|z\rangle
+ \ \longmapsto\
+ \frac1{\sqrt n}\sum_zx_z|z\rangle
+ \ \longmapsto\
+ \sum_a\widehat x(a)|a\rangle.
+\]
+For \(x=c_A\), character orthogonality makes the final state exactly \(|A\rangle\).
+Thus \(q=T=1\) and \(\delta=0\).
+Measuring \(a\) and accepting when \(h(a)=1\) gives \(P\).
+Parseval gives
+\[
+ \sum_a\widehat x(a)^2=\frac1n\sum_zx_z^2=1,
+\]
+so \(P\in[0,1]\) globally.
+
+For a uniform pair of bits, the mean of \((-1)^{a_1a_2}\) is \(1/2\).
+Independence across the \(m/2\) pairs therefore gives
+\[
+ \E(-1)^{h(A)}=n^{-1/2},\qquad
+ \Pr[h(A)=1]=\frac{1-n^{-1/2}}2,
+ \qquad
+ \Var h(A)=\frac{1-1/n}{4}.
+\]
+Since the final state on \(c_A\) is exactly \(|A\rangle\), the compiled function satisfies \(P(c_A)=h(A)\); thus \(P(X)=h(A)\) under \(U_{C_n}\).
+Lemma~\ref{ian:hard-sector-orbit-covariance} in
+\path{ian/17_hard_sector_instances.tex}, with no noise and \(k=1\), supplies
+\[
+ \sup_{F\in\mathcal F_t}
+ |\Cov_{U_{C_n}}(h(A),F(X))|
+ \le\frac{2^t-1}{2\sqrt n}.
+\]
+For the stated range,
+\[
+ \Var_{U_{C_n}}P\ge\frac3{16},
+ \qquad
+ \sup_{F\in\mathcal F_t}|\Cov_{U_{C_n}}(P,F)|
+ \le\frac18.
+\]
+These are the claimed parameters, with no change of law or weight.
+\end{proof}
+
+\begin{remark}[Character weights and quarter tolerance]
+\label{ian:robust-compilation-character-quarter}
+For example, if
+\[
+ \mu=(1-\theta)U_n+\theta U_{C_n},\qquad 0\le\theta\le1,
+\]
+then the same set \(H=C_n\) has conditional law \(U_{C_n}\) and actual weight
+\[
+ \mu(C_n)=\theta+(1-\theta)n2^{-n}.
+\]
+The recovered coarse parameters yield
+\[
+ \ell_\mu(t,P)\ge\mu(C_n)/16.
+\]
+
+The coarse tolerance \(1/8\) exceeds \((3/16)/4\).
+Keeping the sharper compiled values
+\[
+ a=\frac{1-1/n}{4},\qquad
+ \gamma_0=\frac{2^t-1}{2\sqrt n},
+\]
+gives the quarter-tolerance certificate exactly when
+\[
+ 2^t-1\le\frac{\sqrt n-n^{-1/2}}8.
+\]
+For example, \(t\le m/2-3\) suffices whenever this range is nonempty.
+At \(t=0\), replace the zero tolerance by \(a/4\).
+Thus the sharper certificate supplies the regime of
+Lemma~\ref{ian:hard-sector-aa-exclusion} and of the hard sectors in
+Remark~\ref{ian:hard-sector-polynomial-quantifiers}.
+\end{remark}

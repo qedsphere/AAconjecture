@@ -1,0 +1,667 @@
+\subsection{Forrelation sectors and hidden label explanations}\label{ian:forrelation-sectors}
+
+Status: proved. The standard sign-rounded Gaussian experiment has a weight-one hard sector for a one-query acceptance function (Theorem~\ref{ian:forrelation-hard-sector}), fails full AA, and admits a target-independent hidden admissible latent label explaining almost all acceptance variance (Proposition~\ref{ian:forrelation-explaining-decomposition}). A different hidden admissible decomposition explains vanishing variance on the same sector (Proposition~\ref{ian:forrelation-nonexplaining-decomposition}). These conclusions distinguish existential explanations from prescribed decompositions; they do not settle whether local Gibbs failures of full AA force a structural character label (Remark~\ref{ian:forrelation-local-inverse-disposition}). Literature: the two Gaussian measures, their sign rounding, and the published classical and quantum bounds of Aaronson--Ambainis (arXiv:1411.5729v1, Section~4, Theorems~1, 9, 11 and Proposition~6), recorded in Remark~\ref{ian:forrelation-published-bounds} and not used in any proof; all sector constants come from Lemma~\ref{ian:forrelation-adaptive-hiding}, proved here. Repository inputs are from \path{ian/13_hard_sector_definitions_forward.tex}, \path{ian/15_hard_sector_sets_asymptotics.tex}, \path{ian/19_phase_label_admissibility.tex}, \path{ian/20_phase_label_theorem.tex} and \path{ian/27_hidden_label_admissibility.tex}.
+
+\begin{definition}[The input law and acceptance observable]\label{ian:forrelation-input-law}
+Let \(M=2^m\), \(n=2M\), and let
+\[
+ W_{xy}=M^{-1/2}(-1)^{x\cdot y},
+ \qquad x,y\in\mathbb F_2^m.
+\]
+Thus \(W=W^{\mathsf T}\) and \(W^2=I\). Encode two Boolean truth tables as
+\[
+ X=(f,g)\in\Omega_n=\{-1,1\}^{2M}.
+\]
+Put
+\[
+ \Phi(f,g)=\frac1M f^{\mathsf T}Wg
+ =M^{-3/2}\sum_{x,y}f(x)(-1)^{x\cdot y}g(y),
+ \qquad Q(f,g)=\frac{1+\Phi(f,g)}2.
+\]
+Cauchy--Schwarz gives \(|\Phi|\le1\), so \(Q\) is defined in \([0,1]\) on the entire cube.
+
+For independent \(A,C\sim\mathcal N(0,I_M)\), define
+\[
+ \rho_0=\mathcal L(\operatorname{sgn}A,\operatorname{sgn}C)=U_{2M},
+ \qquad
+ \rho_1=\mathcal L(\operatorname{sgn}A,\operatorname{sgn}(WA)).
+\]
+The underlying real measures \(\mathcal L(A,C)\) and \(\mathcal L(A,WA)\), and their sign rounding, are those of Aaronson--Ambainis, Section~4 (from literature). We form the equal-prior mixture of their two measures:
+\[
+ \Pr(B=0)=\Pr(B=1)=\frac12,\qquad
+ \mathcal L(X\mid B=b)=\rho_b,\qquad
+ \mu_n=\frac{\rho_0+\rho_1}{2}.
+\]
+The generating bit \(B\) is latent. All sector statements below concern this displayed law, without conditioning on the decision promise.
+\end{definition}
+
+\begin{remark}[Exact published lower-bound statements]\label{ian:forrelation-published-bounds}
+Aaronson--Ambainis, \emph{Forrelation: A Problem That Optimally Separates Quantum from Classical Computing}, STOC 2015, 307--316, arXiv:1411.5729 (from literature; numbering refers to arXiv:1411.5729v1), prove:
+Theorem~1 gives randomized classical query complexity
+\[
+ \Omega\!\left(\frac{\sqrt M}{\log M}\right)
+\]
+for distinguishing \(|\Phi|\le1/100\) from \(\Phi\ge3/5\).
+Proposition~6 uses one quantum query, error at most \(2/5\), and acceptance \((3/4)Q\).
+
+Their distributional Theorem~11 concerns Gaussian Distinguishing: for at most \(R\) known unit test vectors with distinct-pair inner products bounded by \(\epsilon\), constant distinguishing bias requires
+\[
+ \Omega\!\left(\frac{\epsilon^{-1}}{\log(R/\epsilon)}\right)
+\]
+classical queries. Taking the coordinate and Walsh bases gives \(R=2M\), \(\epsilon=M^{-1/2}\), and the preceding asymptotic bound for the two real measures. Theorem~9 publishes \(\E_{\rho_1}\Phi=2/\pi\pm O(\log M/M)\).
+\end{remark}
+
+The following elementary deduction is not part of the cited statements: a Boolean sign query is simulated by one real query, so the sign-rounded experiment inherits the lower bound for the two real measures.
+
+The hard-sector constants below do not come from these published bounds. Theorem~11 of arXiv:1411.5729v1 gives no explicit bias-versus-depth function, so it does not supply \(\operatorname{Hard}\) at depth of order \(\sqrt M/\log M\) with stated constants. The sector depth \(t_M=\lfloor M^{1/8}\rfloor\) in Theorem~\ref{ian:forrelation-hard-sector} comes instead from Lemma~\ref{ian:forrelation-adaptive-hiding}, which is effective for \(t\ll M^{1/4}\).
+
+\begin{proposition}[One coordinate query realizes \(Q\)]\label{ian:forrelation-one-query}
+The acceptance function \(Q\) belongs to \(\mathcal Q_{2M,1}\).
+\end{proposition}
+\begin{proof}
+Write
+\[
+ |f\rangle=M^{-1/2}\sum_xf(x)|x\rangle,\qquad
+ |g\rangle=M^{-1/2}\sum_yg(y)|y\rangle.
+\]
+A single phase query to the combined \(2M\)-coordinate oracle prepares
+\[
+ \frac{|0\rangle|f\rangle+|1\rangle|g\rangle}{\sqrt2}.
+\]
+Apply \(W\) to the index register on the first branch and measure the control in the \(+,-\) basis. Acceptance on \(+\) has probability
+\[
+ \frac{1+\langle f|W|g\rangle}{2}
+ =\frac{1+\Phi(f,g)}2.
+\]
+Rejecting independently with probability \(1/4\) gives the published decision algorithm: its acceptance is at most \(303/800<2/5\) on the negative promise and at least \(3/5\) on the positive promise.
+\end{proof}
+
+\begin{lemma}[Mean separation and within-case flatness]\label{ian:forrelation-flatness}
+Put
+\[
+ c_M=\frac{2\sqrt M}{\pi}\arcsin(M^{-1/2}),
+ \qquad
+ Y=\E[Q\mid B]=\frac12+\frac{c_M}{2}B,
+ \qquad
+ v_M=\E(Q-Y)^2.
+\]
+Then
+\[
+ \E_{\rho_0}\Phi=0,\qquad
+ \Var_{\rho_0}\Phi=\frac1M,\qquad
+ \E_{\rho_1}\Phi=c_M,\qquad
+ \Var_{\rho_1}\Phi\le16M^{-1/3}.
+\]
+Consequently
+\[
+ v_M\le\frac1{8M}+2M^{-1/3}\le3M^{-1/3},
+ \qquad
+ \Var Y=\frac{c_M^2}{16}\ge\frac1{4\pi^2}.
+\]
+\end{lemma}
+\begin{proof}
+The uniform-law identities follow by expanding \(\Phi\) and \(\Phi^2\). For two standard Gaussians of correlation \(r\), rotational symmetry in their generating plane gives
+\[
+ \E[\operatorname{sgn}G\,\operatorname{sgn}G']
+ =\frac2\pi\arcsin r.
+\]
+Here the correlation between \(A_x\) and \((WA)_y\) is \(W_{yx}\). Summing the resulting expectations gives the exact formula for \(c_M\).
+
+For the variance bound, let
+\[
+ s_h(u)=\max\{-1,\min\{1,u/h\}\},\qquad
+ \Psi_h(A)=M^{-1}s_h(A)^{\mathsf T}W s_h(WA),
+\]
+with \(s_h\) applied coordinatewise. Since \(\Pr\{|G|\le h\}\le h\) for a standard Gaussian,
+\[
+ \E\bigl(\Phi(\operatorname{sgn}A,\operatorname{sgn}(WA))
+                 -\Psi_h(A)\bigr)^2\le4h.
+\]
+Indeed, replace the two sign vectors consecutively:
+\[
+ \Phi-\Psi_h
+ =M^{-1}\bigl(\operatorname{sgn}A-s_h(A)\bigr)^{\mathsf T}W\operatorname{sgn}(WA)
+ +M^{-1}s_h(A)^{\mathsf T}W\bigl(\operatorname{sgn}(WA)-s_h(WA)\bigr).
+\]
+Since \(\|W\|_{\rm op}=1\) and \(\|\operatorname{sgn}(WA)\|_2,\|s_h(A)\|_2\le\sqrt M\), this gives
+\[
+ (\Phi-\Psi_h)^2
+ \le\frac2M\Bigl(\|\operatorname{sgn}A-s_h(A)\|_2^2+\|\operatorname{sgn}(WA)-s_h(WA)\|_2^2\Bigr).
+\]
+Each coordinate of \(\operatorname{sgn}u-s_h(u)\) has absolute value at most one and vanishes unless \(|u|<h\). As \(W\) is orthogonal, \(A\) and \(WA\) are both standard Gaussian vectors, so each squared norm has expectation at most \(Mh\), proving the bound \(4h\).
+
+Almost everywhere,
+\[
+ \|\nabla\Psi_h(A)\|_2\le\frac{2}{h\sqrt M}.
+\]
+Indeed, writing \(\odot\) for the coordinatewise product and using \(W=W^{\mathsf T}\),
+\[
+ \nabla\Psi_h(A)
+ =M^{-1}\Bigl(s_h'(A)\odot\bigl(Ws_h(WA)\bigr)
+ +W\bigl(s_h'(WA)\odot(Ws_h(A))\bigr)\Bigr),
+\]
+where \(0\le s_h'\le1/h\) almost everywhere. Each of the two terms has Euclidean norm at most \(M^{-1}h^{-1}\sqrt M\), because \(W\) is an isometry and \(\|s_h(\cdot)\|_2\le\sqrt M\).
+The Gaussian Hermite expansion proves
+\(\Var H\le\E\|\nabla H\|_2^2\): if its orthonormal coefficients are
+\(a_\alpha\), the two quantities are
+\(\sum_{\alpha\ne0}a_\alpha^2\) and
+\(\sum_\alpha|\alpha|a_\alpha^2\). This applies to the Lipschitz function \(\Psi_h\), by approximation. Hence
+\[
+ \Var_{\rho_1}\Phi
+ \le2\Var\Psi_h+2\E(\Phi-\Psi_h)^2
+ \le\frac8{Mh^2}+8h.
+\]
+Take \(h=M^{-1/3}\). Finally,
+\[
+ v_M=\frac18\bigl(\Var_{\rho_0}\Phi+\Var_{\rho_1}\Phi\bigr),
+ \qquad c_M\ge2/\pi,
+\]
+which proves the remaining assertions.
+\end{proof}
+
+\begin{remark}[Relation to the original promise]\label{ian:forrelation-promise-mass}
+The preceding proof also gives
+\[
+ \rho_0\{|\Phi|>1/100\}\le\frac{10000}{M},
+ \qquad
+ \rho_1\{\Phi<3/5\}
+ \le\frac{16M^{-1/3}}{(2/\pi-3/5)^2}.
+\]
+Thus the two cases satisfy the respective published promises with probabilities tending to one. These estimates are deductions here, rather than an additional imported distributional theorem.
+\end{remark}
+
+\begin{lemma}[Adaptive transcript likelihoods and hiding]\label{ian:forrelation-adaptive-hiding}
+Let \(t\le\sqrt M\), and put \(\alpha=t^2/\sqrt M\). For every nonnull leaf event \(A_\tau\) of a deterministic depth-\(t\) coordinate tree,
+\[
+ e^{-\alpha}\le
+ \frac{\rho_1(A_\tau)}{\rho_0(A_\tau)}
+ \le e^\alpha.
+\]
+In particular, the generating label \(B\) satisfies
+\[
+ \Var\bigl(\E[F(X)\mid B]\bigr)
+ \le\kappa_B(t)\Var_{\mu_n}F,
+ \qquad
+ \kappa_B(t)=\tanh^2(\alpha/2)
+ \qquad(F\in\mathcal F_t).
+\]
+\end{lemma}
+\begin{proof}
+A leaf pins \(s\) distinct coordinates from \(f\) and \(r\) from \(g\), with \(d=s+r\le t\). Under the real forrelated law these coordinates have covariance
+\[
+ \Sigma=I_d+E,\qquad
+ \|E\|_{\rm op}\le\sqrt{sr/M}\le\delta:=\frac d{2\sqrt M}\le\frac12.
+\]
+Comparing its Gaussian density with the standard density and integrating over the specified orthant gives
+\[
+ \left(\frac{1-\delta}{1+\delta}\right)^{d/2}
+ \le
+ \frac{\rho_1(A_\tau)}{\rho_0(A_\tau)}
+ \le
+ \left(\frac{1+\delta}{1-\delta}\right)^{d/2}.
+\]
+For example, the upper bound follows from
+\(\det\Sigma\ge(1-\delta)^d\) and
+\(\Sigma^{-1}\ge(1+\delta)^{-1}I_d\); the lower bound follows from the reverse spectral bounds. Since
+\[
+ \frac d2\log\frac{1+\delta}{1-\delta}
+ =d\,\operatorname{artanh}\delta
+ \le2d\delta\le\alpha,
+\]
+the likelihood assertion follows. It applies directly to adaptive leaves, since each path specifies a cylinder event.
+
+For the transcript \(\tau\), Bayes' formula gives
+\[
+ \left|\E[2B-1\mid\tau]\right|\le\tanh(\alpha/2).
+\]
+For every \(F=F(\tau)\), therefore,
+\[
+ \Var(\E[F\mid B])
+ =4\Cov(F,B)^2
+ \le4\Var F\,\Var(\E[B\mid\tau])
+ \le\kappa_B(t)\Var F.
+\]
+\end{proof}
+
+\begin{theorem}[Explicit weight-one sector and property \((P)\)]\label{ian:forrelation-hard-sector}
+For \(m\ge96\), let
+\[
+ t_M=\lfloor M^{1/8}\rfloor,\qquad
+ H=\Omega_{2M},\qquad
+ w=1,\qquad a=\frac1{64},\qquad\gamma=\frac1{256}=\frac a4.
+\]
+Then
+\[
+ \operatorname{Hard}(Q,\mu_n;t_M,a,\gamma),
+ \qquad
+ \ell_{\mu_n}(t_M,Q)\ge\frac3{256}.
+\]
+In fact,
+\[
+ \ell_{\mu_n}(t_M,Q)>\frac18.
+\]
+This family fails full AA and satisfies property \((P)\) of Remark~\ref{ian:hard-sector-polynomial-quantifiers} in
+\path{ian/15_hard_sector_sets_asymptotics.tex}.
+\end{theorem}
+\begin{proof}
+Total variance gives
+\[
+ \Var_{\mu_n}Q\ge\Var Y\ge\frac1{4\pi^2}>\frac1{64}.
+\]
+For \(F\in\mathcal F_{t_M}\), conditional expectation and the preceding lemma give
+\[
+ |\Cov(Q,F)|
+ \le|\Cov(Y,F)|+\sqrt{v_M}
+ \le\frac{c_M}{4}\sqrt{\kappa_B(t_M)}+\sqrt{v_M}.
+\]
+Since \(c_M\le1\), \(\alpha\le M^{-1/4}\), and
+\(\tanh(\alpha/2)\le\alpha/2\),
+\[
+ |\Cov(Q,F)|
+ \le\frac18M^{-1/4}+\sqrt3\,M^{-1/6}
+ <\frac1{256}\qquad(M\ge2^{96}).
+\]
+The sector is both a set sector and a smooth sector of weight one.
+Proposition~\ref{ian:hard-sector-forward} gives the displayed \(3/256\) loss bound.
+
+For the stronger bound, every transcript leaves both posterior probabilities of \(B\) at least \(1/(1+e^\alpha)\). The two values of \(Y\) are separated by \(c_M/2\), so every depth-\(t_M\) predictor satisfies
+\[
+ \E|D-Q|
+ \ge\E|D-Y|-\sqrt{v_M}
+ \ge\frac{c_M}{2(1+e^\alpha)}-\sqrt{v_M}
+ >\frac18.
+\]
+The final inequality follows from \(M\ge2^{96}\), \(c_M\ge2/\pi\), and the preceding bounds.
+
+For property \((P)\), fix \(K=4\), \(p=q=1\), \(r=16\), and \(T=1\), before choosing any budget. Then
+\[
+ w^{-1}=1\le Kr,\qquad a^{-1}=64=Kr.
+\]
+Write \(A',B'\) for the universally quantified constants denoted \(A,B\) in property \((P)\); the primes avoid a clash with the generating bit \(B\).
+For every \(A',B'\ge1\), choose \(M\) large enough that
+\(t_M>\lceil A'(1+16)^{B'}\rceil\). These are the required witnesses. Equivalently, the fixed positive loss and \(t_M\to\infty\) directly contradict any dimension-independent full-AA simulation polynomial.
+\end{proof}
+
+\begin{corollary}[Parameters for the extraction route]\label{ian:forrelation-extraction}
+For any integer \(s\ge1\) with \(2^{29}s\le t_M\), Corollary~\ref{ian:hard-sector-explicit}, applied with \(\varepsilon=1/16\) and \(\eta=1/4\), supplies a set \(H_s\) with
+\[
+ \mu_n(H_s)\ge2^{-18},\qquad
+ \operatorname{Hard}(Q,\mu_n(\cdot\mid H_s);s,2^{-10},2^{-12}).
+\]
+Membership in \(H_s\) is decided at depth below \(2^{29}s\).
+\end{corollary}
+\begin{proof}
+The extraction multiplier is
+\(32\varepsilon^{-5}\eta^{-2}=2^{29}\).
+Depth monotonicity and Theorem~\ref{ian:forrelation-hard-sector} give
+\(\ell_{\mu_n}(2^{29}s,Q)>1/8>\varepsilon\).
+Substitution gives the stated weight, dispersion, and tolerance.
+\end{proof}
+
+\begin{proposition}[A hidden admissible label explaining the sector]\label{ian:forrelation-explaining-decomposition}
+For \(m\ge96\), put
+\[
+ k=\lfloor m/4\rfloor,\qquad p_M=\frac{4^{k-1}}M.
+\]
+There is a decomposition, fixed independently of the acceptance target, into coordinate-universal components with common simulation polynomial
+\[
+ \Psi_{\mathcal U}(T,y)=1+y.
+\]
+Outside label mass at most \(p_M\), its components have min-entropy \(\log k\). Its label \(Z\) satisfies condition~\eqref{ian:hidden-label-contraction} at depth \(t_M\), with
+\[
+ \kappa_M=
+ \frac1k+p_M+\tanh^2\!\left(\frac{t_M^2}{2\sqrt M}\right)
+ \le\frac1k+\frac1{2\sqrt M}\longrightarrow0.
+\]
+On the prescribed sector \(H=\Omega_{2M}\),
+\[
+ \E\Var(Q\mid Z)\le v_M\le3M^{-1/3},
+ \qquad
+ \Var(\E[Q\mid Z])\ge\Var Q-v_M\ge\frac1{4\pi^2}.
+\]
+In particular this is a hidden-label-admissible label-only explanation, with the flatness threshold of Proposition~\ref{ian:phase-label-flat-components}.
+\end{proposition}
+\begin{proof}
+First draw \(B\), then independently draw
+\(X^1,\ldots,X^k\sim\rho_B\), choose \(J\) uniformly from
+\(\{1,\ldots,k\}\), and set \(X=X^J\).
+
+Call the tuple good when its \(f\)-coordinates realize every relative pattern
+\[
+ (f^1(x)f^2(x),\ldots,f^1(x)f^k(x))
+ \in\{-1,1\}^{k-1}.
+\]
+This event is invariant under permutations of the rows. On a good tuple, signed \(f\)-coordinates realize every Boolean assignment on its \(k\) rows; the rows are distinct and their full-input support is coordinate-universal.
+
+Let \(Z\) contain \(B\) and the ordered tuple, and also contain \(J\) on bad tuples. Thus good components are uniform on \(k\) points, and bad components are point masses. Both belong to \(\mathcal U\), so Lemma~\ref{ian:phase-label-universal-support-simulation} supplies the common polynomial.
+
+Under either \(\rho_b\), the \(f\)-block is uniform on \(\{-1,1\}^M\). Conditional on \(B=b\) and any full row \(X^i=x\), the relative patterns from the other rows are uniform. Each specified pattern has expected count \(M2^{-(k-1)}\) and variance at most its mean. Chebyshev and a union bound give
+\[
+ \Pr(\mathrm{bad}\mid B=b,X^i=x)\le p_M.
+\]
+Consequently bad labels have mass at most \(p_M\), proving the entropy assertion and the anti-atom condition.
+
+For any physical function \(F\), write
+\(m_b=\E_{\rho_b}F\), \(\sigma_b^2=\Var_{\rho_b}F\).
+The unrefined tuple mean has conditional variance \(\sigma_b^2/k\). Revealing \(J\) on bad tuples adds at most
+\[
+ \E\left[
+ \mathbf1_{\mathrm{bad}}\frac1k
+ \sum_i(F(X^i)-m_b)^2\ \middle|\ B=b\right]
+ \le p_M\sigma_b^2.
+\]
+Therefore
+\[
+ \Var(\E[F\mid Z])
+ \le\Var(m_B)+\left(\frac1k+p_M\right)\E\sigma_B^2.
+\]
+For \(F\in\mathcal F_{t_M}\), Lemma~\ref{ian:forrelation-adaptive-hiding} bounds the first term by \(\kappa_B(t_M)\Var_{\mu_n}F\). This proves the stated hiding coefficient. Since
+\[
+ p_M\le\frac1{4\sqrt M},\qquad
+ \kappa_B(t_M)\le\frac1{4\sqrt M},
+\]
+it tends to zero at the actual growing witness depth.
+
+Finally \(B\) is measurable from \(Z\), so conditional projection gives
+\[
+ \E\Var(Q\mid Z)\le\E\Var(Q\mid B)=v_M,
+ \qquad
+ \Var(\E[Q\mid Z])\ge\Var(\E[Q\mid B]).
+\]
+For \(M\ge2^{96}\),
+\[
+ v_M\le3M^{-1/3}<2^{-24}
+ =\frac{(1/64)^2}{4096}.
+\]
+Thus the explanation meets the sufficient flatness condition with \(w=1\) and \(a=1/64\). The decomposition itself used only the two input measures and coordinate patterns, before any acceptance function was chosen.
+\end{proof}
+
+\begin{remark}[Meaning of this positive explanation]\label{ian:forrelation-label-meaning}
+The generating bit already explains almost all acceptance variance. Refining it by conditional independent samples supplies the component simulation certificate required in \path{ian/19_phase_label_admissibility.tex} and the hiding certificate required in \path{ian/27_hidden_label_admissibility.tex}. The same fixed decomposition works against every polynomial budget by increasing \(M\).
+
+The label is latent and synthetic, with
+\[
+ 1+2Mk+\lceil\log_2(k+1)\rceil=O(n\log n)
+\]
+bits. The definitions impose no bound polynomial in \(T\) and inverse accuracy on its description length. Nor do they require quantum recovery of the entire label.
+
+Indeed, this particular \(Z\) cannot be recovered from the physical input with substantial probability, even with unlimited queries. Since every atom of either \(\rho_b\) is at most \(2^{-M}\), the construction gives
+\[
+ \max_z\Pr(Z=z\mid X=x)
+ \le\frac1k\,2^{-(k-1)M}.
+\]
+For a good tuple, \(x\) occurs in exactly one row; for a bad label, its selected row is specified. In either case divide its joint mass
+\(\frac1{2k}\prod_i\rho_b(x^i)\) by
+\(\mu_n(x)\ge\rho_b(x)/2\).
+Every estimator based on \(X\), including a quantum estimator, obeys the same recovery bound.
+
+Thus a label-only variance explanation does not supply a decoder for that label. This does not obstruct the explicit interference algorithm.
+\end{remark}
+
+\begin{proposition}[A prescribed hidden decomposition can explain negligible variance]\label{ian:forrelation-nonexplaining-decomposition}
+The same family admits another target-independent hidden admissible \(\mathcal U\)-decomposition, with label \(Z^0\), satisfying
+\[
+ \Var(\E[F(X)\mid Z^0])
+ \le\kappa_M^0\Var_{\mu_n}F
+ \quad\text{for every physical function }F,\qquad
+ \kappa_M^0=\frac1k+p_M\longrightarrow0.
+\]
+On the prescribed weight-one hard sector,
+\[
+ \frac{\Var(\E[Q\mid Z^0])}{\Var Q}\le\kappa_M^0\longrightarrow0.
+\]
+Its posterior-smoothed target satisfies
+\[
+ \ell_{\mu_n}(0,\widetilde q^{\,0})
+ \le\frac12\sqrt{\kappa_M^0}\longrightarrow0,
+ \qquad
+ \ell_{\mu_n}(t_M,Q)>\frac18.
+\]
+\end{proposition}
+\begin{proof}
+Draw the rows independently from \(\mu_n\), without a shared generating bit, and use the same good-tuple rule and bad-tuple refinement. Their \(f\)-blocks are again independent uniform blocks. The preceding sampling calculation now gives unrestricted-depth contraction with coefficient \(1/k+p_M\), together with the same component and entropy certificates.
+
+Apply contraction to \(F=Q\). For
+\(g^0=\E[Q\mid Z^0]\) and
+\(\widetilde q^{\,0}=\E[g^0\mid X]\), conditional projection gives
+\[
+ \Var\widetilde q^{\,0}\le\Var g^0
+ \le\kappa_M^0\Var Q\le\kappa_M^0/4.
+\]
+The constant \(\E Q\) proves the smoothing bound.
+
+More generally, the proof of
+\eqref{ian:hidden-label-sector-variance-bound} applies verbatim:
+for every set sector of mass \(w>0\),
+\[
+ B_H\le\frac14\sqrt{\frac{\kappa_M^0}{w}}.
+\]
+Thus constant-weight sectors cannot carry a fixed positive explained variance under this decomposition as \(M\to\infty\).
+\end{proof}
+
+\begin{remark}[Prescribed and existential conclusions]\label{ian:forrelation-decomposition-quantifiers}
+The preceding proposition refutes automatic explanation on the supplied sector by a prescribed hidden admissible label. Proposition~\ref{ian:forrelation-explaining-decomposition} proves the existential explanation for this family.
+
+The fixed-decomposition variance bound alone does not exclude every possible system of witnesses with shrinking polynomial weights and explained variances. In particular, the final decoding argument in Proposition~\ref{ian:hidden-label-fixed-decomposition-obstruction} uses the character support's \(m\)-query exact decoder; that argument is unavailable for the present \(2M\)-bit law.
+
+Similarly, the zero-query approximation of \(\widetilde q^{\,0}\) at fixed accuracy does not prove a full polynomial-budget equivalence or its failure at all shrinking accuracies. It does show that \(Q\) and smoothing cannot be interchanged at unchanged sector and accuracy parameters without flatness.
+\end{remark}
+
+\begin{lemma}[The fixed-set and adaptive audit]\label{ian:forrelation-fixed-set-audit}
+For any law and \(Q:\Omega_n\to[0,1]\), put
+\[
+ h_S=\E[Q\mid X_S]-\E Q,\qquad G(S)=\E h_S^2.
+\]
+Then
+\[
+ \sup_{\substack{F=F(X_S)\\|F|\le1}}|\Cov(Q,F)|
+ =\E|h_S|,
+ \qquad
+ 2G(S)\le\E|h_S|\le\sqrt{G(S)}.
+\]
+Writing \(R(s)=\max_{|S|\le s}G(S)\), either condition
+\[
+ R(\min\{n,2^t-1\})\le\gamma^2,
+ \qquad\text{or}\qquad
+ R(t)\le2^{-t}\gamma^2
+\]
+implies adaptive depth-\(t\) covariance tolerance \(\gamma\), that is, \(|\Cov(Q,F)|\le\gamma\) for every \(F\in\mathcal F_t\).
+Conversely, adaptive depth-\(t\) covariance tolerance \(\gamma\), in particular \(\operatorname{Hard}(Q,\cdot\,;t,a,\gamma)\) for the law in question, gives \(2G(S)\le\gamma\) for every \(|S|\le t\), so \(R(t)\le\gamma/2\).
+\end{lemma}
+\begin{proof}
+The extremizing fixed-set test is \(\operatorname{sgn}h_S\).
+Cauchy--Schwarz gives the upper moment bound; the test
+\(2\E[Q\mid X_S]-1\) gives \(2G(S)\le\E|h_S|\).
+
+A depth-\(t\) tree uses at most \(2^t-1\) coordinates across its entire structure, proving the first conversion. For the second, each leaf event \(A_v\) is determined by at most \(t\) coordinates and satisfies
+\[
+ |\E[(Q-\E Q)\mathbf1_{A_v}]|
+ \le\sqrt{R(t)\Pr(A_v)}.
+\]
+Summing over at most \(2^t\) leaves gives covariance at most
+\(\sqrt{2^tR(t)}\).
+
+For the converse, a fixed-set test \(F(X_S)\) with \(|S|\le t\) is computed by a depth-\(|S|\) tree querying the coordinates of \(S\). The tolerance therefore bounds \(\E|h_S|\le\gamma\), and the displayed inequality gives \(2G(S)\le\gamma\).
+
+Lemma~\ref{ian:forrelation-adaptive-hiding} instead controls every adaptive leaf directly.
+\end{proof}
+
+\begin{remark}[Audit of sector-to-algorithm implications]\label{ian:forrelation-implication-audit}
+Here ``counterexample'' specifies the failed implication and its quantifiers. ``Not covered'' records a missing hypothesis or an implication not decided by this example.
+
+\par\smallskip
+\noindent
+\parbox[t]{.70\linewidth}{\textbf{Implication and scope}}
+\hfill
+\parbox[t]{.26\linewidth}{\textbf{Forrelation audit}}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:phase-label-admissibility}: admissible simulable components alone imply full AA.}
+\hfill
+\parbox[t]{.26\linewidth}{Counterexample: both constructed decompositions are admissible; full AA fails.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Theorem~\ref{ian:phase-label-elimination}: simulable components plus a shallow compatible program selector give a classical simulator.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent. The selector hypothesis remains essential.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Theorem~\ref{ian:phase-label-hard-sector-converse}: full-AA failure and a common component bound give hard sectors explained by \((Z,\tau_Z)\).}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent; the \(\mathcal U\)-certificate supplies its hypothesis.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:phase-label-theorem}: every prescribed admissible label explains the supplied hard sector without its component transcript.}
+\hfill
+\parbox[t]{.26\linewidth}{Counterexample: \(Z^0\) on \(H=\Omega_{2M}\).}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Proposition~\ref{ian:phase-label-flat-components}: global flatness gives sector label-only explanation, with restriction cost \(1/w\).}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent; explicitly realized by \(Z\).}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:phase-label-gibbs}: thermal operational equivalence, free-energy identity, and Hubbard--Stratonovich component certificates.}
+\hfill
+\parbox[t]{.26\linewidth}{Not covered: no local Gibbs representation is supplied.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:phase-label-sectors}: hard smoothing implies a hard sector for the original acceptance without a transfer hypothesis.}
+\hfill
+\parbox[t]{.26\linewidth}{Not covered by this example; Proposition~\ref{ian:phase-label-posterior-hard-shallow-acceptance} refutes this implication.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:phase-label-sectors}: an explained hard sector implies hard original smoothing without global flatness.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent for \(Z\); the general prescribed implication remains refuted by Proposition~\ref{ian:phase-label-constant-posterior-counterexample}.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:phase-label-sectors}: extraction for \(\widetilde q\), and transfers between \(\widetilde q\) and \(Q\) under the stated flatness bounds.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent. Flatness holds for \(Z\), while \(Z^0\) separates the targets at fixed accuracy.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Propositions~\ref{ian:phase-label-posterior-hard-shallow-acceptance} and~\ref{ian:phase-label-constant-posterior-counterexample}: smoothing can change which observable is hard.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent: under \(Z^0\) the smoothed target is nearly constant while \(Q\) stays hard (Proposition~\ref{ian:forrelation-nonexplaining-decomposition}).}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:hidden-label-admissibility}: a prescribed hidden admissible label automatically explains the supplied hard sector.}
+\hfill
+\parbox[t]{.26\linewidth}{Counterexample: \(Z^0\), hidden even at unrestricted depth.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Subsection~\ref{ian:hidden-label-admissibility}: full-AA failure admits some hidden admissible label-only explanation for this atom-free family.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent; proved here by \(Z\).}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Proposition~\ref{ian:hidden-label-existential-equivalence-false}: with anti-atom admissibility, failure of full AA need not admit a hidden admissible decomposition.}
+\hfill
+\parbox[t]{.26\linewidth}{Not covered: that obstruction uses heavy atoms, whereas every atom of \(\mu_n\) has mass at most \(2^{-M}\).}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Theorem~\ref{ian:hidden-label-operational-theorem}: polynomial-weight hard explained sectors imply full-AA failure; the enlarged-label and flatness conclusions hold under their stated hypotheses.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent; the weight-one witnesses satisfy the budget quantifiers.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Robust compilation: quantum readout of a hidden target together with target hiding, or direct approximation to a hidden target, gives a realizable sector (Theorem~\ref{ian:robust-compilation-theorem} for readout with hiding; Lemma~\ref{ian:pac-robust-compilation} for direct approximation).}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent: \(Y=\E[Q\mid B]\), with \(\E|Q-Y|\le\sqrt{v_M}\).}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Necessary algorithmic structure: an algorithm supplies a bounded low-degree acceptance polynomial and an estimable acceptance observable (Lemma~\ref{ian:pac-polynomial-sos}, Proposition~\ref{ian:pac-observable-converse}).}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent: \(Q\) has degree two and an explicit circuit.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Every realizable hard sector carries a character index or an abelian hidden subgroup.}
+\hfill
+\parbox[t]{.26\linewidth}{Not covered. Forrelation is the natural test case, but no exclusion of such an object for this sector is proved here.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Structural inverse question: a failure of full AA for a local Gibbs law forces a deterministic character-order label with local correlations, relevance to the acceptance, and a quantum decoder.}
+\hfill
+\parbox[t]{.26\linewidth}{Not covered. Neither its Gibbs hypotheses nor the required label structure are established.}
+\par\smallskip
+
+\noindent
+\parbox[t]{.70\linewidth}{Fixed-set to adaptive conversion: fixed-set posterior bounds imply adaptive hiding with the explicit losses of Lemma~\ref{ian:forrelation-fixed-set-audit}.}
+\hfill
+\parbox[t]{.26\linewidth}{Consistent; verified above.}
+\par\smallskip
+
+The distance-three and shortened-Hamming statements in
+\path{ian/26_phase_label_sectors.tex} (Propositions~\ref{ian:phase-label-distance-three-determination} and~\ref{ian:phase-label-hamming-sector}) concern different character-supported laws. Their determination, dispersion, and hardness conclusions remain separate; Forrelation supplies no counterexample to those statements.
+\end{remark}
+
+\begin{remark}[Disposition of the structural inverse question]\label{ian:forrelation-local-inverse-disposition}
+Fourier correlation does not prevent a hidden label-only explanation in the senses of Subsections~\ref{ian:phase-label-theorem}, \ref{ian:phase-label-sectors} and~\ref{ian:hidden-label-admissibility}. The one-bit generating label explains the acceptance statistically, and Proposition~\ref{ian:forrelation-explaining-decomposition} supplies a fully certified hidden admissible refinement.
+
+This result concerns latent decompositions. It neither constructs nor excludes a deterministic, near-uniform growing character label whose local observables carry the relevant correlations and which a quantum algorithm decodes. Explaining \(Q\), recovering a generating case, and decoding such a structural label are distinct requirements.
+
+In particular, the present law comes with no bounded-degree, bounded-strength, fixed-temperature Gibbs implementation preserving hardness when every auxiliary spin is queryable. Forrelation therefore leaves open the question whether local Gibbs failures of full AA force such a label. A counterexample requires such an implementation together with a proof excluding one of the structural conclusions; the interference mechanism alone supplies neither.
+\end{remark}
+
+\begin{remark}[A shared-permutation overlap law is restricted Forrelation]\label{ian:forrelation-permutation-overlap}
+Hiding a large permutation shared by the two tables does not give a classical scale comparable to that of Theorem~\ref{ian:forrelation-hard-sector}. Let \(k\ge1\), \(D=2^k\), \(V=\mathbb F_2^k\), and take \(m=2k\), so that \(M=D^2\) and \(\mathbb F_2^m=V\times V\). Draw a uniform permutation \(\pi\) of \(V\) and sign functions \(s,s':V\to\{-1,1\}\), and put
+\[
+ f(u,v)=(-1)^{u\cdot\pi(v)}s(v),
+ \qquad
+ g(q,p)=(-1)^{p\cdot\pi^{-1}(q)}s'(q).
+\]
+A balanced latent bit, again written \(B\), selects the branch: for \(B=1\), \(s\) is uniform and \(s'=s\circ\pi^{-1}\); for \(B=0\), \(s\) and \(s'\) are independent, uniform, and independent of \(\pi\); in both branches \(s\) is independent of \(\pi\). The input is \(X=(f,g)\in\Omega_{2M}\), with \(W\), \(\Phi\) and \(Q\) as in Definition~\ref{ian:forrelation-input-law}, so Proposition~\ref{ian:forrelation-one-query} realizes \(Q\) with one query. Summing first over \(u\),
+\[
+ (Wf)(q,p)=(-1)^{p\cdot\pi^{-1}(q)}s(\pi^{-1}(q)).
+\]
+Thus \(f\) is a Maiorana--McFarland bent function and \(Wf\) is its dual (the name is from literature: R.~L.~McFarland, \emph{A Family of Difference Sets in Non-cyclic Groups}, Journal of Combinatorial Theory, Series~A \textbf{15} (1973), 1--10; the identity is the one-line computation above). The branch \(B=1\) sets \(g=Wf\), so \(\Phi=1\). Since \(W=W^{\mathsf T}\), the branch \(B=0\) gives
+\[
+ \Phi=\frac1M\langle Wf,g\rangle=\frac1D\sum_{v\in V}Z_v,
+ \qquad Z_v=s(v)s'(\pi(v)),
+\]
+with the \(Z_v\) independent uniform signs. This law is therefore a restricted Forrelation instance, supported on Maiorana--McFarland tables and, in one branch, their duals.
+
+Each column is a signed character: \(f(\cdot,v)=s(v)\chi_{\pi(v)}\) with \(\chi_w(u)=(-1)^{u\cdot w}\), a signed codeword of the Sylvester Hadamard code of length \(D\). A classical tree of depth \(k+2\) guesses \(B\) correctly with probability \(3/4\) under the balanced prior. Its output \(A\in\{-1,1\}\) satisfies
+\[
+ \Cov(Q,A)=\frac18+\frac1{4D}>\frac1{16}+\frac1{8D}=\Var Q,
+\]
+so this weight-one law is not \(\operatorname{Hard}(Q,\cdot\,;t,a,\gamma)\) at any depth \(t\ge k+2\): that would require \(\Cov(Q,A)\le\gamma<a\le\Var Q\).
+
+\emph{Proof of the attack.} Fix \(v_0\in V\), and let \(e_1,\ldots,e_k\) be the standard basis of \(V\). Query \(f(0,v_0)=s(v_0)\) and \(f(e_j,v_0)\) for \(1\le j\le k\). Since
+\[
+ f(e_j,v_0)f(0,v_0)=(-1)^{\pi(v_0)_j},
+\]
+these \(k+1\) answers determine \(\pi(v_0)\) and \(s(v_0)\), hence the whole column. One query of \(g\) then gives \(g(\pi(v_0),0)=s'(\pi(v_0))\). Put
+\[
+ A=f(0,v_0)\,g(\pi(v_0),0)=Z_{v_0},
+\]
+and guess \(B=1\) exactly when \(A=1\). For \(B=1\), \(s'(\pi(v_0))=s(v_0)\), so \(A=1\) always. For \(B=0\), \(A\) is a uniform sign. The success probability is \(\frac12+\frac12\cdot\frac12=\frac34\). For the moments, \(\E[Q\mid B=1]=1\), \(\E[Q\mid B=0]=\frac12\) and \(\E[\Phi^2\mid B=0]=1/D\), so
+\[
+ \E Q=\frac34,\qquad
+ \E Q^2=\frac12+\frac18\Bigl(1+\frac1D\Bigr),\qquad
+ \Var Q=\frac1{16}+\frac1{8D}.
+\]
+Also \(\E A=\frac12\) and \(\E[\Phi A\mid B=0]=D^{-1}\sum_v\E[Z_vZ_{v_0}]=1/D\), so
+\(\E[QA]=\frac12+\frac14\bigl(0+\frac1D\bigr)\) and \(\Cov(Q,A)=\frac18+\frac1{4D}\).
+
+Consequently the classical scale of this law is at most logarithmic in \(M\): hardness fails from depth \(k+2=\frac12\log_2M+2\) on, against hardness up to \(t_M=\lfloor M^{1/8}\rfloor\) for the law \(\mu_n\) of this subsection. (In this remark \(k=\frac12\log_2M\) and \(A\) is the tree output; both symbols are unrelated to their uses earlier in the subsection.) The tree recovers a single value \(\pi(v_0)\), never \(\pi\): the attack is character-index decoding of one column, so this mechanism does not escape character-index decoding.
+\end{remark}

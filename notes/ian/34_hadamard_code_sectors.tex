@@ -1,0 +1,505 @@
+\subsection{Hadamard row sectors with explicit resistant targets}\label{ian:hadamard-code-sectors}
+Status: proved: a random balanced-target discrepancy bound for the row code of an arbitrary Hadamard matrix of even order (Lemma~\ref{ian:hadamard-random-balanced}); an explicit resistant target on tensor powers of the order-\(12\) Paley matrix, a code that is non-Sylvester in order only (Theorem~\ref{ian:hadamard-explicit-target}); efficient uniform one-query readout (Corollary~\ref{ian:hadamard-efficient-uniform}); and full-AA failure for the pure code laws and constant-weight mixtures, through property (P) (Corollary~\ref{ian:hadamard-full-aa}). The mechanism is not new. One-query identification of Hadamard rows is van Dam's (from literature: arXiv:quant-ph/0008059, Algorithmica \textbf{34} (2002), 413--428, Theorem~1 and Corollary~1); van Dam already treats Paley matrices (Section~5 of that paper), with an efficient implementation in van Dam--Hallgren (from literature: arXiv:quant-ph/0011067). By Proposition~\ref{ian:hadamard-character-encoding} the tensor code is a punctured character code with a non-uniform product label prior, and the target is the analogue of the block construction of Subsection~\ref{ian:hard-sector-instances} on a \(12\)-row base (\(\beta=5/6\) instead of \(1/2\)). New here: the random balanced-target bound and the hard-sector packaging of a code whose order is not a power of two (Remark~\ref{ian:hadamard-literature-comparison}).
+
+Throughout, \(n=N\), logarithms with subscript \(2\) are binary, and \(\ln\) denotes the natural logarithm. Use the coordinate oracle
+\[
+ O_x|j,b\rangle
+ =|j,b\oplus(1-x_j)/2\rangle .
+\]
+The classes \(\mathcal D_t,\mathcal F_t\), and hardness parameters follow
+Definition~\ref{ian:hard-sector-definition} in
+\path{ian/13_hard_sector_definitions_forward.tex}.
+In particular, covariance tolerance \(\gamma\) for \(\mathcal F_t\) is equivalent to tolerance \(\gamma/2\) for \(\mathcal D_t\).
+
+\begin{definition}[Hadamard row laws and acceptance functions]
+\label{ian:hadamard-row-law}
+Let \(H\in\{-1,1\}^{N\times N}\) satisfy \(HH^{\mathsf T}=NI\), and write \(c_a=(H_{aj})_j\). Let \(A\) be uniform on the row indices. The unsigned row law is \(\nu_H=\mathcal L(c_A)\). The signed row law is \(\nu_H^\pm=\mathcal L(\sigma c_A)\), where \(\sigma\) is an independent uniform sign.
+
+For a public target \(g:\{1,\ldots,N\}\to[0,1]\), define on the entire cube
+\[
+ \widehat x_H(a)=\frac1N\sum_jH_{aj}x_j,
+ \qquad
+ Q_{H,g}(x)=\sum_a g(a)\widehat x_H(a)^2 .
+ \tag{34.1}\label{ian:hadamard-global-acceptance}
+\]
+The target depends on \(A\), not on \(\sigma\).
+\end{definition}
+
+\begin{proposition}[One-query readout for an arbitrary Hadamard matrix]
+\label{ian:hadamard-one-query}
+The function \(Q_{H,g}\) belongs to \(\mathcal Q_{N,1}\), and
+\[
+ 0\le Q_{H,g}(x)\le1
+ \quad(x\in\{-1,1\}^N),
+ \qquad
+ Q_{H,g}(\sigma c_a)=g(a).
+\]
+The circuit identifies \(a\) exactly on either row law.
+\end{proposition}
+\begin{proof}
+Prepare \(N^{-1/2}\sum_j|j\rangle\), use the answer register \(|-\rangle\) to make one phase query, and apply \(U_H=H/\sqrt N\). The resulting state is
+\[
+ \sum_a\left(\frac1N\sum_jH_{aj}x_j\right)|a\rangle .
+\]
+Measure \(a\), and accept with probability \(g(a)\). This gives
+\eqref{ian:hadamard-global-acceptance}. Orthogonality implies
+\[
+ \sum_a\widehat x_H(a)^2
+ =\frac1N\sum_jx_j^2=1.
+\]
+For \(x=\sigma c_a\), the state after \(U_H\) is \(\sigma|a\rangle\). The global sign does not affect the measurement.
+\end{proof}
+
+\begin{remark}[Query cost, gate cost, and uniformity]
+\label{ian:hadamard-general-gates}
+The proposition charges one coordinate query. It separately requires preparation of the uniform state, implementation of \(H/\sqrt N\), and evaluation of \(g\). A general public matrix can be compiled by finite-dimensional unitary decomposition, with polynomial cost in \(N\); this gives no polynomial-in-\(\log N\) implementation. Efficient evaluation of matrix entries alone does not supply an efficient basis change. Likewise, the random-target argument below supplies no efficient target evaluator. The explicit tensor family below has efficient preparation, basis change, and target evaluation.
+\end{remark}
+
+\begin{lemma}[Random balanced-target discrepancy]
+\label{ian:hadamard-random-balanced}
+Fix a Hadamard matrix \(H\) of even order \(N\). Choose \(g\) uniformly among Boolean targets taking the value \(1\) on exactly \(N/2\) rows. Put
+\[
+ M_{N,t}=N^{2^t-1}2^{2^t}.
+\]
+For every integer \(t\ge0\) and every \(\eta>0\),
+\[
+ \Pr_g\left\{
+ \sup_{F\in\mathcal F_t}
+ |\Cov_{\nu_H}(Q_{H,g},F)|>\eta
+ \right\}
+ \le 2(N+1)M_{N,t}e^{-2N\eta^2}.
+ \tag{34.2}\label{ian:hadamard-random-tail}
+\]
+Consequently, with probability at least \(1-\delta\),
+\[
+ \sup_{F\in\mathcal F_t}|\Cov_{\nu_H}(Q_{H,g},F)|
+ \le
+ \sqrt{\frac{\ln M_{N,t}+
+                 \ln(2(N+1)/\delta)}{2N}} .
+\]
+On the same event, the supremum over \(\mathcal D_t\) is at most half this bound.
+
+In particular, for \(N\ge2^{32}\), with probability at least
+\(1-e^{-N/512}\), simultaneously for every
+\(t\le\lfloor\frac12\log_2N\rfloor\),
+\[
+ |\Cov_{\nu_H}(Q_{H,g},F)|\le\frac1{16}
+ \quad(F\in\mathcal F_t),
+ \qquad
+ |\Cov_{\nu_H}(Q_{H,g},D)|\le\frac1{32}
+ \quad(D\in\mathcal D_t).
+\]
+Thus
+\[
+ \operatorname{Hard}\left(
+ Q_{H,g},\nu_H;t,\frac14,\frac1{16}\right).
+\]
+All assertions also hold for \(\nu_H^\pm\).
+\end{lemma}
+\begin{proof}
+First let \(\varepsilon_a\) be independent uniform signs. For a fixed tree with Boolean signed leaf outputs, put \(f_a=F(c_a)\in\{-1,1\}\). Hoeffding's inequality gives
+\[
+ \Pr\left\{
+ \left|\sum_a\varepsilon_af_a\right|>2N\eta
+ \right\}
+ \le2e^{-2N\eta^2}.
+\]
+Conditioning on \(\sum_a\varepsilon_a=0\) makes
+\(g(a)=(1+\varepsilon_a)/2\) a uniformly random balanced target. The conditioning event has probability
+\[
+ 2^{-N}\binom N{N/2}\ge\frac1{N+1},
+\]
+because the central binomial coefficient is maximal among the \(N+1\) coefficients. Under this conditioning,
+\[
+ \Cov_{\nu_H}(Q_{H,g},F)
+ =\frac1{2N}\sum_a\varepsilon_af_a.
+\]
+The conditional failure probability is therefore at most
+\(2(N+1)e^{-2N\eta^2}\).
+
+Lemma~\ref{ian:hard-sector-tree-closure} counts at most \(M_{N,t}\) Boolean signed trees. It also reduces arbitrary signed leaf outputs to these extremal assignments. A union bound proves \eqref{ian:hadamard-random-tail}, including adaptive trees whose strategy is chosen after the public target is known. The relation \(F=2D-1\) gives the factor two for \(\mathcal D_t\).
+
+For the numerical specialization, take \(\eta=1/16\) and the largest allowed depth. Then
+\[
+ \ln M_{N,t}\le\sqrt N\ln(2N).
+\]
+For \(N\ge2^{32}\),
+\[
+ \sqrt N\ln(2N)\le N/256,
+ \qquad
+ \ln(2(N+1))\le N/512.
+\]
+The logarithm of the failure bound is at most
+\[
+ N/256+N/512-N/128=-N/512.
+\]
+Shallower classes are contained in the largest class, and balancedness gives variance \(1/4\).
+
+Finally, for each fixed \(\sigma\), the function \(x\mapsto F(\sigma x)\) is a depth-\(t\) coordinate tree. Since the target mean is independent of \(\sigma\), averaging the two covariance bounds proves the signed assertion.
+\end{proof}
+
+\begin{definition}[An explicit Paley tensor family]
+\label{ian:hadamard-paley-tensor}
+Let \(R=\{\infty\}\cup\mathbb F_{11}\). Define the quadratic character by
+\[
+ \chi(0)=0,\qquad
+ \chi(u)=1\quad(u\in\{1,3,4,5,9\}),\qquad
+ \chi(u)=-1\quad(u\in\{2,6,7,8,10\}).
+\]
+Define the \(12\times12\) matrix \(B\), with rows and columns indexed by \(R\), by
+\[
+ B_{\infty b}=B_{a\infty}=1,\qquad
+ B_{aa}=-1\quad(a\in\mathbb F_{11}),\qquad
+ B_{ab}=\chi(b-a)\quad(a,b\in\mathbb F_{11},\ a\ne b).
+\]
+This matrix is equivalent to Paley construction I at \(q=11\) (from literature:
+R.~E.~A.~C.~Paley, \emph{On Orthogonal Matrices},
+Journal of Mathematics and Physics \textbf{12} (1933), 311--320,
+DOI \texttt{10.1002/sapm1933121311}).
+The needed properties are verified below.
+
+For \(k\ge1\), put
+\[
+ N=12^k,\qquad H^{(k)}=B^{\otimes k},
+ \qquad
+ H^{(k)}_{a,j}=\prod_{\ell=1}^kB_{a_\ell j_\ell}
+ \quad(a,j\in R^k).
+\]
+Let \(A\) be uniform on \(R^k\), and let \(\nu_k\) be the uniform law on the rows of \(H^{(k)}\). Define
+\[
+ f_0(\infty)=-1,\qquad f_0(a)=1\quad(a\in\mathbb F_{11}),
+ \qquad
+ Z_k(a)=\prod_{\ell=1}^kf_0(a_\ell),
+ \qquad
+ g_k(a)=\frac{1-Z_k(a)}2 .
+\]
+Thus \(g_k(a)\) is the parity of the number of coordinates equal to \(\infty\).
+
+The explicit global acceptance function is
+\[
+ Q_k(x)=
+ \sum_{\substack{a\in R^k\\
+       \sum_\ell\mathbf1_{\{a_\ell=\infty\}}\equiv1\pmod2}}
+ \left(
+ \frac1{12^k}\sum_{j\in R^k}
+ x_j\prod_{\ell=1}^kB_{a_\ell j_\ell}
+ \right)^2 .
+ \tag{34.3}
+\]
+\end{definition}
+
+\begin{lemma}[Paley orthogonality and a local correlation gap]
+\label{ian:hadamard-paley-local-gap}
+One has \(BB^{\mathsf T}=12I\). Every column of \(B\) has an even number of negative entries. For every finite list \(j_1,\ldots,j_s\in R\), including the empty list,
+\[
+ \left|
+ \frac1{12}\sum_{a\in R}
+ f_0(a)\prod_{r=1}^sB_{a j_r}
+ \right|
+ \le\frac56.
+ \tag{34.4}\label{ian:hadamard-local-gap}
+\]
+Moreover, \(H^{(k)}\) is not equivalent to a Sylvester matrix. This is a statement about the order only: by Proposition~\ref{ian:hadamard-character-encoding}, the row code is a punctured character code.
+\end{lemma}
+\begin{proof}
+For distinct \(a,b\in\mathbb F_{11}\),
+\[
+ \sum_z\chi(z-a)\chi(z-b)=-1.
+\]
+Here is an elementary verification. For nonzero \(d\), the equation
+\(v^2=u^2-d\) has \(10\) solutions: choose \(u-v\ne0\), and then \(u+v=d/(u-v)\). Counting instead by \(u\) gives
+\[
+ 11+\sum_u\chi(u^2-d)=10.
+\]
+Completing the square in \((z-a)(z-b)\) proves the asserted identity.
+
+Let \(C_{ab}=\chi(b-a)\) on the finite indices, and let \(J\) be the all-one matrix of order \(11\). Since \(\chi(-1)=-1\), the preceding identity gives
+\[
+ C^{\mathsf T}=-C,\qquad C\mathbf1=0,\qquad
+ CC^{\mathsf T}=11I-J.
+\]
+The finite block of \(B\) is \(C-I\). Its row sums are \(-1\), and
+\[
+ J+(C-I)(C^{\mathsf T}-I)=12I.
+\]
+Together with the all-one border, this proves \(BB^{\mathsf T}=12I\).
+
+The \(\infty\)-column has no negative entries. Every other column is orthogonal to the all-one \(\infty\)-column, and therefore has six negative entries. Consequently the function
+\(v(a)=\prod_rB_{a j_r}\) satisfies \(\prod_{a\in R}v(a)=1\).
+Since \(\prod_{a\in R}f_0(a)=-1\), the function \(f_0v\) has an odd number of negative entries. That number lies between \(1\) and \(11\), so its average has absolute value at most \(10/12\). This proves \eqref{ian:hadamard-local-gap}.
+
+Tensor products preserve Hadamard orthogonality. Finally, \(12^k\) is not a power of two, whereas a Sylvester matrix has power-of-two order. Row and column permutations and sign changes preserve the order. More generally, a square character table with all entries in \(\{-1,1\}\) must come from an elementary abelian \(2\)-group, whose order is a power of two.
+\end{proof}
+
+\begin{theorem}[An explicit resistant target on a code that is non-Sylvester in order only]
+\label{ian:hadamard-explicit-target}
+Put \(\beta=5/6\). For every \(k\ge1\),
+\[
+ \E_{\nu_k}Q_k=\frac{1-\beta^k}{2},
+ \qquad
+ \Var_{\nu_k}Q_k=\frac{1-\beta^{2k}}4,
+\]
+and every adaptive coordinate tree satisfies
+\[
+ |\Cov_{\nu_k}(Q_k,F)|\le2^t\beta^k
+ \quad(F\in\mathcal F_t).
+ \tag{34.5}\label{ian:hadamard-explicit-covariance}
+\]
+For \(k\ge64\), put
+\[
+ t_k=\left\lfloor\frac{\log_2N}{32}\right\rfloor,
+ \qquad N=12^k.
+\]
+Then
+\[
+ \Var_{\nu_k}Q_k\ge\frac3{16},
+ \qquad
+ \sup_{F\in\mathcal F_{t_k}}
+ |\Cov_{\nu_k}(Q_k,F)|\le\frac1{256}.
+\]
+In particular,
+\[
+ Q_k\in\mathcal Q_{N,1},
+ \qquad
+ \operatorname{Hard}\left(
+ Q_k,\nu_k;t_k,\frac18,\frac1{32}\right).
+ \tag{34.6}\label{ian:hadamard-explicit-hard-sector}
+\]
+The same conclusions hold for the uniform signed row law.
+\end{theorem}
+\begin{proof}
+On the code, Proposition~\ref{ian:hadamard-one-query} gives
+\(Q_k(c_A)=g_k(A)\). Independence of the \(A_\ell\), together with
+\(\E f_0(A_\ell)=\beta\), gives the mean and variance formulas.
+
+For any set \(S\) of physical coordinates, independence and
+\eqref{ian:hadamard-local-gap} give
+\[
+ \left|
+ \E_A\left[Z_k(A)\prod_{j\in S}H^{(k)}_{A,j}\right]
+ \right|
+ =
+ \prod_{\ell=1}^k
+ \left|
+ \E_{A_\ell}\left[
+ f_0(A_\ell)\prod_{j\in S}B_{A_\ell j_\ell}
+ \right]\right|
+ \le\beta^k.
+\]
+Writing \(p_k=(1-\beta^k)/2\), it follows that
+\[
+ \left|
+ \E_{\nu_k}\left[(Q_k-p_k)\prod_{j\in S}X_j\right]
+ \right|
+ \le\frac12\left(\beta^k+
+       \beta^k\left|\E_{\nu_k}\prod_{j\in S}X_j\right|\right)
+ \le\beta^k.
+ \tag{34.7}\label{ian:hadamard-centered-moments}
+\]
+
+Fix an adaptive tree. Along a particular leaf, its queried coordinates
+\(j_1,\ldots,j_d\) and answers \(b_1,\ldots,b_d\) are fixed, with \(d\le t\).
+The leaf event \(L\) has indicator
+\[
+ \mathbf1_L(X)=2^{-d}\prod_{r=1}^d(1+b_rX_{j_r}).
+\]
+Expanding this product and applying
+\eqref{ian:hadamard-centered-moments} gives
+\[
+ \left|\E_{\nu_k}[(Q_k-p_k)\mathbf1_L]\right|\le\beta^k.
+\]
+Repeated coordinates cause no difficulty, since \(X_j^2=1\).
+There are at most \(2^t\) leaves. Multiplication by their outputs in
+\([-1,1]\), followed by summation, proves
+\eqref{ian:hadamard-explicit-covariance}. This argument controls adaptive
+strategies directly, without converting a fixed-set conditional bound.
+
+Since \(\beta^4<1/2\), for \(k\ge4\) one has
+\(\beta^{2k}<1/4\), giving variance at least \(3/16\).
+Also \(N<2^{4k}\), so \(t_k\le k/8\), and
+\[
+ 2^{t_k}\beta^k
+ \le2^{k/8}2^{-k/4}
+ =2^{-k/8}\le2^{-8}
+ \quad(k\ge64).
+\]
+These estimates imply \eqref{ian:hadamard-explicit-hard-sector}.
+The signed assertion follows by conditioning on the independent global
+sign and pulling it through the tree, as in
+Lemma~\ref{ian:hadamard-random-balanced}.
+
+The coefficient \(1/32\) in \(t_k\) is conservative. Since
+\(2^t\beta^k=2^{t-k\log_2(6/5)}\), the bound
+\eqref{ian:hadamard-explicit-covariance} tends to zero along depths
+\(t\le c\log_2N\) for every fixed
+\(c<\log_2(6/5)/\log_2 12\approx0.073\).
+\end{proof}
+
+\begin{corollary}[Uniform implementation and finite precision]
+\label{ian:hadamard-efficient-uniform}
+The family \(H^{(k)},g_k,Q_k\) has a uniform description using the parameter \(k\) and fixed finite data. Its exact one-query circuit uses \(O(k)\) fixed gates acting on at most four qubits, apart from polynomial-in-\(k\) reversible address conversion. The target is evaluated in \(O(k)\) operations.
+
+Over a fixed efficiently universal gate library, uniform approximations use
+\(\operatorname{poly}(k,\log\delta^{-1})\) gates and one coordinate query, with a global acceptance function \(\widetilde Q_k\) satisfying
+\[
+ \sup_x|\widetilde Q_k(x)-Q_k(x)|\le\delta.
+\]
+For \(\delta\le1/1024\) and \(k\ge64\),
+\[
+ \operatorname{Hard}\left(
+ \widetilde Q_k,\nu_k;t_k,\frac18,\frac1{32}\right).
+\]
+\end{corollary}
+\begin{proof}
+Let \(U=B/\sqrt{12}\), embedded as \(V=U\oplus I_4\) on four qubits.
+Because the \(\infty\)-row of \(B\) is all one,
+\(U^{\mathsf T}|\infty\rangle\) is the uniform state on \(R\).
+Prepare \(k\) such states, make the single phase query, apply \(U^{\otimes k}\), and measure. The final classical computation counts occurrences of \(\infty\) modulo two.
+
+Thus preparation and decoding use \(2k\) fixed constant-dimensional gates.
+Their entries are computable algebraic numbers; a fixed decomposition into bounded-arity gates can be chosen once. Converting the \(k\) base-\(12\) digits to the usual binary coordinate address, and uncomputing the address workspace, costs \(\operatorname{poly}(k)\) gates and no oracle calls. The matrix entries and target are also computed directly from their digit formulas.
+
+Approximating each constant block to operator-norm error
+\(O(\delta/k)\) gives, by telescoping the circuit, uniform acceptance error at most \(\delta\). Assign any fixed acceptance value to unused encodings.
+
+For completeness, if \(P,Q\in[0,1]\) and \(\E|P-Q|\le\delta\), then
+\[
+ |\Var P-\Var Q|\le2\delta,
+ \qquad
+ |\Cov(P,F)-\Cov(Q,F)|\le2\delta
+ \quad(|F|\le1).
+\]
+The first inequality follows by minimizing \(\E(P-c)^2\) over
+\(c\in[0,1]\) and using
+\(|(P-c)^2-(Q-c)^2|\le2|P-Q|\).
+For the second, center the test and use \(|F-\E F|\le2\).
+Consequently,
+\[
+ \Var_{\nu_k}\widetilde Q_k
+ \ge\frac3{16}-\frac2{1024}>\frac18,
+ \qquad
+ |\Cov_{\nu_k}(\widetilde Q_k,F)|
+ \le\frac1{256}+\frac2{1024}<\frac1{32}.
+\]
+\end{proof}
+
+\begin{proposition}[A constant-query character encoding]
+\label{ian:hadamard-character-encoding}
+Although \(H^{(k)}\) is not a Sylvester matrix, its unsigned promise oracle is equivalent, within a factor of \(11\) in coordinate queries, to a character oracle with a specified nonuniform label prior. The factor \(11\) holds for coherent queries: the eleven bit queries act on a common answer qubit, equivalently as phase queries with a common control. An implementation that uses fresh answer registers and then uncomputes them costs \(22\).
+\end{proposition}
+\begin{proof}
+For \(a\in R^k\), define \(v(a)\in\mathbb F_2^{11k}\) by
+\[
+ v(a)_{\ell r}=\frac{1-B_{a_\ell r}}2
+ \quad(r\in\mathbb F_{11}).
+\]
+The expanded character oracle is the Boolean string
+\[
+ Y_s=(-1)^{s\cdot v(a)}
+ \quad(s\in\mathbb F_2^{11k}).
+\]
+Its length \(2^{11k}=N^{11/\log_2 12}\) is polynomial in \(N\).
+
+For an original coordinate \(j\in R^k\), let \(s(j)\) have one selected bit \(r=j_\ell\) in block \(\ell\) when \(j_\ell\ne\infty\), and no selected bit otherwise. Then
+\[
+ H^{(k)}_{a,j}=Y_{s(j)}.
+\]
+One expanded-oracle query therefore simulates an original query; coherently, compute \(s(j)\) reversibly from \(j\), make the query, and uncompute \(s(j)\).
+
+Conversely, for each \(r\in\mathbb F_{11}\), define \(j^{(r)}\in R^k\) by taking \(j^{(r)}_\ell=r\) when \(s_{\ell r}=1\), and \(\infty\) otherwise. Then
+\[
+ Y_s=\prod_{r\in\mathbb F_{11}}H^{(k)}_{a,j^{(r)}}.
+\]
+Eleven original coordinate queries compute this product. Coherently, compute the indices \(j^{(r)}\) reversibly from \(s\) and apply \(O_x\) at each of them to one common answer qubit. The answers accumulate as
+\[
+ b\longmapsto b\oplus\bigoplus_{r\in\mathbb F_{11}}\frac{1-H^{(k)}_{a,j^{(r)}}}2
+ =b\oplus\frac{1-Y_s}2 .
+\]
+In the conjugate basis of the answer qubit these are eleven controlled phase queries with a common control, whose product is the controlled phase of \(Y_s\); no answer workspace remains, so eleven queries suffice. If each answer is instead written to a fresh register, the eleven answers must be uncomputed after the parity is formed, and the cost is \(22\) queries.
+
+The map \(a\mapsto v(a)\) is injective because distinct Hadamard rows differ. Uniform \(a\) therefore induces the uniform prior on \(12^k\) specified vectors, rather than the uniform law on \(\mathbb F_2^{11k}\). This prior is the \(k\)-fold product of the uniform law on the twelve vectors \((v(a)_{r})_{r\in\mathbb F_{11}}\), \(a\in R\).
+\end{proof}
+
+\begin{remark}[Literature comparison and scope of the contribution]
+\label{ian:hadamard-literature-comparison}
+One-query identification of the rows of a Hadamard matrix is known (from literature: Wim van Dam, \emph{Quantum Algorithms for Weighing Matrices and Quadratic Residues}, Algorithmica \textbf{34}(4) (2002), 413--428, DOI \texttt{10.1007/s00453-002-0975-4}, arXiv:quant-ph/0008059, Theorem~1 and Corollary~1). Proposition~\ref{ian:hadamard-one-query} is its Hadamard case followed by a target readout. Van Dam already treats Paley matrices (Section~5 of the same paper, through shifted Legendre sequences), and an efficient quantum implementation for that case is given by van Dam and Hallgren (from literature: Wim van Dam and Sean Hallgren, \emph{Efficient Quantum Algorithms for Shifted Quadratic Character Problems}, arXiv:quant-ph/0011067). The Sylvester case is the Bernstein--Vazirani procedure (from literature: Ethan Bernstein and Umesh Vazirani, \emph{Quantum Complexity Theory}, SIAM Journal on Computing \textbf{26}(5), 1411--1473 (1997), DOI \texttt{10.1137/S0097539796300921}).
+
+The tensor construction does not supply a new mechanism. By Proposition~\ref{ian:hadamard-character-encoding}, the code \(H^{(k)}\) is a punctured character code: its rows are characters of \(\mathbb F_2^{11k}\) restricted to the \(12^k\) points \(s(j)\), and the uniform row law becomes a non-uniform product prior on the character labels; simulating the full, unpunctured character oracle costs a factor of \(11\) in queries. The target \(g_k\) is the analogue, with base target \(f_0\), of the block construction of Subsection~\ref{ian:hard-sector-instances} (the target \(h\) of Lemma~\ref{ian:hard-sector-orbit-covariance} and Proposition~\ref{ian:hard-sector-character-instance} in \path{ian/17_hard_sector_instances.tex}): a parity over blocks of a fixed base target, here on a \(12\)-row base with base correlation \(\beta=5/6\) in \eqref{ian:hadamard-local-gap} instead of \(1/2\). The non-Sylvester property of Lemma~\ref{ian:hadamard-paley-local-gap} concerns the order only.
+
+Identification hardness alone does not imply hardness of a selected decision bit: a target could equal one queried column. New here are the random balanced-target bound of Lemma~\ref{ian:hadamard-random-balanced}, valid for every Hadamard matrix of even order, and the hard-sector packaging of a code whose order is not a power of two (Theorem~\ref{ian:hadamard-explicit-target} and Corollaries~\ref{ian:hadamard-efficient-uniform} and~\ref{ian:hadamard-full-aa}). No separation from character encodings is claimed.
+\end{remark}
+
+\begin{corollary}[Full-AA failure for specified law families]
+\label{ian:hadamard-full-aa}
+Define a law family by \(\mu_{12^k}=\nu_k\), with arbitrary laws at other dimensions. This family fails full AA. More generally, the same conclusion holds whenever
+\[
+ \mu_{12^k}\ge w_0\nu_k
+\]
+for some fixed \(w_0>0\) along an unbounded sequence of \(k\).
+
+For any supplied domination \(\mu_N\ge w_N\nu_k\),
+\[
+ \ell_{\mu_N}(t_k,Q_k)\ge\frac{3w_N}{32}.
+ \tag{34.8}\label{ian:hadamard-mixture-loss}
+\]
+\end{corollary}
+\begin{proof}
+Equation~\eqref{ian:hadamard-explicit-hard-sector} has
+\[
+ T=1,\qquad a=\frac18,\qquad \gamma=\frac1{32}=\frac a4.
+\]
+Proposition~\ref{ian:hard-sector-forward} proves
+\eqref{ian:hadamard-mixture-loss}.
+
+The precise criterion needed is property (P) in
+Remark~\ref{ian:hard-sector-polynomial-quantifiers}, in
+\path{ian/15_hard_sector_sets_asymptotics.tex}:
+there must exist fixed \(K,p,q\ge1\), chosen before the budget constants,
+such that for every \(A,B\ge1\) there is a quantum-realizable hard sector with
+\[
+ r>8,\qquad
+ t>\left\lceil A(T+r)^B\right\rceil,\qquad
+ w^{-1}\le Kr^p,\qquad a^{-1}\le Kr^q,
+ \qquad
+ \operatorname{Hard}(Q,\nu;t,a,a/4).
+\]
+For the pure laws take \(K=p=q=1\), \(r=16\), and \(w=1\).
+Since \(t_k\to\infty\), choose \(k\) with
+\(t_k>\lceil A17^B\rceil\). All conditions hold.
+
+For domination by fixed \(w_0\), take
+\(r=\max\{16,w_0^{-1}\}\), again fixed before choosing \(k\).
+The same argument proves (P) for smooth sectors. The converse direction of
+Remark~\ref{ian:hard-sector-polynomial-quantifiers}, which applies
+Lemma~\ref{ian:hard-sector-aa-exclusion} to these witnesses, then gives
+full-AA failure.
+\end{proof}
+
+\begin{remark}[Mixture weights and amplification]
+\label{ian:hadamard-mixtures-amplification}
+For
+\[
+ \mu_N=(1-w_N)\rho_N+w_N\nu_k
+\]
+with arbitrary \(\rho_N\), the code law is a smooth sector of weight \(w_N\).
+For the uniform-cube background, it is also the exact conditional law on the unsigned code \(C_k\), whose actual set mass is
+\[
+ \mu_N(C_k)=w_N+(1-w_N)N2^{-N}.
+\]
+This actual mass may replace \(w_N\) in the sector estimates.
+
+For varying positive weights, a sufficient condition for these witnesses to establish (P) is
+\[
+ \text{for every }B\ge1,\qquad
+ \sup_k
+ \frac{t_k}{(1+\max\{16,w_N^{-1}\})^B}
+ =\infty.
+\]
+Indeed, take \(r=\max\{16,w_N^{-1}\}\), \(K=p=q=1\), and choose the index after \(A,B\).
+Constant weights satisfy this condition, as do weights with
+\(w_N^{-1}=t_k^{o(1)}\).
+A weight described only as inverse-polynomial in \(N\), or even as
+\((\log N)^{-d}\) for fixed \(d>0\), does not make the proved logarithmic depth exceed every polynomial in the relevant inverse accuracy.
+
+A single finite matrix supplies a finite-resource witness. The tensor family supplies unbounded hiding depth while retaining one quantum query, constant dispersion, and weight one under its own promise laws. This tensorization changes the law family; it does not increase the weight of a supplied mixture component. Repeating a decoder for error reduction changes \(T\) and supplies no replacement for the quantifiers in (P).
+\end{remark}

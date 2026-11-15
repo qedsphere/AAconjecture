@@ -1,0 +1,809 @@
+\subsection{TV robustness, bit noise, and correlated thermal encodings}\label{ian:thermal-robust}
+Status: proved unconditionally, as implications that use no Gibbs assumption unless one is stated: the perturbation estimates (Lemma~\ref{ian:thermal-robust-tv-estimates}); the TV-robust decoded compilation implication for Simon and period finding (Theorem~\ref{ian:thermal-robust-compilation}, Remark~\ref{ian:thermal-robust-decoder-scope}); the finite-energy bit-tube bounds, with arbitrary correlated auxiliary networks (Lemma~\ref{ian:thermal-bit-tube-obstruction}, Remark~\ref{ian:thermal-bit-noise-scope}); coherent block decoding and its reliability under the correlated-noise hypothesis \eqref{ian:thermal-error-domination} (Lemma~\ref{ian:thermal-coded-reliability}); all-spin hiding for independent noise at the level of a channel model (Proposition~\ref{ian:thermal-coded-hiding}) and the separation of reliability from hiding (Remark~\ref{ian:thermal-coded-channel-leakage}); quantum readout on a whole-table bit tube (Lemma~\ref{ian:thermal-global-bit-decoder}); the weight-only hardwired example (Proposition~\ref{ian:thermal-coded-promise-weight}): bounded degree-one fields around one public Simon table give decoded promise weight \(1-o(1)\) at every \(\beta\ge\beta_0\), but the decoded table equals that public table with probability \(1-o(1)\), so this region supplies no sector with \(\operatorname{Var}y\) bounded below and no hard sector for the Simon target; the correlated-interface obstruction (Theorem~\ref{ian:thermal-correlated-interface-obstruction}, Remark~\ref{ian:thermal-correlated-interface-scope}), which applies to the blockwise decoded table \(F_x=D_x(B_x)\) of codeword-symmetric word memories and, at inverse-polynomial sector weight, excludes \(r_m\le cm\) contacts per word for every fixed \(c<\log2/(\beta J)\); the verifier-leakage lemma (Lemma~\ref{ian:thermal-robust-verifier-leakage}). Proved conditionally: full-AA failure for Simon and period finding (Corollary~\ref{ian:thermal-robust-packages}), conditional on an actual physical sector of weight at least \(1/2\) whose decoded table and side information are within TV distance \(1/512\) of a product with the clean table law, exact coherent logical access, a joint whole-word simulation of every physical spin, auxiliary and reference spins included, and polynomial \(q,k\) with distinct physical dimensions. Open: a bounded-arity, bounded-degree thermal realization satisfying those hypotheses with unrestricted correlated auxiliaries, that is, a correlated network with sufficient word interfaces or without the stated word symmetries, no accessible target witness, the required random injective table law, and polynomial coherent logical access (Remark~\ref{ian:thermal-robust-frontier}). Literature: W.~Hoeffding, \emph{Probability inequalities for sums of bounded random variables}, J.~Amer.\ Statist.\ Assoc.\ \textbf{58} (1963), 13--30, Theorem~1 and the Chernoff optimisation in its proof, used in the proofs of Lemmas~\ref{ian:thermal-bit-tube-obstruction} and~\ref{ian:thermal-coded-reliability}.
+
+\begin{definition}[Physical and clean laws]
+\label{ian:thermal-robust-conventions}
+All physical spins, including auxiliary and reference spins, belong to
+\(\sigma\in\{-1,1\}^{N_m}\) and are queryable. The thermal class is
+\[
+ E_m(\sigma)=\sum_\alpha h_\alpha(\sigma_{S_\alpha}),
+ \qquad |S_\alpha|\le k_0,\qquad
+ \|h_\alpha\|_\infty\le J,\qquad
+ \max_i|\{\alpha:i\in S_\alpha\}|\le d,
+ \qquad
+ \mu_{\beta,m}(\sigma)=Z_m^{-1}e^{-\beta E_m(\sigma)} ,
+ \tag{38.1}\label{ian:thermal-robust-physical-bounds}
+\]
+where \(k_0,d,J,\beta>0\) are fixed and \(E_m\) is independent of
+temperature. A sector law satisfies \(w_m\nu_m\le\mu_{\beta,m}\);
+conditioning on an event of probability at least \(w_m\) is a special
+case. We use \(\operatorname{Hard}\) and property \(\mathrm{(P)}\) from
+Definition~\ref{ian:hard-sector-definition} and
+Remark~\ref{ian:hard-sector-polynomial-quantifiers} in
+\path{ian/13_hard_sector_definitions_forward.tex} and
+\path{ian/15_hard_sector_sets_asymptotics.tex}.
+
+The clean Simon law is Definition~\ref{ian:simon-law} in
+\path{ian/30_simon_sector.tex}: \(M=2^m\), the nonzero mask is uniform,
+and its \(M/2\) pairs receive uniformly random distinct \(m\)-bit
+labels. Its target is \(Y=s_1\).
+
+The clean period law is
+Definition~\ref{ian:period-hsp-period-law} in
+\path{ian/31_period_hsp_sectors.tex}: the period is uniform on the
+prescribed even set of \(K\) primes, and the residue labels are a
+uniform injection. Its target indicates the upper half of that
+ordered prime set. In either case write \(\lambda_0\) for the clean
+table law and \(y(F)\) for the target, extended by zero off its promise.
+\end{definition}
+
+\begin{lemma}[Two different perturbation estimates]
+\label{ian:thermal-robust-tv-estimates}
+If \(P,P'\) are laws at TV distance at most \(\xi\), and
+\(U\in[0,1]\), \(V\in[-1,1]\) are fixed functions, then
+\[
+ \left|\operatorname{Var}_{P}U-\operatorname{Var}_{P'}U\right|
+ \le\xi,\qquad
+ \left|\operatorname{Cov}_{P}(U,V)
+       -\operatorname{Cov}_{P'}(U,V)\right|
+ \le5\xi.
+ \tag{38.2}
+\]
+On one probability space, replacing \(U\) by \(U'\in[0,1]\) with
+\(\mathbb E|U-U'|\le\rho\) changes its variance and its covariance
+against a signed bounded test by at most \(2\rho\).
+\end{lemma}
+
+\begin{proof}
+For the first assertion use
+\(\operatorname{Var}U=\min_{c\in[0,1]}\mathbb E(U-c)^2\).
+Every function being minimized takes values in \([0,1]\).
+For covariance, the changes in
+\(\mathbb E UV\), \(\mathbb E U\), and \(\mathbb E V\) are bounded
+by \(2\xi,\xi,2\xi\), respectively. These are the estimates used in
+Proposition~\ref{ian:hard-sector-soft-instance} of
+\path{ian/17_hard_sector_instances.tex}.
+The same-space estimates are
+Lemma~\ref{ian:robust-compilation-perturbation} of
+\path{ian/28_robust_compilation.tex}.
+\end{proof}
+
+\begin{theorem}[TV-robust decoded compilation]
+\label{ian:thermal-robust-compilation}
+Let \(w\nu\le\mu\) be an actual physical sector. Suppose that under
+\(\nu\) there are a decoded table \(F\) and side information \(W\)
+such that \(\sigma=\Psi(F,W)\) almost surely, with
+\[
+ \bigl\|\mathcal L_\nu(F,W)
+       -\lambda_0\otimes\lambda_W\bigr\|_{\mathrm{TV}}\le\xi ,
+ \tag{38.3}
+\]
+where \(\lambda_W\) is a law on the space of values of \(W\).
+After \(W\) is fixed at any value in the support of \(\lambda_W\) or
+of \(\mathcal L_\nu(W)\), each coordinate of \(\Psi(F,W)\) is computed
+by a fixed, total algorithm making at most \(k\) adaptive whole-word
+queries to \(F\). This includes every auxiliary and reference spin,
+with the same \(W\) used for all answers.
+
+Suppose also that a fixed coherent logical-coordinate oracle uses
+at most \(q\) physical queries per call. It is defined on every
+physical input and, \(\nu\)-almost surely, returns the corresponding
+bit of \(F\) with its workspace restored.
+
+Let a fixed clean-table quantum algorithm use \(C\) logical-coordinate
+queries. Write \(q_0(F)\in[0,1]\) for its acceptance function on every
+table. Assume that on the clean law
+\(\mathbb E_{\lambda_0}|q_0-y|\le\delta_0\),
+\(\operatorname{Var}_{\lambda_0}y=v_0\), and that every signed
+whole-word tree of depth \(u\) has target covariance at most
+\(\eta(u)\).
+
+Then its physical implementation has a globally defined acceptance
+function \(Q\), using at most \(T=qC\) physical queries, with
+\[
+ \begin{aligned}
+ \mathbb E_\nu|Q-y(F)|&\le\delta_0+\xi,\\
+ \operatorname{Var}_\nu Q&\ge
+       a_\xi:=v_0-2\delta_0-\xi,\\
+ \sup_{A\in\mathcal F_t}
+       |\operatorname{Cov}_\nu(Q,A)|
+       &\le\gamma_\xi:=
+          \eta(kt)+2\delta_0+5\xi,\\
+ \sup_{A\in\mathcal F_t}
+       |\operatorname{Cov}_\nu(y(F),A)|
+       &\le\eta(kt)+5\xi .
+ \end{aligned}
+ \tag{38.4}\label{ian:thermal-robust-compilation-bounds}
+\]
+In particular, the original hypothesis
+\(F\perp W\), together with
+\(\|\mathcal L_\nu(F)-\lambda_0\|_{\mathrm{TV}}\le\zeta\),
+suffices with \(\xi=\zeta\) and \(\lambda_W=\mathcal L_\nu(W)\).
+More generally, if the dependence distance
+\(\|\mathcal L_\nu(F,W)
+-\mathcal L_\nu(F)\otimes\mathcal L_\nu(W)\|_{\mathrm{TV}}\)
+is at most \(\chi\), one may take \(\xi=\zeta+\chi\), again with
+\(\lambda_W=\mathcal L_\nu(W)\).
+
+Whenever \(0<\gamma_\xi<a_\xi\), these bounds give
+\(\operatorname{Hard}(Q,\nu;t,a_\xi,\gamma_\xi)\).
+The sufficient condition for \(\gamma_\xi\le a_\xi/4\) is
+\[
+ 4\eta(kt)+10\delta_0+21\xi\le v_0 .
+ \tag{38.5}\label{ian:thermal-robust-sufficient-condition}
+\]
+The sector weight remains \(w\).
+\end{theorem}
+
+\begin{proof}
+This generalises
+Theorem~\ref{ian:thermal-conditional-simon-compilation} in
+\path{ian/36_thermal_realization.tex}, which assumes the exact clean
+Simon law and side information independent of it.
+
+For a physical tree \(A\), fixing \(W\) and composing its queries with
+the coordinate simulators gives a whole-word tree
+\(a(F,W)\in[-1,1]\) of depth at most \(kt\).
+Under the comparison product law, conditioning on \(W\) preserves
+the clean table law and its target mean. Consequently its target
+covariance is at most \(\eta(kt)\). This is the side-information
+reduction in the proof of
+Theorem~\ref{ian:thermal-conditional-simon-compilation} and in
+Lemma~\ref{ian:adaptive-character-side-information} of
+\path{ian/29_adaptive_transcript_hiding.tex};
+Theorem~\ref{ian:adaptive-transcript-duality} of the same file is used
+only to pass from posterior-mean bounds to covariance bounds. Here the
+required independence concerns the entire clean table.
+
+On the actual sector, coherence and workspace restoration imply
+\(Q(\sigma)=q_0(F)\). Under the comparison product law,
+the target perturbation estimates give variance at least
+\(v_0-2\delta_0\) and covariance at most
+\(\eta(kt)+2\delta_0\).
+Transport these fixed functions between the two laws using
+Lemma~\ref{ian:thermal-robust-tv-estimates}.
+The bounded function \(|q_0(F)-y(F)|\) gives the first estimate.
+
+This comparison does not require the physical decoder to be correct
+on inputs \(\Psi(F,W)\) generated only by the comparison law.
+Its correctness is used on the actual sector; the comparison
+functions are \(q_0(F)\) and the simulated classical transcript.
+Finally, \(4\gamma_\xi\le a_\xi\) rearranges to
+\eqref{ian:thermal-robust-sufficient-condition}.
+\end{proof}
+
+\begin{remark}[Decoder errors and the scope of TV approximation]
+\label{ian:thermal-robust-decoder-scope}
+A decoded marginal TV bound permits a \(\zeta\)-fraction of malformed
+tables. The decoder is still one fixed circuit on the full physical
+cube; it receives no promise test or sector oracle. Its average target
+error becomes at most \(\delta_0+\zeta\) when side information is
+independent. Hiding acquires an additive \(5\zeta\) term, so fixed
+small TV error preserves constant hardness but does not establish
+a vanishing hiding bound.
+
+If the implemented acceptance function differs from \(q_0(F)\)
+in sector \(L^1\) by at most \(\rho\), the variance lower bound in
+\eqref{ian:thermal-robust-compilation-bounds} decreases by \(2\rho\),
+the covariance upper bound increases by \(2\rho\), and the readout
+error increases by \(\rho\). For example, if each logical-oracle
+implementation has normalized diamond distance at most \(\kappa\)
+from the required oracle, the hybrid argument gives
+\(\rho\le C\kappa\).
+
+Neither decoded TV closeness nor TV closeness of physical laws
+establishes sector domination or its weight. Those remain separate
+hypotheses.
+
+Decoded marginal closeness alone also gives no all-spin hiding:
+take an exact clean table and append the queryable auxiliary
+\(y(F)\). Its decoded TV error is zero, while one physical query
+has target covariance \(2v_0\).
+\end{remark}
+
+\begin{corollary}[Explicit full-AA-failure packages]
+\label{ian:thermal-robust-packages}
+Assume Theorem~\ref{ian:thermal-robust-compilation} with \(w\ge1/2\),
+\(\xi\le1/512\), and exact coherent logical queries.
+
+For Simon, let \(m\ge10\), \(M=2^m\), and set
+\[
+ T_{\mathrm S}=q\,m(m+9),\qquad
+ t_{\mathrm S}=
+       \left\lfloor\frac{\sqrt M}{64k}\right\rfloor ,
+ \qquad
+ T_{\mathrm P}=333qb,\qquad
+ t_{\mathrm P}=
+       \left\lfloor\frac{\sqrt K}{64k}\right\rfloor
+ \tag{38.6}
+\]
+for the period law with \(K\ge1024\).
+In either case the physical acceptance function satisfies
+\[
+ \operatorname{Hard}(Q,\nu;t,1/8,1/64),\qquad
+ (w,a,\gamma)=(1/2,1/8,1/64),\qquad
+ \ell_\mu(t,Q)\ge7/128 .
+ \tag{38.7}\label{ian:thermal-robust-constant-package}
+\]
+
+For Simon, if \(q_m,k_m\) are bounded by fixed polynomials in \(m\)
+and the physical dimensions are distinct along a subsequence, this
+gives property \(\mathrm{(P)}\). The same conclusion holds for the
+period family in Corollary~\ref{ian:period-hsp-full-aa}, with
+\(q,k\) polynomial in \(\log R\).
+\end{corollary}
+
+\begin{proof}
+For Simon use
+Lemma~\ref{ian:simon-quantum-decoder}, and
+Lemma~\ref{ian:simon-adaptive-posterior} together with
+Theorem~\ref{ian:adaptive-transcript-duality} of
+\path{ian/29_adaptive_transcript_hiding.tex}; the first two are in
+\path{ian/30_simon_sector.tex}. They give
+\(\delta_0=2^{-10}\),
+\(v_0=1/4-1/[4(M-1)^2]\ge3/16\), and
+\(\eta(u)=2\binom u2/(M-1-\binom u2)\).
+
+For periods use
+Lemma~\ref{ian:period-hsp-fourier-reconstruction} and
+Lemma~\ref{ian:period-hsp-adaptive-hiding} in
+\path{ian/31_period_hsp_sectors.tex}. They give
+\(\delta_0=2^{-10}\), \(v_0=1/4\),
+\(C=333b\), and
+\(\eta(u)=u(u-1)/(K-u(u-1))\).
+
+At the displayed depths, both hiding bounds are less than
+\(1/2048\). Thus
+\(a_\xi\ge3/16-1/512-1/512>1/8\), whereas
+\(\gamma_\xi<
+1/2048+1/512+5/512<1/64\).
+The loss bound follows from
+Proposition~\ref{ian:hard-sector-forward}.
+
+With fixed \(r=16\) and \(K_{\mathrm P}=p_{\mathrm P}=q_{\mathrm P}=1\)
+for the constants in property \(\mathrm{(P)}\), the inverse weight and
+variance conditions hold. For every fixed budget constants \(A,B\),
+\[
+ \frac{t_m}{(T_m+16)^B}\longrightarrow\infty .
+ \tag{38.8}
+\]
+For Simon this follows from exponential versus polynomial growth.
+For periods it follows along the prime subsequence established in
+Corollary~\ref{ian:period-hsp-full-aa}.
+The stronger covariance bound in
+\eqref{ian:thermal-robust-constant-package} implies the required
+bound \(a/4\). These are conditional physical conclusions; the
+compilation implication itself uses no Gibbs assumption.
+\end{proof}
+
+\begin{definition}[Encoded bit neighborhoods]
+\label{ian:thermal-bit-neighborhoods}
+Identify bits with physical signs. Let
+\(C:\mathbb F_2^m\to\mathbb F_2^L\) be an injective linear code of
+minimum distance at least \(\delta L\).
+Choose a total decoder \(D\) correcting every error of weight
+less than \(\delta L/2\).
+It can be chosen equivariant:
+\(D(z+C(a))=D(z)+a\), by fixing a minimum-weight representative
+of each code coset.
+
+For a physical word table \(z=(z_x)_{x\in\mathbb F_2^m}\), let
+\(\mathcal S_m\) denote the clean Simon promise and define
+\[
+ \begin{aligned}
+ A_\tau
+   &=\{z:\exists f\in\mathcal S_m,\
+       d_H(z_x,C(f(x)))\le\tau L\ \text{for every }x\},\\
+ B_\tau
+   &=\{z:\exists f\in\mathcal S_m,\
+       \sum_xd_H(z_x,C(f(x)))\le\tau ML\}.
+ \end{aligned}
+ \tag{38.9}
+\]
+Thus \(A_\tau\subseteq\{D(z)\in\mathcal S_m\}\) when
+\(\tau<\delta/2\), whereas \(B_\tau\) is a whole-table bit
+Hamming tube.
+\end{definition}
+
+\begin{lemma}[Finite-energy bounds for bit tubes]
+\label{ian:thermal-bit-tube-obstruction}
+Under \eqref{ian:thermal-robust-physical-bounds}, put
+\[
+ \epsilon_*=\frac1{1+e^{2\beta dJ}},\qquad
+ I(a\Vert p)=a\log\frac ap+(1-a)\log\frac{1-a}{1-p}.
+ \tag{38.10}
+\]
+For \(0\le\tau<\epsilon_*\), and additionally
+\(\tau<\delta/2\) for the first bound,
+\[
+ \begin{aligned}
+ \mu_\beta(A_\tau)
+   &\le(M-1)\exp\{-ML\,I(\tau\Vert\epsilon_*)/2\},\\
+ \mu_\beta(B_\tau)
+   &\le(M-1)\exp\{(m\log2)M/2
+                         -ML\,I(\tau\Vert\epsilon_*)\}.
+ \end{aligned}
+ \tag{38.11}\label{ian:thermal-bit-tube-bounds}
+\]
+All auxiliary spins may form an arbitrary correlated network.
+\end{lemma}
+
+\begin{proof}
+Lemma~\ref{ian:thermal-reconstruction-obstruction} in
+\path{ian/36_thermal_realization.tex} gives conditional probability
+at least \(\epsilon_*\) for either value of an unrevealed physical
+bit, under conditioning on other coordinates.
+
+Fix a mask and one representative of each pair. Condition on their
+physical words and on all auxiliaries. On \(A_\tau\), each
+representative decodes to its clean label, so it specifies the
+required codeword at its partner. Reveal the \(ML/2\) partner bits.
+Their mismatch indicators have conditional probabilities at least
+\(\epsilon_*\). For \(h<0\), their exponential moment is at most
+\((1-\epsilon_*+\epsilon_*e^h)^{ML/2}\).
+The lower-tail exponential-moment bound gives
+\(\exp\{-MLI(\tau\Vert\epsilon_*)/2\}\).
+Sum over the \(M-1\) masks.
+
+For \(B_\tau\), fix an entire clean encoded table and apply the same
+argument to all \(ML\) bits. There are
+\((M-1)(M)_{M/2}\le(M-1)M^{M/2}\) clean tables. A union bound gives
+the second estimate.
+
+This is a reconstruction of the conditional-probability argument.
+The mismatch indicators need not be independent, so Theorem~1 of
+W.~Hoeffding, \emph{Probability inequalities for sums of bounded
+random variables}, J.~Amer.\ Statist.\ Assoc.\
+\textbf{58} (1963), 13--30, is not applied directly. What is used is
+the Chernoff optimisation over \(h\) in its proof, applied to the
+iterated conditional exponential-moment bound above; it yields the
+same relative-entropy exponent as that theorem.
+\end{proof}
+
+\begin{remark}[What finite energy does and does not specify]
+\label{ian:thermal-bit-noise-scope}
+The first bound in \eqref{ian:thermal-bit-tube-bounds} excludes
+subthermal per-word tubes. The second excludes whole-table tubes
+when \(LI(\tau\Vert\epsilon_*)>m\log2/2\) by a fixed margin
+proportional to \(L\).
+
+These bounds supply no exclusion for \(\tau>\epsilon_*\).
+Finite energy supplies a lower conditional probability for either
+physical bit value. It does not identify a latent clean table,
+give an upper bound on corruption probabilities relative to that
+table, or establish independence of errors. Conditioning on a
+decoded table can itself involve the bit being examined.
+Consequently a model in which bits are corrupted roughly
+independently, each with probability about \(\epsilon_*\), requires
+an additional, explicit channel hypothesis.
+\end{remark}
+
+\begin{lemma}[A sufficient correlated-noise hypothesis]
+\label{ian:thermal-coded-reliability}
+Suppose \(z_x=C(F(x))+E_x\). In a fixed enumeration of all error
+bits, assume
+\[
+ \Pr(E_i=1\mid F,E_1,\ldots,E_{i-1})\le p<\tau<\delta/2 .
+ \tag{38.12}\label{ian:thermal-error-domination}
+\]
+No independence among the errors is required. Then
+\[
+ \Pr(D(z)\ne F)\le
+ \rho_m:=M e^{-LI(\tau\Vert p)} ,
+ \qquad
+ L\ge\frac{m\log2+a\log m}{I(\tau\Vert p)}
+ \ \Longrightarrow\ \rho_m\le m^{-a}.
+ \tag{38.13}\label{ian:thermal-coded-reliability-bound}
+\]
+A coherent whole-word decoder, with clean workspace, uses at most
+\(2L\) physical queries and is defined on every physical input.
+For a clean Simon latent table, the resulting Simon algorithm uses
+\[
+ T\le2L(m+9),\qquad
+ \mathbb E|Q-y(F)|\le2^{-10}+\rho_m .
+ \tag{38.14}\label{ian:thermal-coded-simon-readout}
+\]
+Also
+\(\|\mathcal L(D(z))-\mathcal L(F)\|_{\mathrm{TV}}\le\rho_m\).
+\end{lemma}
+
+\begin{proof}
+Iterating conditional exponential moments in
+\eqref{ian:thermal-error-domination} gives, for each word and \(h>0\),
+\(\mathbb E(e^{h|E_x|}\mid F)\le(1-p+pe^h)^L\).
+The Chernoff optimisation over \(h\) in the proof of Theorem~1 of
+Hoeffding's paper cited in the proof of
+Lemma~\ref{ian:thermal-bit-tube-obstruction} gives
+\(\Pr(|E_x|\ge\tau L\mid F)\le e^{-LI(\tau\Vert p)}\);
+the error bits need not be independent, since only this
+exponential-moment bound is used.
+Union bound over addresses. On the complementary event every word
+decodes correctly. The TV assertion follows from this coupling.
+
+For coherent decoding, query the \(L\) bits of word \(x\), compute
+the fixed total map \(D\) reversibly, XOR its output into the logical
+answer register, undo that computation, and erase the queried word
+with another \(L\) queries. This works with \(x\) in superposition.
+The same construction returns an individual logical bit.
+There is no query-cost assumption about the computation of \(D\).
+
+On the simultaneous-correction event, \(m+9\) Fourier samples have
+the clean Simon error at most \(2^{-10}\). Charge the remaining
+event its full probability.
+\end{proof}
+
+\begin{proposition}[A hardwired public table: decoded promise weight without a hard target]
+\label{ian:thermal-coded-promise-weight}
+Fix \(J>0\) and constants \(0<\tau<\delta/2<1/4\), and fix one public
+Simon table \(f_0\in\mathcal S_m\) for each \(m\). There are
+\(\beta_0\), depending on \(J,\tau,\delta\), temperature-independent,
+degree-one Hamiltonians of strength \(J\), and linear codes with
+\(L=O(m)\) and relative distance at least \(\delta\), such that for
+every \(\beta\ge\beta_0\)
+\[
+ \mu_\beta\{D(z)=f_0\}\ge1-\rho_m=1-o(1),
+ \qquad\text{hence}\qquad
+ \mu_\beta\{D(z)\in\mathcal S_m\}=1-o(1),
+\]
+with \(\rho_m\) from \eqref{ian:thermal-coded-reliability-bound}
+exponentially small in \(m\).
+The decoded table equals the one public table \(f_0\) with
+probability \(1-o(1)\). Consequently every sector
+\(w\nu\le\mu_\beta\) has
+\(\operatorname{Var}_\nu y(D(z))\le\rho_m/w\), so this region supplies
+no sector of inverse-polynomial weight with \(\operatorname{Var}y\)
+bounded below, and no hard sector for the Simon target.
+The proposition is a weight-only statement: an obstruction based on
+decoded promise weight alone is impossible.
+\end{proposition}
+
+\begin{proof}
+Put independent fields on the encoded bits of \(f_0\):
+\[
+ E_m(\sigma)=-J\sum_{x,j}
+        (-1)^{C(f_0(x))_j}\sigma_{x,j},
+ \qquad
+ p_\beta=\Pr(\text{bit error})=\frac1{1+e^{2\beta J}} .
+ \tag{38.15}
+\]
+Fix \(\beta_0\) with
+\(p_{\beta_0}<\tau<\delta/2<1/4\).
+Choose the code family once using these constants.
+For every \(\beta\ge\beta_0\), the same Hamiltonian has independent
+error probability at most \(p_{\beta_0}\).
+
+For completeness, suitable linear codes exist by a direct random
+matrix argument. For a uniformly random \(L\)-by-\(m\) binary
+matrix \(G\), every \(Ga\), \(a\ne0\), is a uniform \(L\)-bit word.
+Writing \(h(u)=-u\log u-(1-u)\log(1-u)\), a union bound gives
+\[
+ \Pr\{\exists a\ne0:\ |Ga|<\delta L\}
+ \le 2^m e^{-L(\log2-h(\delta))}.
+ \tag{38.16}
+\]
+Choose \(L=\lceil cm\rceil\), with
+\(c(\log2-h(\delta))>\log2\) and
+\(cI(\tau\Vert p_{\beta_0})>\log2\).
+Such an injective code exists, and
+\eqref{ian:thermal-coded-reliability-bound}, applied by
+Lemma~\ref{ian:thermal-coded-reliability} with the deterministic
+latent table \(f_0\) and \(p=p_{\beta_0}\), tends to zero
+exponentially in \(m\). This gives
+\(\mu_\beta\{D(z)\ne f_0\}\le\rho_m\).
+
+The fields have strength \(J\) and degree one. They contain no
+temperature parameter. Their decoded table concentrates on \(f_0\),
+so this example does not approximate the prescribed random Simon
+law and supplies no hard target distribution. Quantitatively, for
+\(w\nu\le\mu_\beta\), the \(\{0,1\}\)-valued target satisfies
+\(\operatorname{Var}_\nu y(D(z))
+\le\nu\{y(D(z))\ne y(f_0)\}
+\le\nu\{D(z)\ne f_0\}
+\le\mu_\beta\{D(z)\ne f_0\}/w\le\rho_m/w\).
+\end{proof}
+
+\begin{proposition}[Independent noise preserves all-spin hiding]
+\label{ian:thermal-coded-hiding}
+Let \(F\) have the clean Simon law, and write
+\(v_{\mathrm S}=\operatorname{Var}y(F)=1/4-1/[4(M-1)^2]\) and
+\(\eta_{\mathrm S}(u)=2\binom u2/(M-1-\binom u2)\) for
+\(\binom u2<M-1\), as in the proof of
+Corollary~\ref{ian:thermal-robust-packages}. Suppose every physical
+spin is generated from \((F,W)\), where \(W\perp F\), and is
+simulatable using at most \(k\) whole-word queries after \(W\) is
+fixed. For the encoded data bits with additive noise independent of
+\(F\), one may take \(k=1\).
+
+Let \(Q\) be the acceptance function of the Simon algorithm of
+Lemma~\ref{ian:thermal-coded-reliability}, which uses the coherent
+block decoder and satisfies \eqref{ian:thermal-coded-simon-readout}.
+If the coherent block decoder succeeds simultaneously with
+probability at least \(1-\rho_m\), then
+\[
+ \begin{aligned}
+ \sup_{A\in\mathcal F_t}
+      |\operatorname{Cov}(y(F),A)|
+     &\le\eta_{\mathrm S}(kt),\\
+ \operatorname{Var}Q
+     &\ge v_{\mathrm S}-2(2^{-10}+\rho_m),\\
+ \sup_{A\in\mathcal F_t}|\operatorname{Cov}(Q,A)|
+     &\le\eta_{\mathrm S}(kt)+2(2^{-10}+\rho_m).
+ \end{aligned}
+ \tag{38.17}
+\]
+The analogous statements hold for periods with their clean hiding
+bound and decoder.
+\end{proposition}
+
+\begin{proof}
+Grant the entire error pattern and every independent seed to the
+classical simulator. Fixing them leaves the clean table law intact.
+Each encoded physical bit is a known function of one whole output
+word. Compose adaptive queries exactly as in
+Theorem~\ref{ian:thermal-robust-compilation}.
+The remaining assertions follow from
+Lemma~\ref{ian:thermal-coded-reliability} and
+Theorem~\ref{ian:robust-compilation-theorem}.
+
+For additional auxiliary spins, the required joint simulation is
+an assumption about their actual law. It does not follow from
+independence of the data-bit noise.
+\end{proof}
+
+\begin{remark}[Reliable correction need not preserve hiding]
+\label{ian:thermal-coded-channel-leakage}
+The upper-noise condition
+\eqref{ian:thermal-error-domination} alone is insufficient for
+hiding. For example, let all errors vanish except at one public
+position of one word, where \(E_i=B\) and
+\(\Pr(B=1\mid F)=p\,y(F)\). A code of distance at least three
+corrects every such input. Reading that word reveals \(B\) through
+its syndrome, and
+\(\operatorname{Cov}(y(F),2B-1)=2p\operatorname{Var}(y(F))\).
+This is constant for fixed \(p>0\), although correction is exact.
+This channel example separates reliability from hiding; it is not
+asserted to be a Gibbs realization.
+
+For independent noise around a random clean table, reliability and
+hiding therefore coexist at the level of a channel model. The
+unproved thermal step is realizing that joint channel law, including
+every auxiliary spin, by an allowed Hamiltonian.
+\end{remark}
+
+\begin{lemma}[Quantum readout on a whole-table bit tube]
+\label{ian:thermal-global-bit-decoder}
+If \(z\in B_\tau\) and \(\tau<\delta/8\), coherent block decoding
+followed by the robust Simon word decoder recovers the mask with
+error at most \(\varepsilon\), using
+\[
+ T\le
+ 2L\left\lceil
+ \frac{32}{(1-8\tau/\delta)^2}
+       \log\frac{2M}{\varepsilon}
+ \right\rceil .
+ \tag{38.18}
+\]
+The circuit is globally defined.
+\end{lemma}
+
+\begin{proof}
+A wrongly decoded word requires at least \(\delta L/2\) bit errors
+relative to the clean word. Thus at most
+\(\theta M=(2\tau/\delta)M\) decoded words are wrong.
+Here \(\theta<1/4\).
+Apply Lemma~\ref{ian:thermal-simon-word-decoder} in
+\path{ian/36_thermal_realization.tex}, replacing each raw whole-word
+query by the coherent \(2L\)-query decoder.
+Its exhaustive postprocessing is permitted by the query model.
+
+Throughout this subsection, polynomial query complexity does not
+assert polynomial gate complexity for an arbitrary code decoder or
+for that exhaustive postprocessing.
+\end{proof}
+
+\begin{definition}[Word memories with a limited contact interface]
+\label{ian:thermal-correlated-interface-class}
+Partition the physical spins into word blocks
+\(B_x=(z_x,u_x)\), \(x\in\mathbb F_2^m\), and an external auxiliary
+network \(U\). Private auxiliary spins belong to their word blocks.
+Suppose the Hamiltonian has the form
+\[
+ \begin{gathered}
+ E=E_{\mathrm{net}}(U)+\sum_xE_x(B_x)
+                       +\sum_\alpha h_\alpha,\\
+ E_x(T_{x,a}B_x)=E_x(B_x),\qquad
+ D_x(T_{x,a}B_x)=D_x(B_x)+a
+       \quad(a\in\mathbb F_2^m),
+ \end{gathered}
+ \tag{38.19}
+\]
+where every \(T_{x,a}\) is a bijection of the word block.
+At most \(r_m\) contact terms \(h_\alpha\) involve any given block.
+All terms satisfy
+\eqref{ian:thermal-robust-physical-bounds}.
+
+The external network may be connected, frustrated, and arbitrarily
+correlated. Contact terms may also couple different word blocks.
+Any symmetry-breaking field inside a block counts among its contact
+terms.
+
+A natural instance is a linear-code memory whose internal energy
+depends on parity-check syndromes, with codeword addition as
+\(T_{x,a}\), coupled through a bounded number of contacts to a common
+verifier network. Private gadget spins are allowed when their
+bijection implements the stated energy symmetry.
+\end{definition}
+
+\begin{theorem}[A correlated-network obstruction]
+\label{ian:thermal-correlated-interface-obstruction}
+For the class in
+Definition~\ref{ian:thermal-correlated-interface-class}, let
+\(F_x=D_x(B_x)\), and put
+\[
+ a_m=e^{2\beta Jr_m},\qquad
+ p_m=\frac{a_m}{a_m+M-1}.
+ \qquad
+ \mu_\beta\{F\in\mathcal S_m\}
+       \le(M-1)p_m^{M/2}.
+ \tag{38.20}\label{ian:thermal-correlated-interface-mass}
+\]
+In particular, if \(r_m=o(m)\), the right side is
+\(\exp\{-(\log2/2-o(1))mM\}\).
+
+If a sector \(w\nu\le\mu_\beta\) has decoded law within TV distance
+\(\zeta<1\) of the clean Simon law, then
+\[
+ w(1-\zeta)\le(M-1)p_m^{M/2}.
+ \tag{38.21}\label{ian:thermal-correlated-interface-sector}
+\]
+Consequently this class with \(r_m=o(m)\) cannot supply
+Theorem~\ref{ian:thermal-robust-compilation} with polynomial
+inverse sector weight in \(m\).
+More quantitatively, if \(w\ge m^{-A}\) for fixed \(A\) and
+\(1-\zeta\) is bounded below, a necessary condition is
+\[
+ 2\beta Jr_m\ge2\log M-\log m-O(1).
+ \tag{38.22}\label{ian:thermal-correlated-interface-necessary}
+\]
+\end{theorem}
+
+\begin{proof}
+Fix every physical spin outside \(B_x\). The map \(T_{x,a}\)
+preserves its internal energy and changes at most \(r_m\) contact
+terms, so its total energy change has absolute value at most
+\(2Jr_m\).
+It bijects the fiber \(D_x=b\) onto \(D_x=b+a\).
+Hence the conditional partition sums of any two logical values
+differ by a factor at most \(a_m\).
+The largest logical conditional probability is therefore at most
+\(a_m/(a_m+M-1)=p_m\).
+This remains true after conditioning only on functions of the
+other blocks, by conditional expectation.
+
+Fix a mask and reveal one logical endpoint of every pair.
+Successively requiring the other endpoints to equal their
+representatives has conditional probability at most \(p_m\)
+at each of \(M/2\) steps. Union bound over masks proves
+\eqref{ian:thermal-correlated-interface-mass}.
+Distinctness of pair labels only further restricts the event.
+Every private and external auxiliary spin is included in these
+conditional partition sums.
+
+TV closeness implies
+\(\nu(F\in\mathcal S_m)\ge1-\zeta\), giving
+\eqref{ian:thermal-correlated-interface-sector}.
+For \(r_m=o(m)\),
+\(\log p_m=-m\log2+o(m)\).
+
+Finally set
+\(B_m=\log((M-1)/(w(1-\zeta)))=O(m)\).
+Then \eqref{ian:thermal-correlated-interface-sector} implies
+\(\log(1+(M-1)e^{-2\beta Jr_m})\le2B_m/M\).
+Thus
+\(e^{2\beta Jr_m}\ge(M-1)/(e^{2B_m/M}-1)
+=\Omega(M^2/m)\), which proves
+\eqref{ian:thermal-correlated-interface-necessary}.
+\end{proof}
+
+\begin{remark}[Scope of the construction attempt]
+\label{ian:thermal-correlated-interface-scope}
+The preceding theorem rules out codeword-symmetric word memories
+with \(o(m)\) contacts per word even when their verifier auxiliaries
+form an unrestricted correlated network. Increasing code distance
+or block size does not remove this interface obstruction.
+More precisely, when \(w\ge m^{-A}\) and \(1-\zeta\) is bounded
+below, \eqref{ian:thermal-correlated-interface-necessary} reads
+\(r_m\ge(\log2/(\beta J))m-O(\log m)\). It therefore also excludes,
+for all large \(m\), linear interfaces \(r_m\le cm\) with any fixed
+\(c<\log2/(\beta J)\).
+
+The obstruction applies only to the blockwise decoded table
+\(F_x=D_x(B_x)\) of
+Definition~\ref{ian:thermal-correlated-interface-class}. It does not
+rule out memories with \(r_m\ge(\log2/(\beta J))m-O(\log m)\)
+contacts per word, encodings without the stated independent word
+symmetries, or decoded tables that are not of this blockwise form.
+The necessary bound \eqref{ian:thermal-correlated-interface-necessary}
+is not a sufficiency statement. In particular, it neither constructs
+a hidden pairing network nor proves that every sufficiently connected
+network leaks its mask.
+
+The pairwise and zero-field character realizations,
+Theorems~\ref{res:pairwise-theorem} and
+\ref{res:zero-field-theorem} in
+\path{obstructions/local_codes/04_pairwise_all_spins.tex} and
+\path{obstructions/local_codes/05_zero_field_pairwise.tex},
+use their specific character symmetries.
+Their all-spin reductions, including
+Proposition~\ref{ian:hard-sector-local-instances} in
+\path{ian/17_hard_sector_instances.tex}, do not establish the
+Simon-table simulation hypothesis for a new correlated network.
+Likewise, the soft-code Gibbs laws in
+\path{obstructions/noisy_codes/03_fixed_hamiltonian_all_temperatures.tex}
+do not supply a bounded-arity, bounded-degree realization.
+\end{remark}
+
+\begin{lemma}[Queryable verifier witnesses leak]
+\label{ian:thermal-robust-verifier-leakage}
+Let a physical depth-\(t_{\mathrm v}\) classical tree compute
+\(\widehat Y\in[0,1]\), with
+\(\mathbb E_\nu|\widehat Y-y(F)|\le e\).
+Then the signed depth-\(t_{\mathrm v}\) test \(2\widehat Y-1\)
+satisfies
+\[
+ \operatorname{Cov}_\nu(Q,2\widehat Y-1)
+ \ge
+ 2\operatorname{Var}_\nu y(F)
+       -2e-2\mathbb E_\nu|Q-y(F)|.
+ \tag{38.23}
+\]
+Thus a verifier exposing the mask or period through a polynomial-query
+classically decodable register fails the exponential-depth hiding
+requirement, also under the small TV perturbations above.
+\end{lemma}
+
+\begin{proof}
+This is Lemma~\ref{ian:thermal-exposed-witness} in
+\path{ian/36_thermal_realization.tex}, applied to the decoded target.
+Indeed,
+\(\operatorname{Cov}(y,2\widehat Y-1)
+=2\operatorname{Var}y+2\operatorname{Cov}(y,\widehat Y-y)\);
+the last covariance has magnitude at most \(e\).
+Replacing \(y\) by \(Q\) costs at most
+\(2\mathbb E|Q-y|\).
+
+For a readable mask register, the first mask bit gives the target.
+Reading a period register determines its balanced target by free
+classical computation. Redundant witness storage still leaks if
+its classical readout uses polynomially many physical queries.
+All such witness and decoding spins belong to the physical query
+budget.
+\end{proof}
+
+\begin{remark}[Proved, conditional, and open conclusions]
+\label{ian:thermal-robust-frontier}
+The TV-robust implication and its explicit constants are proved.
+Its thermal application remains conditional on actual sector
+weight, coherent logical access, and a joint simulation of every
+physical spin.
+
+For bit noise, coherent decoding and hiding survive an independent
+clean-table channel with the stated reliability bound. Polynomial
+promise weight is achievable by bounded fields around a fixed
+table, but there the decoded table equals that fixed table with
+probability \(1-o(1)\), so the weight carries no hard target.
+Those facts do not identify one Gibbs family satisfying
+all three requirements. The low-radius bounds
+\eqref{ian:thermal-bit-tube-bounds} and the positive example also
+show why raw whole-word corruption obstructions cannot simply be
+applied to thermally corrupted redundant words.
+
+The correlated-interface class is refuted as a realization route
+when \(r_m=o(m)\), and at inverse-polynomial sector weight whenever
+\(r_m\le cm\) with fixed \(c<\log2/(\beta J)\). A local verifier with
+a readable witness is separately excluded by leakage. A general
+correlated network with sufficient word interfaces, no accessible
+target witness, the required random injective table law, and
+polynomial coherent logical access remains open for Simon and period
+finding.
+\end{remark}

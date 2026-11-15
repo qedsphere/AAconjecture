@@ -1,0 +1,1189 @@
+\subsection{Polynomial obstructions and adversary synthesis certificates}\label{ian:polynomial-adversary-certificates}
+
+Status: proved: the global degree and amplitude conditions, the coefficient obstruction \eqref{ian:pac-pm-display} and its arbitrary-depth form \eqref{ian:pac-pm-tail}, product-domination exclusion, conditional adversary-to-sector constructions, an exact query-budget synthesis certificate, and the character-code and Simon checks. Refuted: the claims that completion weights alone imply a quantum query bound depending only on their cost (Proposition~\ref{ian:pac-completion-not-synthesis}), and that a large adversary lower bound alone certifies a proposed realization (Remark~\ref{ian:pac-realization-gap}). General adversary synthesis supplies approximate decision algorithms; matching another prescribed acceptance function remains a separate requirement. Literature imports, each marked where used: the polynomial method of Beals--Buhrman--Cleve--Mosca--de Wolf (Lemmas~4.1--4.2), the query-state semidefinite characterization of Barnum--Saks--Szegedy, the general adversary lower bound of H{\o}yer--Lee--{\v S}palek (Theorem~2), Reichardt's dual adversary and synthesis, and Lee--Mittal--Reichardt--{\v S}palek--Szegedy (Theorem~1.1) for general alphabets; the Bernstein--Vazirani and Simon procedures are cited for orientation, and the calculations used are proved here. Theorem~\ref{ian:pac-product-exclusion} and the first assertion of Proposition~\ref{ian:pac-completion-weights} rest on \path{foundations/product_alphabets.tex}, which imports inequality (BC) of Huffstutler--Miloschewsky--Podder. Repository inputs are Lemma~\ref{lem:resolution-symbol-adversary} of \path{foundations/product_alphabets.tex}, Lemma~\ref{ian:degree-threshold-certificates} of \path{ian/22_influence_form_uniform_aa.tex}, and Proposition~\ref{ian:hard-sector-forward} and Corollary~\ref{ian:hard-sector-explicit} of \path{ian/13_hard_sector_definitions_forward.tex}.
+
+Throughout, \(\Omega_n=\{-1,1\}^n\), and a coordinate query is
+\[
+ O_x|i,b\rangle
+   =|i,b\oplus(1-x_i)/2\rangle.
+\]
+Input-independent unitaries, workspace and classical postprocessing are free. No sampler, promise-membership oracle or hidden-label oracle is included. Measurements and randomness may be purified and deferred.
+
+We use Definition~\ref{ian:hard-sector-definition} in
+\path{ian/13_hard_sector_definitions_forward.tex}.
+Thus, for \(Q:\Omega_n\to[0,1]\),
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma)
+ \quad\Longleftrightarrow\quad
+ \operatorname{Var}_\nu Q\ge a,\qquad
+ \sup_{F\in\mathcal F_t}
+       |\operatorname{Cov}_\nu(Q,F)|\le\gamma,
+ \qquad 0<\gamma<a\le\tfrac14.
+\]
+Here \(\mathcal F_t\) contains all deterministic adaptive coordinate
+trees of worst-case depth at most \(t\), with outputs in \([-1,1]\).
+A smooth sector of ambient weight \(w\) satisfies \(w\nu\le\mu\).
+For a set sector, \(\nu=\mu(\cdot\mid H)\) and \(\mu(H)\ge w\).
+When discussing a restriction to \(H\), we assume \(\nu(H)=1\).
+As in \path{ian/13_hard_sector_definitions_forward.tex}, \(\mathcal Q_{n,T}\) is used with \(T\ge1\).
+
+\begin{lemma}[Global polynomial and amplitude conditions]
+\label{ian:pac-polynomial-sos}
+If \(Q\in\mathcal Q_{n,T}\), its unique multilinear representation
+on the whole cube has degree at most \(\min\{2T,n\}\), and
+\(0\le Q(x)\le1\) for every \(x\in\Omega_n\).
+There are finite families of real multilinear polynomials
+\(u_j,v_k\), each of degree at most \(T\), such that
+\[
+ Q(x)=\sum_j u_j(x)^2,\qquad
+ 1-Q(x)=\sum_k v_k(x)^2
+ \quad(x\in\Omega_n).
+ \tag{32.1}\label{ian:pac-sos}
+\]
+These are identities on the cube, equivalently modulo
+\(x_i^2-1\).
+
+More explicitly, put
+\[
+ \mathcal S_T=\{S\subseteq[n]:|S|\le T\},
+ \qquad z_T(x)=(\chi_S(x))_{S\in\mathcal S_T},
+ \qquad \chi_S(x)=\prod_{i\in S}x_i.
+\]
+There are real positive semidefinite matrices \(M_1,M_0\), indexed
+by \(\mathcal S_T\), with
+\[
+ Q=z_T^{\mathsf T}M_1z_T,\qquad
+ 1-Q=z_T^{\mathsf T}M_0z_T
+ \quad\hbox{on }\Omega_n.
+\]
+Consequently, for every \(U\subseteq[n]\),
+\[
+ \widehat Q(U)
+   =\sum_{\substack{S,R\in\mathcal S_T\\S\triangle R=U}}
+       (M_1)_{S,R},
+ \qquad
+ \sum_{\substack{S,R\in\mathcal S_T\\S\triangle R=U}}
+       (M_0+M_1)_{S,R}
+   =\mathbf1_{\{U=\varnothing\}}.
+ \tag{32.2}\label{ian:pac-sos-coefficients}
+\]
+In particular, \(\operatorname{tr}(M_0+M_1)=1\).
+\end{lemma}
+
+\begin{proof}
+In the response basis
+\(|+\rangle,|-\rangle\), the oracle acts as the identity on
+\(|i,+\rangle\) and multiplication by \(x_i\) on
+\(|i,-\rangle\). Initially all amplitudes are constant.
+Input-independent unitaries take linear combinations of amplitudes,
+and each query increases their degree by at most one.
+Reducing \(x_i^2=1\) preserves their values on the cube and cannot
+increase degree. Every final amplitude therefore has a multilinear
+representation of degree at most \(T\).
+
+After adjoining an output register, acceptance and rejection are
+orthogonal sets of basis states. Their probabilities are the
+respective sums of squared absolute amplitudes. Splitting each
+amplitude into its real and imaginary parts proves
+\eqref{ian:pac-sos}. Normalization gives their sum equal to one.
+Multilinearizing the squared expressions proves the degree bound.
+Writing each real amplitude in the character basis gives the
+positive semidefinite matrices. Finally,
+\(\chi_S\chi_R=\chi_{S\triangle R}\), which proves
+\eqref{ian:pac-sos-coefficients}.
+
+The amplitude and probability statements are the polynomial method
+of Beals--Buhrman--Cleve--Mosca--de Wolf (from literature:
+\emph{Quantum Lower Bounds by Polynomials}, J.~ACM 48(4),
+778--797, 2001; Lemmas 4.1--4.2 in arXiv:quant-ph/9802049v3).
+\end{proof}
+
+\begin{proposition}[The coefficient obstruction]
+\label{ian:pac-pm}
+Suppose \(Q\in\mathcal Q_{n,T}\) and
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\).
+Write \(d=\min\{2T,n\}\) and
+\[
+ Q(x)=\sum_{|S|\le d}\widehat Q(S)\chi_S(x),
+ \qquad
+ \widehat Q(S)=\mathbb E_{U_n}[Q\chi_S].
+\]
+If \(t\ge d\), then
+\[
+ a\le
+ \gamma\sum_{1\le |S|\le d}|\widehat Q(S)|.
+ \tag{32.3}\label{ian:pac-pm-display}
+\]
+Since \(d\le2T\), this applies in particular whenever \(t\ge2T\); the choice \(d=\min\{2T,n\}\) refines that form of the depth hypothesis.
+
+For arbitrary \(t\), the valid replacement is
+\[
+ a\le
+ \gamma\sum_{1\le |S|\le\min\{t,d\}}|\widehat Q(S)|
+ +\frac12\sum_{t<|S|\le d}|\widehat Q(S)|.
+ \tag{32.4}\label{ian:pac-pm-tail}
+\]
+If \(t\ge d\), global boundedness also gives
+\[
+ \frac a\gamma
+ \le\sum_{1\le|S|\le d}|\widehat Q(S)|
+ \le\frac12
+       \sqrt{\sum_{j=1}^d\binom nj}.
+\]
+\end{proposition}
+
+\begin{proof}
+Each \(\chi_S\) is a deterministic depth-\(|S|\) coordinate tree
+with outputs in \(\{-1,1\}\). Thus
+\[
+ |\operatorname{Cov}_\nu(Q,\chi_S)|\le\gamma
+ \qquad(|S|\le t).
+\]
+Taking covariance with the polynomial identity gives
+\[
+ \operatorname{Var}_\nu Q
+   =\sum_{\varnothing\ne S,\ |S|\le d}
+        \widehat Q(S)\operatorname{Cov}_\nu(Q,\chi_S).
+\]
+This proves \eqref{ian:pac-pm-display} when \(t\ge d\).
+For the remaining terms, Cauchy--Schwarz and boundedness give
+\[
+ |\operatorname{Cov}_\nu(Q,\chi_S)|
+ \le\sqrt{\operatorname{Var}_\nu Q\,
+                 \operatorname{Var}_\nu\chi_S}\le\tfrac12,
+\]
+proving \eqref{ian:pac-pm-tail}.
+Parseval under the uniform cube law gives
+\[
+ \sum_{S\ne\varnothing}\widehat Q(S)^2
+   =\operatorname{Var}_{U_n}Q\le\tfrac14,
+\]
+and the last assertion follows by Cauchy--Schwarz.
+\end{proof}
+
+\begin{remark}[Coefficients on a sector]
+\label{ian:pac-sector-coefficients}
+The coefficients in \eqref{ian:pac-pm-display} belong to a polynomial on the physical
+cube. They are not Fourier coefficients defined by the possibly
+dependent sector law. More generally, the same proof works with
+any polynomial \(p\) of degree at most \(d\) agreeing with \(Q\)
+on \(\operatorname{supp}\nu\), using
+\(\operatorname{Var}_\nu Q=\operatorname{Cov}_\nu(Q,p)\).
+A promise restriction need not have a unique polynomial extension.
+
+A zero-query algorithm has constant acceptance, so it has no hard sector.
+Nor can hardness hold at \(t\ge n\): the tree
+\(F=2Q-1\) then gives covariance
+\(2\operatorname{Var}_\nu Q\ge2a>\gamma\).
+\end{remark}
+
+\begin{theorem}[Product-domination exclusion]
+\label{ian:pac-product-exclusion}
+There is an absolute constant \(C_{\mathrm P}\ge1\) with the
+following property. Let \(T\ge1\), let
+\(Q\in\mathcal Q_{n,T}\), and suppose
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma),
+ \qquad \nu\le K\pi,
+\]
+where \(\pi\) is a Boolean product law and \(K\ge1\).
+Then
+\[
+ t<
+ \left\lceil
+ C_{\mathrm P}T^6
+       \left(\frac{2K}{a-\gamma}\right)^{15}
+ \right\rceil.
+ \tag{32.5}
+\]
+Consequently, if a sector of ambient weight \(w\) also satisfies
+\(\mu\le L\pi\), then
+\[
+ t<
+ \left\lceil
+ C_{\mathrm P}T^6
+       \left(\frac{2L}{w(a-\gamma)}\right)^{15}
+ \right\rceil.
+\]
+In particular, a sector satisfying \(w\nu\le\pi\) is excluded
+at or beyond this bound with \(L=1\).
+\end{theorem}
+
+\begin{proof}
+Corollary~\ref{cor:resolution-product-alphabet-aa} in
+\path{foundations/product_alphabets.tex}, restricted to Boolean
+alphabets, supplies a deterministic simulator \(D\) with
+\[
+ \mathbb E_\pi|D-Q|\le e,\qquad
+ \operatorname{depth}(D)
+   \le\left\lceil C_{\mathrm P}T^6e^{-15}\right\rceil.
+\]
+Choose \(e=(a-\gamma)/(2K)\), which lies in \((0,1)\).
+Then \(\mathbb E_\nu|D-Q|\le Ke=(a-\gamma)/2\).
+But Proposition~\ref{ian:hard-sector-forward}, applied with ambient
+law \(\nu\) and weight one, gives
+\[
+ \mathbb E_\nu|D-Q|\ge a-\gamma
+ \qquad(D\in\mathcal D_t).
+\]
+Thus the displayed simulator cannot have depth at most \(t\).
+For the ambient formulation, \(w\nu\le\mu\le L\pi\), so take
+\(K=L/w\).
+\end{proof}
+
+\begin{remark}[The accompanying influence condition]
+\label{ian:pac-product-influence}
+The same global polynomial is subject to the proved product
+influence theorem in
+\path{ian/22_influence_form_uniform_aa.tex}.
+For every product law \(\pi\), define
+\[
+ \mathcal E_i^\pi(Q)
+   =\mathbb E_\pi\operatorname{Var}(Q\mid X_{-i}).
+\]
+Corollary~\ref{ian:product-influence-aa-proved} gives
+\[
+ \max_i\mathcal E_i^\pi(Q)
+ \ge c_\star
+       \frac{\operatorname{Var}_\pi(Q)^{12}}{(2T)^{12}},
+ \qquad c_\star=\frac9{2^{61}\pi^{12}}.
+\]
+The assertion holds after every positive-probability pinning.
+For the uniform law it is also
+Theorem~\ref{ian:uniform-influence-aa-proved}.
+These assertions concern product laws and do not replace the
+covariance requirement under a dependent sector law.
+\end{remark}
+
+\begin{proposition}[What the repository completion weights give]
+\label{ian:pac-completion-weights}
+Let \(f:S\to\{0,1\}\), with \(S\subseteq\Omega_n\).
+Suppose nonnegative weights satisfy
+\[
+ \sum_i\lambda_i^x\le A,\qquad
+ \sum_{i:x_i\ne y_i}\min(\lambda_i^x,\lambda_i^y)\ge1
+       \quad(f(x)\ne f(y)).
+ \tag{32.6}\label{ian:pac-cw}
+\]
+For every product law \(\pi\) and every \(\epsilon>0\), there is a
+deterministic tree \(D:\Omega_n\to\{0,1\}\) with
+\[
+ \operatorname{depth}(D)
+ \le\left\lceil128A^3\epsilon^{-2}\right\rceil,
+ \qquad
+ \pi\{x\in S:D(x)\ne f(x)\}\le\epsilon.
+\]
+This is unconditional error mass on the promise, not error under
+\(\pi(\cdot\mid S)\).
+
+If \(\nu(S)=1\), \(\nu\le K\pi\), and
+\(\mathbb E_\nu|Q-f|\le\delta\), then this tree satisfies
+\[
+ \mathbb E_\nu|D-Q|\le K\epsilon+\delta.
+\]
+It therefore excludes
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) whenever
+\[
+ t\ge\left\lceil128A^3\epsilon^{-2}\right\rceil,
+ \qquad K\epsilon+\delta<a-\gamma.
+ \tag{32.7}\label{ian:pac-completion-exclusion}
+\]
+
+Conversely, a \(q\)-query algorithm deciding \(f\) with error at
+most \(1/3\) supplies weights \eqref{ian:pac-cw} of cost
+\[
+ A\le\frac{2q^2}{c_0^2},
+ \qquad c_0=\frac{1-2\sqrt2/3}{2}>0.
+\]
+Also, if \(Q\in\mathcal Q_{n,T}\) and
+\[
+ f(x)=\mathbf1_{\{Q(x)\ge\theta\}},\qquad
+ S=\{x:|Q(x)-\theta|\ge h\},\qquad h>0,
+\]
+then weights \eqref{ian:pac-cw} exist with
+\[
+ A\le\frac{2\pi^2T^2}{h}.
+\]
+\end{proposition}
+
+\begin{proof}
+The first assertion is
+Theorem~\ref{thm:resolution-alphabet-completion} in
+\path{foundations/product_alphabets.tex}.
+Domination and the triangle inequality give the second assertion;
+the sector forward bound gives
+\eqref{ian:pac-completion-exclusion}.
+
+For the algorithm-to-weights assertion, let \(p_{r,i}(x)\) be the
+query probability at index \(i\) immediately before query \(r\), and put
+\(a_i(x)=\sum_r p_{r,i}(x)\), so \(\sum_i a_i(x)=q\).
+Lemma~\ref{lem:resolution-symbol-adversary} proves
+\[
+ \sum_{i:x_i\ne y_i}\sqrt{a_i(x)a_i(y)}\ge c_0
+ \quad(f(x)\ne f(y)).
+\]
+Cauchy--Schwarz gives
+\[
+ c_0^2
+ \le2q\sum_{i:x_i\ne y_i}\min(a_i(x),a_i(y)).
+\]
+Thus \(\lambda_i^x=(2q/c_0^2)a_i(x)\) works.
+
+Finally, apply Lemma~\ref{ian:degree-threshold-certificates} in
+\path{ian/22_influence_form_uniform_aa.tex}, with \(F=Q\),
+degree bound \(2T\), threshold \(\theta\) and margin \(h\).
+Its cost is \(\pi^2(2T)^2/(2h)\).
+\end{proof}
+
+\begin{proposition}[Completion weights alone do not synthesize algorithms]
+\label{ian:pac-completion-not-synthesis}
+There is no quantum query upper bound depending only on the cost
+\(A\) in \eqref{ian:pac-cw}, even for Boolean input and output and
+any fixed decision error below \(1/2\).
+\end{proposition}
+
+\begin{proof}
+Fix a proposed query budget \(T\).
+For arbitrarily large \(n\) divisible by four, there is a binary
+code \(S\subseteq\Omega_n\) with minimum Hamming distance at least
+\(n/4\) and
+\[
+ |S|>\sum_{j=0}^{2T}\binom nj.
+\]
+Indeed, greedy packing gives at least
+\[
+ \frac{2^n}{\sum_{j<n/4}\binom nj}
+ \ge 2^{(1-H_2(1/4))n}
+\]
+codewords, whereas the right-hand side of the preceding inequality
+is polynomial in \(n\) for fixed \(T\).
+Here \(H_2(p)=-p\log_2p-(1-p)\log_2(1-p)\).
+The binomial estimate follows by expanding
+\((p+(1-p))^n\) at \(p=1/4\).
+
+The restrictions to \(S\) of degree-at-most-\(2T\) polynomials
+therefore have a nonzero real annihilator
+\((c_x)_{x\in S}\):
+\[
+ \sum_{x\in S}c_xp(x)=0
+ \quad\hbox{for every such polynomial }p.
+\]
+Since constants are included, \(\sum_xc_x=0\).
+Set \(f(x)=\mathbf1_{\{c_x>0\}}\). Then
+\[
+ \sum_xc_xf(x)=\tfrac12\sum_x|c_x|.
+\]
+If a degree-at-most-\(2T\) polynomial \(p\) satisfied
+\(|p(x)-f(x)|\le\delta<1/2\) on \(S\), we would have
+\[
+ \tfrac12\sum_x|c_x|
+   =\left|\sum_xc_x(f(x)-p(x))\right|
+   \le\delta\sum_x|c_x|,
+\]
+a contradiction. Lemma~\ref{ian:pac-polynomial-sos} consequently
+excludes a \(T\)-query decision algorithm with that error.
+
+Nevertheless \(\lambda_i^x=4/n\) satisfies
+\eqref{ian:pac-cw}, for every labeling of \(S\), with cost \(A=4\).
+\end{proof}
+
+\begin{definition}[An exact certificate for a prescribed query budget]
+\label{ian:pac-query-certificate}
+Fix a finite promise \(S\subseteq\Omega_n\), a target
+\(q:S\to[0,1]\), nonnegative tolerances \(\epsilon_x\), and an
+integer \(T\ge1\).
+Put \(x_0=1\), let \(J\) be the all-ones matrix on \(S\), and set
+\[
+ (C_i)_{x,y}=x_i y_i\qquad(0\le i\le n).
+\]
+A query certificate consists of Hermitian positive semidefinite matrices
+\(B_i^r,E_0,E_1\), and Hermitian matrices \(G^r\), satisfying
+\[
+ G^0=J,
+ \qquad
+ \sum_{i=0}^n B_i^r=G^{r-1},
+ \qquad
+ G^r=\sum_{i=0}^n C_i\circ B_i^r
+ \quad(1\le r\le T),
+ \tag{32.8}\label{ian:pac-query-sdp}
+\]
+\[
+ G^T=E_0+E_1,
+ \qquad
+ |(E_1)_{x,x}-q(x)|\le\epsilon_x
+ \quad(x\in S).
+ \tag{32.9}
+\]
+The product \(\circ\) is entrywise multiplication.
+Positive semidefinite factorizations and the displayed equalities
+and inequalities constitute a finite certificate.
+Since \(J\) and every \(C_i\) are real, replacing every matrix of a certificate by its entrywise real part gives another certificate: the real part of a Hermitian positive semidefinite matrix is the average of the matrix and its entrywise conjugate, both positive semidefinite. Real symmetric certificates therefore suffice.
+\end{definition}
+
+\begin{theorem}[Exact synthesis from query-state feasibility]
+\label{ian:pac-query-synthesis}
+The certificate in Definition~\ref{ian:pac-query-certificate}
+exists if and only if there is a globally defined acceptance
+function \(Q\in\mathcal Q_{n,T}\) satisfying
+\[
+ |Q(x)-q(x)|\le\epsilon_x\qquad(x\in S).
+\]
+In particular, setting all tolerances to zero certifies exact
+agreement on the promise. Taking \(S=\Omega_n\) certifies a
+prescribed acceptance function on the whole cube.
+\end{theorem}
+
+\begin{proof}
+This characterization is due to Barnum--Saks--Szegedy (from literature:
+H.~Barnum, M.~Saks and M.~Szegedy, \emph{Quantum query complexity and semi-definite programming},
+IEEE Conference on Computational Complexity (CCC 2003)); we give the proof in the present notation.
+
+For necessity, purify an algorithm and use the response eigenbasis.
+An algorithm making fewer than \(T\) queries is first padded with inert queries, using response \(|+\rangle\) at a fixed index; they act as the identity and leave the acceptance function unchanged.
+The query space decomposes into an inert channel and channels
+\(i=1,\ldots,n\) multiplied by \(x_i\).
+Let \(B_i^r\) be the Gram matrix of the channel-\(i\) components
+immediately before query \(r\). Their sum is the Gram matrix
+before that query. Input-independent unitaries preserve Gram
+matrices, while querying multiplies the channel-\(i\) Gram matrix
+entrywise by \(C_i\). This gives
+\eqref{ian:pac-query-sdp}. Acceptance and rejection components
+give \(E_1,E_0\).
+
+For sufficiency, factor
+\[
+ (B_i^r)_{x,y}=\langle b_{x,i}^r,b_{y,i}^r\rangle.
+\]
+The vectors
+\[
+ \sum_{i=0}^n |i\rangle|b_{x,i}^r\rangle
+\]
+have Gram matrix \(G^{r-1}\), and after the phase query they have
+Gram matrix \(G^r\).
+Two finite vector families with the same Gram matrix admit an
+isometry mapping one family to the other: the map on their spans
+is well-defined because every linear relation has squared norm
+determined by that Gram matrix. After enlarging workspace, extend
+each isometry to a unitary.
+
+Initially \(G^0=J\), so the input states can all be the same unit
+vector. Apply the successive isometries and queries just described.
+At the end, factor \(E_0,E_1\) and use one final isometry to produce
+their orthogonal direct-sum vectors. Measuring the summand gives
+acceptance probability \((E_1)_{x,x}\).
+The diagonal equalities in \eqref{ian:pac-query-sdp} preserve unit
+norm throughout.
+
+The active channel \(i\) is implemented using response
+\(|-\rangle\) at physical index \(i\).
+The inert channel is implemented using response \(|+\rangle\)
+at any fixed physical index. Thus each phase query costs one
+standard coordinate query.
+
+The constructed gates are fixed independently of the unknown
+input. Applying them to every \(x\in\Omega_n\) defines the required
+global algorithm, including outside \(S\).
+\end{proof}
+
+\begin{definition}[General adversary and its dual certificate]
+\label{ian:pac-adversary-definition}
+For a partial Boolean function \(f:S\to\{0,1\}\), put
+\[
+ (\Delta_i)_{x,y}=\mathbf1_{\{x_i\ne y_i\}},
+\]
+and define
+\[
+ \operatorname{Adv}^{\pm}(f)
+  =\max_\Gamma\left\{
+       \|\Gamma\|:
+       \Gamma=\Gamma^{\mathsf T}\text{ real},\
+       \Gamma_{x,y}=0\text{ if }f(x)=f(y),\
+       \|\Gamma\circ\Delta_i\|\le1\text{ for all }i
+     \right\}.
+\]
+A dual upper certificate of cost \(A\) consists of positive
+semidefinite matrices \(V_i\), indexed by \(S\), with
+\[
+ \sum_i(V_i)_{x,x}\le A\quad(x\in S),
+ \qquad
+ \sum_{i:x_i\ne y_i}(V_i)_{x,y}=1
+       \quad(f(x)\ne f(y)).
+ \tag{32.10}\label{ian:pac-dual-adversary}
+\]
+Equivalently, factor
+\((V_i)_{x,y}=\langle v_{x,i},v_{y,i}\rangle\).
+Unlike \eqref{ian:pac-cw}, the constraint is an equality of inner
+products, and matrix entries need not be nonnegative.
+The matrices may be Hermitian; as in Definition~\ref{ian:pac-query-certificate}, their entrywise real parts are positive semidefinite and satisfy the same constraints, so real certificates suffice.
+\end{definition}
+
+\begin{theorem}[Literature adversary statements used here]
+\label{ian:pac-adversary-literature}
+For a partial Boolean function \(f:S\to\{0,1\}\) on Boolean inputs, write \(Q_\delta(f)\) for the least number of coordinate queries made by a quantum algorithm that outputs \(f(x)\) with probability at least \(1-\delta\) for every \(x\in S\). Then
+\[
+ Q_\delta(f)\ge
+ \frac{1-2\sqrt{\delta(1-\delta)}}2
+       \operatorname{Adv}^{\pm}(f)
+ \qquad(0\le\delta<1/2).
+ \tag{32.11}\label{ian:pac-adversary-lower}
+\]
+The minimum cost in \eqref{ian:pac-dual-adversary} equals
+\(\operatorname{Adv}^{\pm}(f)\).
+There is an absolute constant \(C_{\mathrm A}\) such that every
+feasible dual certificate of cost \(A\) for a nonconstant \(f\)
+constructs, after a constant number of repetitions, an algorithm with error at most \(1/3\) using at most
+\(\lceil C_{\mathrm A}A\rceil\) queries.
+
+Consequently, if \(0<\delta<1/2\) and \(r_\delta\) is the least
+positive odd integer at least \(18\log(1/\delta)\), a feasible
+certificate constructs an acceptance function
+\[
+ Q\in\mathcal Q_{n,T_\delta},
+ \qquad
+ T_\delta=r_\delta\lceil C_{\mathrm A}A\rceil,
+ \qquad
+ |Q(x)-f(x)|\le\delta\quad(x\in S).
+ \tag{32.12}\label{ian:pac-adversary-synthesis}
+\]
+\end{theorem}
+
+\begin{proof}
+The lower bound is H{\o}yer--Lee--{\v S}palek, Theorem~2,
+Boolean-output case (from literature:
+\emph{Negative weights make adversaries stronger},
+STOC 2007, 526--535, DOI \(10.1145/1250790.1250867\)).
+
+The dual equality and construction from a feasible solution are
+Reichardt, Lemma~2.1 and Section~2 of arXiv:1005.1601v1;
+tightness is Theorem~1.3 there (from literature:
+\emph{Reflections for quantum query algorithms},
+SODA 2011, 560--569, DOI \(10.1137/1.9781611973082.44\)).
+That construction, from a feasible solution of cost \(A\), uses \(O(A)\) queries and has constant completeness and soundness, rather than error at most \(1/3\): there are absolute constants \(0\le s<c\le1\) such that it accepts with probability at least \(c\) on one value of \(f\) and at most \(s\) on the other.
+Its queries are controlled applications of the phase oracle. A controlled phase query costs one standard coordinate query: route the control-off branch through the inert channel, with response \(|+\rangle\), as in the proof of Theorem~\ref{ian:pac-query-synthesis}.
+Repeat the construction independently
+\(r_0=\lceil2\ln3/(c-s)^2\rceil\) times and decide by whether the fraction of accepting runs exceeds \((c+s)/2\). Hoeffding's bound gives error at most \(\exp(-r_0(c-s)^2/2)\le1/3\). This defines \(C_{\mathrm A}\).
+
+Independently repeat the resulting algorithm \(r_\delta\) times
+and take majority. For each promised input, each answer is correct
+with probability at least \(2/3\). The elementary exponential-moment
+bound gives majority error at most
+\(\exp(-r_\delta/18)\le\delta\).
+This proves \eqref{ian:pac-adversary-synthesis}.
+
+For general finite input and output alphabets, the corresponding
+bounded-error characterization
+\(Q_{1/3}(f)=\Theta(\operatorname{Adv}^{\pm}(f))\)
+is Lee--Mittal--Reichardt--{\v S}palek--Szegedy,
+Theorem~1.1 (from literature:
+\emph{Quantum Query Complexity of State Conversion},
+FOCS 2011, 344--353, DOI \(10.1109/FOCS.2011.75\)).
+Its queries return symbols; bit encoding must be charged separately.
+\end{proof}
+
+\begin{lemma}[Robust compilation into a sector]
+\label{ian:pac-robust-compilation}
+Let \(Y,Q\in[0,1]\) be defined on a common probability space with
+input marginal \(\nu\), and suppose
+\[
+ \operatorname{Var}Y\ge v,\qquad
+ \sup_{F\in\mathcal F_t}|\operatorname{Cov}(Y,F(X))|\le\eta,
+ \qquad
+ \mathbb E|Q(X)-Y|\le\delta.
+\]
+Then
+\[
+ \operatorname{Var}_\nu Q\ge v-2\delta,\qquad
+ \sup_{F\in\mathcal F_t}
+       |\operatorname{Cov}_\nu(Q,F)|\le\eta+2\delta.
+ \tag{32.13}\label{ian:pac-compilation}
+\]
+If \(Q\in\mathcal Q_{n,T}\) and
+\(0<\eta+2\delta<v-2\delta\), this is a realization with
+\[
+ a=v-2\delta,\qquad \gamma=\eta+2\delta.
+\]
+Its ambient weight remains \(w\) whenever \(w\nu\le\mu\).
+In particular,
+\[
+ \ell_\mu(t,Q)\ge w(v-\eta-4\delta).
+\]
+The condition \(4\eta+10\delta\le v\), with \(\gamma>0\),
+ensures \(\gamma\le a/4\).
+\end{lemma}
+
+\begin{proof}
+Let \((Q',Y')\) be an independent copy. Since both differences
+\(Q-Q'\) and \(Y-Y'\) belong to \([-1,1]\),
+\[
+ \left|\operatorname{Var}Q-\operatorname{Var}Y\right|
+ =\frac12\left|
+      \mathbb E\bigl((Q-Q')^2-(Y-Y')^2\bigr)\right|
+ \le\mathbb E|(Q-Y)-(Q'-Y')|\le2\delta.
+\]
+For \(|F|\le1\),
+\[
+ |\operatorname{Cov}(Q-Y,F)|
+   =|\mathbb E[(Q-Y)(F-\mathbb EF)]|
+   \le2\delta.
+\]
+These prove \eqref{ian:pac-compilation}.
+The remaining assertions follow from the sector definition,
+Proposition~\ref{ian:hard-sector-forward}, and
+\(4(\eta+2\delta)\le v-2\delta\).
+\end{proof}
+
+\begin{theorem}[Two adversary-to-sector constructions]
+\label{ian:pac-adversary-to-sector}
+Let \(f:S\to\{0,1\}\) have a feasible dual certificate of cost
+\(A\), and let \(Q\) be the amplified algorithm in
+\eqref{ian:pac-adversary-synthesis}.
+
+First, suppose \(\nu(S)=1\), \(w\nu\le\mu\), and
+\[
+ \operatorname{Var}_\nu f\ge v,\qquad
+ \sup_{F\in\mathcal F_t}
+       |\operatorname{Cov}_\nu(f,F)|\le\eta.
+\]
+Whenever \(\eta+4\delta<v\), this constructs a smooth sector
+with
+\[
+ T=T_\delta,\qquad
+ a=v-2\delta,\qquad
+ \gamma=\eta+2\delta.
+\]
+If the supplied law is \(\mu(\cdot\mid H)\), it constructs the
+corresponding set sector.
+
+Second, suppose \(\mu(S)=1\), \(t\ge1\),
+\(0<\epsilon<1/8\), and
+\[
+ L=\left\lceil512\epsilon^{-5}\right\rceil t,\qquad
+ \min_{D\in\mathcal D_L}\mathbb E_\mu|D-f|>\epsilon+\delta.
+ \tag{32.14}\label{ian:pac-classical-loss}
+\]
+Then there is a set \(H\) with membership decided by a tree of
+depth below \(L\), such that
+\[
+ \mu(H)\ge\frac{\epsilon^3}{64},\qquad
+ \operatorname{Hard}\left(
+ Q,\mu(\cdot\mid H);
+ t,\frac{\epsilon^2}{4},\frac{\epsilon^2}{16}
+ \right).
+ \tag{32.15}
+\]
+\end{theorem}
+
+\begin{proof}
+The first construction follows from
+\(\mathbb E_\nu|Q-f|\le\delta\) and
+Lemma~\ref{ian:pac-robust-compilation}.
+
+For the second, the triangle inequality gives
+\[
+ \ell_\mu(L,Q)
+ \ge\min_{D\in\mathcal D_L}\mathbb E_\mu|D-f|
+       -\mathbb E_\mu|Q-f|>\epsilon.
+\]
+Apply Corollary~\ref{ian:hard-sector-explicit} in
+\path{ian/13_hard_sector_definitions_forward.tex},
+with its parameter \(\eta=1/4\).
+Its extraction depth is \(L\), weight is
+\(\epsilon^3/64\), variance parameter is \(\epsilon^2/4\),
+and covariance parameter is \(\epsilon^2/16\).
+
+A distribution satisfying \eqref{ian:pac-classical-loss} can also
+be obtained from a sufficiently strong worst-case randomized
+classical lower bound by finite minimax. Explicitly, if every
+randomized depth-\(L\) tree has some promised input with error
+greater than \(\epsilon+\delta\), finite linear programming
+duality supplies a law \(\mu\) on \(S\) with that distributional
+lower bound for every deterministic Boolean-output tree.
+For a Boolean target, allowing leaf values in \([0,1]\) cannot
+improve the minimum absolute loss: at each leaf a minimizing
+output can be chosen in \(\{0,1\}\).
+\end{proof}
+
+\begin{remark}[Scope of the construction and the realization gap]
+\label{ian:pac-realization-gap}
+A large feasible primal adversary value is a lower bound on the
+queries required to decide the specified target. By
+\eqref{ian:pac-adversary-lower}, it can reject a proposed query
+budget. It supplies neither a small dual certificate nor
+law-specific variance, adaptive hiding or ambient weight.
+A point-mass sector law has zero variance regardless of the
+worst-case adversary value.
+
+A dual certificate guarantees bounded-error decision, rather than
+a prescribed acceptance function. It does not imply exact
+agreement \(Q=f\), nor agreement with another real target
+\(Y\). Amplification supplies the required closeness to \(f\);
+Lemma~\ref{ian:pac-robust-compilation} then settles the sector
+parameters. For a different \(Y\), one must additionally prove
+\(\mathbb E_\nu|Q-Y|\le\delta\), or use
+Theorem~\ref{ian:pac-query-synthesis} to certify the intended
+acceptance probabilities directly. Exact query-state feasibility
+leaves no further finite-dimensional realization gap; discovering
+a useful feasible certificate and proving classical hiding remain
+the construction problems.
+\end{remark}
+
+\begin{proposition}[The weak universal observable converse]
+\label{ian:pac-observable-converse}
+For every \(Q\in\mathcal Q_{n,T}\), \(0<\epsilon,\rho<1\), repeated
+executions estimate \(Q(x)\) to additive error \(\epsilon\), with
+failure probability at most \(\rho\), using at most
+\[
+ T\left\lceil
+       \frac{\log(2/\rho)}{2\epsilon^2}
+   \right\rceil
+\]
+coordinate queries.
+\end{proposition}
+
+\begin{proof}
+Average the independent acceptance bits.
+For a Bernoulli variable \(B\),
+\(\mathbb E e^{\lambda(B-\mathbb EB)}
+ \le e^{\lambda^2/8}\).
+For completeness, the logarithm of this moment generating
+function has value and derivative zero at zero; its second
+derivative is the variance of a tilted Bernoulli law and is at
+most \(1/4\). Integrating twice proves the bound.
+Exponential Markov bounds for the two tails give error probability
+at most \(2e^{-2k\epsilon^2}\) after \(k\) executions.
+
+This gives an estimable observable for every realizable sector,
+without identifying an independent mechanism for its algorithm.
+Recovering an exact quantization bin additionally requires a
+margin from its boundaries.
+\end{proof}
+
+\begin{lemma}[Explicit dual certificates from a supplied circuit]
+\label{ian:pac-circuit-to-dual}
+Suppose a purified \(q\)-query circuit decides
+\(f:S\to\{0,1\}\) with error at most
+\(0<\delta<1/2\). Its query states explicitly determine a feasible
+dual certificate of cost
+\[
+ A\le\frac{2q}{1-\kappa},
+ \qquad \kappa=2\sqrt{\delta(1-\delta)}<1.
+ \tag{32.16}\label{ian:pac-circuit-dual-cost}
+\]
+For an exact circuit the cost bound is \(2q\).
+\end{lemma}
+
+\begin{proof}
+The argument is the standard dual form of the H{\o}yer--Lee--{\v S}palek lower-bound proof (from literature, cited in the proof of Theorem~\ref{ian:pac-adversary-literature}); we record it because its matrices are explicit.
+
+Let \(\phi_x^r\) be its state immediately before query \(r\),
+let \(P_i\) project onto the active phase channel for coordinate
+\(i\), and let \(\psi_x\) be its final state.
+Define positive semidefinite matrices
+\[
+ (W_i)_{x,y}
+   =2\sum_{r=1}^q
+       \langle P_i\phi_x^r,P_i\phi_y^r\rangle,
+ \qquad
+ G_{x,y}=\langle\psi_x,\psi_y\rangle.
+\]
+Telescoping the Gram-matrix change of each query gives
+\[
+ 1-G_{x,y}
+   =\sum_{i:x_i\ne y_i}(W_i)_{x,y},
+ \qquad
+ \sum_i(W_i)_{x,x}\le2q.
+ \tag{32.17}
+\]
+
+Write \(\psi_x=\psi_x^0\oplus\psi_x^1\) for its output components,
+and put \(c=(\delta/(1-\delta))^{1/4}\).
+Define
+\[
+ r_x=
+ \begin{cases}
+ c\psi_x^0\oplus c^{-1}\psi_x^1,&f(x)=0,\\
+ c^{-1}\psi_x^0\oplus c\psi_x^1,&f(x)=1.
+ \end{cases}
+\]
+The error bound implies \(\|r_x\|^2\le\kappa\).
+If \(f(x)\ne f(y)\), then
+\(\langle r_x,r_y\rangle=G_{x,y}\).
+Let \(R\) be the Gram matrix of the \(r_x\), and set
+\[
+ K=\sum_{\ell=0}^\infty R^{\circ\ell},
+ \qquad K_{x,y}=\frac1{1-R_{x,y}},
+\]
+where \(R^{\circ0}=J\).
+The series converges entrywise since \(|R_{x,y}|\le\kappa<1\).
+Every summand is positive semidefinite, being the Gram matrix of
+tensor powers. Hence \(K\) is positive semidefinite and
+\(K_{x,x}\le(1-\kappa)^{-1}\).
+
+Set \(V_i=W_i\circ K\). These matrices are positive semidefinite,
+again by tensor-product Gram factorization.
+For opposite outputs,
+\[
+ \sum_{i:x_i\ne y_i}(V_i)_{x,y}
+   =\frac{1-G_{x,y}}{1-R_{x,y}}=1.
+\]
+Their diagonal cost satisfies \eqref{ian:pac-circuit-dual-cost}.
+Although a convergent series defines \(K\), it is a finite matrix
+with the displayed explicit entries and admits a finite Gram
+factorization. The matrices \(V_i\) are Hermitian; their entrywise real parts are real positive semidefinite matrices with the same diagonal and the same opposite-output constraint.
+
+For an exact circuit, opposite-output final states are orthogonal.
+Thus \(G_{x,y}=0\) on those pairs and \(V_i=W_i\) already satisfies
+the dual constraints.
+\end{proof}
+
+\begin{proposition}[Character-code certificate and polynomial check]
+\label{ian:pac-character-check}
+Let \(m\ge4\) be even, \(n=2^m\), and
+\[
+ c_a(z)=(-1)^{a\cdot z},\qquad
+ h(a)=\sum_{j=1}^{m/2}a_{2j-1}a_{2j}\pmod2.
+\]
+Let \(\nu\) be the uniform law on the character code
+\(H=\{c_a:a\in\mathbb F_2^m\}\).
+There is an exact one-query algorithm on this promise with global
+acceptance function
+\[
+ Q(x)=\sum_{a:h(a)=1}\alpha_a(x)^2,\qquad
+ \alpha_a(x)=\frac1n\sum_zx_z(-1)^{a\cdot z}.
+ \tag{32.18}\label{ian:pac-bv-acceptance}
+\]
+It satisfies
+\[
+ Q(c_a)=h(a),\qquad
+ \operatorname{Var}_\nu Q=\frac{1-1/n}{4},
+ \qquad
+ \sup_{F\in\mathcal F_t}|\operatorname{Cov}_\nu(Q,F)|
+ \le\frac{2^t-1}{2\sqrt n}.
+ \tag{32.19}\label{ian:pac-bv-hardness}
+\]
+In particular, for \(t\le m/2-2\),
+\[
+ \operatorname{Hard}(Q,\nu;t,3/16,1/8).
+\]
+A dual certificate and completion weights both have cost \(2\).
+The global nonconstant coefficient mass is exactly
+\[
+ \sum_{S\ne\varnothing}|\widehat Q(S)|
+     =\frac{n-1}{2\sqrt n}.
+ \tag{32.20}\label{ian:pac-bv-coefficients}
+\]
+\end{proposition}
+
+\begin{proof}
+Prepare \(n^{-1/2}\sum_z|z\rangle\), use phase kickback for one
+coordinate query, and apply the Walsh transform.
+The resulting amplitudes are \(\alpha_a(x)\).
+This is the Bernstein--Vazirani readout (from literature:
+E.~Bernstein and U.~Vazirani,
+\emph{Quantum Complexity Theory}, SIAM J.~Comput. 26(5),
+1411--1473, 1997, DOI \(10.1137/S0097539796300921\)).
+The displayed circuit proves the required statement directly.
+
+The Walsh transform is unitary, so
+\(\sum_a\alpha_a(x)^2=1\) on the whole cube.
+Thus \eqref{ian:pac-bv-acceptance}, together with its complementary
+sum, exhibits the degree-one amplitudes and both sums of squares.
+On \(c_a\), orthogonality gives the basis state \(|a\rangle\).
+This is also an exact query-state certificate in
+Theorem~\ref{ian:pac-query-synthesis}.
+
+For explicit dual vectors, use the scalar
+\[
+ v_{c_a,z}=\sqrt{2/n}.
+\]
+Distinct characters disagree on exactly \(n/2\) coordinates, so
+the opposite-output inner-product sum is one and the cost is two.
+Likewise, \(\lambda_z^{c_a}=2/n\) satisfies
+\eqref{ian:pac-cw} with cost two.
+
+Put
+\[
+ b(s)=\frac1n\sum_a h(a)(-1)^{a\cdot s}.
+\]
+The Walsh sum of \((-1)^{h(a)}\) factors over its two-bit blocks.
+Each normalized block sum has absolute value \(1/2\).
+Consequently,
+\[
+ b(0)=\frac{1-n^{-1/2}}2,\qquad
+ |b(s)|=\frac1{2\sqrt n}\quad(s\ne0).
+\]
+This proves the variance formula.
+A classical coordinate query to \(c_a(z)\) reveals one linear
+equation in \(a\). Each positive-probability adaptive leaf
+therefore conditions \(a\) onto an affine subspace of codimension
+at most \(t\). Its conditional mean of \(h-b(0)\) is a sum of at
+most \(2^t-1\) nonconstant Fourier terms, each of absolute value
+\(1/(2\sqrt n)\). Averaging against arbitrary leaf outputs in
+\([-1,1]\) proves \eqref{ian:pac-bv-hardness}.
+The stated sector parameters follow.
+
+Expanding the global acceptance polynomial gives constant
+coefficient \(b(0)\), and, for unordered distinct coordinates
+\(z,w\),
+\[
+ \widehat Q(\{z,w\})=\frac2n\,b(z+w).
+\]
+All its other nonconstant coefficients vanish. There are
+\(n(n-1)/2\) such pairs, proving
+\eqref{ian:pac-bv-coefficients}.
+Moreover,
+\[
+ \operatorname{Cov}_\nu(Q,x_zx_w)=b(z+w),
+ \qquad
+ \operatorname{Var}_\nu Q
+   =\frac1{2\sqrt n}
+       \sum_{S\ne\varnothing}|\widehat Q(S)|.
+\]
+Thus \eqref{ian:pac-pm-display} is verified whenever \(t\ge2\):
+hardness then forces \(\gamma\ge1/(2\sqrt n)\).
+
+Under ambient law \(\mu=\nu\), the sector has weight one.
+Under the uniform cube law, its weight is
+\(n2^{-n}\), and
+\(\nu\le(2^n/n)U_n\).
+These are the corresponding parameters for
+Theorem~\ref{ian:pac-product-exclusion}.
+\end{proof}
+
+\begin{proposition}[Simon in physical coordinate form]
+\label{ian:pac-simon-check}
+Let \(m\ge10\), \(M=2^m\), \(G=\mathbb F_2^m\), and \(n=mM\).
+Choose \(s\) uniformly from \(G\setminus\{0\}\), assign distinct
+uniformly random labels in \(G\) to the \(M/2\) pairs
+\(\{u,u+s\}\), and denote the resulting table by \(f_X:G\to G\).
+Encode it as
+\[
+ X_{u,j}=(-1)^{f_X(u)_j}.
+\]
+Let \(\nu\) be this promise law, \(H=\operatorname{supp}\nu\),
+and \(Y=s_1\).
+
+For \(k\ge m-1\), there is a globally defined algorithm using
+\(T=mk\) coordinate queries with
+\[
+ Q(X)=p_{m,k}Y(X)\quad(X\in H),
+ \qquad
+ p_{m,k}=\prod_{j=0}^{m-2}(1-2^{j-k}),
+ \qquad
+ 1-p_{m,k}\le2^{m-1-k}.
+ \tag{32.21}\label{ian:pac-simon-acceptance}
+\]
+For \(c_t=\binom t2<M-1\), its covariance satisfies
+\[
+ \sup_{F\in\mathcal F_t}|\operatorname{Cov}_\nu(Q,F)|
+ \le p_{m,k}\frac{2c_t}{M-1-c_t}.
+ \tag{32.22}\label{ian:pac-simon-hiding}
+\]
+Taking
+\[
+ k=m+9,\qquad
+ t=\left\lfloor\frac{\sqrt M}{32}\right\rfloor
+\]
+gives a sector of weight one under \(\mu=\nu\), with
+\[
+ T=m(m+9),\qquad a=\frac18,\qquad\gamma=\frac1{64}.
+\]
+Both an explicit query-state certificate and an explicit dual
+certificate of cost less than \(3T\) are available.
+\end{proposition}
+
+\begin{proof}
+For every cube input define
+\(f_X(u)_j=(1-X_{u,j})/2\).
+Its whole-output XOR oracle uses exactly \(m\) coordinate queries,
+one for each output bit. Start each sample with
+\[
+ M^{-1/2}\sum_{u\in G}|u\rangle|0^m\rangle,
+\]
+apply that oracle, apply the Walsh transform to the first
+register, and retain both registers. No inverse oracle call is
+required.
+
+This is Simon's Fourier-sampling procedure (from literature:
+D.~R.~Simon, \emph{On the Power of Quantum Computation},
+SIAM J.~Comput. 26(5), 1474--1483, 1997,
+DOI \(10.1137/S0097539796298637\)); the calculations needed here
+follow directly.
+
+Indeed, the global amplitude of \(|v,z\rangle\) in one sample is
+\[
+ A_{v,z}(X)=\frac1M\sum_{u\in G}(-1)^{u\cdot v}
+       \prod_{j=1}^m\frac{1+(-1)^{z_j}X_{u,j}}2.
+ \tag{32.23}
+\]
+It has degree at most \(m\).
+The sample probabilities are
+\[
+ B_v(X)=\sum_z A_{v,z}(X)^2
+ =\frac1{M^2}\sum_{u,w\in G}(-1)^{(u+w)\cdot v}
+       \prod_{j=1}^m\frac{1+X_{u,j}X_{w,j}}2.
+ \tag{32.24}
+\]
+They are nonnegative and sum to one for every cube input.
+
+Take \(k\) independent samples. If their vectors
+\(v_1,\ldots,v_k\) have rank \(m-1\), output the first bit of the
+unique nonzero vector in their common orthogonal complement.
+At every other rank, output zero.
+This is a fixed rule on all cube inputs.
+
+Let \(\mathcal A\) be the set of sample tuples for which that rule
+outputs one. The global acceptance function is
+\[
+ Q(X)=\sum_{(v_1,\ldots,v_k)\in\mathcal A}
+          \prod_{r=1}^k B_{v_r}(X).
+ \tag{32.25}
+\]
+Equivalently, it is the sum of squares of the amplitude products
+\(\prod_r A_{v_r,z_r}(X)\) over accepting basis states.
+The complementary basis states give \(1-Q\).
+These formulas, together with the stated sequence of coordinate
+queries, explicitly certify query compatibility, amplitude degree
+at most \(mk\), acceptance degree at most \(2mk\), and global
+boundedness.
+
+On the promise, equal outputs occur precisely when
+\(w=u\) or \(w=u+s\). Hence
+\[
+ B_v(X)=\frac{1+(-1)^{s\cdot v}}M
+       =\frac2M\mathbf1_{\{v\in s^\perp\}}.
+\]
+The samples are independent uniform vectors in the
+\((m-1)\)-dimensional space \(s^\perp\).
+The full-rank probability is
+\(\prod_{j=0}^{m-2}(1-2^{j-k})\).
+Alternatively, failure implies that one of the
+\(2^{m-1}-1\) nonzero linear functionals vanishes on all samples,
+so its probability is at most \(2^{m-1-k}\).
+This proves \eqref{ian:pac-simon-acceptance}, including the
+specified failure output.
+
+We next prove adaptive hiding.
+A deterministic whole-output strategy may cache repeated arguments.
+For a collision-free transcript with distinct queried arguments
+\(u_1,\ldots,u_q\), put
+\[
+ E_\tau=\{u_i+u_j:i<j\}.
+\]
+For any candidate nonzero mask \(s'\notin E_\tau\), these arguments
+lie in distinct \(s'\)-pairs. The likelihood of their prescribed
+distinct output labels is exactly \(1/(M)_q\), independently of
+\(s'\), where \((M)_j=M(M-1)\cdots(M-j+1)\) denotes the falling factorial. For \(s'\in E_\tau\) it is zero.
+Adaptive query choices are already determined by the preceding
+answers in the fixed transcript. Therefore the posterior mask is
+uniform on
+\[
+ (G\setminus\{0\})\setminus E_\tau.
+\]
+
+Write
+\[
+ \rho=\mathbb E_\nu Y=\frac{M}{2(M-1)}.
+\]
+At a collision-free terminal transcript,
+\[
+ |\mathbb E[Y\mid\tau]-\rho|
+ \le\frac{|E_\tau|}{M-1-|E_\tau|}
+ \le\frac{c_t}{M-1-c_t}.
+\]
+After \(j\) collision-free queries, a new argument can collide with
+at most \(j\) previous arguments, so its conditional collision
+probability is at most \(j/(M-1-c_t)\).
+Summing over first-collision steps bounds the probability of any
+collision by \(c_t/(M-1-c_t)\).
+On collision transcripts the posterior deviation is at most one.
+Consequently,
+\[
+ \mathbb E|\mathbb E[Y\mid\tau]-\rho|
+ \le\frac{2c_t}{M-1-c_t}.
+\]
+A depth-\(t\) bit tree can be simulated by at most \(t\)
+whole-output queries, caching each returned symbol.
+Its bit transcript is a function of the simulated transcript;
+conditional Jensen preserves the bound.
+Multiplying the posterior deviation by a leaf output of absolute
+value at most one proves the covariance bound for \(Y\).
+Since \(Q=p_{m,k}Y\) on the promise, this proves
+\eqref{ian:pac-simon-hiding}.
+
+The target variance is
+\[
+ \operatorname{Var}_\nu Y
+   =\frac14-\frac1{4(M-1)^2}.
+\]
+For \(k=m+9\), \(p_{m,k}\ge1-2^{-10}\), so
+\[
+ \operatorname{Var}_\nu Q
+   =p_{m,k}^2
+       \left(\frac14-\frac1{4(M-1)^2}\right)>\frac18.
+\]
+For the stated \(t\), \(c_t\le M/2048\).
+As \(M\ge1024\),
+\[
+ \frac{2c_t}{M-1-c_t}
+ \le\frac2{2045}<\frac1{512}<\frac1{64}.
+\]
+The announced hard-sector parameters follow.
+
+To exhibit dual matrices, take the actual prequery and final
+states of this circuit, specified by the sample preparation and
+rank postprocessing above, and apply the explicit formulas
+\(W_i,R,K,V_i\) in Lemma~\ref{ian:pac-circuit-to-dual}, with
+\(\delta=2^{-10}\).
+They satisfy \eqref{ian:pac-dual-adversary} and have cost
+\[
+ A\le
+ \frac{2T}{1-2\sqrt{2^{-10}(1-2^{-10})}}<3T.
+\]
+This supplies finite matrices with specified entries, rather than
+an inference from completion weights.
+
+Finally, every table uniquely determines its nonzero mask, and
+each mask has \((M)_{M/2}\) injective pair labelings. Thus
+\[
+ |H|=(M-1)(M)_{M/2},\qquad
+ U_n(H)=\frac{(M-1)(M)_{M/2}}{M^M}.
+\]
+The promise law is uniform on \(H\), so
+\[
+ \nu\le
+ \frac{M^M}{(M-1)(M)_{M/2}}\,U_n.
+\]
+The weight is one under the promise law and is the displayed
+small probability under the uniform product law.
+\end{proof}
+
+\begin{remark}[Simon and the coefficient obstruction]
+\label{ian:pac-simon-pm}
+For Simon, physical degree is at most \(2T=2mk\), even though
+\(Q|_H=p_{m,k}s_1\) is linear in one hidden mask bit.
+If \(t<2T\), the applicable necessary statement is
+\eqref{ian:pac-pm-tail}; \eqref{ian:pac-pm-display} must not be invoked without its
+depth hypothesis.
+
+If \(t\ge2T\), as occurs for all sufficiently large \(m\) in the
+stated package, \eqref{ian:pac-pm-display} gives
+\[
+ \sum_{S\ne\varnothing}|\widehat Q(S)|\ge8.
+\]
+A sharper check follows by applying the proved Simon hiding bound
+at depth \(2T\). Write \(c=\binom{2T}{2}\), and suppose \(c<M-1\).
+Every nonconstant character in the global acceptance polynomial
+then has covariance with \(Q\) at most
+\(p_{m,k}\,2c/(M-1-c)\). Consequently,
+\[
+ \sum_{S\ne\varnothing}|\widehat Q(S)|
+ \ge
+ \frac{
+ p_{m,k}\operatorname{Var}_\nu Y\,(M-1-c)
+ }{2c}.
+\]
+Thus the explicit circuit has the coefficient mass forced by
+adaptive hiding. Its amplitude construction, not a polynomial
+specified only on \(H\), certifies its realizability.
+\end{remark}

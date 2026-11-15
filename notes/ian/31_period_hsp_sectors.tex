@@ -1,0 +1,640 @@
+\subsection{Random periods and abelian hidden-subgroup sectors}\label{ian:period-hsp-sectors}
+
+Status: proved: the random-prime-period exclusion count, adaptive posterior bound, Fourier reconstruction, explicit hard-sector parameters (Theorem~\ref{ian:period-hsp-period-sector}) and polynomial-quantifier failure of full AA for a family of promise laws (Corollary~\ref{ian:period-hsp-full-aa}); also proved are the finite abelian HSP compilation theorem (Theorem~\ref{ian:period-hsp-finite-hsp}) and its relabelling through known finite quotients of finitely generated abelian groups, while automatic subgroup recovery from arbitrary finite windows of infinite groups is refuted (Remark~\ref{ian:period-hsp-infinite-scope}). All conclusions are black-box statements about coordinate queries to encoded tables with hidden injective output labels (uniformly random in the period sector); they are not statements about factoring and give no classical factoring lower bound (Remark~\ref{ian:period-hsp-oracle-scope}). The only imported result is the continued-fraction criterion of Hardy--Wright, Theorem~184; Shor's period-finding strategy and Kitaev's abelian Fourier sampling are cited for the mechanism only, and every calculation used is proved here. Repository inputs are Definition~\ref{ian:hard-sector-definition}, Proposition~\ref{ian:hard-sector-forward} and Remark~\ref{ian:hard-sector-polynomial-quantifiers}.
+
+We use Definition~\ref{ian:hard-sector-definition} in
+\path{ian/13_hard_sector_definitions_forward.tex}.
+Thus \(\mathcal F_t\) and \(\mathcal D_t\) contain deterministic adaptive coordinate trees of worst-case depth at most \(t\), with outputs in \([-1,1]\) and \([0,1]\), respectively. Trees in \(\mathcal D_t\) are written \(\Delta\), since \(D\) denotes a domain size below. In particular,
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma)
+ \quad\Longleftrightarrow\quad
+ \Var_\nu Q\ge a,\qquad
+ \sup_{\Delta\in\mathcal D_t}|\Cov_\nu(Q,\Delta)|\le\gamma/2,
+\]
+where \(0<\gamma<a\le1/4\).
+All query bounds below charge individual Boolean coordinates. Input-independent operations and preprocessing are free. Intermediate measurements and adaptive stopping rules are deferred by the principle of deferred measurement, and a run that stops early is padded with queries whose answers are discarded, so each algorithm below has an acceptance function in \(\mathcal Q_{n,T}\) for its stated worst-case query count \(T\).
+
+\begin{lemma}[Oracle units, transcripts and compilation]\label{ian:period-hsp-compilation-tools}
+Let \(S\) be a finite address set, let \(b\ge1\), and encode a table
+\(f:S\to\{0,1\}^b\) by
+\[
+ X_{z,j}=(-1)^{f(z)_j},\qquad n=b|S|.
+\]
+Its whole-output XOR oracle
+\[
+ U_f|z,u\rangle=|z,u\oplus f(z)\rangle
+\]
+uses exactly \(b\) coordinate queries, as does \(U_f^{-1}\).
+A deterministic depth-\(t\) coordinate tree can be simulated using at most \(t\) whole-output queries.
+
+For any fixed query strategy with transcript \(\tau\), and any bounded target \(Y\),
+\[
+ \sup_{|F(\tau)|\le1}|\Cov(Y,F(\tau))|
+ =
+ \E\left|\E[Y\mid\tau]-\E Y\right|.
+\]
+The corresponding supremum for \(0\le\Delta(\tau)\le1\) is half this quantity.
+
+Suppose a law \(\nu\) on encoded tables and a target \(Y=Y(X)\in[0,1]\) satisfy
+\[
+ \Var_\nu Y\ge v,\qquad
+ \sup_{F\in\mathcal F_t}|\Cov_\nu(Y,F)|\le\eta.
+\]
+If a fixed quantum algorithm, defined on the entire cube, uses at most \(T\) coordinate queries and outputs \(\widehat Y\in[0,1]\) with
+\[
+ \E_{\nu,\mathrm{algorithm}}|\widehat Y-Y|\le\delta,
+\]
+then accepting with probability \(\widehat Y\) gives a globally defined
+\(Q\in\mathcal Q_{n,T}\) satisfying
+\[
+ \E_\nu|Q-Y|\le\delta,\qquad
+ \Var_\nu Q\ge v-2\delta,
+\]
+\[
+ \sup_{F\in\mathcal F_t}|\Cov_\nu(Q,F)|\le\eta+2\delta,
+ \qquad
+ \sup_{\Delta\in\mathcal D_t}|\Cov_\nu(Q,\Delta)|\le\eta/2+\delta.
+\]
+Any supplied set-sector or smooth-sector weight is unchanged.
+\end{lemma}
+
+\begin{proof}
+For each fixed \(j\), compute the coordinate address \((z,j)\), query directly into output bit \(u_j\), and reverse the address computation. The reversal uses input-independent gates and no oracle calls. Repeating this for \(j=1,\ldots,b\) implements \(U_f\) without label-dependent scratch space. The XOR oracle is its own inverse.
+
+For the classical simulation, query and cache the whole word at an address when the coordinate tree first requests one of its bits. Answer subsequent requests at that address from the cache. There are at most \(t\) newly visited addresses.
+
+Put \(h(\tau)=\E[Y\mid\tau]-\E Y\). Conditional expectation gives
+\[
+ \Cov(Y,F(\tau))=\E[h(\tau)F(\tau)].
+\]
+The sign of \(h\) attains \(\E|h|\). Since \(\E h=0\), replacing \(F\) by \(2\Delta-1\) proves the factor \(1/2\).
+
+The acceptance function is
+\(Q(X)=\E[\widehat Y\mid X]\), so Jensen's inequality gives
+\(\E|Q-Y|\le\delta\).
+For \(u,y,c\in[0,1]\),
+\[
+ |(u-c)^2-(y-c)^2|\le2|u-y|.
+\]
+Taking \(c=\E Q\) yields
+\[
+ \Var Y\le\E(Y-\E Q)^2\le\Var Q+2\delta.
+\]
+For \(F\in[-1,1]\),
+\[
+ |\Cov(Q-Y,F)|
+ =|\E[(Q-Y)(F-\E F)]|
+ \le2\delta.
+\]
+The bound for \([0,1]\)-valued tests follows by \(F=2\Delta-1\).
+The acceptance circuit is defined outside the promise as well, and changing its output rule does not change either supplied measure-domination or conditioning identity.
+\end{proof}
+
+\begin{definition}[The random-prime-period law]\label{ian:period-hsp-period-law}
+Fix an integer \(R>32\), and fix a public, even-sized set
+\[
+ \mathcal P=\{p_1<\cdots<p_K\}\subseteq[R,2R)
+\]
+of \(K\ge2\) primes. Set
+\[
+ D=2^{\lceil\log_2(16R^2)\rceil},\qquad
+ b=\lceil\log_2(2R)\rceil,\qquad B=2^b,\qquad n=bD.
+\]
+Thus
+\[
+ 16R^2\le D<32R^2,\qquad B\ge2R.
+\]
+Draw \(r\) uniformly from \(\mathcal P\). Conditional on \(r\), draw an injection
+\[
+ \ell:\{0,\ldots,r-1\}\hookrightarrow\{0,1\}^b
+\]
+uniformly from all \((B)_r\) injections, where
+\((B)_j=B(B-1)\cdots(B-j+1)\).
+Supply only the table coordinates
+\[
+ f(z)=\ell(z\bmod r),\qquad
+ X_{z,j}=(-1)^{f(z)_j},
+ \qquad 0\le z<D,\quad 1\le j\le b.
+\]
+Write \(\nu_{R,\mathcal P}\) for this law and \(H\) for its support. Define
+\[
+ g(p_i)=\mathbf1_{\{i>K/2\}},\qquad Y=g(r).
+\]
+The prime set, its ordering and \(g\) are public; \(r\) and \(\ell\) are not additional input coordinates.
+
+This is a window of an integer-periodic function. Since \(D\) is a power of two and \(r>32\) is prime, \(r\nmid D\).
+\end{definition}
+
+\begin{lemma}[Identifiability, balance and uniform-table weight]\label{ian:period-hsp-period-weight}
+The period is a deterministic function of every table in \(H\), and
+\[
+ \E_\nu Y=\frac12,\qquad \Var_\nu Y=\frac14,
+ \qquad \nu=\nu_{R,\mathcal P}.
+\]
+Let \(H_r\) denote the tables with period \(r\). Then these sets are disjoint and
+\[
+ |H_r|=(B)_r,\qquad
+ \nu(X)=\frac1{K(B)_r}\quad(X\in H_r).
+\]
+Consequently, for the uniform cube law \(U_n\),
+\[
+ U_n(H)=B^{-D}\sum_{r\in\mathcal P}(B)_r
+ \le K B^{-(D-2R)}.
+ \tag{31.1}\label{ian:period-hsp-uniform-weight}
+\]
+The promise law gives \(H\) weight one. It generally differs from \(U_n(\cdot\mid H)\), whose period probabilities are proportional to \((B)_r\).
+
+More precisely, the largest smooth-sector weight of \(\nu\) under \(U_n\) is
+\[
+ w_*=\frac{K\min_{r\in\mathcal P}(B)_r}{B^D}.
+ \tag{31.2}\label{ian:period-hsp-uniform-smooth-weight}
+\]
+\end{lemma}
+
+\begin{proof}
+Injectivity gives, for addresses in the window,
+\[
+ f(z)=f(z')\quad\Longleftrightarrow\quad r\mid(z-z').
+\]
+In particular, the first positive address with output \(f(0)\) is \(r<D\), proving identifiability and disjointness. Every residue occurs in the window, so different injections give different tables. This proves the count and atom probabilities. Balance follows from the definition of \(g\).
+
+There are \(B^D=2^n\) unrestricted tables, and
+\((B)_r\le B^r\le B^{2R}\), proving the uniform-weight bound.
+Finally, \(w\nu(X)\le U_n(X)\) on every \(H_r\) is equivalent to
+\(w\le K(B)_r/B^D\) for every \(r\), proving the formula for \(w_*\).
+\end{proof}
+
+\begin{lemma}[Fourier reconstruction in the nondivisible window]\label{ian:period-hsp-fourier-reconstruction}
+For every \(0<\delta<1\), put
+\[
+ N_\delta=\left\lceil16\ln\frac1\delta\right\rceil.
+\]
+There is a fixed decoder, defined on every \(X\in\Omega_n\), using at most
+\[
+ T_\delta=3bN_\delta
+\]
+coordinate queries, which recovers \(r\) on every promised input with failure probability at most \(\delta\).
+
+Outputting \(g(\widehat r)\) after successful reconstruction, and zero on failure, gives
+\(Q_\delta\in\mathcal Q_{n,T_\delta}\) with
+\[
+ |Q_\delta(X)-Y(X)|\le\delta\qquad(X\in H).
+\]
+\end{lemma}
+
+\begin{proof}
+One trial prepares
+\[
+ \frac1{\sqrt D}\sum_{z=0}^{D-1}|z\rangle|0^b\rangle,
+\]
+applies \(U_f\), applies the Fourier transform over \(\mathbb Z_D\) to the address register, and measures that register to obtain \(c\).
+The label register is retained or discarded; no inverse oracle is applied to erase it.
+
+Compute the continued-fraction convergents of \(c/D\). Retain a reduced fraction \(p/q\) only if
+\[
+ 0<p<q,\qquad q\in\mathcal P,\qquad
+ \left|\frac cD-\frac pq\right|\le\frac1{2D}.
+\]
+There is at most one such fraction: two different reduced fractions with denominators below \(2R\) differ by more than \(1/(4R^2)\), whereas two fractions passing the test differ by at most \(1/D\le1/(16R^2)\).
+
+If a candidate exists, query \(f(0)\) and \(f(q)\), and accept \(q\) as the recovered period exactly when these words agree. On the promise,
+\[
+ f(0)=f(q)\quad\Longleftrightarrow\quad r\mid q
+ \quad\Longleftrightarrow\quad q=r,
+\]
+because both \(q\) and \(r\) are primes in \(\mathcal P\).
+Thus validation never returns an incorrect period.
+
+The continued-fraction fact used here is the following exact statement: if
+\(\alpha\in\mathbb R\), \(p/q\) is reduced and
+\(|\alpha-p/q|<1/(2q^2)\), then \(p/q\) occurs among the continued-fraction convergents of \(\alpha\)
+(from literature: G.~H.~Hardy and E.~M.~Wright,
+\emph{An Introduction to the Theory of Numbers}, Theorem~184).
+The reconstruction strategy, Fourier sampling followed by continued fractions, is that of P.~W.~Shor,
+\emph{Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer},
+SIAM J. Comput. 26(5), 1484--1509 (1997), Section~5 (from literature).
+
+We prove a uniform success bound, including the window endpoints.
+Conceptually measuring the label register first selects a residue
+\(a\in\{0,\ldots,r-1\}\) with probability \(L_a/D\), where
+\[
+ L_a=\left\lfloor\frac{D-1-a}{r}\right\rfloor+1
+ \in\{\lfloor D/r\rfloor,\lceil D/r\rceil\}.
+\]
+Conditional on this residue, the address state is
+\[
+ \frac1{\sqrt{L_a}}\sum_{j=0}^{L_a-1}|a+jr\rangle.
+\]
+Hence its Fourier outcome has probability
+\[
+ \Pr[c\mid a]
+ =
+ \frac1{DL_a}
+ \left|\sum_{j=0}^{L_a-1}
+       \exp(2\pi i jrc/D)\right|^2.
+\]
+
+For \(s=1,\ldots,r-1\), let \(c_s\) be the nearest integer to \(Ds/r\).
+These outcomes are distinct. Put
+\[
+ \theta=\frac{rc_s}{D}-s,\qquad L=L_a.
+\]
+Then
+\[
+ |\theta|\le\frac r{2D},\qquad
+ L|\theta|\le\frac12+\frac r{2D}<\frac23.
+\]
+For \(0\le u\le2/3\), concavity of sine on \([0,2\pi/3]\) gives
+\[
+ \sin(\pi u)\ge\frac{3\sqrt3}{4}u\ge u.
+\]
+Using also \(|\sin(\pi\theta)|\le\pi|\theta|\), the geometric sum therefore satisfies
+\[
+ \left|\sum_{j=0}^{L-1}e^{2\pi i j\theta}\right|
+ =
+ \frac{|\sin(\pi L\theta)|}{|\sin(\pi\theta)|}
+ \ge\frac L\pi,
+\]
+with the zero-\(\theta\) case interpreted by continuity. Thus
+\[
+ \Pr[c=c_s\mid a]\ge\frac L{\pi^2D}.
+\]
+Since \(L\ge D/r-1\), summing over the \(r-1\) good outcomes gives
+\[
+ \Pr[c\in\{c_1,\ldots,c_{r-1}\}\mid a]
+ \ge
+ \frac{(1-1/r)(1-r/D)}{\pi^2}
+ >\frac1{16}.
+\]
+The final inequality follows from \(r>32\), \(r/D<1/256\), and \(\pi^2<10\).
+It holds for every residue \(a\), so it also holds unconditionally.
+
+For every good outcome,
+\[
+ \left|\frac{c_s}{D}-\frac sr\right|
+ \le\frac1{2D}<\frac1{2r^2}.
+\]
+Primality makes \(s/r\) reduced. It is therefore a convergent, passes the candidate test, and validates. This proves success probability at least \(1/16\) per trial, uniformly over all promised tables.
+
+Run \(N_\delta\) fresh trials, stopping after the first validated period.
+Their failure probability is at most
+\[
+ (15/16)^{N_\delta}
+ \le e^{-N_\delta/16}\le\delta.
+\]
+A trial uses one whole-output call for Fourier sampling and at most two for validation. Each costs \(b\) coordinate queries by Lemma~\ref{ian:period-hsp-compilation-tools}, including address uncomputation. The measured validation words need no oracle uncomputation. This proves the stated worst-case query bound.
+
+For arbitrary cube inputs, use the same sampling, candidate test, validation and stopping rule, with zero output if no candidate validates. Every queried candidate address lies below \(2R<D\), so the algorithm is globally defined. On the promise, every validated candidate equals \(r\), which proves the pointwise target-error bound.
+\end{proof}
+
+\begin{lemma}[Adaptive exclusions and posterior hiding]\label{ian:period-hsp-adaptive-hiding}
+Let a deterministic adaptive strategy make at most \(t\) whole-output queries, and let \(\tau\) be its transcript. Put
+\[
+ L_t=2\binom t2=t(t-1).
+\]
+If \(L_t<K\), then
+\[
+ \E_\nu\left|\E_\nu[Y\mid\tau]-\frac12\right|
+ \le\frac{L_t}{K-L_t}
+ \le
+ \frac{4\binom t2}{K-2\binom t2}.
+\]
+The same bound holds for transcripts of depth-\(t\) coordinate-query strategies, including partial and repeated bit reads. Consequently,
+\[
+ \sup_{F\in\mathcal F_t}|\Cov_\nu(Y,F)|
+ \le\frac{L_t}{K-L_t},
+ \qquad
+ \sup_{\Delta\in\mathcal D_t}|\Cov_\nu(Y,\Delta)|
+ \le\frac{L_t}{2(K-L_t)}.
+\]
+
+More precisely, for a collision-free whole-output transcript with distinct queried addresses \(z_1,\ldots,z_q\), define
+\[
+ E_\tau=
+ \{p\in\mathcal P:
+       p\mid(z_i-z_j)\text{ for some }i<j\}.
+\]
+Then
+\[
+ |E_\tau|\le2\binom q2,
+ \qquad
+ \Pr[r=p\mid\tau]
+ =
+ \frac{\mathbf1_{\{p\notin E_\tau\}}}{K-|E_\tau|}.
+\]
+A collision here means equal whole outputs at distinct addresses.
+\end{lemma}
+
+\begin{proof}
+Every nonzero queried difference \(d\) has \(|d|<D<32R^2\).
+If three distinct primes from \(\mathcal P\) divided \(d\), their product would divide \(|d|\) and would be at least \(R^3>32R^2\), a contradiction. Thus each pair excludes at most two candidate periods, proving the exclusion count.
+
+Cache repeated addresses. Fix a collision-free transcript with distinct output words \(u_1,\ldots,u_q\). For \(p\in E_\tau\), its likelihood under \(r=p\) is zero. For \(p\notin E_\tau\), the addresses occupy distinct residues modulo \(p\), and the probability of their specified distinct labels is
+\[
+ \frac{(B-q)_{p-q}}{(B)_p}
+ =\frac1{(B)_q}.
+\]
+The query choices and stopping decision in a fixed adaptive transcript are determined by preceding answers. They impose no additional probability factor. Bayes' rule therefore gives the exact posterior formula.
+
+Write \(e=|E_\tau|\), and let \(e_1\) count the excluded periods with target one. Balance gives
+\[
+ \E[Y\mid\tau]-\frac12
+ =
+ \frac{K/2-e_1}{K-e}-\frac12
+ =
+ \frac{e/2-e_1}{K-e}.
+\]
+Consequently, on a collision-free transcript,
+\[
+ \left|\E[Y\mid\tau]-\frac12\right|
+ \le\frac{e}{2(K-e)}
+ \le\frac{L_t}{2(K-L_t)}.
+\]
+
+Before the \(j\)-th distinct query, conditional on a collision-free history, the new address is fixed. A collision can occur only for a candidate prime dividing one of its \(j-1\) differences from previous addresses. There are at most \(2(j-1)\) such candidates. The current posterior has at least \(K-L_t\) candidates, so the conditional collision probability is at most
+\[
+ \frac{2(j-1)}{K-L_t}.
+\]
+Summing over possible first-collision steps gives
+\[
+ \Pr[\text{a collision by depth }t]
+ \le\sum_{j=2}^t\frac{2(j-1)}{K-L_t}
+ =\frac{L_t}{K-L_t}.
+\]
+On transcripts containing a collision, posterior target deviation is at most \(1/2\). Combining this with the collision-free estimate proves
+\[
+ \E\left|\E[Y\mid\tau]-\frac12\right|
+ \le
+ \frac{L_t}{2(K-L_t)}
+ +\frac12\frac{L_t}{K-L_t}
+ =\frac{L_t}{K-L_t}.
+\]
+
+For a coordinate tree, use the whole-output cache simulation from Lemma~\ref{ian:period-hsp-compilation-tools}. Its enriched transcript \(\tau_{\rm full}\) determines the original bit transcript \(\tau_{\rm bit}\), and uses at most \(t\) whole-output queries. Conditional Jensen gives
+\[
+ \E\left|\E[Y\mid\tau_{\rm bit}]-\frac12\right|
+ \le
+ \E\left|\E[Y\mid\tau_{\rm full}]-\frac12\right|.
+\]
+Thus partial reads satisfy the same averaged posterior bound. The exact uniform-survivor formula is asserted for the enriched collision-free transcript, rather than for an arbitrary partial-bit transcript. Transcript duality proves both covariance bounds.
+\end{proof}
+
+\begin{theorem}[Explicit random-prime-period sectors]\label{ian:period-hsp-period-sector}
+For every law in Definition~\ref{ian:period-hsp-period-law} with \(K\ge1024\), set
+\[
+ t=\left\lfloor\frac{\sqrt K}{32}\right\rfloor,
+ \qquad T=333b.
+\]
+There is a globally defined \(Q\in\mathcal Q_{n,T}\) such that
+\[
+ \operatorname{Hard}
+ \left(Q,\nu_{R,\mathcal P};t,\frac18,\frac1{64}\right).
+\]
+Thus the complete parameter package under the promise law is
+\[
+ (T,t,w,a,\gamma)
+ =
+ \left(
+ 333\lceil\log_2(2R)\rceil,\
+ \left\lfloor\frac{\sqrt K}{32}\right\rfloor,\
+ 1,\ \frac18,\ \frac1{64}
+ \right).
+\]
+In particular,
+\[
+ \ell_{\nu_{R,\mathcal P}}(t,Q)\ge\frac7{64}.
+\]
+Under \(U_n\), the same hard law is a smooth sector of weight \(w_*\) from
+\eqref{ian:period-hsp-uniform-smooth-weight}.
+\end{theorem}
+
+\begin{proof}
+Take \(\delta=2^{-10}\) in Lemma~\ref{ian:period-hsp-fourier-reconstruction}. Then
+\[
+ N_\delta=\lceil16\ln1024\rceil=111,\qquad T_\delta=333b.
+\]
+Since \(L_t=t(t-1)\le K/1024\), Lemma~\ref{ian:period-hsp-adaptive-hiding} gives
+\[
+ \sup_{F\in\mathcal F_t}|\Cov(Y,F)|\le\frac1{1023}.
+\]
+Compilation therefore yields
+\[
+ \Var_\nu Q\ge\frac14-\frac2{1024}
+ =\frac{127}{512}>\frac18,
+\]
+\[
+ \sup_{F\in\mathcal F_t}|\Cov_\nu(Q,F)|
+ \le\frac1{1023}+\frac1{512}<\frac1{64}.
+\]
+Equivalently, every \(\Delta\in\mathcal D_t\) has
+\(|\Cov_\nu(Q,\Delta)|\le1/128\), as required by the repository normalization.
+
+The support \(H\) has promise probability one, giving a set sector of weight one. Proposition~\ref{ian:hard-sector-forward} gives the loss bound. The uniform-law smooth-sector assertion follows from the proved pointwise domination \(w_*\nu\le U_n\).
+\end{proof}
+
+\begin{corollary}[Polynomial-quantifier failure of full AA]\label{ian:period-hsp-full-aa}
+There is a fully specified family \(\symbf\mu=(\mu_n)\) of random-prime-period promise laws, completed by point masses at unused dimensions, which satisfies property (P) of Remark~\ref{ian:hard-sector-polynomial-quantifiers} in
+\path{ian/15_hard_sector_sets_asymptotics.tex}.
+Its witnesses have fixed
+\[
+ w=1,\qquad a=\frac18,\qquad \rho=16,
+\]
+where \(\rho\) denotes the auxiliary inverse-accuracy parameter in property (P), rather than the hidden period. Hence full AA fails for this family.
+\end{corollary}
+
+\begin{proof}
+For each integer \(m\ge6\), set \(R_m=2^m\). List all primes in
+\([2^m,2^{m+1})\), deleting the largest if their number is odd, and call the resulting even set \(\mathcal P_m\), of size \(K_m\).
+Whenever \(K_m\ge1024\), use its promise law at dimension
+\[
+ n_m=(m+1)2^{2m+4}.
+\]
+These dimensions are distinct, and
+\[
+ b_m=m+1,\qquad D_m=2^{2m+4},\qquad T_m=333(m+1).
+\]
+At all other dimensions put a point mass on the all-\(+1\) input.
+
+We supply the prime-abundance fact needed for the quantifiers without importing a prime-density theorem. First,
+\(\sum_p1/p=\infty\). Otherwise
+\[
+ \prod_{p\le N}(1-1/p)^{-1}
+ \le \exp\left(2\sum_p1/p\right)
+\]
+would be bounded independently of \(N\), contradicting
+\[
+ \sum_{j=1}^N\frac1j
+ \le\prod_{p\le N}(1-1/p)^{-1}.
+\]
+The first inequality uses \(-\ln(1-x)\le2x\) for \(0\le x\le1/2\), applied with \(x=1/p\): the function \(2x+\ln(1-x)\) vanishes at \(x=0\) and has derivative \(2-1/(1-x)\ge0\) on \([0,1/2]\).
+The latter inequality follows by expanding the finite product into geometric series and using unique prime factorization.
+
+Let \(J_m\) count the primes in \([2^m,2^{m+1})\).
+There are infinitely many \(m\) with \(J_m\ge2^{m/2}\): otherwise
+\[
+ \sum_p\frac1p
+ \le C+\sum_m J_m2^{-m}
+ \le C+\sum_m2^{-m/2}<\infty.
+\]
+Along this infinite subsequence,
+\(K_m\ge2^{m/2}-1\), and therefore, for sufficiently large \(m\),
+\[
+ t_m=\left\lfloor\frac{\sqrt{K_m}}{32}\right\rfloor
+ \ge\frac{2^{m/4}}{128}.
+\]
+Write \(A',B'\) for the universally quantified constants denoted \(A,B\) in property (P); the prime marks avoid a clash with the alphabet size \(B\).
+Consequently, for every \(A',B'\ge1\), some such \(m\) satisfies
+\[
+ t_m>\left\lceil A'(T_m+16)^{B'}\right\rceil.
+\]
+
+Theorem~\ref{ian:period-hsp-period-sector} gives a weight-one set sector with \(a=1/8\) and covariance tolerance \(1/64\). Relaxing the tolerance gives hardness with \(\gamma=a/4=1/32\).
+Moreover,
+\[
+ w^{-1}=1\le\rho,\qquad a^{-1}=8\le\rho,\qquad \rho=16>8.
+\]
+Thus property (P) holds with its fixed polynomial constants
+\(K_{\rm P}=p_{\rm P}=q_{\rm P}=1\), chosen before \(A',B'\).
+The cited repository equivalence proves failure of full AA.
+\end{proof}
+
+\begin{theorem}[Finite abelian HSP compilation]\label{ian:period-hsp-finite-hsp}
+Let \(G\) be a known finite abelian group of order \(M\ge2\), with a known coordinate enumeration. Fix a distribution on subgroups \(\Gamma\le G\) and, conditional on \(\Gamma\), any distribution on injective coset labels
+\[
+ \ell:G/\Gamma\hookrightarrow\{0,1\}^b.
+\]
+Encode the full table
+\[
+ f(z)=\ell(z+\Gamma),\qquad
+ X_{z,j}=(-1)^{f(z)_j},\qquad n=bM,
+\]
+and denote its law by \(\nu\).
+Let \(g\) be a public \([0,1]\)-valued function of \(\Gamma\), extended to all subgroups if necessary. Suppose
+\[
+ \Var_\nu g(\Gamma)\ge v,
+\]
+\[
+ \sup_{\substack{F\text{ deterministic adaptive}\\
+                  \text{depth-}t\text{ whole-output tree}\\
+                  |F|\le1}}
+ |\Cov_\nu(g(\Gamma),F)|\le\eta.
+\]
+For \(0<\delta<1\), put
+\[
+ k_G(\delta)=
+ \lceil\log_2 M\rceil+\left\lceil\log_2\frac1\delta\right\rceil.
+\]
+Then a globally defined acceptance function satisfies
+\[
+ Q\in\mathcal Q_{n,T},\qquad T=bk_G(\delta),
+\]
+\[
+ \E_\nu|Q-g(\Gamma)|\le\delta,\qquad
+ \Var_\nu Q\ge v-2\delta,
+\]
+\[
+ \sup_{\Delta\in\mathcal D_t}|\Cov_\nu(Q,\Delta)|
+ \le\eta/2+\delta.
+\]
+In particular, if
+\[
+ a=v-2\delta,\qquad \gamma=\eta+2\delta,\qquad 0<\gamma<a,
+\]
+then \(\operatorname{Hard}(Q,\nu;t,a,\gamma)\).
+Any supplied ambient set-sector or smooth-sector weight \(w\) is retained. The sufficient condition
+\[
+ 4\eta+10\delta\le v
+\]
+ensures \(\gamma\le a/4\).
+
+More generally, any certified \(q_G(\delta)\)-symbol-query subgroup decoder can replace this Fourier decoder, giving \(T\le bq_G(\delta)\) with the same parameter losses.
+\end{theorem}
+
+\begin{proof}
+The finite abelian Fourier-sampling mechanism is standard; see
+A.~Yu.~Kitaev, \emph{Quantum Measurements and the Abelian Stabilizer Problem},
+arXiv:quant-ph/9511026 (1995), Section~4 (from literature).
+The sampling law and numerical recovery bound needed here are proved next.
+
+Prepare \(M^{-1/2}\sum_{z\in G}|z\rangle|0^b\rangle\), apply the whole-output oracle, Fourier transform the first register, and measure its character \(\chi\in\widehat G\).
+For every promised table,
+\[
+ \Pr[\chi]
+ =
+ \frac1{M^2}
+ \sum_{\substack{z,z'\in G\\f(z)=f(z')}}
+ \chi(z)\overline{\chi(z')}
+ =
+ \frac1M\sum_{h\in\Gamma}\chi(h).
+\]
+The final sum is \(|\Gamma|\) when \(\chi\) is trivial on \(\Gamma\), and zero otherwise: in the latter case, translation by an element of \(\Gamma\) on which \(\chi\ne1\) multiplies the sum by a scalar different from \(1\).
+Thus each sample is exactly uniform on
+\[
+ \Gamma^\perp=\{\chi\in\widehat G:\chi|_\Gamma=1\}.
+\]
+Fresh registers give independent samples, regardless of the coset-label distribution.
+
+After \(k\) samples, compute
+\[
+ \widehat\Gamma=\bigcap_{i=1}^k\ker\chi_i.
+\]
+Certainly \(\Gamma\subseteq\widehat\Gamma\).
+For a nonzero coset \(u\in G/\Gamma\), evaluation at \(u\) is a nontrivial character of the finite group \(\Gamma^\perp\); finite abelian characters separate points. Its kernel therefore has index at least two. Hence
+\[
+ \Pr[\chi_1(u)=\cdots=\chi_k(u)=1]\le2^{-k}.
+\]
+If \(\widehat\Gamma\ne\Gamma\), some nonzero coset has this property. A union bound gives
+\[
+ \Pr[\widehat\Gamma\ne\Gamma]
+ \le (|G/\Gamma|-1)2^{-k}
+ \le M2^{-k}.
+\]
+For \(k=k_G(\delta)\), this is at most \(\delta\), pointwise on every promised table. Each sample uses one whole-output call, costing \(b\) coordinate queries, including address uncomputation. Its output register can be retained, so no inverse oracle call is needed.
+
+For every cube input, perform the same sampling and compute the same intersection of kernels, then accept with probability \(g(\widehat\Gamma)\). This defines \(Q\) globally. On the promise, incorrect target output has expected absolute error at most the subgroup-recovery error.
+
+The hiding hypothesis transfers to coordinate trees through the whole-output cache simulation. Apply Lemma~\ref{ian:period-hsp-compilation-tools} with \(Y=g(\Gamma)\). This proves all stated bounds and preservation of weight. The condition for \(\gamma\le a/4\) is exactly
+\(4\eta+10\delta\le v\).
+
+For a different certified subgroup decoder, simulate each forward or inverse symbol-oracle call using \(b\) coordinate queries. The symbol-query count must include every inverse call used for uncomputation. The same compilation proof then applies.
+\end{proof}
+
+\begin{corollary}[Known finite quotients of finitely generated groups]\label{ian:period-hsp-finitely-generated}
+Let \(A\) be a known finitely generated abelian group, and let \(L\le A\) be a known subgroup of finite index \(M\ge2\). Suppose every candidate hidden subgroup \(\Gamma\) satisfies \(L\le\Gamma\le A\), and the encoded coordinates supply the complete table on a fixed set of representatives of \(A/L\), with injective labels on the cosets of \(\Gamma\), so that \(n=bM\). Let \(g\) be a public \([0,1]\)-valued function of \(\Gamma\), and suppose the resulting law \(\nu\) satisfies the variance and hiding hypotheses of Theorem~\ref{ian:period-hsp-finite-hsp}:
+\[
+ \Var_\nu g(\Gamma)\ge v,
+ \qquad
+ \sup_{\substack{F\text{ deterministic adaptive}\\
+                  \text{depth-}t\text{ whole-output tree}\\
+                  |F|\le1}}
+ |\Cov_\nu(g(\Gamma),F)|\le\eta.
+\]
+Then the conclusions of Theorem~\ref{ian:period-hsp-finite-hsp} hold with
+\[
+ G=A/L,\qquad \overline\Gamma=\Gamma/L,\qquad n=bM,
+\]
+with the same query, variance, covariance and weight bounds, and lifting the recovered \(\overline\Gamma\) recovers \(\Gamma\). The corollary is a relabelling of Theorem~\ref{ian:period-hsp-finite-hsp}.
+\end{corollary}
+
+\begin{proof}
+The promise factors through \(A/L\). A query at any element of \(A\) can be reduced, without querying the input, to its representative in \(A/L\). Subgroups of \(A\) containing \(L\) correspond bijectively to subgroups of \(A/L\), and the table is precisely the finite coset-label table in the theorem, with hidden subgroup \(\overline\Gamma\). Reading \(g\) as a function of \(\overline\Gamma\), the displayed hypotheses are exactly the variance and hiding hypotheses of the theorem, which therefore applies.
+\end{proof}
+
+\begin{remark}[What an unrestricted infinite-group statement needs]\label{ian:period-hsp-infinite-scope}
+The compilation lemma applies to any finite coordinate encoding once a decoder and a target-hiding bound have been supplied. Automatic subgroup recovery for an arbitrary finite window of an infinite finitely generated group is false.
+
+For example, take \(A=\mathbb Z\), encode only addresses
+\(\{0,\ldots,D-1\}\), and choose two periods \(r,s>D\), with an output alphabet of size at least \(\max(r,s)\). Under uniformly random injective residue labels, both restricted tables have exactly the same law: a uniformly random ordered list of \(D\) distinct output words. With an equal prior on these periods, no algorithm observing this table can recover the period with probability exceeding \(1/2\).
+
+Thus an infinite-group extension needs a specified finite encoding and a promise making the desired subgroup recoverable, together with a decoder bound. A known finite quotient supplies these data. The random-prime window above supplies different data and was proved directly; it is not an exact HSP oracle over \(\mathbb Z_D\).
+\end{remark}
+
+\begin{remark}[Promise laws, product laws and factoring]\label{ian:period-hsp-oracle-scope}
+The period-sector theorem and its full-AA failure concern Boolean encodings of black-box tables with randomized output names. Their weight is one under the specified promise laws. Under the uniform table law, the support weight is bounded by
+\eqref{ian:period-hsp-uniform-weight}, and the proved smooth-sector weight is \(w_*\), rather than one. Conditioning the uniform law on the support also changes the period prior.
+
+There is therefore no conflict with Corollary~\ref{cor:resolution-product-alphabet-aa} in
+\path{foundations/product_alphabets.tex}, which gives full AA for product laws, including the uniform law on these Boolean coordinates.
+
+Factoring supplies an integer and an arithmetic description of modular exponentiation. That description is available to classical algorithms, and its output labels do not follow the random injective-label law used here. The proved lower bounds concern oracle queries to the encoded tables; they give no classical factoring lower bound. Likewise, implementing modular exponentiation is an additional computational cost outside these table-query bounds.
+\end{remark}

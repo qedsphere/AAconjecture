@@ -1,0 +1,465 @@
+\subsection{Fixed-set hardness and a dominated-law bridge to full AA}\label{ian:gamma-hard-sector-bridge}
+
+Status: proved: non-adaptive hardness is characterized exactly by fixed-set posterior moments, and a dominated-law Global hypothesis implies full AA with explicit polynomial exponents (Theorem~\ref{ian:dominated-global-full-aa}). That theorem is a correct implication with no known natural instance: its hypothesis already fails for uniform product laws at \(w=1\), even for acceptance functions (addressing, Lemma~\ref{ian:addressing-reveal}), and every natural class examined in \path{ian/25_dominated_gamma_examples.tex} fails it.
+
+Throughout, \(Q:\{-1,1\}^n\to[0,1]\), and \(h_S\), \(G_\nu(Q,S)\) are the fixed-set
+posterior quantities of Definition~\ref{ian:adaptive-fixed-set-quantities} in
+\path{ian/29_adaptive_transcript_hiding.tex}:
+\[
+ h_S=\E_\nu[Q\mid X_S]-\E_\nu Q,
+ \qquad
+ G_\nu(Q,S)=\E_\nu h_S^2.
+\]
+When the law and target must be displayed, write
+\[
+ R_\nu(Q,s)=\max_{|S|\le s}G_\nu(Q,S),
+ \qquad
+ M_\nu(Q,s)=\max_{|S|\le s}\E_\nu|h_S|,
+\]
+which are \(R_s\) and \(M_s\) of that definition. The adaptive test class
+\(\mathcal F_t\), \(C_t(Q)=\sup_{F\in\mathcal F_t}|\Cov_\nu(Q,F)|\), and
+\(\operatorname{Hard}\) are those of
+Definition~\ref{ian:hard-sector-definition} in
+\path{ian/13_hard_sector_definitions_forward.tex} and
+Theorem~\ref{ian:adaptive-transcript-duality}; the influences
+\(I_i^\nu\) and Gamma constants are those of
+\path{ian/03_generalized_influence_bridge.tex}.
+
+\begin{definition}[Non-adaptive hardness]
+\label{ian:nonadaptive-hardness-definition}
+For an integer \(t\ge0\), let
+\[
+ \mathcal F_t^{\mathrm{na}}
+ =
+ \bigcup_{\substack{S\subseteq[n]\\|S|\le t}}
+ \{F(X_S):F:\{-1,1\}^S\to[-1,1]\}.
+\]
+Equivalently, these are trees that choose their queried coordinate set
+before receiving any answers. Random mixtures of such tests do not
+change the supremum of absolute covariance.
+
+For \(0<\gamma<a\le1/4\), write
+\(\operatorname{Hard}^{\mathrm{na}}(Q,\nu;t,a,\gamma)\) when
+\[
+ \Var_\nu Q\ge a,
+ \qquad
+ |\Cov_\nu(Q,F)|\le\gamma
+ \quad(F\in\mathcal F_t^{\mathrm{na}}).
+\]
+\end{definition}
+
+\begin{corollary}[Non-adaptive hardness in posterior moments]
+\label{ian:fixed-set-hardness-duality}
+For \(0<\gamma<a\le1/4\),
+\[
+ \operatorname{Hard}^{\mathrm{na}}(Q,\nu;t,a,\gamma)
+ \quad\Longleftrightarrow\quad
+ \Var_\nu Q\ge a,\quad M_\nu(Q,t)\le\gamma.
+\]
+In particular, assuming \(\Var_\nu Q\ge a\),
+\[
+ R_\nu(Q,t)\le\gamma^2
+ \ \Longrightarrow\
+ \operatorname{Hard}^{\mathrm{na}}(Q,\nu;t,a,\gamma)
+ \ \Longrightarrow\
+ R_\nu(Q,t)\le\gamma/2.
+\]
+\end{corollary}
+
+\begin{proof}
+Proposition~\ref{ian:adaptive-fixed-set-conversions} in
+\path{ian/29_adaptive_transcript_hiding.tex} states that, for every fixed
+\(S\), the supremum of \(|\Cov_\nu(Q,F(X_S))|\) over \(|F|\le1\) equals
+\(\E_\nu|h_S|\), so that \(M_\nu(Q,t)\) is exactly the covariance
+supremum over \(\mathcal F_t^{\mathrm{na}}\), and that
+\(2R_\nu(Q,t)\le M_\nu(Q,t)\le\sqrt{R_\nu(Q,t)}\). This proves both
+assertions. The lower comparison is attained by the affine test
+\(2\E_\nu[Q\mid X_S]-1\in[-1,1]\), whose covariance with \(Q\) is
+\(2G_\nu(Q,S)\); both constants are sharp by
+Lemma~\ref{ian:adaptive-posterior-moments}.
+\end{proof}
+
+The conversions between fixed sets and adaptive trees are also in
+Proposition~\ref{ian:adaptive-fixed-set-conversions}:
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) implies \(R_\nu(Q,t)\le\gamma/2\);
+conversely, with \(\Var_\nu Q\ge a\), either
+\(R_\nu(Q,\min\{n,2^t-1\})\le\gamma^2\) or \(R_\nu(Q,t)\le2^{-t}\gamma^2\)
+implies \(\operatorname{Hard}(Q,\nu;t,a,\gamma)\). The converses of
+the first implication and of the condition
+\(R_\nu(Q,\min\{n,2^t-1\})\le\gamma^2\) fail at unchanged parameters, by
+Proposition~\ref{ian:adaptive-fixed-set-counterexamples}. The converse
+of the condition \(R_\nu(Q,t)\le2^{-t}\gamma^2\) also fails: for \(n=3\),
+the uniform law and \(Q=\frac12+\frac1{100}x_1+\frac15x_2x_3\), every
+depth-one test has covariance at most \(1/100\), so
+\(\operatorname{Hard}(Q,U;1,\frac{401}{10^4},\frac1{100})\) holds, while
+\(R_U(Q,1)=10^{-4}>\frac12\cdot10^{-4}\).
+
+\begin{remark}[What vanishing Local does and does not identify]
+\label{ian:nonadaptive-hardness-versus-gamma-failure}
+At fixed Gamma parameters, write \(\alpha\) for the Local threshold,
+\(g\) for the Global threshold, and \(\ell\) for the allowed set size,
+all applied to the \([0,1]\)-valued target \(Q\) (the affine
+normalization \(Q=(1+f)/2\) divides influences and gains of \(f\) by
+four). Failure of both \(\Gamma^{\mathrm{set}}\) alternatives for \(Q\)
+under \(\nu\) means exactly
+\[
+ \max_i I_i^\nu(Q)<\alpha,
+ \qquad
+ R_\nu(Q,\ell)<g.
+\]
+Non-adaptive hardness instead controls the posterior \(L^1\) quantity
+\(M_\nu(Q,\ell)\). The two are related through the transformations in
+Corollary~\ref{ian:fixed-set-hardness-duality}; they are not identical
+conditions at an unchanged threshold. For example, under the uniform
+law on \(n=1\) coordinate, let \(0<b\le1/2\) and
+\(Q=\frac12+bx_1\). Then \(h_{\{1\}}=bx_1\), so
+\[
+ R(Q,1)=b^2,\qquad M(Q,1)=b,
+\]
+and \(R(Q,1)<g<M(Q,1)\) for every \(g\in(b^2,b)\): the Global
+alternative fails at threshold \(g\), while covariance tolerance \(g\)
+fails.
+
+More explicitly, Global failure at threshold \(g\) gives
+\(M_\nu(Q,\ell)<\sqrt g\); with \(\Var_\nu Q\ge a\), this is legitimate
+non-adaptive hardness with tolerance \(\sqrt g\) when \(\sqrt g<a\).
+In the other direction the implication is one-sided and holds
+literally: non-adaptive hardness with tolerance \(\gamma\) gives
+\(R_\nu(Q,\ell)\le\gamma/2<\gamma\), so the Global alternative fails at
+every threshold \(g>\gamma/2\), in particular at \(g=\gamma\).
+In either direction, failure of the Local alternative is a separate
+requirement. Exact vanishing \(I_i^\nu(Q)=0\) makes that requirement
+automatic for every positive Local threshold.
+
+Non-adaptive hardness does not imply small flip influences. Under
+the uniform two-spin law,
+\[
+ Q=(1+X_1X_2)/2
+\]
+has variance \(1/4\), zero covariance with every depth-one test, and
+\(I_1(Q)=I_2(Q)=1/4\).
+\end{remark}
+
+\begin{definition}[A dominated-law Global hypothesis]
+\label{ian:dominated-global-hypothesis}
+Let \(\mathcal A\) be a class of base laws. Fix constants
+\[
+ c,B,C>0,\qquad D,U,V,\lambda\ge0,\qquad 0\le\kappa<1.
+\]
+The dominated Global hypothesis means the following assertion,
+uniformly over the base law, dimension, and all parameters.
+
+For every \(n\ge1\), every \(\mu\in\mathcal A\) on \(\{-1,1\}^n\), every
+integer \(d\ge1\), every \(0<w\le1\), every probability law
+\(\nu\le\mu/w\), every globally bounded polynomial
+\(Q:\{-1,1\}^n\to[0,1]\) of degree at most \(d\), and every
+\(0<a\le1/4\), if \(\Var_\nu Q\ge a\), then there is \(S\subseteq[n]\)
+such that
+\[
+ |S|\le
+ \min\left\{n,\left\lceil B d^U a^{-V}w^{-\lambda}\right\rceil\right\},
+ \qquad
+ G_\nu(Q,S)\ge c\,d^{-D}a^Cw^\kappa.
+\]
+All constants precede \(\mu,n,d,Q,a,w,\nu\).
+
+For a full-AA conclusion it suffices to require this assertion for
+quantum acceptance functions, with \(d=\max\{1,2T\}\) for a
+\(T\)-query acceptance function (the acceptance-function version).
+Requiring it for all bounded polynomials is a stronger hypothesis.
+The usual Gamma-shaped bounds correspond to
+\[
+ D=C,\qquad U=V=K,
+\]
+with a possible additional polynomial dependence on \(w^{-1}\).
+The gain \(c\,a^Cw^\kappa\) without degree loss corresponds to \(D=0\).
+
+Both versions are false for the class of uniform product laws, already
+at \(w=1\): by Proposition~\ref{ian:dominated-global-product-failure} in
+\path{ian/25_dominated_gamma_examples.tex}, the addressing functions of
+Lemma~\ref{ian:addressing-reveal} are computed with \(r+1\) classical
+queries but every fixed set has reveal gain at most \(|S|2^{-r}\).
+\end{definition}
+
+\begin{proposition}[Direct exclusion of an adaptive hard sector]
+\label{ian:dominated-global-sector-exclusion}
+Assume Definition~\ref{ian:dominated-global-hypothesis}. Let
+\(\mu\in\mathcal A\) be a law on \(\{-1,1\}^n\), let \(d\ge1\), and let
+\(Q:\{-1,1\}^n\to[0,1]\) be a globally bounded polynomial of degree at
+most \(d\) (under the acceptance-function version, a \(T\)-query
+acceptance function with \(d=\max\{1,2T\}\)). Let \(0<w\le1\) and
+\(0<\gamma<a\le1/4\). No law \(\nu\le\mu/w\) satisfies
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) if
+\[
+ t\ge\left\lceil B d^U a^{-V}w^{-\lambda}\right\rceil,
+ \qquad
+ c\,d^{-D}a^Cw^\kappa>\gamma/2.
+\]
+\end{proposition}
+
+\begin{proof}
+Hardness gives \(\Var_\nu Q\ge a\), so the hypothesis supplies \(S\)
+with \(|S|\le t\) and \(G_\nu(Q,S)\ge c\,d^{-D}a^Cw^\kappa>\gamma/2\).
+Proposition~\ref{ian:adaptive-fixed-set-conversions} gives
+\(R_\nu(Q,t)\le\gamma/2\) under \(\operatorname{Hard}(Q,\nu;t,a,\gamma)\),
+a contradiction.
+\end{proof}
+
+\begin{theorem}[Full AA from dominated Global progress]
+\label{ian:dominated-global-full-aa}
+Assume Definition~\ref{ian:dominated-global-hypothesis}. Put
+\[
+ s=\frac{D}{1-\kappa},
+ \qquad
+ k=\max\left\{0,\frac{2C+3\kappa-2}{1-\kappa}\right\},
+ \qquad
+ A=c\,4^{-C}16^{-\kappa},
+\]
+and choose
+\[
+ \zeta=\min\{1/4,A^{1/(1-\kappa)}\}.
+\]
+Define
+\[
+ P=U+s(3+\lambda),
+ \qquad
+ E=7+2V+3\lambda+k(3+\lambda),
+\]
+\[
+ A_*=
+ 257\zeta^{-3}\left(1+B4^V16^\lambda \zeta^{-\lambda}\right).
+\]
+Let \(\mu\in\mathcal A\) be a law on \(\{-1,1\}^n\), let \(d\ge1\), and
+let \(Q:\{-1,1\}^n\to[0,1]\) be a globally bounded polynomial of degree
+at most \(d\) (under the acceptance-function version, a \(T\)-query
+acceptance function with \(d=\max\{1,2T\}\)). For every
+\(0<\varepsilon<1/8\), there is a deterministic adaptive tree with mean
+absolute error at most \(\varepsilon\) under \(\mu\), of depth at most
+\[
+ \left\lceil A_*d^P\varepsilon^{-E}\right\rceil.
+\]
+Consequently \(\mathcal A\) has full AA uniformly over its base laws.
+One admissible exponent in
+\eqref{ian:hard-sector-aa-definition} is
+\[
+ B_0=\max\{1,\lceil P+E\rceil\}.
+\]
+For example, one may take
+\[
+ A_0=1+2^P16^{P+E}A_*.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix \(d,Q,\varepsilon\), and set
+\[
+ \eta=\zeta d^{-s}\varepsilon^k,\qquad
+ a=\frac{\varepsilon^2}{4},\qquad
+ \gamma=\eta a,\qquad
+ w=\frac{\eta\varepsilon^3}{16},
+\]
+\[
+ t=\left\lceil B d^U a^{-V}w^{-\lambda}\right\rceil,
+ \qquad
+ L_*=\left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil t.
+\]
+Since \(0<\eta\le\zeta\le1/4\) and \(t\ge1\), these are admissible
+parameters for Corollary~\ref{ian:hard-sector-explicit} in
+\path{ian/13_hard_sector_definitions_forward.tex}, whose hypothesis
+holds in particular when \(\ell_\mu(L_*,Q)>\varepsilon\).
+
+Suppose \(\ell_\mu(L_*,Q)>\varepsilon\). That corollary supplies a set
+sector \(\nu=\mu(\cdot\mid H)\le\mu/w\) satisfying
+\[
+ \operatorname{Hard}(Q,\nu;t,a,\gamma).
+\]
+The dominated Global gain is at least
+\[
+ g=c\,d^{-D}a^Cw^\kappa
+   =A d^{-D}\eta^\kappa\varepsilon^{2C+3\kappa}.
+\]
+The ratio to its covariance tolerance is
+\[
+ \frac g\gamma
+ =
+ 4A \zeta^{-(1-\kappa)}
+ d^{-D+s(1-\kappa)}
+ \varepsilon^{\,2C+3\kappa-2-k(1-\kappa)}
+ \ge4.
+\]
+Here the degree exponent is zero, the epsilon exponent is
+nonpositive, and \(\zeta^{1-\kappa}\le A\). In particular
+\(g>\gamma/2\), and
+Proposition~\ref{ian:dominated-global-sector-exclusion} gives a
+contradiction. Thus \(\ell_\mu(L_*,Q)\le\varepsilon\).
+
+For the depth calculation,
+\[
+ t\le
+ \left(1+B4^V16^\lambda \zeta^{-\lambda}\right)
+ d^{U+s\lambda}
+ \varepsilon^{-(2V+3\lambda+k\lambda)},
+\]
+while
+\[
+ \left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil
+ \le257\zeta^{-3}d^{3s}\varepsilon^{-(7+3k)}.
+\]
+Multiplication gives \(L_*\le A_*d^P\varepsilon^{-E}\), and monotonicity of
+\(\ell_\mu(\cdot,Q)\) proves the depth bound.
+
+For a \(T\)-query acceptance function, use
+\(d=\max\{1,2T\}\), as in the proof of Theorem~\ref{ian:bridge}.
+For other accuracies use
+\(\varepsilon'=\min\{\varepsilon,1/16\}\). With
+\(x=T+\varepsilon^{-1}\ge1\), one has \(d\le2x\) and
+\(1/\varepsilon'\le16x\), so the depth is at most
+\(\lceil A_*2^P16^Ex^{P+E}\rceil\le\lceil A_0x^{B_0}\rceil\).
+\end{proof}
+
+\begin{remark}[Bookkeeping, the common-exponent issue, and sector equivalence]
+\label{ian:dominated-global-bookkeeping}
+For the gain \(c\,a^Cw^\kappa\), one has \(s=0\), so
+\(\eta=\zeta\varepsilon^k\) suffices. With a factor \(d^{-D}\) in the
+gain, epsilon-only tuning does not uniformly absorb unbounded degree;
+the factor \(d^{-D/(1-\kappa)}\) in \(\eta\) supplies what is missing.
+
+For Gamma-shaped size and gain bounds,
+\[
+ P=K+\frac{C(3+\lambda)}{1-\kappa},
+ \qquad
+ E=7+2K+3\lambda
+ +(3+\lambda)\max\left\{0,
+       \frac{2C+3\kappa-2}{1-\kappa}\right\}.
+\]
+In particular, \(\kappa<1\) suffices even after the
+\(\eta^{-3}\) factor in \(L_*\) is included. Since
+Corollary~\ref{ian:hard-sector-explicit} already applies under
+\(\ell_\mu(L_\dagger,Q)>\varepsilon\), with
+\(L_\dagger=\lceil32\varepsilon^{-5}\eta^{-2}\rceil t\le
+33\varepsilon^{-5}\eta^{-2}t\), the same proof also gives the smaller
+exponents \(P=U+s(2+\lambda)\) and \(E=5+2V+3\lambda+k(2+\lambda)\), with
+\(257\zeta^{-3}\) replaced by \(33\zeta^{-2}\) in \(A_*\).
+
+The proof retains the actual extraction dispersion
+\(a=\varepsilon^2/4\) and tolerance \(\gamma=\eta a\).
+It never replaces \(a\) by a smaller power of epsilon.
+Thus it does not use the invalid padding argument identified in
+Remark~\ref{ian:hard-sector-common-exponent-warning}.
+
+The canonical witnesses in
+Theorem~\ref{ian:hard-sector-aa-equivalence} have \(\eta=1/4\).
+Their gain need not contradict the dominated Global bound at that
+fixed tolerance. Under full-AA failure, reapplying
+Corollary~\ref{ian:hard-sector-explicit} with the displayed
+degree-dependent and epsilon-dependent \(\eta\) gives the required
+stronger hardness. Its inverse weight and extraction depth remain
+fixed polynomials, chosen before any failure witnesses.
+
+Equivalently, the theorem proves full AA in the form characterized
+by Theorem~\ref{ian:hard-sector-aa-equivalence}. With the constants
+\(A_0,B_0\) of the theorem, Lemma~\ref{ian:hard-sector-aa-exclusion} then
+excludes, for every \(T\)-query acceptance function \(Q\), every smooth
+sector of weight \(w\) with \(\operatorname{Hard}(Q,\nu;t,a,a/4)\) at a
+depth
+\[
+ t\ge
+ \left\lceil A_0\left(T+\frac8{3wa}\right)^{B_0}\right\rceil.
+\]
+The direct Global contradiction itself excludes the tuned sectors
+above; it does not assert the absence of all hard sectors at every
+depth.
+
+At \(\kappa\ge1\), decreasing \(\eta\) no longer improves the ratio
+\(g/\gamma\). The stated extraction calculation therefore supplies
+no general extension to that range.
+\end{remark}
+
+\begin{remark}[Global progress versus a Local-or-Global assertion]
+\label{ian:dominated-global-local-distinction}
+The extracted sector is hard against adaptive tests, so it is
+automatically hard against each permitted fixed-set test. Under
+Definition~\ref{ian:dominated-global-hypothesis}, the contradiction
+therefore uses Global progress only, and the proof needs no Local
+alternative. This describes the proof, not the strength of the
+hypothesis: dropping the Local alternative is exactly what makes the
+hypothesis fail on natural classes. It is false for uniform product
+laws at \(w=1\), also for acceptance functions, while those laws
+satisfy \(\Gamma^{\mathrm{set}}\) through the Local alternative
+(Proposition~\ref{ian:dominated-global-product-failure} and
+Remark~\ref{ian:dominated-global-address-influence} in
+\path{ian/25_dominated_gamma_examples.tex}). No natural class is known to
+satisfy it.
+
+A disjunction allowing also the Local alternative does not supply
+the contradiction used here: adaptive hardness controls
+correlations under the law, whereas flip derivatives can involve
+off-support values. To see this, let
+\(\operatorname{Hard}(Q,\nu;t,a,\gamma)\) hold with \(\gamma<a/2\). Add a
+coordinate \(X_0\equiv1\) and define
+\[
+ Q'(x_0,x)=\frac14+\frac12Q(x)+\frac{x_0-1}{8}.
+\]
+This is globally in \([0,1]\). On the support, its variance and
+covariances are respectively one quarter and one half of those of
+\(Q\); querying \(X_0\) reveals no information, so
+\(\operatorname{Hard}(Q',\delta_1\otimes\nu;t,a/4,\gamma/2)\) holds, which is
+admissible because \(\gamma/2<a/4\). Meanwhile
+\[
+ I_0(Q')=1/64
+\]
+under every law. Hence, whenever the Local threshold at the new
+parameters is at most \(1/64\), the Local alternative holds for this
+hard target. Thus hardness alone cannot be used to discard a
+flip-influence Local branch.
+
+If a given target has \(I_i^\mu(Q)=0\) for every \(i\), this
+vanishing survives every dominated law:
+\[
+ I_i^\nu(Q)\le I_i^\mu(Q)/w=0.
+\]
+For such targets a dominated Local-or-Global hypothesis forces
+Global. For arbitrary targets, the argument above uses the Global
+hypothesis; a Local-or-Global version would need an additional
+argument handling Local progress.
+
+The revealing-set budget must also fit inside the hardness depth:
+\(t\ge\lceil B d^U a^{-V}w^{-\lambda}\rceil\).
+An unspecified bound polynomial in the hardness depth \(t\) does
+not itself guarantee this inequality.
+\end{remark}
+
+\begin{remark}[Relation to Theorem A]
+\label{ian:dominated-global-versus-theorem-a}
+Theorem~\ref{ian:dominated-global-full-aa} bypasses pinning closure
+by applying Global progress directly to the extracted dominated
+law. It proves full AA on the base class. It gives a hereditary
+conclusion only if its hypothesis is also available uniformly for
+the required pinned base laws. Its hypothesis has no known natural
+instance: it fails for uniform products, triple blocks, Ising forests,
+the character code and Curie--Weiss laws, and only an artificial
+rare-sector family satisfies it
+(\path{ian/25_dominated_gamma_examples.tex}). The theorem is therefore a
+correct implication, not a source of new full-AA results.
+
+For a base class \(\Lambda\) that is already pinning-closed, the
+all-bounded-polynomial version of the hypothesis at \(w=1\) implies the
+Global branch of \(\Gamma^{\mathrm{set}}(\Lambda)\), so
+Theorem~\ref{ian:bridge} also applies. Indeed, for
+\(f:\{-1,1\}^n\to[-1,1]\) of degree at most \(d\) with
+\(\Var_\mu f\ge v\in(0,1]\), apply the hypothesis to \(Q=(1+f)/2\) with
+\(a=v/4\); since \(G_\mu(f,S)=4G_\mu(Q,S)\), \(d\ge1\) and \(v\le1\), the
+resulting set satisfies
+\[
+ |S|\le\min\left\{n,\left\lceil B4^V(d/v)^{\max\{U,V\}}\right\rceil\right\},
+ \qquad
+ G_\mu(f,S)\ge4^{1-C}c\,(v/d)^{\max\{C,D\}}.
+\]
+This is the Global alternative with \(B_G=B4^V\), \(K_G=\max\{U,V\}\),
+\(c_G=4^{1-C}c\), \(C_G=\max\{C,D\}\), and arbitrary Local constants.
+For an arbitrary base class \(\mathcal A\), the parameter-degraded
+dominated hypothesis (gain allowed to decay like \(w^\kappa\)) and
+\(\Gamma^{\mathrm{set}}(\operatorname{Pin}\mathcal A)\) are incomparable,
+by Proposition~\ref{ian:dominated-global-pinning-incomparable} in
+\path{ian/25_dominated_gamma_examples.tex}.
+\end{remark}

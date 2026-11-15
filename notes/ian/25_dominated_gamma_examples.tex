@@ -1,0 +1,698 @@
+\subsection{Dominated Global Gamma, examples, and non-adaptive extraction}\label{ian:dominated-gamma-examples}
+
+Status: proved: every natural class examined (uniform and arbitrary products, triple blocks and bounded blocks of size at least three, Ising forests at every edge bound including zero, the character code, and Curie--Weiss at every fixed \(\beta\)) fails the dominated Global hypothesis of Definition~\ref{ian:dominated-global-hypothesis} already at \(w=1\), also for acceptance functions, and only an artificial rare-sector family satisfies it; for products and Curie--Weiss the failure comes only from omitting the Local alternative. The parameter-degraded hypothesis and \(\Gamma^{\mathrm{set}}\) on the pinning closure are incomparable. Non-adaptive extraction holds at depth \(\lceil256\varepsilon^{-7}\eta^{-3}\rceil t\), against \(\lceil32\varepsilon^{-5}\eta^{-2}\rceil t\) for adaptive extraction (Corollary~\ref{ian:hard-sector-explicit}); whether that improvement transfers to non-adaptive tests is open. Recovering adaptive hardness from non-adaptive hardness costs an exponential in depth, and this loss is unavoidable in general.
+
+Here ``dominated Global'' refers to
+Definition~\ref{ian:dominated-global-hypothesis} in
+\path{ian/24_gamma_hard_sector_bridge.tex}, with constants fixed
+before all laws and parameters, and \(\operatorname{Hard}^{\mathrm{na}}\),
+\(R_\nu(Q,s)\), \(M_\nu(Q,s)\) and the adaptive covariance supremum
+\(C_t(Q)\) are as in that subsection. For comparisons
+with Gamma, the assertion may be formulated for globally bounded
+\(f:\{-1,1\}^n\to[-1,1]\), changing constants by the affine
+normalization \(Q=(1+f)/2\), which divides variances and reveal gains by
+four. A failure at \(w=1\) refutes every version with polynomial
+revealing-set size and polynomial gain, regardless of its dependence
+on \(w\).
+
+\begin{proposition}[Ordinary addressing already defeats Global-only Gamma]
+\label{ian:dominated-global-product-failure}
+The class of uniform product laws fails dominated Global Gamma.
+Consequently the class of arbitrary coordinate product laws also
+fails it, although that class is pinning-closed and satisfies
+\(\Gamma^{\mathrm{set}}\).
+
+More precisely, take \(r+2^r\) independent fair coordinate signs,
+with \(r\) address signs \(A\) and data signs \(Z_u\), and put
+\[
+ f_r=\operatorname{Addr}_r(A,Z).
+\]
+Then
+\[
+ |f_r|=1,\qquad \deg f_r\le r+1,\qquad \Var f_r=1,
+ \qquad
+ G(f_r,S)\le |S|2^{-r}.
+\]
+\end{proposition}
+
+\begin{proof}
+The addressing identity and reveal estimate are
+Lemma~\ref{ian:addressing-reveal} in
+\path{ian/09_gamma_set_blocks_and_forests.tex}, applied to singleton
+components. At \(w=1\) and fixed variance parameter, every
+polynomial-size set has gain exponentially small in \(r\), which
+defeats every inverse-polynomial lower bound in the degree.
+For \([0,1]\)-valued targets use \(Q_r=(1+f_r)/2\);
+its variance and reveal gains are divided by four.
+
+In contrast, Corollary~\ref{ian:product-influence-aa-proved} in
+\path{ian/22_influence_form_uniform_aa.tex} gives the Local
+alternative uniformly for all coordinate product laws and their
+pinnings. This proves their \(\Gamma^{\mathrm{set}}\) assertion.
+\end{proof}
+
+\begin{remark}[Address influences]
+\label{ian:dominated-global-address-influence}
+The product failure is a failure of the Global-only form, not of
+Gamma. For an address coordinate \(A_j\), the flip derivative of
+\(f_r\) is \((Z_{u^+}-Z_{u^-})/2\), where \(u^\pm\) are the addresses
+with \(j\)-th entry \(\pm1\) and the other entries of \(A\). Hence
+\[
+ I_{A_j}(f_r)=\Pr[Z_{u^+}\ne Z_{u^-}]=\frac12,
+\]
+and \(I_{A_j}(Q_r)=1/8\). At variance one and degree \(r+1\), this
+satisfies the Local alternative for every Local constant
+\(c_L\le1/2\), and in particular the bound (P-AA) of
+Corollary~\ref{ian:product-influence-aa-proved}. The Curie--Weiss
+witnesses of Proposition~\ref{ian:dominated-global-curie-weiss-failure}
+likewise satisfy the Local alternative: a physical spin in an address
+block has influence at least \(1/2-2\delta_r\) there (shown in the proof
+of that proposition), for every Local constant \(c_L\le1/2-2\delta_r\),
+consistently with Theorem~\ref{ian:exchangeable-gamma}. By
+contrast, the triple-block, forest and character-code witnesses below
+have zero or vanishing influences and refute Gamma itself.
+\end{remark}
+
+\begin{proposition}[Triple blocks, block addressing, and forests]
+\label{ian:dominated-global-block-forest-failure}
+The product family of uniform
+\(\{(+,+,+),(-,-,-)\}\) triple blocks fails dominated Global Gamma.
+So does every bounded-block class allowing blocks of size at least
+three and every Ising-forest class with a positive finite
+edge-strength bound.
+
+At zero edge-strength bound the forest class still fails
+Global-only Gamma, although it satisfies the Local-or-Global
+criterion.
+\end{proposition}
+
+\begin{proof}
+The single witness in
+Proposition~\ref{ian:triple-random-set-failure} is not a fixed-set
+obstruction: its majority polynomial equals \(X_1\) on the block
+support. Indeed, for every dominated law \(\nu\) on this support,
+\[
+ G_\nu(M_3,\{1\})=\Var_\nu M_3.
+\]
+Its zero physical influences persist under domination.
+
+The whole triple-block family nevertheless fails. By
+Proposition~\ref{ian:hard-block-addressing}, it contains witnesses
+with
+\[
+ d_r=3(r+1),\qquad \Var f_r=1,\qquad I_i(f_r)=0,
+ \qquad G(f_r,S)\le |S|2^{-r}.
+\]
+Taking \(w=1\) refutes dominated Global Gamma, and also the
+Local-or-Global criterion.
+
+For every positive finite forest edge bound,
+Proposition~\ref{ian:forest-addressing} supplies witnesses with
+\[
+ d_r=r(r+1),\qquad \Var f_r=1,\qquad
+ G(f_r,S)\le|S|2^{-r},
+\]
+and exponentially small physical influences. Again \(w=1\)
+suffices. At zero edge bound the class contains uniform products,
+so Proposition~\ref{ian:dominated-global-product-failure} applies;
+its Local-or-Global assertion follows from
+Corollary~\ref{ian:product-influence-aa-proved}.
+\end{proof}
+
+\begin{proposition}[Character-code failure persists before domination]
+\label{ian:dominated-global-character-failure}
+For every fixed \(\beta\ge1\), the character-code family and its
+pinning closure fail dominated Global Gamma.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{ian:character-code-generalized-failure} in
+\path{ian/05_generalized_influence_checks.tex} supplies globally
+bounded quadratic \(f_n\) such that
+\[
+ \Var f_n\ge3/8,\qquad
+ I_z(f_n)=\frac{4(1-1/n)}{n^2},
+ \qquad
+ G(f_n,S)\le\frac{2+4^{|S|}}n.
+\]
+At \(w=1\), fixed degree and fixed positive variance, the permitted
+set size is a constant independent of \(n\), and its maximum reveal
+gain tends to zero. This directly refutes the Global hypothesis.
+The pinning closure contains the unpinned laws, so the failure
+persists there; the residual laws described in
+Remark~\ref{ian:character-code-pinning} are additional members and are
+not needed.
+\end{proof}
+
+\begin{proposition}[Curie--Weiss: the dichotomy holds, Global-only fails]
+\label{ian:dominated-global-curie-weiss-failure}
+The class of all zero-field Curie--Weiss laws fails dominated
+Global Gamma, although its pinning closure satisfies
+\(\Gamma^{\mathrm{rand}}\).
+
+More strongly, for every fixed finite \(\beta\ge0\), the family
+\[
+ \mu_{\beta,n}(x)\propto
+ \exp\left(\frac{\beta}{2n}\left(\sum_i x_i\right)^2\right)
+\]
+fails Global-only Gamma already at \(w=1\).
+\end{proposition}
+
+\begin{proof}
+The positive dichotomy is
+Proposition~\ref{ian:cw-generalized-check}, an application of
+Theorem~\ref{ian:exchangeable-gamma}, with the current constants
+recorded in Corollary~\ref{ian:influence-consequences-cw}.
+The full class contains \(\beta=0\), so its Global-only failure
+already follows from uniform addressing. We prove the stronger
+fixed-\(\beta\) assertion to distinguish it from this class-level
+observation.
+
+For \(\beta=0\), use
+Proposition~\ref{ian:dominated-global-product-failure}.
+For \(\beta>0\), completing the square in a Gaussian integral gives
+an exact mixture representation: conditional on a real variable
+\(H\), the spins are independent with common mean \(\tanh H\), and
+the mixing density is proportional to
+\[
+ \exp\left(n\left(\log\cosh h-\frac{h^2}{2\beta}\right)\right).
+\]
+This identity is an elementary Gaussian calculation.
+
+Fix \(\bar h>4\beta\). The inequalities
+\(\log\cosh h\le|h|\) and
+\[
+ \int_{\mathbb R}
+ e^{n(\log\cosh h-h^2/(2\beta))}\,dh
+ \ge2n^{-1/2}e^{-1/(2\beta)}
+\]
+show that
+\[
+ \Pr(|H|>\bar h)\le C_\beta e^{-c_\beta n}
+\]
+for positive constants depending only on \(\beta,\bar h\).
+Indeed, on \(|h|>\bar h\) the numerator integrand is at most
+\(e^{-nh^2/(4\beta)}\).
+
+Put \(M_r=r+2^r\). Choose \(M_r\) disjoint blocks of \(L_r\)
+coordinates and use the parity of each block as its logical sign.
+Given \(H=h\), these logical signs are independent with common
+mean \((\tanh h)^{L_r}\). With \(q=\tanh\bar h<1\), choose
+\(L_r=O_\beta(r)\) sufficiently large that
+\[
+ \frac{M_rq^{L_r}}2\le\delta_r:=2^{-4r}.
+\]
+For \(|h|\le\bar h\), coupling each logical sign to a fair sign shows
+that their joint law is within total variation \(\delta_r\) of
+the fair product law. Choose \(n\ge M_rL_r\) large enough that
+\(\Pr(|H|>\bar h)\le\delta_r\).
+
+Compose the logical signs with addressing, obtaining a globally
+Boolean polynomial \(f_r\) of degree at most \(L_r(r+1)=O_\beta(r^2)\).
+Its mean has absolute value at most \(3\delta_r\), so
+\[
+ \Var_{\mu_{\beta,n}}f_r\ge1-9\delta_r^2\ge1/2.
+\]
+
+To bound reveal gain, reveal additionally \(H\) and all physical
+spins in every logical block touched by \(S\).
+Given \(H\), the conditional mean of \(f_r\) depends only on the
+logical signs of those touched blocks. Observations outside the
+logical blocks add nothing once \(H\) is given.
+
+For a law \(P\) on the logical signs and a fixed observation \(Y\),
+write
+\[
+ \Psi(P)=\E_P\bigl(\E_P[f_r\mid Y]\bigr)^2
+ =\sup_{|g(Y)|\le1}\E_P(2f_rg-g^2).
+\]
+Thus
+\[
+ |\Psi(P)-\Psi(P')|\le6\,\|P-P'\|_{\mathrm{TV}}.
+\]
+Under the fair logical product law,
+Lemma~\ref{ian:addressing-reveal} bounds this second moment by
+\(|S|2^{-r}\). Conditional Jensen and the preceding estimates give
+\[
+ G_{\mu_{\beta,n}}(f_r,S)
+ \le |S|2^{-r}+7\delta_r.
+\]
+This estimate includes sets querying coordinates outside the
+polynomial's support. It defeats every polynomial-size,
+inverse-polynomial-gain Global assertion, since the degree is
+\(O_\beta(r^2)\). Hence the fixed-\(\beta\) Global-only hypothesis
+fails at \(w=1\).
+
+For the influence statement in
+Remark~\ref{ian:dominated-global-address-influence}: for a spin in the
+\(j\)-th address block, the squared flip derivative of \(f_r\) is the
+indicator that the two data signs selected by the two values of the
+\(j\)-th address sign differ. This event has probability \(1/2\) under
+the fair logical law, hence at least \(1/2-\delta_r\) given
+\(|H|\le\bar h\), and so probability at least
+\((1-\delta_r)(1/2-\delta_r)\ge1/2-2\delta_r\).
+\end{proof}
+
+\begin{remark}[The magnetisation witness is not the obstruction]
+\label{ian:dominated-global-cw-magnetisation}
+For ordered Curie--Weiss, the magnetisation witness itself has
+singleton reveal gain bounded below, as calculated in
+Proposition~\ref{ian:cw-generalized-check}. The preceding obstruction
+uses addressing on nearly fair block parities. It is consistent
+with both the exchangeable Local-or-Global theorem and the full-AA
+assertion of Proposition~\ref{ian:hard-sector-curie-weiss-sampling};
+no mixing result is used here.
+\end{remark}
+
+\begin{remark}[The failures persist for acceptance functions]
+\label{ian:dominated-global-acceptance-witnesses}
+Every failure witness above (not the triple-majority and magnetisation
+examples, which are not failure witnesses) is, after the normalization \(Q=(1+f)/2\), an
+acceptance function with a polynomial number of queries, so each
+failure also refutes the acceptance-function version of
+Definition~\ref{ian:dominated-global-hypothesis}, with
+\(d=\max\{1,2T\}\). A deterministic classical tree making \(T\) queries
+and outputting a Boolean \(f\) yields the acceptance function
+\((1+f)/2\) with \(T\) queries. The query costs are: ordinary
+addressing, \(r+1\) (read the address signs, then the selected data
+sign); triple-block addressing, \(3(r+1)\), as in
+Proposition~\ref{ian:gamma-set-not-necessary}; forest addressing,
+\(r(r+1)\) (read the \(r\) leaves of each address star, then of the
+selected data star); Curie--Weiss block addressing, \(L_r(r+1)\); and
+the character-code target is the one-query function \(P=(1+f_n)/2\) of
+Remark~\ref{ian:character-code-pinning}. In each case \(T\) is
+polynomial in \(r\), respectively constant, while the reveal bounds
+above, divided by four, remain exponentially small in \(r\),
+respectively tend to zero with \(n\).
+\end{remark}
+
+\begin{lemma}[A finite-dimensional reveal bound for every law]
+\label{ian:universal-small-support-reveal}
+For every law \(\nu\) on \(\{-1,1\}^n\) and globally bounded
+degree-at-most-\(d\) polynomial \(f:\{-1,1\}^n\to[-1,1]\),
+\[
+ \Var_\nu f\ge a>0
+ \quad\Longrightarrow\quad
+ \max_{|S|\le\min\{n,d\}}G_\nu(f,S)\ge a^2\,2^{-n}.
+\]
+\end{lemma}
+
+\begin{proof}
+Expand \(f=\sum_J\widehat f(J)\chi_J\) in uniform Fourier characters.
+Parseval and Cauchy--Schwarz give
+\[
+ \sum_J|\widehat f(J)|\le2^{n/2}.
+\]
+Since
+\[
+ \Var_\nu f
+ =\sum_J\widehat f(J)\Cov_\nu(f,\chi_J),
+\]
+some nonempty \(J\), necessarily of size at most \(d\), satisfies
+\[
+ |\Cov_\nu(f,\chi_J)|\ge a\,2^{-n/2}.
+\]
+Conditional expectation onto \(X_J\), followed by Cauchy--Schwarz,
+bounds this covariance by \(\sqrt{G_\nu(f,J)}\).
+\end{proof}
+
+\begin{proposition}[Incomparability with Gamma on the pinning closure]
+\label{ian:dominated-global-pinning-incomparable}
+For arbitrary base classes \(\mathcal A\), the following properties
+are incomparable:
+\[
+ \text{dominated Global Gamma with polynomial parameter degradation},
+ \qquad
+ \Gamma^{\mathrm{set}}(\operatorname{Pin}\mathcal A).
+\]
+This remains true when the dominated gain has
+\(\kappa=1/2<1\) and the set-size bound has no dependence on \(w\),
+and for both the all-bounded-polynomial and the acceptance-function
+versions.
+\end{proposition}
+
+\begin{proof}
+Uniform coordinate products satisfy the second property by
+Corollary~\ref{ian:product-influence-aa-proved}, and fail the first,
+in both versions, by
+Proposition~\ref{ian:dominated-global-product-failure} and
+Remark~\ref{ian:dominated-global-acceptance-witnesses}.
+
+For the other direction, let \(N=2^m\), with \(m\ge2\) even, and let
+\(\mu^{\mathrm{cc}}_N\) be the character-code law on \(N\) coordinates
+at a fixed \(\beta\ge1\). On \(n=N+1\) coordinates, use one flag
+coordinate \(X_0\) and define
+\[
+ \rho_n=(1-p_n)\delta_{z_n}
+       +p_n\bigl(\delta_{-1}\otimes\mu^{\mathrm{cc}}_N\bigr),
+ \qquad
+ p_n=2^{-4n},
+\]
+where \(z_n=(+1,+1,\ldots,+1)\) and \(\delta_{-1}\) is the law of
+\(X_0\).
+
+Consider any \(\nu\le\rho_n/w\) and globally bounded
+degree-at-most-\(d\) polynomial \(f:\{-1,1\}^n\to[-1,1]\) with
+\(\Var_\nu f\ge a>0\). Since \(\nu(\{x\ne z_n\})\le p_n/w\),
+\[
+ a\le\Var_\nu f
+ \le\E_\nu(f-f(z_n))^2
+ \le\frac{4p_n}{w}.
+\]
+Lemma~\ref{ian:universal-small-support-reveal} supplies
+\(|S|\le\min\{n,d\}\) with
+\[
+ G_\nu(f,S)\ge a^2 2^{-n}.
+\]
+Moreover,
+\[
+ a^{5/2}w^{1/2}
+ =a^2\sqrt{aw}
+ \le2a^2\sqrt{p_n}
+ \le a^2 2^{-n}.
+\]
+Hence
+\[
+ G_\nu(f,S)\ge(a/d)^{5/2}w^{1/2}.
+\]
+This is a dominated Global assertion with \(\kappa=1/2\);
+the set size is at most \(d\), and therefore also at most
+\(\lceil d/a\rceil\). All constants are independent of \(n\) and
+of the hidden law \(\mu^{\mathrm{cc}}_N\). Since it holds for all
+bounded polynomials, it holds for acceptance functions.
+
+Pinning the flag to \(-1\) recovers \(\mu^{\mathrm{cc}}_N\). Consequently
+\(\operatorname{Pin}\{\rho_n\}\) fails
+\(\Gamma^{\mathrm{set}}\) by
+Proposition~\ref{ian:character-code-generalized-failure}.
+It also fails hereditary full AA, by the character-code
+one-query obstruction recorded in
+Remark~\ref{ian:character-code-pinning}.
+\end{proof}
+
+\begin{remark}[Which comparison is being made]
+\label{ian:dominated-global-comparison-scope}
+The incomparability concerns a base class and its pinning closure.
+If the base class \(\Lambda\) is already pinning-closed, the
+all-bounded-polynomial version of dominated Global Gamma implies
+\(\Gamma^{\mathrm{set}}(\Lambda)\) by taking \(w=1\), after the affine
+change of normalization and the merging of exponents in
+Remark~\ref{ian:dominated-global-versus-theorem-a}. The converse still
+fails for products. On pinning-closed classes the all-bounded-polynomial
+version of the dominated hypothesis is therefore strictly stronger than
+\(\Gamma^{\mathrm{set}}\).
+
+Likewise, a dominated Global assertion with both gain and set size
+independent of \(w\) is stronger than the parameter-degraded
+assertion considered here. Applying that uniform assertion to each
+conditional law would imply Gamma uniformly on the pinning closure.
+The rare-sector example uses the permitted factor \(w^{1/2}\).
+
+Every positive-probability pinning is dominated by inverse pinning
+probability, but this factor need not be polynomial in the query
+and accuracy parameters. In the example it is \(2^{4n}\).
+Conversely, dominated laws need not be pinnings: for example
+\[
+ \nu(x)=U_n(x)(1+\theta x_1x_2),\qquad 0<\theta<1,
+\]
+is a correlated full-support law dominated by \((1+\theta)U_n\).
+
+Only polynomially dominated laws at the explicit weights used in
+Theorem~\ref{ian:dominated-global-full-aa} are needed for that proof.
+The stronger quantification over every \(w\) makes the statement and
+its uniform constants unambiguous.
+\end{remark}
+
+\begin{remark}[Full AA does not imply dominated Global Gamma]
+\label{ian:dominated-global-not-necessary}
+Corollary~\ref{cor:resolution-product-alphabet-aa} in
+\path{foundations/product_alphabets.tex} gives full AA for product laws.
+In particular, uniform products have full AA and pinning-closed Gamma,
+while failing dominated Global Gamma.
+
+The triple-block pinning closure has hereditary full AA but fails
+even ordinary \(\Gamma^{\mathrm{set}}\), by
+Proposition~\ref{ian:gamma-set-not-necessary} in
+\path{ian/08_gamma_set_products_and_necessity.tex}.
+Its addressing witnesses also refute dominated Global Gamma.
+Thus neither full AA nor hereditary full AA makes the
+Global-only condition necessary.
+\end{remark}
+
+\begin{proposition}[Non-adaptive regularity]
+\label{ian:nonadaptive-hard-sector-regularity}
+Let \(\ell_\mu^{\mathrm{na}}(t,Q)\) be the minimum mean absolute
+error among \([0,1]\)-valued functions of a fixed set of at most
+\(t\) coordinates; it is nonincreasing in \(t\). For
+\[
+ t\ge1,\qquad 0<\gamma<a\le1/4,\qquad 0<w\le1,
+ \qquad
+ M=\left\lceil\frac1\gamma\right\rceil,\quad
+ K=\left\lceil\frac1{w\gamma^2}\right\rceil,
+\]
+at least one of the following holds:
+\[
+ \mu(H)\ge w,\qquad
+ \operatorname{Hard}^{\mathrm{na}}
+ (Q,\mu(\cdot\mid H);t,a,\gamma)
+ \quad\text{for some }H;
+\]
+or
+\[
+ \ell_\mu^{\mathrm{na}}(Kt,Q)\le\sqrt a+Mw.
+\]
+In the first alternative, \(H\) is determined by a fixed set of at
+most \((K-1)t\) coordinates.
+\end{proposition}
+
+\begin{proof}
+Build predictors \(g_0,g_1,\ldots\) with values in \([0,1]\), where
+\(g_j\) is a function of \(X_{U_j}\) for a fixed set \(U_j\) with
+\(|U_j|\le jt\). Start with the constant \(g_0=\E_\mu Q\), so
+\(U_0=\varnothing\) and \(\E_\mu(Q-g_0)^2=\Var_\mu Q\le1/4\).
+
+Given \(g=g_j\), partition \([0,1]\) into intervals
+\(I_1,\ldots,I_M\) of length \(1/M\), half-open except the last, with
+midpoints \(c_1,\ldots,c_M\). Put \(H_i=g^{-1}(I_i)\); each \(H_i\) is
+\(X_{U_j}\)-measurable. For \(\mu(H_i)>0\) write
+\(\nu_i=\mu(\cdot\mid H_i)\), and call bin \(i\) active if
+\(\mu(H_i)\ge w\) and \(\Var_{\nu_i}Q\ge a\). If some active bin satisfies
+\(\operatorname{Hard}^{\mathrm{na}}(Q,\nu_i;t,a,\gamma)\), stop: the first
+alternative holds. If no bin is active, stop as below. Otherwise fix
+an active bin \(H=H_i\), with \(\nu=\nu_i\) and \(c=c_i\). It is not
+non-adaptively hard, so some \(F\in\mathcal F_t^{\mathrm{na}}\),
+negated if necessary, has \(\Cov_\nu(Q,F)>\gamma\). Put
+\(h=F-\E_\nu F\). Then \(\E_\nu h=0\), \(|h|\le2\), and
+\(\E_\nu h^2=\Var_\nu F\le1\).
+
+Since \(\E_\nu[ch]=0\), \(\E_\nu[gh]=\E_\nu[(g-c)h]\). On \(H\),
+\(|g-c|\le1/(2M)\le\gamma/2\), so Cauchy--Schwarz gives
+\[
+ \bigl|\E_\nu[(g-c)h]\bigr|\le\frac\gamma2\,\E_\nu|h|
+ \le\frac\gamma2.
+\]
+As \(\E_\nu[Qh]=\Cov_\nu(Q,F)\),
+\[
+ \E_\nu[(Q-g)h]=\Cov_\nu(Q,F)-\E_\nu[(g-c)h]>\frac\gamma2.
+\]
+Define the clipped update
+\[
+ g'=\operatorname{clip}_{[0,1]}
+       \left(g+\frac\gamma2\mathbf1_Hh\right).
+\]
+Since \(Q\in[0,1]\), clipping does not increase \(|Q-\cdot|\)
+pointwise, so
+\[
+ \E_\mu(Q-g')^2
+ \le\E_\mu(Q-g)^2
+ -\gamma\,\mu(H)\E_\nu[(Q-g)h]
+ +\frac{\gamma^2}4\mu(H)\E_\nu h^2
+ <\E_\mu(Q-g)^2-\frac{w\gamma^2}4.
+\]
+The function \(g'\) depends on \(X_{U_j}\) and the at most \(t\)
+coordinates of \(F\); put \(g_{j+1}=g'\) and let \(U_{j+1}\) be this union,
+of size at most \((j+1)t\).
+
+The potential \(\E_\mu(Q-g_j)^2\) starts at most \(1/4\), stays
+nonnegative, and decreases by more than \(w\gamma^2/4\) at each update.
+Hence fewer than \(1/(w\gamma^2)\le K\) updates occur, and the procedure
+stops at some \(j\le K-1\), with bins determined by
+\(X_{U_j}\), \(|U_j|\le(K-1)t\).
+
+If it stops with no active bin, output \(m_i=\E_{\nu_i}Q\) on each
+\(H_i\) with \(\mu(H_i)>0\), and any value in \([0,1]\) on null bins.
+This is a \([0,1]\)-valued function of \(X_{U_j}\). Every non-null bin
+has \(\Var_{\nu_i}Q<a\) or \(\mu(H_i)<w\). On the former,
+Cauchy--Schwarz gives \(\E_{\nu_i}|Q-m_i|<\sqrt a\); on the latter,
+\(\E_{\nu_i}|Q-m_i|\le1/2\), since \(\E|Y-\E Y|\le2\E Y(1-\E Y)\le1/2\)
+for \(Y\in[0,1]\). There are at most \(M\) bins, so the mean absolute
+error is at most \(\sqrt a+Mw/2\le\sqrt a+Mw\), and
+\(\ell_\mu^{\mathrm{na}}(Kt,Q)\le\sqrt a+Mw\) by monotonicity.
+\end{proof}
+
+\begin{corollary}[Explicit non-adaptive extraction]
+\label{ian:nonadaptive-hard-sector-explicit}
+For \(0<\varepsilon<1/8\), \(0<\eta\le1/4\), and \(t\ge1\), put
+\[
+ L_*=\left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil t.
+\]
+If
+\[
+ \ell_\mu^{\mathrm{na}}(L_*,Q)>\varepsilon,
+\]
+there exists a set \(H\) satisfying
+\[
+ \mu(H)\ge\frac{\eta\varepsilon^3}{16},
+ \qquad
+ \operatorname{Hard}^{\mathrm{na}}
+ \left(Q,\mu(\cdot\mid H);
+ t,\frac{\varepsilon^2}{4},
+ \frac{\eta\varepsilon^2}{4}\right).
+\]
+Its conditional law is dominated by
+\(16\mu/(\eta\varepsilon^3)\).
+\end{corollary}
+
+\begin{proof}
+Apply Proposition~\ref{ian:nonadaptive-hard-sector-regularity} with
+\[
+ a=\varepsilon^2/4,\qquad
+ \gamma=\eta a,\qquad
+ M=\lceil1/\gamma\rceil,\qquad
+ w=\varepsilon/(2M).
+\]
+Here \(0<\gamma\le a/4<a\le1/4\) and \(0<w\le\varepsilon/2<1\). Then
+\(\sqrt a+Mw=\varepsilon/2+\varepsilon/2=\varepsilon\). Since
+\(\gamma<1\), \(M\le1/\gamma+1\le2/\gamma\), so
+\[
+ w\ge\frac{\varepsilon\gamma}4=\frac{\eta\varepsilon^3}{16}.
+\]
+Consequently
+\[
+ \frac1{w\gamma^2}\le\frac4{\varepsilon\gamma^3}
+ =\frac{4\cdot64}{\varepsilon\,\eta^3\varepsilon^6}
+ =256\varepsilon^{-7}\eta^{-3},
+\]
+so \(K=\lceil1/(w\gamma^2)\rceil\le\lceil256\varepsilon^{-7}\eta^{-3}\rceil\)
+and \(Kt\le L_*\). By monotonicity,
+\(\ell_\mu^{\mathrm{na}}(Kt,Q)\ge\ell_\mu^{\mathrm{na}}(L_*,Q)>\varepsilon\),
+which excludes the approximation alternative. The first alternative
+gives \(H\) with \(\mu(H)\ge w\ge\eta\varepsilon^3/16\), and
+\(\mu(\cdot\mid H)\le\mu/\mu(H)\le16\mu/(\eta\varepsilon^3)\).
+\end{proof}
+
+\begin{remark}[Extraction from quantitative Gamma failure]
+\label{ian:nonadaptive-extraction-from-gamma-failure}
+If a particular witness already satisfies
+\[
+ \Var_\mu Q\ge a,\qquad
+ R_\mu(Q,N)\le b^2,\qquad 0<b<a,
+\]
+then \(\mu\) itself is a weight-one non-adaptive hard sector:
+\[
+ \operatorname{Hard}^{\mathrm{na}}(Q,\mu;N,a,b).
+\]
+No extraction is needed. If its Local influences vanish, this is
+simultaneously vanishing Local and quantitative Global failure.
+
+The extra separation \(b<a\) matters: failure of a Global threshold
+\(g\) only guarantees covariance at most \(\sqrt g\), which need
+not satisfy the strict hardness requirement \(\sqrt g<a\).
+
+If one starts instead from non-adaptive approximation failure at
+the larger depth \(L_*\), the preceding corollary produces the
+polynomial-weight sector. Initial exact Local vanishing survives
+this extraction because its conditional law is dominated by
+\(\mu/\mu(H)\). The non-adaptive version of the forward bound
+also holds:
+\[
+ \operatorname{Hard}^{\mathrm{na}}(Q,\nu;t,a,\gamma),
+ \quad \nu\le\mu/w
+ \quad\Longrightarrow\quad
+ \ell_\mu^{\mathrm{na}}(t,Q)\ge w(a-\gamma).
+\]
+Indeed, for a \([0,1]\)-valued function \(D\) of at most \(t\) fixed
+coordinates, \(2D-1\in\mathcal F_t^{\mathrm{na}}\) gives
+\(\Cov_\nu(Q,D)\le\gamma/2\), so
+\(\E_\nu(Q-D)^2\ge\Var_\nu Q-2\Cov_\nu(Q,D)\ge a-\gamma\); then
+\(|Q-D|\ge(Q-D)^2\) and \(\mu\ge w\nu\).
+\end{remark}
+
+\begin{proposition}[Recovering adaptive hardness and its cost]
+\label{ian:nonadaptive-to-adaptive-extraction-cost}
+If \(\operatorname{Hard}^{\mathrm{na}}(Q,\nu;N,a,\gamma)\), then
+\(\operatorname{Hard}(Q,\nu;s,a,\gamma)\) for every integer \(s\ge0\)
+with \(2^s-1\le N\).
+
+Explicitly, for \(s\ge1\), \(0<\varepsilon<1/8\), and
+\(0<\eta\le1/4\), non-adaptive approximation failure at depth
+\[
+ L_{\mathrm{na}}
+ =
+ \left\lceil256\varepsilon^{-7}\eta^{-3}\right\rceil
+ (2^s-1)
+\]
+produces a set \(H\) with
+\[
+ \mu(H)\ge\frac{\eta\varepsilon^3}{16},
+ \qquad
+ \operatorname{Hard}\left(
+ Q,\mu(\cdot\mid H);
+ s,\frac{\varepsilon^2}{4},
+ \frac{\eta\varepsilon^2}{4}\right).
+\]
+\end{proposition}
+
+\begin{proof}
+By Corollary~\ref{ian:fixed-set-hardness-duality},
+\(M_\nu(Q,N)\le\gamma\). With \(N_s=\min\{n,2^s-1\}\le N\),
+Proposition~\ref{ian:adaptive-fixed-set-conversions} gives
+\(C_s(Q)\le M_\nu(Q,N_s)\le M_\nu(Q,N)\le\gamma\), which is
+\(\operatorname{Hard}(Q,\nu;s,a,\gamma)\).
+
+For the explicit assertion, apply
+Corollary~\ref{ian:nonadaptive-hard-sector-explicit} with
+\(t=2^s-1\ge1\), and then the first assertion with \(N=2^s-1\).
+\end{proof}
+
+\begin{remark}[Why the exponential depth loss cannot simply be removed]
+\label{ian:nonadaptive-extraction-adaptivity-obstruction}
+Ordinary addressing has an exact adaptive algorithm using \(r+1\)
+queries, while every fixed revealing set has gain at most
+\(|S|2^{-r}\). For \(Q_r=(1+f_r)/2\) under the uniform law,
+Proposition~\ref{ian:adaptive-fixed-set-counterexamples} in
+\path{ian/29_adaptive_transcript_hiding.tex} gives
+\[
+ R(Q_r,N)\le N2^{-r}/4,\qquad
+ M(Q_r,N)\le\tfrac12\sqrt{N2^{-r}},\qquad
+ C_{r+1}(Q_r)=\tfrac12.
+\]
+Let \(r>4\) and \(N=\lfloor2^{r/2}\rfloor\). Then the covariance
+tolerance \(2^{-r/4}/2\) is below \(1/4=\Var Q_r\), so
+\(\operatorname{Hard}^{\mathrm{na}}(Q_r,U;N,1/4,2^{-r/4}/2)\) holds.
+But \(\operatorname{Hard}(Q_r,U;s,a,\gamma)\) fails for every
+\(s\ge r+1\) and every \(0<\gamma<a\le1/4\), since
+\(C_s(Q_r)\ge C_{r+1}(Q_r)=1/2>\gamma\). As \(r<2\log_2(N+1)\), any
+general conversion from non-adaptive hardness at budget \(N\) to
+adaptive hardness at depth \(s(N)\) must have \(s(N)<2\log_2(N+1)\) along
+these budgets. The depth \(\lfloor\log_2(N+1)\rfloor\) of
+Proposition~\ref{ian:nonadaptive-to-adaptive-extraction-cost} is
+therefore optimal up to a factor two. The triple-block version,
+from Proposition~\ref{ian:hard-block-addressing}, gives the same
+separation up to constants (its adaptive depth is \(3(r+1)\)) with all
+physical flip influences zero.
+
+This obstruction concerns the conversion of non-adaptive hardness
+into adaptive hardness. It does not concern direct adaptive
+extraction: Corollary~\ref{ian:hard-sector-explicit} produces adaptive
+hard sectors from adaptive approximation failure at polynomial depth.
+
+Lemma~\ref{ian:hard-sector-tree-closure} aggregates tests already
+available; it does not turn fixed-set hardness into adaptive
+hardness at polynomially comparable depths.
+Proposition~\ref{tht:reveal-prop} concerns adaptive reveal progress
+uniformly over pinnings. Its hypotheses are not supplied by
+non-adaptive hardness. Consequently the non-adaptive extraction route
+is valid, but its general recovery of adaptive depth has the
+exponential cost displayed above.
+\end{remark}
